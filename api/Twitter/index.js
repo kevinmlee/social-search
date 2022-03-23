@@ -14,7 +14,8 @@ module.exports = {
 
     const params = {
       query: searchQuery,
-      max_results: 12,
+      max_results: 100,
+      "tweet.fields": "public_metrics",
     };
 
     const { data } = await client.get("tweets/search/recent", params);

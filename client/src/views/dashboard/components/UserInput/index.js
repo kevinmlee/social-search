@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Box, Button, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 
 export default class UserInput extends Component {
   constructor(props) {
@@ -11,6 +11,8 @@ export default class UserInput extends Component {
       search: "",
 
       twitterResults: [],
+
+      searchQueryBlankError: false,
     };
   }
 
@@ -20,52 +22,73 @@ export default class UserInput extends Component {
     const NAME = event.target.name;
     const VALUE = event.target.value;
 
+    if (NAME === "search" && VALUE !== "")
+      this.setState({ searchQueryBlankError: false });
+
     await this.setState({ [NAME]: VALUE });
   };
 
-  search = async () => {
-    await axios
-      .put("/twitter/search", {
-        searchQuery: this.state.search,
-      })
-      .then(
-        (response) => {
-          this.props.setCustomState(
-            "twitterResults",
-            response.data.twitterResults
-          );
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+  search = async (e) => {
+    e.preventDefault();
+
+    if (this.state.search === "") {
+      this.setState({ searchQueryBlankError: true });
+    } else {
+      await axios
+        .put("/twitter/search", {
+          searchQuery: this.state.search,
+        })
+        .then(
+          (response) => {
+            response.data.twitterResults.sort((a, b) => {
+              let aPublicMetricsCount =
+                a.public_metrics.retweet_count + a.public_metrics.like_count;
+              let bPublicMetricsCount =
+                b.public_metrics.retweet_count + b.public_metrics.like_count;
+
+              return aPublicMetricsCount < bPublicMetricsCount ? 1 : -1;
+            });
+
+            this.props.setCustomState(
+              "twitterResults",
+              response.data.twitterResults
+            );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   };
 
   render() {
     return (
       <div className="user-input">
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "25ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="standard-basic"
-            label="Search query"
-            variant="standard"
-            name="search"
-            defaultValue={this.state.search}
-            onChange={this.handleChange}
-            fullWidth={true}
-          />
-
-          <Button variant="contained" onClick={() => this.search()}>
-            Submit
-          </Button>
+        <Box>
+          <form onSubmit={this.search}>
+            <div className="flex-container">
+              <TextField
+                className="standard-input"
+                label="Search query"
+                variant="standard"
+                name="search"
+                defaultValue={this.state.search}
+                onChange={this.handleChange}
+                fullWidth={true}
+              />
+              <Button type="submit" variant="contained">
+                Search
+              </Button>
+            </div>
+          </form>
         </Box>
+
+        {this.state.searchQueryBlankError && (
+          <Alert severity="error" sx={{ marginTop: 4 }}>
+            Search query cannot be blank. Please enter a search query and try
+            again.
+          </Alert>
+        )}
       </div>
     );
   }

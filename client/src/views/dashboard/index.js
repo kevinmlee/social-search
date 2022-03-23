@@ -18,13 +18,11 @@ export default class Dashboard extends Component {
 
   setCustomState = async (name, value) => {
     await this.setState({ [name]: value });
-
-    console.log(this.state.twitterResults);
   };
 
   render() {
     return (
-      <Container id="dashboard">
+      <Container id="dashboard" maxWidth="md">
         <UserInput setCustomState={this.setCustomState} />
 
         <Tweets twitterResults={this.state.twitterResults} />

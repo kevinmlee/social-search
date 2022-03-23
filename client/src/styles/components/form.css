@@ -1,12 +1,16 @@
 @media (prefers-color-scheme: dark) {
-  input#standard-basic {
+  .standard-input input {
     color: #fff;
   }
-  label#standard-basic-label {
-    color: #ffffff !important;
+
+  .standard-input .MuiInputLabel-standard.MuiInputLabel-root {
+    color: #666666;
     z-index: 1;
   }
-  .MuiInputBase-root:before {
+  .standard-input .MuiInputLabel-standard.MuiInputLabel-root.Mui-focused {
+    color: #666666 !important;
+  }
+  .standard-input .MuiInputBase-root:before {
     border-color: #fff;
   }
 }
