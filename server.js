@@ -2,6 +2,7 @@ const { domain, port } = require("./constants");
 const nodemailer = require("nodemailer");
 
 // Routes
+const TWITTER = require("./api/Twitter");
 // const HUBSPOT = require("./api/HubSpot");
 // const MONGO = require("./api/MongoDB");
 
@@ -63,6 +64,14 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "./client/public/index.html"));
   });
 }
+
+/////////////////////////////////////////////
+// Twitter
+/////////////////////////////////////////////
+
+// Authentication & verification
+
+app.all("/twitter/search", TWITTER.search);
 
 /////////////////////////////////////////////
 // Database API Routes

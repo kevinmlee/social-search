@@ -1,0 +1,12 @@
+@media (prefers-color-scheme: dark) {
+  input#standard-basic {
+    color: #fff;
+  }
+  label#standard-basic-label {
+    color: #ffffff !important;
+    z-index: 1;
+  }
+  .MuiInputBase-root:before {
+    border-color: #fff;
+  }
+}

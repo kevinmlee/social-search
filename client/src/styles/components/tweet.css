@@ -1,0 +1,18 @@
+.tweets {
+  margin: 0 -10px;
+}
+.tweet {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 20px;
+  width: calc(100% / 4 - 20px);
+  margin: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tweet {
+    border: 1px solid #444444;
+    background-color: #444444;
+    color: #ffffff;
+  }
+}

@@ -1,3 +1,8 @@
+@import url("./components/tweet.css");
+@import url("./components/form.css");
+
+@import url("./components/headings.css");
+
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Pacifico&display=swap");
@@ -20,6 +25,12 @@ body {
   font-family: "IBM Plex Sans", sans-serif;
   line-height: 1.2em;
   transition: ease-in-out margin 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000000;
+  }
 }
 
 .overlay {
@@ -485,6 +496,9 @@ h3,
 
 .d-flex {
   display: flex;
+}
+.flex-wrap {
+  flex-wrap: wrap;
 }
 .d-flex.justify-right {
   justify-content: flex-end;

@@ -46,6 +46,7 @@
     "serp-preview": "^0.1.0",
     "stripe": "^8.167.0",
     "structured-data-testing-tool": "^4.5.0",
+    "twitter-v2": "^1.1.0",
     "webpack": "^5.70.0",
     "webpack-dev-server": "^4.7.4"
   }
