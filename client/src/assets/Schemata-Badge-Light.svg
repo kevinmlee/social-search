@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Schemata-Badge-Light</title>
+    <defs>
+        <linearGradient x1="94.1514989%" y1="46.1566768%" x2="-16.4480728%" y2="55.781152%" id="linearGradient-1">
+            <stop stop-color="#F7AC1F" offset="0%"></stop>
+            <stop stop-color="#F8640F" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-23.9694861%" y1="36.0483018%" x2="72.0556745%" y2="54.1599765%" id="linearGradient-2">
+            <stop stop-color="#49DBEA" offset="0%"></stop>
+            <stop stop-color="#3FAEBF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-3.29229122%" y1="39.9392994%" x2="92.7328694%" y2="58.0677534%" id="linearGradient-3">
+            <stop stop-color="#49DBEA" offset="0%"></stop>
+            <stop stop-color="#3FAEBF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="286.672019%" y1="-11.7676465%" x2="-45.0822963%" y2="74.809386%" id="linearGradient-4">
+            <stop stop-color="#F7AC1F" offset="0%"></stop>
+            <stop stop-color="#F8640F" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-184.704938%" y1="-82.7949224%" x2="103.331995%" y2="80.1865922%" id="linearGradient-5">
+            <stop stop-color="#49DBEA" offset="0%"></stop>
+            <stop stop-color="#3FAEBF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SIDE-NAV---DASHBOARD" transform="translate(-15.000000, -15.000000)" fill-rule="nonzero">
+            <g id="Schemata-Badge-Light" transform="translate(15.000000, 15.000000)">
+                <rect id="Rectangle" fill="#FFFFFF" x="-1.77635684e-14" y="0" width="49.9096774" height="49.9096774" rx="24.9548387"></rect>
+                <polygon id="Path" fill="url(#linearGradient-1)" points="32.9870968 16.2741935 12.9032258 16.2741935 16.9193548 12.2580645 37.0064516 12.2580645"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-2)" points="32.9870968 37.6516129 12.9032258 37.6516129 16.9193548 33.6354839 37.0064516 33.6354839"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-3)" points="37.0064516 26.9645161 16.9193548 26.9645161 12.9032258 22.9451613 32.9870968 22.9451613"></polygon>
+                <rect id="Rectangle" fill="url(#linearGradient-4)" x="12.9" y="17.6032258" width="8.03548387" height="4.01612903"></rect>
+                <rect id="Rectangle" fill="url(#linearGradient-5)" x="28.9709677" y="28.2903226" width="8.03548387" height="4.01612903"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

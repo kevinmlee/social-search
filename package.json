@@ -1,0 +1,52 @@
+{
+  "name": "social-search",
+  "homepage": "https://ss.kevinmlee.com",
+  "version": "0.0.1",
+  "engines": {
+    "node": "16.x"
+  },
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "server": "node server.js",
+    "client": "npm start --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cheerio": "^1.0.0-rc.3",
+    "concurrently": "^7.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.6.0",
+    "eslint": "^7.11.0",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "jsonpack": "^1.1.5",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "mongoose": "^5.13.4",
+    "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.6.3",
+    "passport": "^0.4.1",
+    "passport-google-oauth": "^2.0.0",
+    "passport-hubspot-oauth2": "^1.0.3",
+    "passport-local": "^1.0.0",
+    "react-router": "^5.2.0",
+    "react-tooltip": "^4.2.10",
+    "request": "^2.88.2",
+    "scrollreveal": "^4.0.9",
+    "serp-preview": "^0.1.0",
+    "stripe": "^8.167.0",
+    "structured-data-testing-tool": "^4.5.0",
+    "webpack": "^5.70.0",
+    "webpack-dev-server": "^4.7.4"
+  }
+}

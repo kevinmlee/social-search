@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="26px" viewBox="0 0 27 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>CLose</title>
+    <g id="Wireframes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard---Expanded-Nav---Tier-2" transform="translate(-305.000000, -27.000000)" stroke="#FFFFFF">
+            <g id="SIDE-NAV---Tier-2" transform="translate(280.000000, 0.000000)">
+                <g id="CLose" transform="translate(26.092857, 28.000000)">
+                    <ellipse id="Oval" cx="12.0428571" cy="12" rx="12.0428571" ry="12"></ellipse>
+                    <g id="Close" transform="translate(7.025000, 7.000000)" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline id="Path-3" points="9.835 9.6 5.01785714 4.8 9.835 0"></polyline>
+                        <polyline id="Path-3-Copy" transform="translate(2.910357, 4.800000) scale(-1, 1) translate(-2.910357, -4.800000) " points="5.31892857 9.6 0.501785714 4.8 5.31892857 0"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

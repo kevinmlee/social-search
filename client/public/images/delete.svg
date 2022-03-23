@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="22px" viewBox="0 0 23 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 7</title>
+    <g id="Wireframes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="Page-Index---Freemium-Selected" transform="translate(-1191.000000, -402.000000)" stroke="#C47335" stroke-width="1.5">
+            <g id="RIGHT-SIDE-MENU" transform="translate(1151.500000, 80.000000)">
+                <g id="Right-Menu-Option" transform="translate(40.500000, 224.000000)">
+                    <g id="Group-7" transform="translate(1.000000, 99.000000)">
+                        <polygon id="Rectangle-Copy-4" points="2 4 17 4 14.6923077 20 4.30769231 20"></polygon>
+                        <line x1="0.0183105469" y1="4" x2="18.7438965" y2="4" id="Path-13"></line>
+                        <path d="M5.84619141,4 L5.84619141,1 C5.84619141,0.44771525 6.29390666,1.01453063e-16 6.84619141,0 L11.8461914,0 C12.3984762,-1.01453063e-16 12.8461914,0.44771525 12.8461914,1 L12.8461914,4 L12.8461914,4" id="Path-14"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
