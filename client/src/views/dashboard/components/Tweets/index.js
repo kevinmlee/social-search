@@ -1,19 +1,63 @@
 import React, { Component } from "react";
 
-import { Box, Paper, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  ButtonGroup,
+  Button,
+  Paper,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 export default class Tweets extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      recent: true,
+      popular: false,
+    };
   }
 
   componentDidMount = async () => {};
 
+  changeTab = (event) => {
+    const tab = event.target.getAttribute("data-tab");
+
+    if (tab === "recent") this.setState({ recent: true, popular: false });
+    else if (tab === "popular") this.setState({ recent: false, popular: true });
+  };
+
+  filterTweets = (tweets) => {
+    // remove retweets
+    const removedRetweets = tweets.filter(
+      (tweet) => !tweet.text.includes("RT ")
+    );
+
+    // remove quoted tweets
+    const removedQuotedTweets = removedRetweets.filter(
+      (tweet) => tweet.referenced_tweets === undefined
+    );
+
+    // remove replies and return the filtered tweets
+    return removedQuotedTweets.filter(
+      (tweet) => tweet.in_reply_to_user_id === undefined
+    );
+  };
+
+  sortByPopularity = (tweets) => {
+    return [...tweets].sort((a, b) => {
+      let aPublicMetricsCount =
+        a.public_metrics.retweet_count + a.public_metrics.like_count;
+      let bPublicMetricsCount =
+        b.public_metrics.retweet_count + b.public_metrics.like_count;
+
+      return aPublicMetricsCount < bPublicMetricsCount ? 1 : -1;
+    });
+  };
+
   tweet = (tweet) => {
     console.log(tweet);
-
     return (
       <Grid item xs={6} md={6} key={tweet.id}>
         <Paper elevation={3} className="tweet">
@@ -52,15 +96,49 @@ export default class Tweets extends Component {
   };
 
   render() {
-    return (
-      <Box className="twitter-section" sx={{ marginTop: 4, marginBottom: 4 }}>
-        {this.props.twitterResults.length > 0 && <h2>Twitter</h2>}
+    const filteredTweets = this.filterTweets(this.props.twitterResults);
+    const twitterResultsByPopularity = this.sortByPopularity(filteredTweets);
 
-        <Grid className="tweets" container spacing={2}>
-          {this.props.twitterResults.slice(0, 12).map((tweet, index) => {
-            return this.tweet(tweet);
-          })}
-        </Grid>
+    return (
+      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+        <h2>Twitter</h2>
+
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+          <Button
+            className={this.state.recent ? "active" : ""}
+            onClick={this.changeTab}
+            data-tab="recent"
+          >
+            Most recent
+          </Button>
+          <Button
+            className={this.state.popular ? "active" : ""}
+            onClick={this.changeTab}
+            data-tab="popular"
+          >
+            Popular
+          </Button>
+        </ButtonGroup>
+
+        {this.state.recent && (
+          <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Grid className="tweets" container spacing={2}>
+              {filteredTweets.slice(0, 10).map((tweet, index) => {
+                return this.tweet(tweet);
+              })}
+            </Grid>
+          </Box>
+        )}
+
+        {this.state.popular && (
+          <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Grid className="tweets" container spacing={2}>
+              {twitterResultsByPopularity.slice(0, 10).map((tweet, index) => {
+                return this.tweet(tweet);
+              })}
+            </Grid>
+          </Box>
+        )}
       </Box>
     );
   }

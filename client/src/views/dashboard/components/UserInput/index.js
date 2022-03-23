@@ -25,7 +25,7 @@ export default class UserInput extends Component {
     if (NAME === "search" && VALUE !== "")
       this.setState({ searchQueryBlankError: false });
 
-    await this.setState({ [NAME]: VALUE });
+    this.setState({ [NAME]: VALUE.toString() });
   };
 
   search = async (e) => {
@@ -40,15 +40,6 @@ export default class UserInput extends Component {
         })
         .then(
           (response) => {
-            response.data.twitterResults.sort((a, b) => {
-              let aPublicMetricsCount =
-                a.public_metrics.retweet_count + a.public_metrics.like_count;
-              let bPublicMetricsCount =
-                b.public_metrics.retweet_count + b.public_metrics.like_count;
-
-              return aPublicMetricsCount < bPublicMetricsCount ? 1 : -1;
-            });
-
             this.props.setCustomState(
               "twitterResults",
               response.data.twitterResults

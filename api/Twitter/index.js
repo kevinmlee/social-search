@@ -14,11 +14,19 @@ module.exports = {
 
     const params = {
       query: searchQuery,
+      //"-is": "retweet",
+      //"-filter": "replies",
+      expansions: "in_reply_to_user_id,referenced_tweets.id",
       max_results: 100,
       "tweet.fields": "public_metrics,created_at",
     };
 
-    const { data } = await client.get("tweets/search/recent", params);
-    return res.json({ twitterResults: data });
+    try {
+      const { data } = await client.get("tweets/search/recent", params);
+      return res.json({ twitterResults: data });
+    } catch (e) {
+      console.log(e);
+      return res.json({ error: e, twitterResults: [] });
+    }
   },
 };
