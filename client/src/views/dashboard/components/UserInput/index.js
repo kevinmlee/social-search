@@ -66,8 +66,8 @@ export default class UserInput extends Component {
           else {
             this.setState({ twitterUserID: response.data.twitterResults.id });
             this.props.setCustomState(
-              "username",
-              response.data.twitterResults.username
+              "twitterUser",
+              response.data.twitterResults
             );
             return true;
           }
