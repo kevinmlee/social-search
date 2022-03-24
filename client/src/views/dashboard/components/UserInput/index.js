@@ -61,7 +61,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          //console.log("searchByUsername", response);
+          console.log("searchByUsername", response);
           if (response.data.error) return false;
           else {
             this.setState({ twitterUserID: response.data.twitterResults.id });

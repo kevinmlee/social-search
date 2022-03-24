@@ -9,7 +9,7 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import Masonry from "@mui/lab/Masonry";
+import { Masonry } from "@mui/lab";
 
 export default class Tweets extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class Tweets extends Component {
     this.state = {
       recent: true,
       popular: false,
-      username: false,
+      userTweets: false,
     };
   }
 
@@ -28,11 +28,11 @@ export default class Tweets extends Component {
     const tab = event.target.getAttribute("data-tab");
 
     if (tab === "recent")
-      this.setState({ recent: true, popular: false, username: false });
+      this.setState({ recent: true, popular: false, userTweets: false });
     else if (tab === "popular")
-      this.setState({ recent: false, popular: true, username: false });
-    else if (tab === "username")
-      this.setState({ recent: false, popular: false, username: true });
+      this.setState({ recent: false, popular: true, userTweets: false });
+    else if (tab === "userTweets")
+      this.setState({ recent: false, popular: false, userTweets: true });
   };
 
   filterTweets = (tweets) => {
@@ -71,7 +71,7 @@ export default class Tweets extends Component {
       let media = {};
       let mediaKey = tweet.attachments.media_keys[0];
 
-      if (type === "username") {
+      if (type === "userTweets") {
         media = this.props.tweetsByUserId["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
@@ -86,61 +86,81 @@ export default class Tweets extends Component {
           mediaUrl = media[0]["preview_image_url"];
       }
     }
-
-    return (
-      <Grid item xs={6} md={6} key={tweet.id}>
-        <a
+    {
+      /*<a
           href={"https://twitter.com/twitter/status/" + tweet.id}
           target="_blank"
           rel="noopener noreferrer"
+        >*/
+    }
+
+    return (
+      <Paper elevation={3} className="tweet" key={tweet.id}>
+        <Box className="author">
+          <Typography variant="caption" style={{ color: "#ffffff" }}>
+            <strong>{}</strong>
+          </Typography>
+        </Box>
+
+        <Box className="created">
+          <a
+            href={"https://twitter.com/twitter/status/" + tweet.id}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Typography variant="caption" style={{ color: "#999999" }}>
+              <strong>{new Date(tweet.created_at).toString()}</strong>
+            </Typography>
+          </a>
+        </Box>
+
+        <Box className="tweet-text" sx={{ marginTop: 2 }}>
+          <a
+            href={"https://twitter.com/twitter/status/" + tweet.id}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Typography variant="body1">{tweet.text}</Typography>
+          </a>
+        </Box>
+
+        {mediaUrl && (
+          <Box
+            className="media"
+            sx={{ marginTop: 2 }}
+            onClick={() => {
+              this.props.setCustomState("backdropImage", mediaUrl);
+              this.props.setCustomState("backdropToggle", true);
+            }}
+          >
+            <img src={mediaUrl} alt={tweet.text} />
+          </Box>
+        )}
+
+        <Box
+          className="public-metrics"
+          container
+          spacing={2}
+          xs={12}
+          sx={{ paddingTop: 4 }}
         >
-          <Paper elevation={3} className="tweet">
-            <Box className="created">
-              <Typography variant="caption" style={{ color: "#999999" }}>
-                <strong>{new Date(tweet.created_at).toString()}</strong>
-              </Typography>
-            </Box>
-
-            <Box className="tweet-text" sx={{ marginTop: 2 }}>
-              <Typography variant="body1">{tweet.text}</Typography>
-            </Box>
-
-            {mediaUrl && (
-              <Box className="media" sx={{ marginTop: 2 }}>
-                <a href={mediaUrl} target="_blank" rel="noreferrer">
-                  <img src={mediaUrl} alt={tweet.text} />
-                </a>
-              </Box>
+          <Typography
+            variant="overline"
+            sx={{ paddingRight: 4 }}
+            style={{ color: "#999999" }}
+          >
+            {tweet.public_metrics && (
+              <strong>Likes: {tweet.public_metrics.like_count}</strong>
             )}
+          </Typography>
 
-            <Box
-              className="public-metrics"
-              container
-              spacing={2}
-              xs={12}
-              sx={{ paddingTop: 4 }}
-            >
-              <Typography
-                variant="overline"
-                sx={{ paddingRight: 4 }}
-                style={{ color: "#999999" }}
-              >
-                {tweet.public_metrics && (
-                  <strong>Likes: {tweet.public_metrics.like_count}</strong>
-                )}
-              </Typography>
-
-              <Typography variant="overline" style={{ color: "#999999" }}>
-                {tweet.public_metrics && (
-                  <strong>
-                    Retweets: {tweet.public_metrics.retweet_count}
-                  </strong>
-                )}
-              </Typography>
-            </Box>
-          </Paper>
-        </a>
-      </Grid>
+          <Typography variant="overline" style={{ color: "#999999" }}>
+            {tweet.public_metrics && (
+              <strong>Retweets: {tweet.public_metrics.retweet_count}</strong>
+            )}
+          </Typography>
+        </Box>
+      </Paper>
     );
   };
 
@@ -150,12 +170,9 @@ export default class Tweets extends Component {
       this.props.tweetsByRecent["data"]
     );
 
-    console.log("twitterUser", this.props.twitterUser);
-
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
         <h2>Twitter</h2>
-
         <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Tooltip
             title={
@@ -190,9 +207,9 @@ export default class Tweets extends Component {
               }
             >
               <Button
-                className={this.state.username ? "active" : ""}
+                className={this.state.userTweets ? "active" : ""}
                 onClick={this.changeTab}
-                data-tab="username"
+                data-tab="userTweets"
               >
                 @{this.props.twitterUser.username}
               </Button>
@@ -200,14 +217,14 @@ export default class Tweets extends Component {
           )}
         </ButtonGroup>
 
-        {this.state.username && (
+        {this.state.userTweets && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry className="tweets" columns={2} spacing={2}>
               {this.props.tweetsByUserId["data"] &&
                 this.props.tweetsByUserId["data"]
                   .slice(0, 50)
                   .map((tweet, index) => {
-                    return this.tweet(tweet, "username");
+                    return this.tweet(tweet, "userTweets");
                   })}
             </Masonry>
           </Box>

@@ -1,10 +1,14 @@
+.tweets {
+  width: auto;
+  max-width: 100%;
+}
 .tweets > * {
-  transition: ease-in-out transform 0.2s;
+  transition: ease-in-out transform 0.2s !important;
 }
 .tweets > *:hover {
   transform: translateY(-5px);
 }
-.tweets > *:hover .tweet {
+.tweets > *:hover {
   background-color: rgba(29, 161, 242, 0.1) !important;
 }
 
@@ -13,7 +17,6 @@
   border: 1px solid #eaeaea;
   border-radius: 8px;
   padding: 20px 20px 60px;
-  height: 100%;
   /*width: calc(100% / 2 - 20px);
   margin: 10px;*/
   background-color: rgba(0, 0, 0, 0.1) !important;
@@ -27,8 +30,11 @@
   position: relative;
   z-index: 1;
 }
+.tweet .tweet-text a {
+  color: #000000;
+}
 .tweet .media {
-  max-height: 300px;
+  max-height: 375px;
   overflow: hidden;
   border-radius: 8px;
   cursor: pointer;
@@ -39,6 +45,9 @@
 .tweet .media img {
   height: auto;
   margin: auto;
+  cursor: -moz-zoom-in;
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,5 +59,8 @@
     ) !important;
     background-color: rgba(26, 32, 39, 1) !important;
     color: #ffffff !important;
+  }
+  .tweet .tweet-text a {
+    color: #ffffff;
   }
 }
