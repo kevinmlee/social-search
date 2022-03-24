@@ -11,8 +11,9 @@ export default class Dashboard extends Component {
 
     this.state = {
       tweetsByUserId: [{ data: [], includes: [] }],
-      includesByUserId: [],
       tweetsByRecent: [],
+
+      usename: "",
     };
   }
 
@@ -28,8 +29,8 @@ export default class Dashboard extends Component {
         <UserInput setCustomState={this.setCustomState} />
 
         <Tweets
+          username={this.state.username}
           tweetsByUserId={this.state.tweetsByUserId}
-          includesByUserId={this.state.includesByUserId}
           tweetsByRecent={this.state.tweetsByRecent}
         />
       </Container>

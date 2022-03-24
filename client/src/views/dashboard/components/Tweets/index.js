@@ -15,8 +15,9 @@ export default class Tweets extends Component {
     super(props);
 
     this.state = {
-      recent: true,
+      recent: false,
       popular: false,
+      username: true,
     };
   }
 
@@ -25,8 +26,12 @@ export default class Tweets extends Component {
   changeTab = (event) => {
     const tab = event.target.getAttribute("data-tab");
 
-    if (tab === "recent") this.setState({ recent: true, popular: false });
-    else if (tab === "popular") this.setState({ recent: false, popular: true });
+    if (tab === "recent")
+      this.setState({ recent: true, popular: false, username: false });
+    else if (tab === "popular")
+      this.setState({ recent: false, popular: true, username: false });
+    else if (tab === "username")
+      this.setState({ recent: false, popular: false, username: true });
   };
 
   filterTweets = (tweets) => {
@@ -87,12 +92,12 @@ export default class Tweets extends Component {
           </Box>
 
           <Box className="tweet-text" sx={{ marginTop: 2 }}>
-            <Typography variant="body2">{tweet.text}</Typography>
+            <Typography variant="h6">{tweet.text}</Typography>
           </Box>
 
           {mediaUrl && (
-            <Box className="media">
-              <img src={mediaUrl} alt="" />
+            <Box className="media" sx={{ marginTop: 2 }}>
+              <img src={mediaUrl} />
             </Box>
           )}
 
@@ -133,6 +138,15 @@ export default class Tweets extends Component {
         <h2>Twitter</h2>
 
         <ButtonGroup variant="outlined" aria-label="outlined button group">
+          <Tooltip title={"Most recent tweets by @" + this.props.username}>
+            <Button
+              className={this.state.username ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="username"
+            >
+              @{this.props.username}
+            </Button>
+          </Tooltip>
           <Tooltip title="Most recent tweets">
             <Button
               className={this.state.recent ? "active" : ""}
@@ -152,16 +166,18 @@ export default class Tweets extends Component {
           </Button>
         </ButtonGroup>
 
-        <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-          <Grid className="tweets" container spacing={2}>
-            {this.props.tweetsByUserId["data"] &&
-              this.props.tweetsByUserId["data"]
-                .slice(0, 50)
-                .map((tweet, index) => {
-                  return this.tweet(tweet);
-                })}
-          </Grid>
-        </Box>
+        {this.state.username && (
+          <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Grid className="tweets" container spacing={2}>
+              {this.props.tweetsByUserId["data"] &&
+                this.props.tweetsByUserId["data"]
+                  .slice(0, 50)
+                  .map((tweet, index) => {
+                    return this.tweet(tweet);
+                  })}
+            </Grid>
+          </Box>
+        )}
 
         {this.state.recent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>

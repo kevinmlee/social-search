@@ -57,8 +57,12 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          //console.log("username search results", response.data.twitterResults);
+          //console.log(response.data.twitterResults);
           this.setState({ twitterUserID: response.data.twitterResults.id });
+          this.props.setCustomState(
+            "username",
+            response.data.twitterResults.username
+          );
         },
         (error) => {
           console.log(error);
@@ -73,7 +77,6 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          console.log("getTweetsByUserID", response.data.tweets);
           this.props.setCustomState("tweetsByUserId", response.data.tweets);
         },
         (error) => {
