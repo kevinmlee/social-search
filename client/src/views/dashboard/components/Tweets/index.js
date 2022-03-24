@@ -9,6 +9,7 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
+import Masonry from "@mui/lab/Masonry";
 
 export default class Tweets extends Component {
   constructor(props) {
@@ -201,38 +202,38 @@ export default class Tweets extends Component {
 
         {this.state.username && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Grid className="tweets" container spacing={2}>
+            <Masonry className="tweets" columns={2} spacing={2}>
               {this.props.tweetsByUserId["data"] &&
                 this.props.tweetsByUserId["data"]
                   .slice(0, 50)
                   .map((tweet, index) => {
                     return this.tweet(tweet, "username");
                   })}
-            </Grid>
+            </Masonry>
           </Box>
         )}
 
         {this.state.recent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Grid className="tweets" container spacing={2}>
+            <Masonry className="tweets" columns={2} spacing={2}>
               {this.props.tweetsByRecent["data"] &&
                 this.props.tweetsByRecent["data"]
                   .slice(0, 50)
                   .map((tweet, index) => {
                     return this.tweet(tweet, "recent");
                   })}
-            </Grid>
+            </Masonry>
           </Box>
         )}
 
         {this.state.popular && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Grid className="tweets" container spacing={2}>
+            <Masonry className="tweets" columns={2} spacing={2}>
               {twitterResultsByPopularity &&
                 twitterResultsByPopularity.slice(0, 50).map((tweet, index) => {
                   return this.tweet(tweet, "recent");
                 })}
-            </Grid>
+            </Masonry>
           </Box>
         )}
       </Box>
