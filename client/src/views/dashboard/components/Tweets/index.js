@@ -176,7 +176,9 @@ export default class Tweets extends Component {
         <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Tooltip
             title={
-              "Most recent tweets related to '" + this.props.searchQuery + "'"
+              "Most recent tweets of the week related to '" +
+              this.props.searchQuery +
+              "'"
             }
           >
             <Button
@@ -189,7 +191,11 @@ export default class Tweets extends Component {
           </Tooltip>
 
           <Tooltip
-            title={"Popular tweets related to '" + this.props.searchQuery + "'"}
+            title={
+              "Popular tweets of the week related to '" +
+              this.props.searchQuery +
+              "'"
+            }
           >
             <Button
               className={this.state.popular ? "active" : ""}
