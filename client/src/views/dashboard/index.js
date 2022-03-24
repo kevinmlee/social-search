@@ -13,7 +13,8 @@ export default class Dashboard extends Component {
       tweetsByUserId: [{ data: [], includes: [] }],
       tweetsByRecent: [{ data: [], includes: [] }],
 
-      usename: "",
+      username: "",
+      searchQuery: "",
     };
   }
 
@@ -29,6 +30,7 @@ export default class Dashboard extends Component {
         <UserInput setCustomState={this.setCustomState} />
 
         <Tweets
+          searchQuery={this.state.searchQuery}
           username={this.state.username}
           tweetsByUserId={this.state.tweetsByUserId}
           tweetsByRecent={this.state.tweetsByRecent}

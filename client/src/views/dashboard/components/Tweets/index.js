@@ -15,13 +15,16 @@ export default class Tweets extends Component {
     super(props);
 
     this.state = {
-      recent: false,
+      recent: true,
       popular: false,
-      username: true,
+      username: false,
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    if (this.props.username)
+      this.setState({ recent: false, popular: false, username: true });
+  };
 
   changeTab = (event) => {
     const tab = event.target.getAttribute("data-tab");
@@ -52,35 +55,31 @@ export default class Tweets extends Component {
   };
 
   sortByPopularity = (tweets) => {
-    return [...tweets].sort((a, b) => {
-      let aPublicMetricsCount =
-        a.public_metrics.retweet_count + a.public_metrics.like_count;
-      let bPublicMetricsCount =
-        b.public_metrics.retweet_count + b.public_metrics.like_count;
+    if (tweets)
+      return [...tweets].sort((a, b) => {
+        let aPublicMetricsCount =
+          a.public_metrics.retweet_count + a.public_metrics.like_count;
+        let bPublicMetricsCount =
+          b.public_metrics.retweet_count + b.public_metrics.like_count;
 
-      return aPublicMetricsCount < bPublicMetricsCount ? 1 : -1;
-    });
+        return aPublicMetricsCount < bPublicMetricsCount ? 1 : -1;
+      });
   };
 
   tweet = (tweet, type) => {
-    let mediaKey = "";
     let mediaUrl = "";
 
     if (tweet.attachments) {
       let media = {};
-      mediaKey = tweet.attachments.media_keys[0];
+      let mediaKey = tweet.attachments.media_keys[0];
 
-      if (type === "username")
+      if (type === "username") {
         media = this.props.tweetsByUserId["includes"]["media"].filter(
-          (media) => {
-            return media.media_key === mediaKey;
-          }
+          (media) => media.media_key === mediaKey
         );
-      else if (type === "recent")
+      } else if (type === "recent")
         media = this.props.tweetsByRecent["includes"]["media"].filter(
-          (media) => {
-            return media.media_key === mediaKey;
-          }
+          (media) => media.media_key === mediaKey
         );
 
       if (media && media[0]) {
@@ -141,7 +140,6 @@ export default class Tweets extends Component {
 
   render() {
     //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
-
     const twitterResultsByPopularity = this.sortByPopularity(
       this.props.tweetsByRecent["data"]
     );
@@ -151,6 +149,32 @@ export default class Tweets extends Component {
         <h2>Twitter</h2>
 
         <ButtonGroup variant="outlined" aria-label="outlined button group">
+          <Tooltip
+            title={
+              "Most recent tweets related to '" + this.props.searchQuery + "'"
+            }
+          >
+            <Button
+              className={this.state.recent ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="recent"
+            >
+              Most recent
+            </Button>
+          </Tooltip>
+
+          <Tooltip
+            title={"Popular tweets related to '" + this.props.searchQuery + "'"}
+          >
+            <Button
+              className={this.state.popular ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="popular"
+            >
+              Popular
+            </Button>
+          </Tooltip>
+
           {this.props.tweetsByUserId["data"] && (
             <Tooltip title={"Most recent tweets by @" + this.props.username}>
               <Button
@@ -162,23 +186,6 @@ export default class Tweets extends Component {
               </Button>
             </Tooltip>
           )}
-          <Tooltip title="Most recent tweets">
-            <Button
-              className={this.state.recent ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="recent"
-            >
-              Most recent
-            </Button>
-          </Tooltip>
-
-          <Button
-            className={this.state.popular ? "active" : ""}
-            onClick={this.changeTab}
-            data-tab="popular"
-          >
-            Popular
-          </Button>
         </ButtonGroup>
 
         {this.state.username && (
@@ -210,9 +217,10 @@ export default class Tweets extends Component {
         {this.state.popular && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Grid className="tweets" container spacing={2}>
-              {twitterResultsByPopularity.slice(0, 50).map((tweet, index) => {
-                return this.tweet(tweet, "recent");
-              })}
+              {twitterResultsByPopularity &&
+                twitterResultsByPopularity.slice(0, 50).map((tweet, index) => {
+                  return this.tweet(tweet, "recent");
+                })}
             </Grid>
           </Box>
         )}

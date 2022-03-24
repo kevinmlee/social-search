@@ -41,9 +41,14 @@ export default class UserInput extends Component {
     if (this.state.search === "") {
       this.setState({ searchQueryBlankError: true });
     } else {
+      this.props.setCustomState("searchQuery", this.state.search);
+      this.props.setCustomState("username", "");
+      this.props.setCustomState("tweetsByUserId", [{ data: [], includes: [] }]);
+      this.props.setCustomState("tweetsByRecent", [{ data: [], includes: [] }]);
+
       if (this.oneWord(this.state.search)) {
-        await this.searchByUsername();
-        await this.getTweetsByUserID();
+        const userFound = await this.searchByUsername();
+        if (userFound) await this.getTweetsByUserID();
       }
       await this.searchByRecent();
     }
@@ -56,12 +61,16 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          console.log("searchByUsername", response);
-          this.setState({ twitterUserID: response.data.twitterResults.id });
-          this.props.setCustomState(
-            "username",
-            response.data.twitterResults.username
-          );
+          //console.log("searchByUsername", response);
+          if (response.data.error) return false;
+          else {
+            this.setState({ twitterUserID: response.data.twitterResults.id });
+            this.props.setCustomState(
+              "username",
+              response.data.twitterResults.username
+            );
+            return true;
+          }
         },
         (error) => {
           console.log(error);
@@ -76,7 +85,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          console.log("getTweetsByUserID", response);
+          //console.log("getTweetsByUserID", response);
           this.props.setCustomState("tweetsByUserId", response.data.tweets);
         },
         (error) => {
