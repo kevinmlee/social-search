@@ -31,21 +31,20 @@ export default class UserInput extends Component {
 
   oneWord = (string) => {
     var regexp = /[a-zA-Z]+\s+[a-zA-Z]+/g;
-    if (regexp.test(this.state.search)) return false;
+    if (regexp.test(string)) return false;
     else return true;
   };
 
   search = async (e) => {
     e.preventDefault();
 
-    if (this.oneWord(this.state.search)) {
-      await this.searchByUsername();
-      await this.getTweetsByUserID();
-    }
-
     if (this.state.search === "") {
       this.setState({ searchQueryBlankError: true });
     } else {
+      if (this.oneWord(this.state.search)) {
+        await this.searchByUsername();
+        await this.getTweetsByUserID();
+      }
       await this.searchByRecent();
     }
   };
@@ -57,7 +56,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          //console.log(response.data.twitterResults);
+          console.log("searchByUsername", response);
           this.setState({ twitterUserID: response.data.twitterResults.id });
           this.props.setCustomState(
             "username",
@@ -77,6 +76,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
+          console.log("getTweetsByUserID", response);
           this.props.setCustomState("tweetsByUserId", response.data.tweets);
         },
         (error) => {
@@ -92,10 +92,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          this.props.setCustomState(
-            "tweetsByRecent",
-            response.data.twitterResults
-          );
+          this.props.setCustomState("tweetsByRecent", response.data.tweets);
         },
         (error) => {
           console.log(error);

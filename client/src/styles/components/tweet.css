@@ -17,6 +17,19 @@
   position: relative;
   z-index: 1;
 }
+.tweet .media {
+  max-height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tweet .media img {
+  height: auto;
+  margin: auto;
+}
 
 @media (prefers-color-scheme: dark) {
   .tweet {

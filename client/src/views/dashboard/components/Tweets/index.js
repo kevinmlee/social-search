@@ -62,23 +62,31 @@ export default class Tweets extends Component {
     });
   };
 
-  tweet = (tweet) => {
+  tweet = (tweet, type) => {
     let mediaKey = "";
     let mediaUrl = "";
 
     if (tweet.attachments) {
+      let media = {};
       mediaKey = tweet.attachments.media_keys[0];
 
-      const media = this.props.tweetsByUserId["includes"]["media"].filter(
-        (media) => {
-          return media.media_key === mediaKey;
-        }
-      );
+      if (type === "username")
+        media = this.props.tweetsByUserId["includes"]["media"].filter(
+          (media) => {
+            return media.media_key === mediaKey;
+          }
+        );
+      else if (type === "recent")
+        media = this.props.tweetsByRecent["includes"]["media"].filter(
+          (media) => {
+            return media.media_key === mediaKey;
+          }
+        );
 
       if (media && media[0]) {
         if (media[0].hasOwnProperty("url")) mediaUrl = media[0]["url"];
-        else if (media[0].hasOwnProperty("media_url"))
-          mediaUrl = media[0]["media_url"];
+        else if (media[0].hasOwnProperty("preview_image_url"))
+          mediaUrl = media[0]["preview_image_url"];
       }
     }
 
@@ -92,12 +100,14 @@ export default class Tweets extends Component {
           </Box>
 
           <Box className="tweet-text" sx={{ marginTop: 2 }}>
-            <Typography variant="h6">{tweet.text}</Typography>
+            <Typography variant="body1">{tweet.text}</Typography>
           </Box>
 
           {mediaUrl && (
             <Box className="media" sx={{ marginTop: 2 }}>
-              <img src={mediaUrl} />
+              <a href={mediaUrl} target="_blank" rel="noreferrer">
+                <img src={mediaUrl} alt={tweet.text} />
+              </a>
             </Box>
           )}
 
@@ -130,23 +140,28 @@ export default class Tweets extends Component {
   };
 
   render() {
-    const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
-    const twitterResultsByPopularity = this.sortByPopularity(filteredTweets);
+    //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
+
+    const twitterResultsByPopularity = this.sortByPopularity(
+      this.props.tweetsByRecent["data"]
+    );
 
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
         <h2>Twitter</h2>
 
         <ButtonGroup variant="outlined" aria-label="outlined button group">
-          <Tooltip title={"Most recent tweets by @" + this.props.username}>
-            <Button
-              className={this.state.username ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="username"
-            >
-              @{this.props.username}
-            </Button>
-          </Tooltip>
+          {this.props.tweetsByUserId["data"] && (
+            <Tooltip title={"Most recent tweets by @" + this.props.username}>
+              <Button
+                className={this.state.username ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="username"
+              >
+                @{this.props.username}
+              </Button>
+            </Tooltip>
+          )}
           <Tooltip title="Most recent tweets">
             <Button
               className={this.state.recent ? "active" : ""}
@@ -173,7 +188,7 @@ export default class Tweets extends Component {
                 this.props.tweetsByUserId["data"]
                   .slice(0, 50)
                   .map((tweet, index) => {
-                    return this.tweet(tweet);
+                    return this.tweet(tweet, "username");
                   })}
             </Grid>
           </Box>
@@ -182,9 +197,12 @@ export default class Tweets extends Component {
         {this.state.recent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Grid className="tweets" container spacing={2}>
-              {filteredTweets.slice(0, 50).map((tweet, index) => {
-                return this.tweet(tweet);
-              })}
+              {this.props.tweetsByRecent["data"] &&
+                this.props.tweetsByRecent["data"]
+                  .slice(0, 50)
+                  .map((tweet, index) => {
+                    return this.tweet(tweet, "recent");
+                  })}
             </Grid>
           </Box>
         )}
@@ -193,7 +211,7 @@ export default class Tweets extends Component {
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Grid className="tweets" container spacing={2}>
               {twitterResultsByPopularity.slice(0, 50).map((tweet, index) => {
-                return this.tweet(tweet);
+                return this.tweet(tweet, "recent");
               })}
             </Grid>
           </Box>

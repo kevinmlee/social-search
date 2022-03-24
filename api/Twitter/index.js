@@ -24,8 +24,9 @@ module.exports = {
     };
 
     try {
-      const { data } = await client.get("tweets/search/recent", params);
-      return res.json({ twitterResults: data });
+      return res.json({
+        tweets: await client.get("tweets/search/recent", params),
+      });
     } catch (e) {
       console.log(e);
       return res.json({ error: e, twitterResults: [] });

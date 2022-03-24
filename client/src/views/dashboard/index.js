@@ -11,7 +11,7 @@ export default class Dashboard extends Component {
 
     this.state = {
       tweetsByUserId: [{ data: [], includes: [] }],
-      tweetsByRecent: [],
+      tweetsByRecent: [{ data: [], includes: [] }],
 
       usename: "",
     };
