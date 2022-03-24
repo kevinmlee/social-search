@@ -7,6 +7,7 @@ import {
   Paper,
   Grid,
   Typography,
+  Tooltip,
 } from "@mui/material";
 
 export default class Tweets extends Component {
@@ -57,7 +58,25 @@ export default class Tweets extends Component {
   };
 
   tweet = (tweet) => {
-    console.log(tweet);
+    let mediaKey = "";
+    let mediaUrl = "";
+
+    if (tweet.attachments) {
+      mediaKey = tweet.attachments.media_keys[0];
+
+      const media = this.props.tweetsByUserId["includes"]["media"].filter(
+        (media) => {
+          return media.media_key === mediaKey;
+        }
+      );
+
+      if (media && media[0]) {
+        if (media[0].hasOwnProperty("url")) mediaUrl = media[0]["url"];
+        else if (media[0].hasOwnProperty("media_url"))
+          mediaUrl = media[0]["media_url"];
+      }
+    }
+
     return (
       <Grid item xs={6} md={6} key={tweet.id}>
         <Paper elevation={3} className="tweet">
@@ -71,6 +90,12 @@ export default class Tweets extends Component {
             <Typography variant="body2">{tweet.text}</Typography>
           </Box>
 
+          {mediaUrl && (
+            <Box className="media">
+              <img src={mediaUrl} alt="" />
+            </Box>
+          )}
+
           <Box
             className="public-metrics"
             container
@@ -83,11 +108,15 @@ export default class Tweets extends Component {
               sx={{ paddingRight: 4 }}
               style={{ color: "#999999" }}
             >
-              <strong>Likes: {tweet.public_metrics.like_count}</strong>
+              {tweet.public_metrics && (
+                <strong>Likes: {tweet.public_metrics.like_count}</strong>
+              )}
             </Typography>
 
             <Typography variant="overline" style={{ color: "#999999" }}>
-              <strong>Retweets: {tweet.public_metrics.retweet_count}</strong>
+              {tweet.public_metrics && (
+                <strong>Retweets: {tweet.public_metrics.retweet_count}</strong>
+              )}
             </Typography>
           </Box>
         </Paper>
@@ -96,7 +125,7 @@ export default class Tweets extends Component {
   };
 
   render() {
-    const filteredTweets = this.filterTweets(this.props.twitterResults);
+    const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
     const twitterResultsByPopularity = this.sortByPopularity(filteredTweets);
 
     return (
@@ -104,13 +133,16 @@ export default class Tweets extends Component {
         <h2>Twitter</h2>
 
         <ButtonGroup variant="outlined" aria-label="outlined button group">
-          <Button
-            className={this.state.recent ? "active" : ""}
-            onClick={this.changeTab}
-            data-tab="recent"
-          >
-            Most recent
-          </Button>
+          <Tooltip title="Most recent tweets">
+            <Button
+              className={this.state.recent ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="recent"
+            >
+              Most recent
+            </Button>
+          </Tooltip>
+
           <Button
             className={this.state.popular ? "active" : ""}
             onClick={this.changeTab}
@@ -120,10 +152,21 @@ export default class Tweets extends Component {
           </Button>
         </ButtonGroup>
 
+        <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Grid className="tweets" container spacing={2}>
+            {this.props.tweetsByUserId["data"] &&
+              this.props.tweetsByUserId["data"]
+                .slice(0, 50)
+                .map((tweet, index) => {
+                  return this.tweet(tweet);
+                })}
+          </Grid>
+        </Box>
+
         {this.state.recent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Grid className="tweets" container spacing={2}>
-              {filteredTweets.slice(0, 10).map((tweet, index) => {
+              {filteredTweets.slice(0, 50).map((tweet, index) => {
                 return this.tweet(tweet);
               })}
             </Grid>
@@ -133,7 +176,7 @@ export default class Tweets extends Component {
         {this.state.popular && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Grid className="tweets" container spacing={2}>
-              {twitterResultsByPopularity.slice(0, 10).map((tweet, index) => {
+              {twitterResultsByPopularity.slice(0, 50).map((tweet, index) => {
                 return this.tweet(tweet);
               })}
             </Grid>

@@ -10,7 +10,9 @@ export default class Dashboard extends Component {
     super(props);
 
     this.state = {
-      twitterResults: [],
+      tweetsByUserId: [{ data: [], includes: [] }],
+      includesByUserId: [],
+      tweetsByRecent: [],
     };
   }
 
@@ -25,7 +27,11 @@ export default class Dashboard extends Component {
       <Container id="dashboard" maxWidth="md">
         <UserInput setCustomState={this.setCustomState} />
 
-        <Tweets twitterResults={this.state.twitterResults} />
+        <Tweets
+          tweetsByUserId={this.state.tweetsByUserId}
+          includesByUserId={this.state.includesByUserId}
+          tweetsByRecent={this.state.tweetsByRecent}
+        />
       </Container>
     );
   }

@@ -16,14 +16,55 @@ module.exports = {
       query: searchQuery,
       //"-is": "retweet",
       //"-filter": "replies",
-      expansions: "in_reply_to_user_id,referenced_tweets.id",
+      expansions:
+        "in_reply_to_user_id,referenced_tweets.id,attachments.media_keys",
       max_results: 100,
       "tweet.fields": "public_metrics,created_at",
+      "media.fields": "preview_image_url,url",
     };
 
     try {
       const { data } = await client.get("tweets/search/recent", params);
       return res.json({ twitterResults: data });
+    } catch (e) {
+      console.log(e);
+      return res.json({ error: e, twitterResults: [] });
+    }
+  },
+  searchByUsername: async function (req, res, next) {
+    const { searchQuery } = req.body;
+
+    const params = {
+      "user.fields": "public_metrics,profile_image_url",
+      expansions: "pinned_tweet_id",
+    };
+
+    try {
+      const { data } = await client.get(
+        "users/by/username/" + searchQuery,
+        params
+      );
+      return res.json({ twitterResults: data });
+    } catch (e) {
+      console.log(e);
+      return res.json({ error: e, twitterResults: [] });
+    }
+  },
+  getTweetsByUserId: async function (req, res, next) {
+    const { userId } = req.body;
+
+    const params = {
+      expansions: "attachments.media_keys",
+      "tweet.fields": "public_metrics,created_at",
+      "media.fields": "preview_image_url,url",
+      exclude: "replies,retweets",
+    };
+
+    try {
+      //const { data, includes } = ;
+      return res.json({
+        tweets: await client.get("users/" + userId + "/tweets", params),
+      });
     } catch (e) {
       console.log(e);
       return res.json({ error: e, twitterResults: [] });

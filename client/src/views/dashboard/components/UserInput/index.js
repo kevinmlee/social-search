@@ -11,6 +11,7 @@ export default class UserInput extends Component {
       search: "",
 
       twitterResults: [],
+      twitterUserID: "",
 
       searchQueryBlankError: false,
     };
@@ -28,28 +29,75 @@ export default class UserInput extends Component {
     this.setState({ [NAME]: VALUE.toString() });
   };
 
+  oneWord = (string) => {
+    var regexp = /[a-zA-Z]+\s+[a-zA-Z]+/g;
+    if (regexp.test(this.state.search)) return false;
+    else return true;
+  };
+
   search = async (e) => {
     e.preventDefault();
+
+    if (this.oneWord(this.state.search)) {
+      await this.searchByUsername();
+      await this.getTweetsByUserID();
+    }
 
     if (this.state.search === "") {
       this.setState({ searchQueryBlankError: true });
     } else {
-      await axios
-        .put("/twitter/search", {
-          searchQuery: this.state.search,
-        })
-        .then(
-          (response) => {
-            this.props.setCustomState(
-              "twitterResults",
-              response.data.twitterResults
-            );
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+      await this.searchByRecent();
     }
+  };
+
+  searchByUsername = async (e) => {
+    return await axios
+      .put("/twitter/search/username", {
+        searchQuery: this.state.search,
+      })
+      .then(
+        (response) => {
+          //console.log("username search results", response.data.twitterResults);
+          this.setState({ twitterUserID: response.data.twitterResults.id });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  getTweetsByUserID = async (e) => {
+    return await axios
+      .put("/twitter/get/tweets/id", {
+        userId: this.state.twitterUserID,
+      })
+      .then(
+        (response) => {
+          console.log("getTweetsByUserID", response.data.tweets);
+          this.props.setCustomState("tweetsByUserId", response.data.tweets);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  searchByRecent = async (e) => {
+    return await axios
+      .put("/twitter/search", {
+        searchQuery: this.state.search,
+      })
+      .then(
+        (response) => {
+          this.props.setCustomState(
+            "tweetsByRecent",
+            response.data.twitterResults
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   render() {

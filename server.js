@@ -72,6 +72,8 @@ if (process.env.NODE_ENV === "production") {
 // Authentication & verification
 
 app.all("/twitter/search", TWITTER.search);
+app.all("/twitter/search/username", TWITTER.searchByUsername);
+app.all("/twitter/get/tweets/id", TWITTER.getTweetsByUserId);
 
 /////////////////////////////////////////////
 // Database API Routes
