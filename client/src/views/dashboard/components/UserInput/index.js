@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Alert, Box, Button, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 
 export default class UserInput extends Component {
   constructor(props) {
@@ -9,6 +9,7 @@ export default class UserInput extends Component {
 
     this.state = {
       search: "",
+      previousSearchQuery: "",
 
       twitterResults: [],
       twitterUserID: "",
@@ -17,7 +18,9 @@ export default class UserInput extends Component {
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    this.setState({ search: "" });
+  };
 
   handleChange = async (event) => {
     const NAME = event.target.name;
@@ -56,6 +59,8 @@ export default class UserInput extends Component {
       }
       await this.searchByRecent();
     }
+
+    await this.setState({ previousSearchQuery: this.state.search, search: "" });
   };
 
   searchByUsername = async (e) => {
@@ -117,7 +122,7 @@ export default class UserInput extends Component {
   render() {
     return (
       <div className="user-input">
-        <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+        <Box sx={{ paddingTop: 4, paddingBottom: 2 }}>
           <form onSubmit={this.search}>
             <div className="flex-container">
               <TextField
@@ -125,7 +130,8 @@ export default class UserInput extends Component {
                 label="Search query"
                 variant="standard"
                 name="search"
-                defaultValue={this.state.search}
+                value={this.state.search}
+                // defaultValue={this.state.search}
                 onChange={this.handleChange}
                 fullWidth={true}
               />
@@ -135,6 +141,14 @@ export default class UserInput extends Component {
             </div>
           </form>
         </Box>
+
+        {this.state.previousSearchQuery && (
+          <Box sx={{ marginBottom: 2 }}>
+            <Typography variant="overline" style={{ color: "#999999" }}>
+              Results for '{this.state.previousSearchQuery}'
+            </Typography>
+          </Box>
+        )}
 
         {this.state.searchQueryBlankError && (
           <Alert severity="error">
