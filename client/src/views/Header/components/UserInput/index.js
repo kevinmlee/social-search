@@ -37,6 +37,14 @@ export default class UserInput extends Component {
     else return true;
   };
 
+  objectEmpty = (obj) => {
+    return (
+      obj && // 👈 null and undefined check
+      Object.keys(obj).length === 0 &&
+      Object.getPrototypeOf(obj) === Object.prototype
+    );
+  };
+
   search = async (e) => {
     e.preventDefault();
     await this.props.setAppState("loadingBackdrop", true);
@@ -80,7 +88,8 @@ export default class UserInput extends Component {
       .then(
         async (response) => {
           //console.log("searchByUsername", response);
-          if (response.data.error) return false;
+          if (response.data.error || this.objectEmpty(response.data))
+            return false;
           else {
             await this.setState({
               twitterUserID: response.data.twitterResults.id,
