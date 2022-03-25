@@ -45,7 +45,7 @@ export default class Tweets extends Component {
         if ("reddit_video" in post.data.secure_media) {
           return (
             <Box className="reddit-video" sx={{ marginTop: 2 }}>
-              <video width="100%" height="240" controls>
+              <video preload="none" width="100%" height="240" controls>
                 <source
                   src={post.data.secure_media.reddit_video.fallback_url}
                   type="video/mp4"
@@ -111,10 +111,8 @@ export default class Tweets extends Component {
           </a>
         </Box>
 
-        {this.getVideo(post)}
-
         {this.getVideo(post)
-          ? ""
+          ? this.getVideo(post)
           : this.getPreviewImage(post) && (
               <Box
                 className="media"
