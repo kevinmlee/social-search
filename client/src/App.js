@@ -22,9 +22,14 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      // twitter
       tweetsByUserId: [{ data: [], includes: [] }],
       tweetsByRecent: [{ data: [], includes: [] }],
       twitterUser: {},
+
+      // reddit
+      redditHot: [],
+      redditNew: [],
 
       searchQuery: "",
       previousSearchQuery: "",

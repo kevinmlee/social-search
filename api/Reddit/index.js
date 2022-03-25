@@ -1,40 +1,22 @@
 require("dotenv").config();
-const Reddit = require("reddit");
-
-// Initialize Reddit client
-const reddit = new Reddit({
-  username: process.env.REDDIT_APP_USERNAME,
-  password: process.env.REDDIT_APP_PASSWORD,
-  appId: process.env.REDDIT_APP_ID,
-  appSecret: process.env.REDDIT_APP_SECRET,
-  userAgent: "MyApp/1.0.0 (http://example.com)",
-});
+const https = require("https");
 
 module.exports = {
   search: async function (req, res, next) {
-    const { searchQuery } = req.body;
+    const { searchQuery, filter } = req.body;
+    const url =
+      "https://www.reddit.com/search.json?q=" + searchQuery + "&sort=" + filter;
 
-    /*
-    const res = await reddit.post('/api/submit', {
-      sr: 'WeAreTheMusicMakers',
-      kind: 'link',
-      resubmit: true,
-      title: 'BitMidi – 100K+ Free MIDI files',
-      url: 'https://bitmidi.com'
-    })
-     
-    console.log(res)
-    */
+    let request = https.get(url, (response) => {
+      let data = "";
 
-    /*
-    try {
-      return res.json({
-        tweets: await client.get("tweets/search/recent", params),
+      response.on("data", (stream) => {
+        data += stream;
       });
-    } catch (e) {
-      console.log(e);
-      return res.json({ error: e, twitterResults: [] });
-    }
-    */
+
+      response.on("end", () => res.json(JSON.parse(data)));
+    });
+
+    request.on("error", (e) => res.json(e));
   },
 };

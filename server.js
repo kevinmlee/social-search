@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 
 // Routes
 const TWITTER = require("./api/Twitter");
+const REDDIT = require("./api/Reddit");
 // const HUBSPOT = require("./api/HubSpot");
 // const MONGO = require("./api/MongoDB");
 
@@ -69,11 +70,15 @@ if (process.env.NODE_ENV === "production") {
 // Twitter
 /////////////////////////////////////////////
 
-// Authentication & verification
-
 app.all("/twitter/search", TWITTER.search);
 app.all("/twitter/search/username", TWITTER.searchByUsername);
 app.all("/twitter/get/tweets/id", TWITTER.getTweetsByUserId);
+
+/////////////////////////////////////////////
+// Reddit
+/////////////////////////////////////////////
+
+app.all("/reddit/search", REDDIT.search);
 
 /////////////////////////////////////////////
 // Database API Routes

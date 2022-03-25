@@ -2,3 +2,44 @@ button.active {
   background-color: #1976d2;
   color: #fff;
 }
+
+.media-tabs {
+  border-bottom: 1px solid #22303c;
+}
+.media-tabs > *.active {
+  opacity: 1;
+  background-color: #22303c;
+}
+
+.media-tabs > * {
+  opacity: 0.4;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.media-tabs > *:hover {
+  border: 1px solid #22303c;
+}
+.media-tabs > * > *:first-child {
+  margin-right: 10px;
+}
+
+.media-tabs {
+  display: flex;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.media-tabs button {
+  font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+  .media-tabs {
+    color: #ffffff;
+  }
+}

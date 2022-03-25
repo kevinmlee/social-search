@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import { Alert, Box, Button, TextField, Typography } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 
 /*
 TODO
@@ -28,7 +28,6 @@ export default class UserInput extends Component {
     if (NAME === "search" && VALUE !== "")
       await this.props.setAppState("searchQueryBlankError", false);
 
-    //await this.props.setAppState(NAME, VALUE.toString());
     await this.setState({ [NAME]: VALUE });
   };
 
@@ -42,6 +41,7 @@ export default class UserInput extends Component {
     e.preventDefault();
 
     //console.log("search query: ", this.state.search);
+    await this.props.setAppState("previousSearchQuery", this.state.search);
 
     if (this.state.search === "") {
       this.props.setAppState("searchQueryBlankError", true);
@@ -63,9 +63,10 @@ export default class UserInput extends Component {
         if (userFound) await this.getTweetsByUserID();
       }
       await this.searchByRecent();
+      await this.redditSearchNew();
+      await this.redditSearchHot();
     }
 
-    await this.props.setAppState("previousSearchQuery", this.state.search);
     await this.setState({ search: "" });
   };
 
@@ -121,6 +122,38 @@ export default class UserInput extends Component {
         (response) => {
           //console.log("searchByRecent", response);
           this.props.setAppState("tweetsByRecent", response.data.tweets);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  redditSearchNew = async (e) => {
+    return await axios
+      .put("/reddit/search", {
+        searchQuery: this.state.search,
+        filter: "new",
+      })
+      .then(
+        (response) => {
+          this.props.setAppState("redditNew", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+  redditSearchHot = async (e) => {
+    return await axios
+      .put("/reddit/search", {
+        searchQuery: this.state.search,
+        filter: "hot",
+      })
+      .then(
+        (response) => {
+          // console.log("reddit search", response.data.data.children);
+          this.props.setAppState("redditHot", response.data.data.children);
         },
         (error) => {
           console.log(error);

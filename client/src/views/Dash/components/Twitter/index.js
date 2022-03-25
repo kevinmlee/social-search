@@ -13,7 +13,7 @@ import {
 
 import { Masonry } from "@mui/lab";
 
-export default class Tweets extends Component {
+export default class Twitter extends Component {
   constructor(props) {
     super(props);
 
@@ -165,21 +165,21 @@ export default class Tweets extends Component {
           xs={12}
           sx={{ paddingTop: 4 }}
         >
-          <Typography
-            variant="overline"
-            sx={{ paddingRight: 4 }}
-            style={{ color: "#999999" }}
-          >
-            {tweet.public_metrics && (
-              <strong>Likes: {tweet.public_metrics.like_count}</strong>
-            )}
-          </Typography>
+          {tweet.public_metrics && (
+            <Typography
+              variant="overline"
+              sx={{ paddingRight: 4 }}
+              style={{ color: "#999999" }}
+            >
+              {tweet.public_metrics.like_count} Likes
+            </Typography>
+          )}
 
-          <Typography variant="overline" style={{ color: "#999999" }}>
-            {tweet.public_metrics && (
-              <strong>Retweets: {tweet.public_metrics.retweet_count}</strong>
-            )}
-          </Typography>
+          {tweet.public_metrics && (
+            <Typography variant="overline" style={{ color: "#999999" }}>
+              {tweet.public_metrics.retweet_count} Retweets
+            </Typography>
+          )}
         </Box>
       </Paper>
     );
