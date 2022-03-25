@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Container, Backdrop } from "@mui/material";
+import { Box, Container, Backdrop } from "@mui/material";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 // components
 import UserInput from "./components/UserInput";
@@ -45,8 +46,12 @@ export default class Dashboard extends Component {
 
   render() {
     return (
-      <Container id="dashboard" maxWidth="md">
+      <Container id="dashboard" maxWidth="xl">
         <UserInput setCustomState={this.setCustomState} />
+
+        <Box className="media-tabs">
+          <TwitterIcon sx={{ color: "#1DA1F2", fontSize: "50px" }} />
+        </Box>
 
         <Tweets
           setCustomState={this.setCustomState}
@@ -55,6 +60,14 @@ export default class Dashboard extends Component {
           tweetsByUserId={this.state.tweetsByUserId}
           tweetsByRecent={this.state.tweetsByRecent}
         />
+
+        {/* 
+        other APIs to use
+
+        instagram
+        reddit
+        
+        */}
 
         {this.state.backdropToggle && this.imageBackdrop()}
       </Container>

@@ -10,6 +10,7 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
+
 import { Masonry } from "@mui/lab";
 
 export default class Tweets extends Component {
@@ -76,8 +77,6 @@ export default class Tweets extends Component {
       user = this.props.tweetsByRecent["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
-
-    console.log("found user", user);
     return user[0];
   };
 
@@ -191,7 +190,6 @@ export default class Tweets extends Component {
 
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <h2>Twitter</h2>
         <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Tooltip
             title={
@@ -205,7 +203,7 @@ export default class Tweets extends Component {
               onClick={this.changeTab}
               data-tab="recent"
             >
-              Most recent
+              Recent
             </Button>
           </Tooltip>
 
@@ -244,7 +242,11 @@ export default class Tweets extends Component {
 
         {this.state.userTweets && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry className="tweets" columns={2} spacing={2}>
+            <Masonry
+              className="tweets"
+              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+              spacing={2}
+            >
               {this.props.tweetsByUserId["data"] &&
                 this.props.tweetsByUserId["data"]
                   .slice(0, 50)
@@ -257,7 +259,11 @@ export default class Tweets extends Component {
 
         {this.state.recent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry className="tweets" columns={2} spacing={2}>
+            <Masonry
+              className="tweets"
+              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+              spacing={2}
+            >
               {this.props.tweetsByRecent["data"] &&
                 this.props.tweetsByRecent["data"]
                   .slice(0, 50)
@@ -270,7 +276,11 @@ export default class Tweets extends Component {
 
         {this.state.popular && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry className="tweets" columns={2} spacing={2}>
+            <Masonry
+              className="tweets"
+              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+              spacing={2}
+            >
               {this.props.tweetsByRecent["data"] &&
                 this.sortByPopularity(this.props.tweetsByRecent["data"])
                   .slice(0, 50)

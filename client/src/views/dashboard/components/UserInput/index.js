@@ -137,7 +137,7 @@ export default class UserInput extends Component {
         </Box>
 
         {this.state.searchQueryBlankError && (
-          <Alert severity="error" sx={{ marginTop: 4 }}>
+          <Alert severity="error">
             Search query cannot be blank. Please enter a search query and try
             again.
           </Alert>
