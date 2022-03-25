@@ -9,10 +9,13 @@ import {
 //import ReactNotification from "react-notifications-component";
 //import "react-notifications-component/dist/theme.css";
 
+import { Box } from "@mui/material";
+
 import "./styles/main.css";
 
 // components
-import Dashboard from "./views/dashboard";
+import Header from "./views/Header";
+import Dashboard from "./views/Dashboard";
 
 export default class App extends Component {
   /*
@@ -25,13 +28,17 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <Dashboard />
-          </Route>
-        </Switch>
-      </Router>
+      <Box>
+        <Header />
+
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Dashboard />
+            </Route>
+          </Switch>
+        </Router>
+      </Box>
     );
   }
 }

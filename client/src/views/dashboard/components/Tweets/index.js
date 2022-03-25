@@ -112,7 +112,7 @@ export default class Tweets extends Component {
           rel="noopener noreferrer"
         >
           <Grid container spacing={2}>
-            <Grid item xs={2}>
+            <Grid item sx={{ width: "60px" }}>
               <div className="avatar">
                 <img
                   src={user.profile_image_url}

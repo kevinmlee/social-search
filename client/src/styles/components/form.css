@@ -1,3 +1,20 @@
+.search-input {
+  width: 100%;
+  max-width: 375px;
+}
+.search-input input {
+  padding: 8px 8px 8px 40px;
+}
+.search-input input::placeholder {
+  font-size: 14px;
+}
+.search-input .MuiFilledInput-root::after {
+  border: none;
+}
+.search-input .MuiFilledInput-root:before {
+  border: none;
+}
+
 @media (prefers-color-scheme: dark) {
   .standard-input input {
     color: #fff;
