@@ -8,7 +8,12 @@ import {
   Paper,
   Typography,
   Tooltip,
+  Grid,
 } from "@mui/material";
+
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 import { Masonry } from "@mui/lab";
 
@@ -138,7 +143,7 @@ export default class Tweets extends Component {
               </Box>
             )}
 
-        <Box
+        <Grid
           className="public-metrics"
           container
           spacing={2}
@@ -146,29 +151,35 @@ export default class Tweets extends Component {
           sx={{ paddingTop: 4 }}
         >
           <Typography
+            className="metric flex-container"
             variant="overline"
             sx={{ paddingRight: 4 }}
             style={{ color: "#999999" }}
           >
-            {post.data.ups} Upvotes
+            <ThumbUpIcon />
+            <span>{post.data.ups}</span>
           </Typography>
 
           <Typography
+            className="metric flex-container"
             variant="overline"
             sx={{ paddingRight: 4 }}
             style={{ color: "#999999" }}
           >
-            {post.data.num_comments} Comments
+            <ChatBubbleIcon />
+            {post.data.num_comments}
           </Typography>
 
           <Typography
+            className="metric flex-container"
             variant="overline"
             sx={{ paddingRight: 4 }}
             style={{ color: "#999999" }}
           >
-            {post.data.total_awards_received} Awards
+            <EmojiEventsIcon />
+            {post.data.total_awards_received}
           </Typography>
-        </Box>
+        </Grid>
       </Paper>
     );
   };

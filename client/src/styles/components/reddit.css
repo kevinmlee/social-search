@@ -16,7 +16,7 @@
   position: relative;
   border: 1px solid #eaeaea;
   border-radius: 8px;
-  padding: 20px 20px 60px;
+  padding: 20px 20px 65px;
   /*width: calc(100% / 2 - 20px);
   margin: 10px;*/
   background-color: rgba(0, 0, 0, 0.1) !important;
@@ -30,7 +30,10 @@
 .reddit-post .public-metrics {
   position: absolute;
   bottom: 20px;
-  left: 20px;
+  left: 35px;
+}
+.reddit-post .public-metrics .metric > *:first-child {
+  margin-right: 5px;
 }
 .reddit-post .post-text {
   position: relative;

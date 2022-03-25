@@ -13,6 +13,9 @@ import {
 
 import { Masonry } from "@mui/lab";
 
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import LoopIcon from "@mui/icons-material/Loop";
+
 export default class Twitter extends Component {
   constructor(props) {
     super(props);
@@ -158,26 +161,27 @@ export default class Twitter extends Component {
           </Box>
         )}
 
-        <Box
-          className="public-metrics"
-          container
-          spacing={2}
-          xs={12}
-          sx={{ paddingTop: 4 }}
-        >
+        <Box className="public-metrics" container spacing={2} xs={12}>
           {tweet.public_metrics && (
             <Typography
+              className="metric flex-container"
               variant="overline"
               sx={{ paddingRight: 4 }}
               style={{ color: "#999999" }}
             >
-              {tweet.public_metrics.like_count} Likes
+              <ThumbUpIcon />
+              {tweet.public_metrics.like_count}
             </Typography>
           )}
 
           {tweet.public_metrics && (
-            <Typography variant="overline" style={{ color: "#999999" }}>
-              {tweet.public_metrics.retweet_count} Retweets
+            <Typography
+              className="metric flex-container"
+              variant="overline"
+              style={{ color: "#999999" }}
+            >
+              <LoopIcon />
+              {tweet.public_metrics.retweet_count}
             </Typography>
           )}
         </Box>
