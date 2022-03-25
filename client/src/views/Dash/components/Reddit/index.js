@@ -56,11 +56,16 @@ export default class Tweets extends Component {
           );
         }
         if ("secure_media_embed" in post.data) {
+          let updatedString = post.data.secure_media.oembed.html.replace(
+            "src=",
+            'loading="lazy" src='
+          );
+
           return (
             <Box className="youtube-video" sx={{ marginTop: 2 }}>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: this.htmlDecode(post.data.secure_media.oembed.html),
+                  __html: this.htmlDecode(updatedString),
                 }}
               />
             </Box>
