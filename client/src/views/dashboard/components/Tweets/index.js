@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 import {
   Box,
@@ -64,8 +65,25 @@ export default class Tweets extends Component {
       });
   };
 
+  getAuthor = (tweet, type) => {
+    let user = {};
+
+    if (type === "userTweets") {
+      user = this.props.tweetsByUserId["includes"]["users"].filter(
+        (user) => user.id === tweet.author_id
+      );
+    } else if (type === "recent")
+      user = this.props.tweetsByRecent["includes"]["users"].filter(
+        (user) => user.id === tweet.author_id
+      );
+
+    console.log("found user", user);
+    return user[0];
+  };
+
   tweet = (tweet, type) => {
     let mediaUrl = "";
+    const user = this.getAuthor(tweet, type);
 
     if (tweet.attachments) {
       let media = {};
@@ -86,33 +104,37 @@ export default class Tweets extends Component {
           mediaUrl = media[0]["preview_image_url"];
       }
     }
-    {
-      /*<a
-          href={"https://twitter.com/twitter/status/" + tweet.id}
-          target="_blank"
-          rel="noopener noreferrer"
-        >*/
-    }
 
     return (
       <Paper elevation={3} className="tweet" key={tweet.id}>
-        <Box className="author">
-          <Typography variant="caption" style={{ color: "#ffffff" }}>
-            <strong>{}</strong>
-          </Typography>
-        </Box>
-
-        <Box className="created">
-          <a
-            href={"https://twitter.com/twitter/status/" + tweet.id}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              <strong>{new Date(tweet.created_at).toString()}</strong>
-            </Typography>
-          </a>
-        </Box>
+        <a
+          href={"https://twitter.com/" + user.username}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={2}>
+              <div className="avatar">
+                <img
+                  src={user.profile_image_url}
+                  alt={user.name + "'s profile image'"}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={10}>
+              <Box className="author" sx={{ marginBottom: 1 }}>
+                <Typography variant="h6" style={{ color: "#ffffff" }}>
+                  {user.name}
+                </Typography>{" "}
+                <span style={{ color: "#999999" }}>@{user.username}</span>
+                <span style={{ color: "#999999" }}> · </span>
+                <Typography variant="caption" style={{ color: "#999999" }}>
+                  {moment(tweet.created_at).fromNow()}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </a>
 
         <Box className="tweet-text" sx={{ marginTop: 2 }}>
           <a

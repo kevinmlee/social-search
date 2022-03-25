@@ -105,6 +105,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
+          //console.log("searchByRecent", response);
           this.props.setCustomState("tweetsByRecent", response.data.tweets);
         },
         (error) => {
@@ -116,7 +117,7 @@ export default class UserInput extends Component {
   render() {
     return (
       <div className="user-input">
-        <Box>
+        <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
           <form onSubmit={this.search}>
             <div className="flex-container">
               <TextField

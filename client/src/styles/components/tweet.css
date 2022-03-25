@@ -21,6 +21,12 @@
   margin: 10px;*/
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
+.tweet .avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 48px;
+  height: 48px;
+}
 .tweet .public-metrics {
   position: absolute;
   bottom: 20px;

@@ -17,10 +17,11 @@ module.exports = {
       //"-is": "retweet",
       //"-filter": "replies",
       expansions:
-        "in_reply_to_user_id,referenced_tweets.id,attachments.media_keys",
+        "in_reply_to_user_id,referenced_tweets.id,attachments.media_keys,author_id",
       max_results: 100,
       "tweet.fields": "public_metrics,created_at",
       "media.fields": "preview_image_url,url",
+      "user.fields": "profile_image_url",
     };
 
     try {
@@ -55,10 +56,12 @@ module.exports = {
     const { userId } = req.body;
 
     const params = {
-      expansions: "attachments.media_keys",
+      expansions: "attachments.media_keys,author_id",
       "tweet.fields": "public_metrics,created_at",
       "media.fields": "preview_image_url,url",
+      "user.fields": "profile_image_url",
       exclude: "replies,retweets",
+      max_results: 20,
     };
 
     try {
