@@ -154,7 +154,7 @@ export default class Tweets extends Component {
               this.props.setCustomState("backdropToggle", true);
             }}
           >
-            <img src={mediaUrl} alt={tweet.text} />
+            <img src={mediaUrl} alt={tweet.text} loading="lazy" />
           </Box>
         )}
 
