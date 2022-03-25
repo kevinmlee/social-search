@@ -5,7 +5,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 // components
 import Tweets from "./components/Tweets";
 
-export default class Dashboard extends Component {
+export default class Dash extends Component {
   /*
   constructor(props) {
     super(props);

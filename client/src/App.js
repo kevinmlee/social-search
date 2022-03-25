@@ -15,7 +15,7 @@ import "./styles/main.css";
 
 // components
 import Header from "./views/Header";
-import Dashboard from "./views/Dashboard";
+import Dash from "./views/Dash";
 
 export default class App extends Component {
   constructor(props) {
@@ -80,7 +80,7 @@ export default class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/">
-              <Dashboard state={this.state} setAppState={this.setAppState} />
+              <Dash state={this.state} setAppState={this.setAppState} />
             </Route>
           </Switch>
         </Router>
