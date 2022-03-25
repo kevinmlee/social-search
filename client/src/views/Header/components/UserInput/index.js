@@ -16,27 +16,20 @@ export default class UserInput extends Component {
 
     this.state = {
       search: "",
-      previousSearchQuery: "",
-
-      twitterResults: [],
-      twitterUserID: "",
-
-      searchQueryBlankError: false,
     };
   }
 
-  componentDidMount = async () => {
-    this.setState({ search: "" });
-  };
+  componentDidMount = async () => {};
 
   handleChange = async (event) => {
     const NAME = event.target.name;
     const VALUE = event.target.value;
 
     if (NAME === "search" && VALUE !== "")
-      this.setState({ searchQueryBlankError: false });
+      await this.props.setAppState("searchQueryBlankError", false);
 
-    this.setState({ [NAME]: VALUE.toString() });
+    //await this.props.setAppState(NAME, VALUE.toString());
+    await this.setState({ [NAME]: VALUE });
   };
 
   oneWord = (string) => {
@@ -48,18 +41,23 @@ export default class UserInput extends Component {
   search = async (e) => {
     e.preventDefault();
 
+    //console.log("search query: ", this.state.search);
+
     if (this.state.search === "") {
-      this.setState({ searchQueryBlankError: true });
+      this.props.setAppState("searchQueryBlankError", true);
     } else {
-      this.props.setCustomState("searchQuery", this.state.search);
-      this.props.setCustomState("username", "");
-      this.props.setCustomState("tweetsByUserId", [{ data: [], includes: [] }]);
-      this.props.setCustomState("tweetsByRecent", [{ data: [], includes: [] }]);
+      this.props.setAppState("searchQuery", this.state.search);
+      this.props.setAppState("username", "");
+      this.props.setAppState("tweetsByUserId", [{ data: [], includes: [] }]);
+      this.props.setAppState("tweetsByRecent", [{ data: [], includes: [] }]);
 
       if (this.oneWord(this.state.search)) {
         // if search query is a username (has @ symbol in front), remove symbol and continue to get user
         if (this.state.search.charAt(0) === "@")
-          await this.setState({ search: this.state.search.substring(1) });
+          await this.props.setAppState(
+            "searchQuery",
+            this.state.search.substring(1)
+          );
 
         const userFound = await this.searchByUsername();
         if (userFound) await this.getTweetsByUserID();
@@ -67,7 +65,8 @@ export default class UserInput extends Component {
       await this.searchByRecent();
     }
 
-    await this.setState({ previousSearchQuery: this.state.search, search: "" });
+    await this.props.setAppState("previousSearchQuery", this.state.search);
+    await this.setState({ search: "" });
   };
 
   searchByUsername = async (e) => {
@@ -76,15 +75,18 @@ export default class UserInput extends Component {
         searchQuery: this.state.search,
       })
       .then(
-        (response) => {
-          //onsole.log("searchByUsername", response);
+        async (response) => {
+          //console.log("searchByUsername", response);
           if (response.data.error) return false;
           else {
-            this.setState({ twitterUserID: response.data.twitterResults.id });
-            this.props.setCustomState(
+            await this.setState({
+              twitterUserID: response.data.twitterResults.id,
+            });
+            await this.props.setAppState(
               "twitterUser",
               response.data.twitterResults
             );
+
             return true;
           }
         },
@@ -102,7 +104,7 @@ export default class UserInput extends Component {
       .then(
         (response) => {
           //console.log("getTweetsByUserID", response);
-          this.props.setCustomState("tweetsByUserId", response.data.tweets);
+          this.props.setAppState("tweetsByUserId", response.data.tweets);
         },
         (error) => {
           console.log(error);
@@ -118,7 +120,7 @@ export default class UserInput extends Component {
       .then(
         (response) => {
           //console.log("searchByRecent", response);
-          this.props.setCustomState("tweetsByRecent", response.data.tweets);
+          this.props.setAppState("tweetsByRecent", response.data.tweets);
         },
         (error) => {
           console.log(error);
@@ -144,13 +146,6 @@ export default class UserInput extends Component {
             />
           </form>
         </Box>
-
-        {this.state.searchQueryBlankError && (
-          <Alert severity="error">
-            Search query cannot be blank. Please enter a search query and try
-            again.
-          </Alert>
-        )}
       </div>
     );
   }

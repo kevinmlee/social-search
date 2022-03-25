@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Box, Container, Backdrop } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import TwitterIcon from "@mui/icons-material/Twitter";
 
 // components
-import UserInput from "./components/UserInput";
 import Tweets from "./components/Tweets";
 
 export default class Dashboard extends Component {
+  /*
   constructor(props) {
     super(props);
 
@@ -20,46 +20,24 @@ export default class Dashboard extends Component {
       backdropImage: "",
       backdropToggle: false,
     };
-  }
-
-  componentDidMount = async () => {};
-
-  setCustomState = async (name, value) => {
-    await this.setState({ [name]: value });
-  };
-
-  toggle = (state) => {
-    this.setState({ [state]: !this.state[state] });
-  };
-
-  imageBackdrop = () => {
-    return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={() => this.toggle("backdropToggle")}
-        onClick={() => this.toggle("backdropToggle")}
-      >
-        <img src={this.state.backdropImage} alt="" />
-      </Backdrop>
-    );
-  };
+  }*/
 
   render() {
     return (
-      <Container id="dashboard" maxWidth="xl">
-        <UserInput setCustomState={this.setCustomState} />
+      <Container id="dashboard" maxWidth="xl" sx={{ marginTop: 8 }}>
+        {this.props.state.previousSearchQuery && (
+          <Box className="previous-search-query" sx={{ paddingTop: 3 }}>
+            <Typography variant="overline" sx={{ color: "#999999" }}>
+              Results for '{this.props.state.previousSearchQuery}'
+            </Typography>
+          </Box>
+        )}
 
         <Box className="media-tabs">
           <TwitterIcon sx={{ color: "#1DA1F2", fontSize: "50px" }} />
         </Box>
 
-        <Tweets
-          setCustomState={this.setCustomState}
-          searchQuery={this.state.searchQuery}
-          twitterUser={this.state.twitterUser}
-          tweetsByUserId={this.state.tweetsByUserId}
-          tweetsByRecent={this.state.tweetsByRecent}
-        />
+        <Tweets setAppState={this.props.setAppState} state={this.props.state} />
 
         {/* 
         other APIs to use
@@ -68,8 +46,6 @@ export default class Dashboard extends Component {
         reddit
         
         */}
-
-        {this.state.backdropToggle && this.imageBackdrop()}
       </Container>
     );
   }

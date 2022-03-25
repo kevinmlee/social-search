@@ -70,11 +70,11 @@ export default class Tweets extends Component {
     let user = {};
 
     if (type === "userTweets") {
-      user = this.props.tweetsByUserId["includes"]["users"].filter(
+      user = this.props.state.tweetsByUserId["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
     } else if (type === "recent")
-      user = this.props.tweetsByRecent["includes"]["users"].filter(
+      user = this.props.state.tweetsByRecent["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
     return user[0];
@@ -89,11 +89,11 @@ export default class Tweets extends Component {
       let mediaKey = tweet.attachments.media_keys[0];
 
       if (type === "userTweets") {
-        media = this.props.tweetsByUserId["includes"]["media"].filter(
+        media = this.props.state.tweetsByUserId["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
       } else if (type === "recent")
-        media = this.props.tweetsByRecent["includes"]["media"].filter(
+        media = this.props.state.tweetsByRecent["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
 
@@ -150,8 +150,8 @@ export default class Tweets extends Component {
             className="media"
             sx={{ marginTop: 2 }}
             onClick={() => {
-              this.props.setCustomState("backdropImage", mediaUrl);
-              this.props.setCustomState("backdropToggle", true);
+              this.props.setAppState("backdropImage", mediaUrl);
+              this.props.setAppState("backdropToggle", true);
             }}
           >
             <img src={mediaUrl} alt={tweet.text} loading="lazy" />
@@ -194,7 +194,7 @@ export default class Tweets extends Component {
           <Tooltip
             title={
               "Most recent tweets of the week related to '" +
-              this.props.searchQuery +
+              this.props.state.searchQuery +
               "'"
             }
           >
@@ -210,7 +210,7 @@ export default class Tweets extends Component {
           <Tooltip
             title={
               "Popular tweets of the week related to '" +
-              this.props.searchQuery +
+              this.props.state.searchQuery +
               "'"
             }
           >
@@ -223,10 +223,11 @@ export default class Tweets extends Component {
             </Button>
           </Tooltip>
 
-          {this.props.tweetsByUserId["data"] && (
+          {this.props.state.tweetsByUserId["data"] && (
             <Tooltip
               title={
-                "Most recent tweets by @" + this.props.twitterUser.username
+                "Most recent tweets by @" +
+                this.props.state.twitterUser.username
               }
             >
               <Button
@@ -234,7 +235,7 @@ export default class Tweets extends Component {
                 onClick={this.changeTab}
                 data-tab="userTweets"
               >
-                @{this.props.twitterUser.username}
+                @{this.props.state.twitterUser.username}
               </Button>
             </Tooltip>
           )}
@@ -247,8 +248,8 @@ export default class Tweets extends Component {
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
-              {this.props.tweetsByUserId["data"] &&
-                this.props.tweetsByUserId["data"]
+              {this.props.state.tweetsByUserId["data"] &&
+                this.props.state.tweetsByUserId["data"]
                   .slice(0, 50)
                   .map((tweet, index) => {
                     return this.tweet(tweet, "userTweets");
@@ -264,8 +265,8 @@ export default class Tweets extends Component {
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
-              {this.props.tweetsByRecent["data"] &&
-                this.props.tweetsByRecent["data"]
+              {this.props.state.tweetsByRecent["data"] &&
+                this.props.state.tweetsByRecent["data"]
                   .slice(0, 50)
                   .map((tweet, index) => {
                     return this.tweet(tweet, "recent");
@@ -281,8 +282,8 @@ export default class Tweets extends Component {
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
-              {this.props.tweetsByRecent["data"] &&
-                this.sortByPopularity(this.props.tweetsByRecent["data"])
+              {this.props.state.tweetsByRecent["data"] &&
+                this.sortByPopularity(this.props.state.tweetsByRecent["data"])
                   .slice(0, 50)
                   .map((tweet, index) => {
                     return this.tweet(tweet, "recent");

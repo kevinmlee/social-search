@@ -1,20 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  AppBar,
-  Box,
-  ButtonGroup,
-  Button,
-  Menu,
-  MenuItem,
-  Paper,
-  Grid,
-  Typography,
-  Tooltip,
-  Toolbar,
-  IconButton,
-  InputBase,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton } from "@mui/material";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,17 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import UserInput from "./components/UserInput";
 
 export default class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  componentDidMount = async () => {};
-
   render() {
-    //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
-
     return (
       <Box sx={{ flexGrow: 1, marginTop: "50px" }}>
         <AppBar position="fixed" sx={{ display: { md: "flex" } }}>
@@ -58,7 +34,7 @@ export default class Header extends Component {
                   left: "8px",
                 }}
               />
-              <UserInput />
+              <UserInput setAppState={this.props.setAppState} />
             </Box>
 
             <Box sx={{ flexGrow: 1 }} />
@@ -77,6 +53,7 @@ export default class Header extends Component {
             </Box>
           </Toolbar>
         </AppBar>
+
         {/*renderMobileMenu*/}
         {/*renderMenu*/}
       </Box>

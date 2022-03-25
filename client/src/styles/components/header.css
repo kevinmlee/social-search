@@ -6,6 +6,9 @@
     ) !important;
     background-color: rgba(26, 32, 39, 1) !important;
   }
+  header .search {
+    width: 100%;
+  }
   header .search-input input {
     color: #fff;
   }
