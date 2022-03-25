@@ -39,6 +39,7 @@ export default class UserInput extends Component {
 
   search = async (e) => {
     e.preventDefault();
+    await this.props.setAppState("loadingBackdrop", true);
 
     //console.log("search query: ", this.state.search);
     await this.props.setAppState("previousSearchQuery", this.state.search);
@@ -67,6 +68,7 @@ export default class UserInput extends Component {
       await this.redditSearchHot();
     }
 
+    await this.props.setAppState("loadingBackdrop", false);
     await this.setState({ search: "" });
   };
 
