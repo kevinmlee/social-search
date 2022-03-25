@@ -3,6 +3,13 @@ import axios from "axios";
 
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 
+/*
+TODO
+
+- implement debounce for search, limit users from making too many requests
+- trim excess white space from search query (begining and end of string)
+*/
+
 export default class UserInput extends Component {
   constructor(props) {
     super(props);
