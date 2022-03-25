@@ -166,9 +166,6 @@ export default class Tweets extends Component {
 
   render() {
     //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
-    const twitterResultsByPopularity = this.sortByPopularity(
-      this.props.tweetsByRecent["data"]
-    );
 
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
@@ -252,10 +249,12 @@ export default class Tweets extends Component {
         {this.state.popular && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry className="tweets" columns={2} spacing={2}>
-              {twitterResultsByPopularity &&
-                twitterResultsByPopularity.slice(0, 50).map((tweet, index) => {
-                  return this.tweet(tweet, "recent");
-                })}
+              {this.props.tweetsByRecent["data"] &&
+                this.sortByPopularity(this.props.tweetsByRecent["data"])
+                  .slice(0, 50)
+                  .map((tweet, index) => {
+                    return this.tweet(tweet, "recent");
+                  })}
             </Masonry>
           </Box>
         )}

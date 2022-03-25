@@ -47,6 +47,10 @@ export default class UserInput extends Component {
       this.props.setCustomState("tweetsByRecent", [{ data: [], includes: [] }]);
 
       if (this.oneWord(this.state.search)) {
+        // if search query is a username (has @ symbol in front), remove symbol and continue to get user
+        if (this.state.search.charAt(0) === "@")
+          await this.setState({ search: this.state.search.substring(1) });
+
         const userFound = await this.searchByUsername();
         if (userFound) await this.getTweetsByUserID();
       }
@@ -61,7 +65,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          console.log("searchByUsername", response);
+          //onsole.log("searchByUsername", response);
           if (response.data.error) return false;
           else {
             this.setState({ twitterUserID: response.data.twitterResults.id });
