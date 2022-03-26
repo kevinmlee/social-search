@@ -207,9 +207,7 @@ export default class Twitter extends Component {
     );
   };
 
-  render() {
-    //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
-
+  displayTweets = () => {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
         <ButtonGroup variant="outlined" aria-label="outlined button group">
@@ -313,6 +311,30 @@ export default class Twitter extends Component {
             </Masonry>
           </Box>
         )}
+      </Box>
+    );
+  };
+
+  displayErrorMessage = () => {
+    return (
+      <Box sx={{ paddingTop: 8, paddingBottom: 4 }}>
+        <Typography variant="h5">Hmm. Something went wrong.</Typography>
+        <Typography variant="body1" sx={{ paddingTop: 2 }}>
+          We could not retreive tweets for "{this.props.state.searchQuery}".
+          Check other platforms for more results or try a different search
+          query.
+        </Typography>
+      </Box>
+    );
+  };
+  render() {
+    //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
+
+    return (
+      <Box>
+        {this.props.state.twitterError
+          ? this.displayErrorMessage()
+          : this.displayTweets()}
       </Box>
     );
   }

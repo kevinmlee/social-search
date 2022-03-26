@@ -39,6 +39,7 @@ export default class App extends Component {
       tweetsByUserId: [{ data: [], includes: [] }],
       tweetsByRecent: [{ data: [], includes: [] }],
       twitterUser: {},
+      twitterError: false,
 
       // reddit
       redditHot: [],

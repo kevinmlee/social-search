@@ -68,10 +68,10 @@ export default class UserInput extends Component {
             this.state.search.substring(1)
           );
 
-        const userFound = await this.searchByUsername();
+        const userFound = await this.twitterSearchByUsername();
         if (userFound) await this.getTweetsByUserID();
       }
-      await this.searchByRecent();
+      await this.twitterSearchByRecent();
       await this.redditSearchNew();
       await this.redditSearchHot();
     }
@@ -80,7 +80,7 @@ export default class UserInput extends Component {
     await this.setState({ search: "" });
   };
 
-  searchByUsername = async (e) => {
+  twitterSearchByUsername = async (e) => {
     return await axios
       .put("/twitter/search/username", {
         searchQuery: this.state.search,
@@ -124,14 +124,18 @@ export default class UserInput extends Component {
       );
   };
 
-  searchByRecent = async (e) => {
+  twitterSearchByRecent = async (e) => {
     return await axios
       .put("/twitter/search", {
         searchQuery: this.state.search,
       })
       .then(
         (response) => {
-          //console.log("searchByRecent", response);
+          console.log("searchByRecent", response);
+
+          if ("error" in response.data)
+            this.props.setAppState("twitterError", true);
+
           this.props.setAppState("tweetsByRecent", response.data.tweets);
         },
         (error) => {
