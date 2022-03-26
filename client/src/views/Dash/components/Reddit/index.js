@@ -13,6 +13,7 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import { Masonry } from "@mui/lab";
 
@@ -21,12 +22,28 @@ export default class Tweets extends Component {
     super(props);
 
     this.state = {
+      filterToggle: false,
+
       recent: true,
       popular: false,
     };
+
+    this.wrapperRef = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = () => {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  };
+
+  componentWillUnmount = () => {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  };
+
+  handleClickOutside = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
+      this.setState({ filterToggle: false });
+  };
 
   changeTab = (event) => {
     const tab = event.target.getAttribute("data-tab");
@@ -35,6 +52,12 @@ export default class Tweets extends Component {
       this.setState({ recent: true, popular: false, userTweets: false });
     else if (tab === "popular")
       this.setState({ recent: false, popular: true, userTweets: false });
+
+    this.setState({ filterToggle: false });
+  };
+
+  toggle = async (state) => {
+    await this.setState({ [state]: !this.state[state] });
   };
 
   htmlDecode = (input) => {
@@ -210,40 +233,34 @@ export default class Tweets extends Component {
   render() {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Box>
-          <ButtonGroup variant="outlined" aria-label="outlined button group">
-            <Tooltip
-              title={
-                "Most recent posts related to '" +
-                this.props.state.searchQuery +
-                "'"
-              }
+        <Box className="filter">
+          <div
+            className="active-display"
+            onClick={() => this.toggle("filterToggle")}
+          >
+            <span className="active-filter">Filter</span>
+            <TuneRoundedIcon />
+          </div>
+          <ul
+            class={"filter-options " + (this.state.filterToggle && "active")}
+            ref={this.wrapperRef}
+          >
+            <li>All</li>
+            <li
+              className={this.state.recent ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="recent"
             >
-              <Button
-                className={this.state.recent ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="recent"
-              >
-                Recent
-              </Button>
-            </Tooltip>
-
-            <Tooltip
-              title={
-                "Popular posts related to '" +
-                this.props.state.searchQuery +
-                "'"
-              }
+              Recent
+            </li>
+            <li
+              className={this.state.popular ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="popular"
             >
-              <Button
-                className={this.state.popular ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="popular"
-              >
-                Hot
-              </Button>
-            </Tooltip>
-          </ButtonGroup>
+              Hot
+            </li>
+          </ul>
         </Box>
 
         {this.state.recent && (

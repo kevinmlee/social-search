@@ -15,19 +15,39 @@ import { Masonry } from "@mui/lab";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import LoopIcon from "@mui/icons-material/Loop";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 export default class Twitter extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      filterToggle: false,
+
       recent: true,
       popular: false,
       userTweets: false,
     };
+    this.wrapperRef = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = () => {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  };
+
+  componentWillUnmount = () => {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  };
+
+  handleClickOutside = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
+      this.setState({ filterToggle: false });
+  };
+
+  toggle = async (state) => {
+    await this.setState({ [state]: !this.state[state] });
+  };
 
   changeTab = (event) => {
     const tab = event.target.getAttribute("data-tab");
@@ -38,6 +58,8 @@ export default class Twitter extends Component {
       this.setState({ recent: false, popular: true, userTweets: false });
     else if (tab === "userTweets")
       this.setState({ recent: false, popular: false, userTweets: true });
+
+    this.setState({ filterToggle: false });
   };
 
   decodeText = (string) => {
@@ -210,56 +232,44 @@ export default class Twitter extends Component {
   displayTweets = () => {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <ButtonGroup variant="outlined" aria-label="outlined button group">
-          <Tooltip
-            title={
-              "Most recent tweets of the week related to '" +
-              this.props.state.searchQuery +
-              "'"
-            }
+        <Box className="filter">
+          <div
+            className="active-display"
+            onClick={() => this.toggle("filterToggle")}
           >
-            <Button
+            <span className="active-filter">Filter</span>
+            <TuneRoundedIcon />
+          </div>
+          <ul
+            class={"filter-options " + (this.state.filterToggle && "active")}
+            ref={this.wrapperRef}
+          >
+            <li>All</li>
+            {this.props.state.tweetsByUserId["data"] && (
+              <li
+                className={this.state.popular ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="userTweets"
+              >
+                @{this.props.state.twitterUser.username}
+              </li>
+            )}
+            <li
               className={this.state.recent ? "active" : ""}
               onClick={this.changeTab}
               data-tab="recent"
             >
               Recent
-            </Button>
-          </Tooltip>
-
-          <Tooltip
-            title={
-              "Popular tweets of the week related to '" +
-              this.props.state.searchQuery +
-              "'"
-            }
-          >
-            <Button
+            </li>
+            <li
               className={this.state.popular ? "active" : ""}
               onClick={this.changeTab}
               data-tab="popular"
             >
               Popular
-            </Button>
-          </Tooltip>
-
-          {this.props.state.tweetsByUserId["data"] && (
-            <Tooltip
-              title={
-                "Most recent tweets by @" +
-                this.props.state.twitterUser.username
-              }
-            >
-              <Button
-                className={this.state.userTweets ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="userTweets"
-              >
-                @{this.props.state.twitterUser.username}
-              </Button>
-            </Tooltip>
-          )}
-        </ButtonGroup>
+            </li>
+          </ul>
+        </Box>
 
         {this.state.userTweets && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
