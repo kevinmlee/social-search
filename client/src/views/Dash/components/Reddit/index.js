@@ -90,7 +90,8 @@ export default class Tweets extends Component {
     return (
       <Paper elevation={3} className="reddit-post" key={post.data.id}>
         <a
-          href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
+          //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
+          href={"https://reddit.com" + post.data.permalink}
           target="_blank"
           rel="noopener noreferrer"
         >
