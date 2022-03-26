@@ -42,14 +42,14 @@ export default class Dash extends Component {
           </Box>
         )}
 
-        {this.props.state.twitter && (
+        {this.props.state.twitter && this.props.state.previousSearchQuery && (
           <Twitter
             setAppState={this.props.setAppState}
             state={this.props.state}
           />
         )}
 
-        {this.props.state.reddit && (
+        {this.props.state.reddit && this.props.state.previousSearchQuery && (
           <Reddit
             setAppState={this.props.setAppState}
             state={this.props.state}
