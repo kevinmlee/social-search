@@ -36,7 +36,7 @@ export default class Dash extends Component {
             data-aos-duration="1000"
           >
             <Typography variant="h3">Hello</Typography>
-            <Typography variant="h6" sx={{ paddingTop: 1 }}>
+            <Typography variant="body1" sx={{ paddingTop: 1 }}>
               Search for a person or topic to get started.
             </Typography>
           </Box>
