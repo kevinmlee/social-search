@@ -3,7 +3,6 @@ header.top {
   box-shadow: none !important;
 }
 header {
-  padding-left: 200px;
   padding-top: 35px;
   padding-bottom: 35px;
   transition: linear all 0.2s !important;
@@ -47,6 +46,9 @@ header .search input {
 }
 
 @media screen and (min-width: 769px) {
+  header {
+    padding-left: 200px;
+  }
   header .menu-button {
     display: none;
   }

@@ -4,9 +4,11 @@
   left: 0;
   top: 0;
   height: 100%;
+  width: 200px;
+  transition: margin-left ease-in-out 0.3s;
 }
 .sidebar.expanded {
-  width: 200px;
+  margin-left: 0;
 }
 
 .sidebar .logo {
@@ -81,5 +83,16 @@
   }
   .sidebar .menu-item.active:before {
     background-color: #000000;
+  }
+}
+
+@media screen and (min-width: 769x) {
+  .sidebar {
+    margin-left: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .sidebar {
+    margin-left: -200px;
   }
 }

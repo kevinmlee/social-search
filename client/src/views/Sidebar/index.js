@@ -6,9 +6,35 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 
 export default class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.wrapperRef = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount = () => {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  };
+
+  componentWillUnmount = () => {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  };
+
+  handleClickOutside = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+      this.props.setAppState("sidebar", false);
+      //alert("You clicked outside of me!");
+    }
+  };
+
   render() {
     return (
-      <Box className="sidebar expanded" sx={{}}>
+      <Box
+        className={"sidebar " + (this.props.state.sidebar && "expanded")}
+        ref={this.wrapperRef}
+        sx={{}}
+      >
         <div className="logo">
           <HdrStrongIcon sx={{ fontSize: "50px" }} />
         </div>

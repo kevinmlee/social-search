@@ -24,6 +24,7 @@ export default class Header extends Component {
               color="inherit"
               aria-label="open drawer"
               sx={{ mr: 2 }}
+              onClick={() => this.props.toggle("sidebar")}
             >
               <MenuIcon className="menu-btn" />
             </IconButton>

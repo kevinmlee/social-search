@@ -27,6 +27,7 @@ export default class App extends Component {
       scrollStatus: "",
 
       // sidebar
+      sidebar: false,
       twitter: true,
       reddit: false,
 
@@ -73,6 +74,8 @@ export default class App extends Component {
       this.setState({ twitter: false, reddit: true, instagram: false });
     else if (tab === "instagram")
       this.setState({ twitter: false, reddit: false, instagram: true });
+
+    this.setState({ sidebar: false });
   };
 
   setAppState = async (name, value) => {
@@ -132,16 +135,21 @@ export default class App extends Component {
   render() {
     return (
       <Box>
-        <Header state={this.state} setAppState={this.setAppState} />
+        <Header
+          state={this.state}
+          setAppState={this.setAppState}
+          toggle={this.toggle}
+        />
         <Sidebar
           state={this.state}
           setAppState={this.setAppState}
           changeTab={this.changeTab}
+          toggle={this.toggle}
         />
 
         {this.alerts()}
 
-        <div id="main-content" className="expanded">
+        <div id="main-content">
           <Router>
             <Switch>
               <Route exact path="/">
