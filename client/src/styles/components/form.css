@@ -45,7 +45,6 @@
 @media (prefers-color-scheme: light) {
   .search-input input {
     border-color: #eaeaea;
-    background-color: #fff;
     border: 1px solid #eaeaea;
   }
 }
