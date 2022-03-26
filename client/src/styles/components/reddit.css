@@ -69,8 +69,8 @@
   .reddit-post {
     border: none !important;
     background-image: linear-gradient(
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.05)
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0.02)
     ) !important;
     background-color: rgba(26, 32, 39, 1) !important;
     color: #ffffff !important;

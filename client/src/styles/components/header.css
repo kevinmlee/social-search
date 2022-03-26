@@ -20,6 +20,9 @@ header.sticky .search input {
 header .search {
   width: 100%;
 }
+header .search input {
+  font-family: "Poppins", sans-serif;
+}
 
 @media (prefers-color-scheme: dark) {
   header {
