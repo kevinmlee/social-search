@@ -89,11 +89,45 @@ div#app > * > * {
   margin: 0;
   width: 100%;
 }
-
 @media screen and (min-width: 769px) {
   #main-content {
     width: calc(100% - 200px);
     margin-left: 200px;
+  }
+}
+
+.back-to-top {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+    0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 5;
+}
+.back-to-top > * {
+  top: 50%;
+  transform: translateY(-50%);
+  position: relative;
+  font-size: 35px;
+}
+@media (prefers-color-scheme: dark) {
+  .back-to-top {
+    background-image: linear-gradient(
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0.02)
+    ) !important;
+    background-color: rgba(26, 32, 39, 1);
+    color: #ffffff;
+  }
+}
+@media (prefers-color-scheme: light) {
+  .back-to-top {
+    background-color: #ffffff;
   }
 }
 

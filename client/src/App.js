@@ -10,6 +10,7 @@ import {
 //import "react-notifications-component/dist/theme.css";
 
 import { Alert, Backdrop, Box, CircularProgress } from "@mui/material";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 import "./styles/main.css";
 
@@ -30,6 +31,9 @@ export default class App extends Component {
       sidebar: false,
       twitter: true,
       reddit: false,
+
+      // back to top button
+      backToTop: false,
 
       // twitter
       tweetsByUserId: [{ data: [], includes: [] }],
@@ -55,9 +59,11 @@ export default class App extends Component {
   componentDidMount = () => {
     window.addEventListener("scroll", () => {
       let scrollStatus = "sticky";
+      let backToTop = false;
       if (window.scrollY === 0) scrollStatus = "top";
+      if (window.scrollY > 600) backToTop = true;
 
-      this.setState({ scrollStatus });
+      this.setState({ scrollStatus, backToTop });
     });
   };
 
@@ -84,6 +90,13 @@ export default class App extends Component {
 
   toggle = (state) => {
     this.setState({ [state]: !this.state[state] });
+  };
+
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   alerts = () => {
@@ -132,6 +145,14 @@ export default class App extends Component {
     );
   };
 
+  backToTopButton = () => {
+    return (
+      <div className="back-to-top" onClick={() => this.scrollToTop()}>
+        <KeyboardArrowUpIcon />
+      </div>
+    );
+  };
+
   render() {
     return (
       <Box>
@@ -161,6 +182,7 @@ export default class App extends Component {
 
         {this.state.backdropToggle && this.imageBackdrop()}
         {this.state.loadingBackdrop && this.loadingBackdrop()}
+        {this.state.backToTop && this.backToTopButton()}
       </Box>
     );
   }
