@@ -185,6 +185,7 @@ export default class UserInput extends Component {
               size="small"
               placeholder="Search"
               // defaultValue={this.state.search}
+              spellCheck="false"
               onChange={this.handleChange}
               fullWidth={true}
             />
