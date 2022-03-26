@@ -59,15 +59,9 @@ body .dark-theme {
   color: #ffffff;
 }
 
-/*
-#root,
-#root > *,
-div#app,
-div#app > *,
-div#app > * > * {
-  height: 100%;
+[role="tooltip"] {
+  z-index: 9991 !important;
 }
-*/
 
 #main-content {
   min-height: 100%;
