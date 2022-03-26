@@ -48,6 +48,7 @@ export default class Tweets extends Component {
     if ("secure_media" in post.data) {
       if (post.data.secure_media) {
         if ("reddit_video" in post.data.secure_media) {
+          //console.log(post.data);
           return (
             <Box className="reddit-video" sx={{ marginTop: 2 }}>
               <video
@@ -73,7 +74,7 @@ export default class Tweets extends Component {
           );
 
           return (
-            <Box className="youtube-video">
+            <Box className="youtube-video" sx={{ marginTop: 2 }}>
               <div
                 dangerouslySetInnerHTML={{
                   __html: this.htmlDecode(updatedString),
