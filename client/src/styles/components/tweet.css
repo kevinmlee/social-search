@@ -5,12 +5,6 @@
 .tweets > * {
   transition: ease-in-out transform 0.2s !important;
 }
-.tweets > *:hover {
-  transform: translateY(-5px);
-}
-.tweets > *:hover {
-  background-color: rgba(29, 161, 242, 0.1) !important;
-}
 
 .tweet {
   position: relative;
@@ -88,5 +82,14 @@
   }
   .tweet .public-metrics svg {
     fill: #888888;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .tweets > *:hover {
+    transform: translateY(-5px);
+  }
+  .tweets > *:hover {
+    background-color: rgba(29, 161, 242, 0.1) !important;
   }
 }

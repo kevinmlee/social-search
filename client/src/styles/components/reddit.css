@@ -5,12 +5,6 @@
 .reddit-posts > * {
   transition: ease-in-out transform 0.2s !important;
 }
-.reddit-posts > *:hover {
-  transform: translateY(-5px);
-}
-.reddit-posts > *:hover {
-  background-color: rgba(29, 161, 242, 0.1) !important;
-}
 
 .reddit-post {
   position: relative;
@@ -94,5 +88,14 @@
   }
   .reddit-post .details .subreddit {
     color: #000000;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .reddit-posts > *:hover {
+    transform: translateY(-5px);
+  }
+  .reddit-posts > *:hover {
+    background-color: rgba(29, 161, 242, 0.1) !important;
   }
 }

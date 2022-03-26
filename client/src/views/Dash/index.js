@@ -23,10 +23,21 @@ export default class Dash extends Component {
   render() {
     return (
       <Container id="dashboard" maxWidth="xl">
-        {this.props.state.previousSearchQuery && (
+        {this.props.state.previousSearchQuery ? (
           <Box className="previous-search-query" sx={{ paddingTop: 2 }}>
             <Typography variant="h4" sx={{ color: "#999999" }}>
               Results for '{this.props.state.previousSearchQuery}'
+            </Typography>
+          </Box>
+        ) : (
+          <Box
+            className="welcome-message"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+          >
+            <Typography variant="h3">Hello</Typography>
+            <Typography variant="h6" sx={{ paddingTop: 1 }}>
+              Search for a person or topic to get started.
             </Typography>
           </Box>
         )}
