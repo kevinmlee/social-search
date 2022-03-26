@@ -67,7 +67,7 @@ export default class Tweets extends Component {
           );
 
           return (
-            <Box className="youtube-video" sx={{ marginTop: 2 }}>
+            <Box className="youtube-video">
               <div
                 dangerouslySetInnerHTML={{
                   __html: this.htmlDecode(updatedString),
