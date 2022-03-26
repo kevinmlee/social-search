@@ -89,44 +89,47 @@ export default class Tweets extends Component {
   post = (post) => {
     return (
       <Paper elevation={3} className="reddit-post" key={post.data.id}>
-        <Box container>
-          <Box className="details" sx={{ marginBottom: 1 }}>
-            <span style={{ color: "#ffffff" }}>
-              <a
-                href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {post.data.subreddit_name_prefixed}
-              </a>
-            </span>{" "}
-            <span style={{ color: "#999999" }}> · </span>
-            <span style={{ color: "#999999" }}>
+        <a
+          href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Box
+            className="details"
+            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
+          >
+            <div style={{ color: "#ffffff" }}>
+              {post.data.subreddit_name_prefixed}
+            </div>
+            <Typography variant="caption" style={{ color: "#999999" }}>
               Posted by {post.data.author}
-            </span>
+            </Typography>
             <span style={{ color: "#999999" }}> · </span>
             <Typography variant="caption" style={{ color: "#999999" }}>
               {moment.unix(post.data.created).utc().fromNow()}
             </Typography>
           </Box>
-        </Box>
+        </a>
 
-        <Box className="post-text" sx={{ marginTop: 2 }}>
-          <a
-            href={"https://reddit.com" + post.data.permalink}
-            target="_blank"
-            rel="noopener noreferrer"
+        <a
+          href={"https://reddit.com" + post.data.permalink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Box
+            className="post-text"
+            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
           >
             <Typography variant="body1">{post.data.title}</Typography>
-          </a>
-        </Box>
+          </Box>
+        </a>
 
         {this.getVideo(post)
           ? this.getVideo(post)
           : this.getPreviewImage(post) && (
               <Box
                 className="media"
-                sx={{ marginTop: 2 }}
+                sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
                 onClick={() => {
                   this.props.setAppState(
                     "backdropImage",
@@ -135,51 +138,60 @@ export default class Tweets extends Component {
                   this.props.setAppState("backdropToggle", true);
                 }}
               >
-                <img
-                  src={this.getPreviewImage(post)}
-                  alt={post.data.title}
-                  loading="lazy"
-                />
+                <div className="media-image">
+                  <img
+                    src={this.getPreviewImage(post)}
+                    alt={post.data.title}
+                    loading="lazy"
+                  />
+                </div>
               </Box>
             )}
 
-        <Grid
-          className="public-metrics"
-          container
-          spacing={2}
-          xs={12}
-          sx={{ paddingTop: 4 }}
+        <a
+          href={"https://reddit.com" + post.data.permalink}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <Typography
-            className="metric flex-container"
-            variant="overline"
-            sx={{ paddingRight: 4 }}
-            style={{ color: "#999999" }}
+          <Box
+            className="public-metrics"
+            container
+            spacing={2}
+            xs={12}
+            sx={{
+              padding: 2,
+            }}
           >
-            <ThumbUpIcon />
-            <span>{post.data.ups}</span>
-          </Typography>
+            <Typography
+              className="metric flex-container"
+              variant="overline"
+              sx={{ paddingRight: 4 }}
+              style={{ color: "#999999" }}
+            >
+              <ThumbUpIcon />
+              <span>{post.data.ups}</span>
+            </Typography>
 
-          <Typography
-            className="metric flex-container"
-            variant="overline"
-            sx={{ paddingRight: 4 }}
-            style={{ color: "#999999" }}
-          >
-            <ChatBubbleIcon />
-            {post.data.num_comments}
-          </Typography>
+            <Typography
+              className="metric flex-container"
+              variant="overline"
+              sx={{ paddingRight: 4 }}
+              style={{ color: "#999999" }}
+            >
+              <ChatBubbleIcon />
+              {post.data.num_comments}
+            </Typography>
 
-          <Typography
-            className="metric flex-container"
-            variant="overline"
-            sx={{ paddingRight: 4 }}
-            style={{ color: "#999999" }}
-          >
-            <EmojiEventsIcon />
-            {post.data.total_awards_received}
-          </Typography>
-        </Grid>
+            <Typography
+              className="metric flex-container"
+              variant="overline"
+              style={{ color: "#999999" }}
+            >
+              <EmojiEventsIcon />
+              {post.data.total_awards_received}
+            </Typography>
+          </Box>
+        </a>
       </Paper>
     );
   };

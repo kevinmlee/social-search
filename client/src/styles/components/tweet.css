@@ -16,10 +16,13 @@
   position: relative;
   border: 1px solid #eaeaea;
   border-radius: 8px;
-  padding: 20px 20px 65px;
-  /*width: calc(100% / 2 - 20px);
+  /*padding: 20px 20px 50px;
+  width: calc(100% / 2 - 20px);
   margin: 10px;*/
   background-color: rgba(0, 0, 0, 0.1) !important;
+}
+.tweet a {
+  display: block;
 }
 .tweet .avatar {
   border-radius: 50%;
@@ -28,9 +31,6 @@
   height: 48px;
 }
 .tweet .public-metrics {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
   display: flex;
 }
 .tweet .public-metrics .metric > *:first-child {
@@ -43,7 +43,7 @@
 .tweet .tweet-text a {
   color: #000000;
 }
-.tweet .media {
+.tweet .media-image {
   max-height: 375px;
   overflow: hidden;
   border-radius: 8px;
@@ -52,7 +52,7 @@
   justify-content: center;
   align-items: center;
 }
-.tweet .media img {
+.tweet .media-image img {
   height: auto;
   margin: auto;
   cursor: -moz-zoom-in;
@@ -70,7 +70,7 @@
     background-color: rgba(26, 32, 39, 1) !important;
     color: #ffffff !important;
   }
-  .tweet .tweet-text a {
+  .tweet a {
     color: #ffffff;
   }
 }

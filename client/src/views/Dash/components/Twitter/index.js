@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 
 import {
+  Container,
   Box,
   ButtonGroup,
   Button,
@@ -110,11 +111,15 @@ export default class Twitter extends Component {
     return (
       <Paper elevation={3} className="tweet" key={tweet.id}>
         <a
-          href={"https://twitter.com/" + user.username}
+          href={"https://twitter.com/twitter/status/" + tweet.id}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
+          >
             <Grid item sx={{ width: "60px" }}>
               <div className="avatar">
                 <img
@@ -123,8 +128,9 @@ export default class Twitter extends Component {
                 />
               </div>
             </Grid>
+
             <Grid item xs={10}>
-              <Box className="author" sx={{ marginBottom: 1 }}>
+              <Box className="author" sx={{ paddingBottom: 1 }}>
                 <Typography variant="h6" style={{ color: "#ffffff" }}>
                   {user.name}
                 </Typography>{" "}
@@ -136,55 +142,62 @@ export default class Twitter extends Component {
               </Box>
             </Grid>
           </Grid>
-        </a>
 
-        <Box className="tweet-text" sx={{ marginTop: 2 }}>
-          <a
-            href={"https://twitter.com/twitter/status/" + tweet.id}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Box className="tweet-text" sx={{ padding: 2 }}>
             <Typography variant="body1">{tweet.text}</Typography>
-          </a>
-        </Box>
+          </Box>
+        </a>
 
         {mediaUrl && (
           <Box
             className="media"
-            sx={{ marginTop: 2 }}
+            sx={{ paddingBottom: 2, paddingLeft: 2, paddingRight: 2 }}
             onClick={() => {
               this.props.setAppState("backdropImage", mediaUrl);
               this.props.setAppState("backdropToggle", true);
             }}
           >
-            <img src={mediaUrl} alt={tweet.text} loading="lazy" />
+            <div className="media-image">
+              <img src={mediaUrl} alt={tweet.text} loading="lazy" />
+            </div>
           </Box>
         )}
 
-        <Box className="public-metrics" container spacing={2} xs={12}>
-          {tweet.public_metrics && (
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              sx={{ paddingRight: 4 }}
-              style={{ color: "#999999" }}
-            >
-              <ThumbUpIcon />
-              {tweet.public_metrics.like_count}
-            </Typography>
-          )}
+        <a
+          href={"https://twitter.com/twitter/status/" + tweet.id}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Box
+            className="public-metrics"
+            container
+            spacing={2}
+            sx={{ paddingLeft: 2, paddingRight: 2, paddingBottom: 2 }}
+          >
+            {tweet.public_metrics && (
+              <Typography
+                className="metric flex-container"
+                variant="overline"
+                sx={{ paddingRight: 4 }}
+                style={{ color: "#999999" }}
+              >
+                <ThumbUpIcon />
+                {tweet.public_metrics.like_count}
+              </Typography>
+            )}
 
-          {tweet.public_metrics && (
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              style={{ color: "#999999" }}
-            >
-              <LoopIcon />
-              {tweet.public_metrics.retweet_count}
-            </Typography>
-          )}
-        </Box>
+            {tweet.public_metrics && (
+              <Typography
+                className="metric flex-container"
+                variant="overline"
+                style={{ color: "#999999" }}
+              >
+                <LoopIcon />
+                {tweet.public_metrics.retweet_count}
+              </Typography>
+            )}
+          </Box>
+        </a>
       </Paper>
     );
   };
