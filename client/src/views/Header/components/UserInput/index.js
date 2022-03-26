@@ -131,7 +131,7 @@ export default class UserInput extends Component {
       })
       .then(
         (response) => {
-          console.log("searchByRecent", response);
+          //console.log("searchByRecent", response);
 
           if ("error" in response.data)
             this.props.setAppState("twitterError", true);
