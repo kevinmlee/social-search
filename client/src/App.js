@@ -15,6 +15,7 @@ import "./styles/main.css";
 
 // components
 import Header from "./views/Header";
+import Sidebar from "./views/Sidebar";
 import Dash from "./views/Dash";
 
 export default class App extends Component {
@@ -22,6 +23,13 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      // header
+      scrollStatus: "",
+
+      // sidebar
+      twitter: true,
+      reddit: false,
+
       // twitter
       tweetsByUserId: [{ data: [], includes: [] }],
       tweetsByRecent: [{ data: [], includes: [] }],
@@ -43,7 +51,29 @@ export default class App extends Component {
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = () => {
+    window.addEventListener("scroll", () => {
+      let scrollStatus = "sticky";
+      if (window.scrollY === 0) scrollStatus = "top";
+
+      this.setState({ scrollStatus });
+    });
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("scroll");
+  };
+
+  changeTab = (event) => {
+    const tab = event.target.getAttribute("data-tab");
+
+    if (tab === "twitter")
+      this.setState({ twitter: true, reddit: false, instagram: false });
+    else if (tab === "reddit")
+      this.setState({ twitter: false, reddit: true, instagram: false });
+    else if (tab === "instagram")
+      this.setState({ twitter: false, reddit: false, instagram: true });
+  };
 
   setAppState = async (name, value) => {
     await this.setState({ [name]: value });
@@ -103,16 +133,23 @@ export default class App extends Component {
     return (
       <Box>
         <Header state={this.state} setAppState={this.setAppState} />
+        <Sidebar
+          state={this.state}
+          setAppState={this.setAppState}
+          changeTab={this.changeTab}
+        />
 
         {this.alerts()}
 
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <Dash state={this.state} setAppState={this.setAppState} />
-            </Route>
-          </Switch>
-        </Router>
+        <div id="main-content" className="expanded">
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Dash state={this.state} setAppState={this.setAppState} />
+              </Route>
+            </Switch>
+          </Router>
+        </div>
 
         {this.state.backdropToggle && this.imageBackdrop()}
         {this.state.loadingBackdrop && this.loadingBackdrop()}

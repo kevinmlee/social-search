@@ -1,18 +1,27 @@
 .search-input {
   width: 100%;
-  max-width: 375px;
+  max-width: 500px;
+  border-radius: 16px;
+  overflow: hidden;
 }
 .search-input input {
-  padding: 8px 8px 8px 40px;
+  padding: 8px 8px 8px 60px;
+  height: 45px;
+  border-radius: 16px;
+  font-size: 16px;
 }
 .search-input input::placeholder {
-  font-size: 14px;
+  font-size: 16px;
 }
 .search-input .MuiFilledInput-root::after {
   border: none;
 }
 .search-input .MuiFilledInput-root:before {
-  border: none;
+  border: none !important;
+}
+.search .search-icon {
+  font-size: 30px;
+  left: 16px;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -12,9 +12,13 @@ export default class Header extends Component {
   render() {
     return (
       <Box sx={{ flexGrow: 1, marginTop: "50px" }}>
-        <AppBar position="fixed" sx={{ display: { md: "flex" } }}>
+        <AppBar
+          className={"expanded " + this.props.state.scrollStatus}
+          sx={{ display: { md: "flex" } }}
+        >
           <Toolbar>
             <IconButton
+              className="menu-button"
               size="large"
               edge="start"
               color="inherit"
@@ -36,26 +40,8 @@ export default class Header extends Component {
               />
               <UserInput setAppState={this.props.setAppState} />
             </Box>
-
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                //aria-controls={menuId}
-                aria-haspopup="true"
-                //onClick={}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Box>
           </Toolbar>
         </AppBar>
-
-        {/*renderMobileMenu*/}
-        {/*renderMenu*/}
       </Box>
     );
   }
