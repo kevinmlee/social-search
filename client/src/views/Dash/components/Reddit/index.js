@@ -245,7 +245,7 @@ export default class Tweets extends Component {
             class={"filter-options " + (this.state.filterToggle && "active")}
             ref={this.wrapperRef}
           >
-            <li>All</li>
+            {/*<li>All</li>*/}
             <li
               className={this.state.recent ? "active" : ""}
               onClick={this.changeTab}

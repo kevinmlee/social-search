@@ -236,7 +236,7 @@ export default class Twitter extends Component {
             class={"filter-options " + (this.state.filterToggle && "active")}
             ref={this.wrapperRef}
           >
-            <li>All</li>
+            {/*<li>All</li>*/}
             {this.props.state.tweetsByUserId["data"] && (
               <li
                 className={this.state.popular ? "active" : ""}
