@@ -52,9 +52,8 @@
   .filter .active-display {
     border: 1px solid #22303c;
   }
-  .filter .active-display:hover {
-    background-color: rgba(0, 0, 0, 0.09);
-  }
+
+  .filter .active-display:hover,
   .filter .filter-options > *:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
@@ -63,6 +62,17 @@
 @media (prefers-color-scheme: light) {
   .filter .active-display,
   .filter .filter-options {
+    background-color: #ffffff;
+  }
+
+  .filter .active-display {
     border: 1px solid #eaeaea;
+  }
+  .filter .active-display:hover,
+  .filter .filter-options > *:hover {
+    background-color: #faf8f4;
+  }
+   {
+    background-color: #faf8f4;
   }
 }
