@@ -21,7 +21,7 @@ export default class Header extends Component {
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <MenuIcon className="menu-btn" />
             </IconButton>
 
             <Box className="search" sx={{ position: "relative" }}>

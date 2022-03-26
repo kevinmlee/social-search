@@ -88,6 +88,17 @@ export default class App extends Component {
     );
   };
 
+  initialSearchBackdrop = () => {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={() => this.toggle("loadingBackdrop")}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    );
+  };
+
   render() {
     return (
       <Box>

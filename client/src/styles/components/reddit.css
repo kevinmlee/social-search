@@ -37,7 +37,9 @@
 .reddit-post .post-text {
   position: relative;
   z-index: 1;
+  overflow-wrap: break-word;
 }
+
 .reddit-post .post-text a {
   color: #000000;
 }
@@ -75,5 +77,21 @@
   }
   .reddit-post a {
     color: #ffffff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .reddit-post {
+    border: none !important;
+    color: #000000 !important;
+  }
+  .reddit-post a {
+    color: #000000;
+  }
+  .reddit-post .public-metrics svg {
+    fill: #888888;
+  }
+  .reddit-post .details .subreddit {
+    color: #000000;
   }
 }

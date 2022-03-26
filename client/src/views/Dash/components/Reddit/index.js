@@ -98,9 +98,7 @@ export default class Tweets extends Component {
             className="details"
             sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
           >
-            <div style={{ color: "#ffffff" }}>
-              {post.data.subreddit_name_prefixed}
-            </div>
+            <div className="subreddit">{post.data.subreddit_name_prefixed}</div>
             <Typography variant="caption" style={{ color: "#999999" }}>
               Posted by {post.data.author}
             </Typography>

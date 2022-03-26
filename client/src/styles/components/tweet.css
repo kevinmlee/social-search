@@ -39,6 +39,7 @@
 .tweet .tweet-text {
   position: relative;
   z-index: 1;
+  overflow-wrap: break-word;
 }
 .tweet .tweet-text a {
   color: #000000;
@@ -72,5 +73,19 @@
   }
   .tweet a {
     color: #ffffff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .tweet {
+    border: none !important;
+    color: #000000 !important;
+  }
+  .tweet a,
+  .tweet .author h6 {
+    color: #000000 !important;
+  }
+  .tweet .public-metrics svg {
+    fill: #888888;
   }
 }
