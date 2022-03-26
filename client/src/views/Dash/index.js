@@ -22,7 +22,7 @@ export default class Dash extends Component {
 
   render() {
     return (
-      <Container id="dashboard" maxWidth="xl">
+      <Container id="dashboard" maxWidth="100%">
         {this.props.state.previousSearchQuery ? (
           <Box className="previous-search-query" sx={{ paddingTop: 2 }}>
             <Typography variant="h4" sx={{ color: "#999999" }}>
