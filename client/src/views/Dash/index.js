@@ -24,8 +24,8 @@ export default class Dash extends Component {
     return (
       <Container id="dashboard" maxWidth="xl">
         {this.props.state.previousSearchQuery && (
-          <Box className="previous-search-query" sx={{ paddingTop: 3 }}>
-            <Typography variant="overline" sx={{ color: "#999999" }}>
+          <Box className="previous-search-query" sx={{ paddingTop: 2 }}>
+            <Typography variant="h4" sx={{ color: "#999999" }}>
               Results for '{this.props.state.previousSearchQuery}'
             </Typography>
           </Box>

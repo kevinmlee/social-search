@@ -15,7 +15,7 @@
 .reddit-post {
   position: relative;
   border: 1px solid #eaeaea;
-  border-radius: 8px;
+  border-radius: 12px !important;
   /*padding: 20px;
   width: calc(100% / 2 - 20px);
   margin: 10px;*/
@@ -84,6 +84,7 @@
   .reddit-post {
     border: none !important;
     color: #000000 !important;
+    background-color: #ffffff !important;
   }
   .reddit-post a {
     color: #000000;

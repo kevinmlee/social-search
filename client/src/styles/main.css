@@ -442,7 +442,7 @@ h1,
 h2,
 .h2,
 .MuiTypography-root.h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 24px;
   letter-spacing: -0.13px;
@@ -450,12 +450,11 @@ h2,
 h3,
 .h3,
 .MuiTypography-root.h3 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #858585;
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.27px;
-  text-transform: uppercase;
 }
 .MuiTypography-h5 {
   font-weight: 500 !important;
@@ -463,7 +462,7 @@ h3,
 
 .MuiTypography-root,
 .MuiTableCell-root {
-  font-family: "IBM Plex Sans", sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .MuiTypography-root.MuiTypography-h6 {
