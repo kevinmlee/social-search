@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 
-import { Box, Paper, Grid, Typography } from "@mui/material";
+import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
 
 import { Masonry } from "@mui/lab";
 
@@ -239,11 +239,15 @@ export default class Twitter extends Component {
             {/*<li>All</li>*/}
             {this.props.state.tweetsByUserId["data"] && (
               <li
-                className={this.state.popular ? "active" : ""}
+                className={this.state.userTweets ? "active" : ""}
                 onClick={this.changeTab}
                 data-tab="userTweets"
               >
                 @{this.props.state.twitterUser.username}
+                <Radio
+                  checked={this.state.userTweets && "checked"}
+                  size="small"
+                />
               </li>
             )}
             <li
@@ -252,6 +256,7 @@ export default class Twitter extends Component {
               data-tab="recent"
             >
               Recent
+              <Radio checked={this.state.recent && "checked"} size="small" />
             </li>
             <li
               className={this.state.popular ? "active" : ""}
@@ -259,6 +264,7 @@ export default class Twitter extends Component {
               data-tab="popular"
             >
               Popular
+              <Radio checked={this.state.popular && "checked"} size="small" />
             </li>
           </ul>
         </Box>

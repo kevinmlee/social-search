@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
   Tooltip,
+  Radio,
 } from "@mui/material";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -252,6 +253,7 @@ export default class Tweets extends Component {
               data-tab="recent"
             >
               Recent
+              <Radio checked={this.state.recent && "checked"} size="small" />
             </li>
             <li
               className={this.state.popular ? "active" : ""}
@@ -259,6 +261,7 @@ export default class Tweets extends Component {
               data-tab="popular"
             >
               Hot
+              <Radio checked={this.state.popular && "checked"} size="small" />
             </li>
           </ul>
         </Box>

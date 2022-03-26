@@ -40,6 +40,18 @@
   padding: 14px 20px;
   cursor: pointer;
   transition: ease-in-out all 0.3s;
+  position: relative;
+}
+.filter .filter-options .filter-name {
+  position: relative;
+  z-index: 1;
+}
+.filter .filter-options .MuiRadio-root {
+  padding: 0;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -57,6 +69,9 @@
   .filter .filter-options > *:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
+  .filter .MuiRadio-root svg {
+    fill: #38444f;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -71,5 +86,8 @@
   .filter .active-display:hover,
   .filter .filter-options > *:hover {
     background-color: #faf8f4;
+  }
+  .filter .MuiRadio-root svg {
+    fill: #999999;
   }
 }
