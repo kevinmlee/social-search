@@ -107,7 +107,7 @@ export default class Tweets extends Component {
         >
           <Box
             className="details"
-            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
+            sx={{ paddingTop: 3, paddingLeft: 2, paddingRight: 2 }}
           >
             <div className="subreddit">{post.data.subreddit_name_prefixed}</div>
             <Typography variant="caption" style={{ color: "#999999" }}>

@@ -108,6 +108,10 @@ div#app > * > * {
   text-align: center;
   cursor: pointer;
   z-index: 5;
+  transition: ease-in-out transform 0.2s !important;
+}
+.back-to-top:hover {
+  transform: translateY(-5px);
 }
 .back-to-top > * {
   top: 50%;
