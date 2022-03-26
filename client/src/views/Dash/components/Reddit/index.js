@@ -50,7 +50,13 @@ export default class Tweets extends Component {
         if ("reddit_video" in post.data.secure_media) {
           return (
             <Box className="reddit-video" sx={{ marginTop: 2 }}>
-              <video preload="none" width="100%" height="240" controls>
+              <video
+                preload="none"
+                width="100%"
+                height="240"
+                controls
+                poster={this.getPreviewImage(post)}
+              >
                 <source
                   src={post.data.secure_media.reddit_video.fallback_url}
                   type="video/mp4"
