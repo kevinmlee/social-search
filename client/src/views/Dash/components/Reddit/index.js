@@ -8,7 +8,6 @@ import {
   Paper,
   Typography,
   Tooltip,
-  Grid,
 } from "@mui/material";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -42,6 +41,10 @@ export default class Tweets extends Component {
     var e = document.createElement("div");
     e.innerHTML = input;
     return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+  };
+
+  decodeText = (string) => {
+    return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
   };
 
   getVideo = (post) => {
@@ -126,7 +129,9 @@ export default class Tweets extends Component {
             className="post-text"
             sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
           >
-            <Typography variant="body1">{post.data.title}</Typography>
+            <Typography variant="body1">
+              {this.decodeText(post.data.title)}
+            </Typography>
           </Box>
         </a>
 

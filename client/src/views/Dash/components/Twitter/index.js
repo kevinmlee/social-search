@@ -41,6 +41,10 @@ export default class Twitter extends Component {
       this.setState({ recent: false, popular: false, userTweets: true });
   };
 
+  decodeText = (string) => {
+    return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
+  };
+
   filterTweets = (tweets) => {
     // remove retweets
     const removedRetweets = tweets.filter(
@@ -144,7 +148,9 @@ export default class Twitter extends Component {
           </Grid>
 
           <Box className="tweet-text" sx={{ padding: 2 }}>
-            <Typography variant="body1">{tweet.text}</Typography>
+            <Typography variant="body1">
+              {this.decodeText(tweet.text)}
+            </Typography>
           </Box>
         </a>
 
