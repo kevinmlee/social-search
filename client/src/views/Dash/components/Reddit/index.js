@@ -57,7 +57,7 @@ export default class Tweets extends Component {
               <video
                 preload="none"
                 width="100%"
-                height="240"
+                height="auto"
                 controls
                 poster={this.getPreviewImage(post)}
               >

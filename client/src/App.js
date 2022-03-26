@@ -68,7 +68,7 @@ export default class App extends Component {
   };
 
   componentWillUnmount = () => {
-    window.removeEventListener("scroll");
+    window.removeEventListener("scroll", null);
   };
 
   changeTab = (event) => {
