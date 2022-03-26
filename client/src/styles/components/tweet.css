@@ -93,3 +93,13 @@
     background-color: rgba(29, 161, 242, 0.1) !important;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .tweets {
+    margin: 0 !important;
+  }
+  .tweet {
+    width: 100% !important;
+    margin: 8px 0 !important;
+  }
+}

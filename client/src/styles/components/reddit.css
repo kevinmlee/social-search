@@ -99,3 +99,13 @@
     background-color: rgba(29, 161, 242, 0.1) !important;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .reddit-posts {
+    margin: 0 !important;
+  }
+  .reddit-post {
+    margin: 15px 0px !important;
+    width: 100% !important;
+  }
+}
