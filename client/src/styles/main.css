@@ -123,17 +123,22 @@ body .dark-theme {
 }
 @media (prefers-color-scheme: dark) {
   .back-to-top {
+    /*
     background-image: linear-gradient(
       rgba(255, 255, 255, 0.02),
       rgba(255, 255, 255, 0.02)
     ) !important;
     background-color: rgba(26, 32, 39, 1);
     color: #ffffff;
+    */
+    background-color: #ffffff;
+    color: rgba(26, 32, 39, 1);
   }
 }
 @media (prefers-color-scheme: light) {
   .back-to-top {
-    background-color: #ffffff;
+    background-color: #000000;
+    color: #ffffff;
   }
 }
 

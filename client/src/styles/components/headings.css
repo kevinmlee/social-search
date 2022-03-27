@@ -8,3 +8,11 @@
     color: #fff;
   }
 }
+
+@media screen and (max-width: 768px) {
+  h4,
+  .h4,
+  .MuiTypography-root.h4 {
+    font-size: 20px !important;
+  }
+}
