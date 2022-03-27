@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { Box, Container, Typography } from "@mui/material";
 
-import TwitterIcon from "@mui/icons-material/Twitter";
-import RedditIcon from "@mui/icons-material/Reddit";
-
 // components
 import Twitter from "./components/Twitter";
 import Reddit from "./components/Reddit";
+import Trends from "./components/Trends";
 
 export default class Dash extends Component {
   /*
@@ -56,12 +54,18 @@ export default class Dash extends Component {
           />
         )}
 
+        {this.props.state.trends && this.props.state.previousSearchQuery && (
+          <Trends
+            setAppState={this.props.setAppState}
+            state={this.props.state}
+          />
+        )}
+
         {/* 
         other APIs to use
 
         instagram
-       
-        
+
         */}
       </Container>
     );

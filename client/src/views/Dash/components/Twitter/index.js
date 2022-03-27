@@ -26,6 +26,17 @@ export default class Twitter extends Component {
 
   componentDidMount = () => {
     document.addEventListener("mousedown", this.handleClickOutside);
+
+    /*
+    console.log("twitterUser", this.props.state.twitterUser);
+    if (
+      this.props.state.twitterUser && // 👈 null and undefined check
+      Object.keys(this.props.state.twitterUser).length === 0 &&
+      Object.getPrototypeOf(this.props.state.twitterUser) === Object.prototype
+    )
+      console.log("Twitter user not found");
+    else console.log("Twitter user found");
+    */
   };
 
   componentWillUnmount = () => {
@@ -233,7 +244,9 @@ export default class Twitter extends Component {
             <TuneRoundedIcon />
           </div>
           <ul
-            class={"filter-options " + (this.state.filterToggle && "active")}
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
             ref={this.wrapperRef}
           >
             {/*<li>All</li>*/}

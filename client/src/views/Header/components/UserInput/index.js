@@ -74,6 +74,9 @@ export default class UserInput extends Component {
       await this.twitterSearchByRecent();
       await this.redditSearchNew();
       await this.redditSearchHot();
+
+      //await this.instagramTopSearch();
+      await this.interestOverTime();
     }
 
     await this.props.setAppState("loadingBackdrop", false);
@@ -169,6 +172,38 @@ export default class UserInput extends Component {
         (response) => {
           // console.log("reddit search", response.data.data.children);
           this.props.setAppState("redditHot", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  instagramTopSearch = async (e) => {
+    return await axios
+      .put("/instagram/topSearch", {
+        searchQuery: this.state.search,
+      })
+      .then(
+        (response) => {
+          console.log("ig top search", response);
+          //this.props.setAppState("redditHot", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  interestOverTime = async (e) => {
+    return await axios
+      .put("/google/interestOverTime", {
+        searchQuery: this.state.search,
+      })
+      .then(
+        (response) => {
+          console.log("google trends", JSON.parse(response.data));
+          this.props.setAppState("interestOverTime", JSON.parse(response.data));
         },
         (error) => {
           console.log(error);

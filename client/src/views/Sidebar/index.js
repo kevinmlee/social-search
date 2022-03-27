@@ -4,6 +4,8 @@ import { Box } from "@mui/material";
 import HdrStrongIcon from "@mui/icons-material/HdrStrong";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import SsidChartIcon from "@mui/icons-material/SsidChart";
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -56,6 +58,7 @@ export default class Sidebar extends Component {
               Twitter
             </span>
           </div>
+
           <div
             className={"menu-item " + (this.props.state.reddit ? "active" : "")}
             onClick={this.props.changeTab}
@@ -68,6 +71,38 @@ export default class Sidebar extends Component {
             />
             <span onClick={this.props.changeTab} data-tab="reddit">
               Reddit
+            </span>
+          </div>
+
+          {/*<div
+            className={
+              "menu-item " + (this.props.state.instagram ? "active" : "")
+            }
+            onClick={this.props.changeTab}
+            data-tab="instagram"
+          >
+            <InstagramIcon
+              className="instagram-icon"
+              onClick={this.props.changeTab}
+              data-tab="instagram"
+            />
+            <span onClick={this.props.changeTab} data-tab="instagram">
+              Instagram
+            </span>
+          </div>*/}
+
+          <div
+            className={"menu-item " + (this.props.state.trends ? "active" : "")}
+            onClick={this.props.changeTab}
+            data-tab="trends"
+          >
+            <SsidChartIcon
+              className="trends-icon"
+              onClick={this.props.changeTab}
+              data-tab="trends"
+            />
+            <span onClick={this.props.changeTab} data-tab="trends">
+              Trends
             </span>
           </div>
         </div>

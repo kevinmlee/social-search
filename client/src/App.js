@@ -9,7 +9,7 @@ import {
 //import ReactNotification from "react-notifications-component";
 //import "react-notifications-component/dist/theme.css";
 
-import { Alert, Backdrop, Box, CircularProgress } from "@mui/material";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 import "./styles/main.css";
@@ -31,6 +31,8 @@ export default class App extends Component {
       sidebar: false,
       twitter: true,
       reddit: false,
+      instagram: false,
+      trends: false,
 
       // back to top button
       backToTop: false,
@@ -45,14 +47,18 @@ export default class App extends Component {
       redditHot: [],
       redditNew: [],
 
+      // google
+      interestOverTime: {},
+      interestByRegion: {},
+      relatedTopics: {},
+      relatedQueries: {},
+
       searchQuery: "",
       previousSearchQuery: "",
 
       backdropImage: "",
       backdropToggle: false,
-
       loadingBackdrop: false,
-
       searchQueryBlankError: false,
     };
   }
@@ -73,14 +79,13 @@ export default class App extends Component {
   };
 
   changeTab = (event) => {
-    const tab = event.target.getAttribute("data-tab");
+    const tabs = ["twitter", "reddit", "instagram", "trends"];
+    const selectedTab = event.target.getAttribute("data-tab");
 
-    if (tab === "twitter")
-      this.setState({ twitter: true, reddit: false, instagram: false });
-    else if (tab === "reddit")
-      this.setState({ twitter: false, reddit: true, instagram: false });
-    else if (tab === "instagram")
-      this.setState({ twitter: false, reddit: false, instagram: true });
+    tabs.forEach((tab) => {
+      if (tab === selectedTab) this.setState({ [tab]: true });
+      else this.setState({ [tab]: false });
+    });
 
     this.setState({ sidebar: false });
   };

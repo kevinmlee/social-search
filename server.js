@@ -4,6 +4,8 @@ const nodemailer = require("nodemailer");
 // Routes
 const TWITTER = require("./api/Twitter");
 const REDDIT = require("./api/Reddit");
+const INSTAGRAM = require("./api/Instagram");
+const GOOGLE = require("./api/Google");
 // const HUBSPOT = require("./api/HubSpot");
 // const MONGO = require("./api/MongoDB");
 
@@ -79,6 +81,21 @@ app.all("/twitter/get/tweets/id", TWITTER.getTweetsByUserId);
 /////////////////////////////////////////////
 
 app.all("/reddit/search", REDDIT.search);
+
+/////////////////////////////////////////////
+// Instagram
+/////////////////////////////////////////////
+
+app.all("/instagram/topSearch", INSTAGRAM.topSearch);
+
+/////////////////////////////////////////////
+// Google
+/////////////////////////////////////////////
+
+app.all("/google/interestOverTime", GOOGLE.interestOverTime);
+app.all("/google/interestByRegion", GOOGLE.interestByRegion);
+app.all("/google/relatedTopics", GOOGLE.relatedTopics);
+app.all("/google/relatedQueries", GOOGLE.relatedQueries);
 
 /////////////////////////////////////////////
 // Database API Routes
