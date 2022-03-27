@@ -16,8 +16,8 @@ export default class Twitter extends Component {
     this.state = {
       filterToggle: false,
 
-      recent: true,
-      popular: false,
+      recent: false,
+      popular: true,
       userTweets: false,
     };
     this.wrapperRef = React.createRef();
@@ -126,7 +126,7 @@ export default class Twitter extends Component {
     }
 
     return (
-      <Paper elevation={3} className="tweet" key={tweet.id}>
+      <Paper elevation={3} className="tweet post-card" key={tweet.id}>
         <a
           href={"https://twitter.com/twitter/status/" + tweet.id}
           target="_blank"

@@ -1,0 +1,13 @@
+/*
+.post-card {
+}
+
+@media screen and (max-width: 768px) {
+  .post-card {
+    display: none;
+  }
+  .post-card:nth-child(-n + 6) {
+    display: block;
+  }
+}
+*/

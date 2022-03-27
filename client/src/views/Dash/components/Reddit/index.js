@@ -25,8 +25,8 @@ export default class Tweets extends Component {
     this.state = {
       filterToggle: false,
 
-      recent: true,
-      popular: false,
+      recent: false,
+      popular: true,
     };
 
     this.wrapperRef = React.createRef();
@@ -122,7 +122,7 @@ export default class Tweets extends Component {
 
   post = (post) => {
     return (
-      <Paper elevation={3} className="reddit-post" key={post.data.id}>
+      <Paper elevation={3} className="reddit-post post-card" key={post.data.id}>
         <a
           //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
           href={"https://reddit.com" + post.data.permalink}

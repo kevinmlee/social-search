@@ -103,6 +103,7 @@
 @media screen and (max-width: 768px) {
   .reddit-posts {
     margin: 0 !important;
+    height: auto !important;
   }
   .reddit-post {
     margin: 15px 0px !important;

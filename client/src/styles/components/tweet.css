@@ -97,6 +97,7 @@
 @media screen and (max-width: 768px) {
   .tweets {
     margin: 0 !important;
+    height: auto !important;
   }
   .tweet {
     width: 100% !important;

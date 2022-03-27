@@ -97,6 +97,11 @@ body .dark-theme {
     margin-left: 200px;
   }
 }
+@media screen and (max-width: 768px) {
+  #main-content {
+    padding-top: 100px;
+  }
+}
 
 .back-to-top {
   position: fixed;
