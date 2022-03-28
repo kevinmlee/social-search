@@ -33,6 +33,7 @@ export default class Trends extends Component {
     };
 
     this.wrapperRef = React.createRef();
+
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
@@ -40,6 +41,7 @@ export default class Trends extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
 
     this.getInterestOverTime();
+
     this.getRelatedTopics();
     this.getRelatedQueries();
   };
@@ -122,7 +124,7 @@ export default class Trends extends Component {
           <Typography variant="h5" sx={{ paddingBottom: 2 }}>
             Interest over time
           </Typography>
-          <Line data={this.state.iotData} options={options} />
+          <Line id="iot" data={this.state.iotData} options={options} />
         </div>
       </Box>
     );
@@ -141,7 +143,7 @@ export default class Trends extends Component {
         async (response) => {
           const timelineData = JSON.parse(response.data).default.timelineData;
 
-          let data = {
+          let iotData = {
             labels: await this.generateLabels(timelineData),
             datasets: [
               {
@@ -149,12 +151,14 @@ export default class Trends extends Component {
                 data: await this.generateData(timelineData),
                 backgroundColor: "rgba(255, 255, 255, 1)",
                 borderColor: "rgba(255, 255, 255, 1)",
+                //backgroundColor: gradient,
+                pointBackgroundColor: "white",
                 borderWidth: 1,
               },
             ],
           };
 
-          await this.setState({ iotData: data });
+          await this.setState({ iotData });
         },
         (error) => {
           console.log(error);
@@ -226,7 +230,6 @@ export default class Trends extends Component {
   render() {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <h2>Trends</h2>
         {this.filters()}
 
         {"datasets" in this.state.iotData && this.interestOverTime()}
