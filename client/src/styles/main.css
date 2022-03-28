@@ -4,11 +4,13 @@
 @import url("./components/tweet.css");
 @import url("./components/reddit.css");
 
+@import url("./components/card.css");
 @import url("./components/form.css");
 @import url("./components/buttons.css");
 @import url("./components/headings.css");
 @import url("./components/dashboard.css");
 @import url("./components/filter.css");
+@import url("./components/trending.css");
 
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap");

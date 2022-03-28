@@ -243,7 +243,9 @@ export default class Tweets extends Component {
             <TuneRoundedIcon />
           </div>
           <ul
-            class={"filter-options " + (this.state.filterToggle && "active")}
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
             ref={this.wrapperRef}
           >
             {/*<li>All</li>*/}
