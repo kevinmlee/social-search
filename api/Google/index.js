@@ -5,10 +5,13 @@ const googleTrends = require("google-trends-api");
 
 module.exports = {
   interestOverTime: async function (req, res, next) {
-    const { searchQuery } = req.body;
+    const { searchQuery, startTime, endTime } = req.body;
 
     googleTrends
-      .interestOverTime({ keyword: searchQuery })
+      .interestOverTime({
+        keyword: searchQuery,
+        startTime: startTime,
+      })
       .then((results) => res.json(results))
       .catch((err) => res.json(err));
   },

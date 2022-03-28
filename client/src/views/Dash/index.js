@@ -54,7 +54,7 @@ export default class Dash extends Component {
           />
         )}
 
-        {this.props.state.trends && this.props.state.previousSearchQuery && (
+        {this.props.state.trends && (
           <Trends
             setAppState={this.props.setAppState}
             state={this.props.state}

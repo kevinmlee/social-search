@@ -89,7 +89,7 @@ export default class Sidebar extends Component {
             <span onClick={this.props.changeTab} data-tab="instagram">
               Instagram
             </span>
-          </div>*/}
+          </div>
 
           <div
             className={"menu-item " + (this.props.state.trends ? "active" : "")}
@@ -105,6 +105,7 @@ export default class Sidebar extends Component {
               Trends
             </span>
           </div>
+          */}
         </div>
       </Box>
     );
