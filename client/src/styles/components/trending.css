@@ -5,6 +5,7 @@
 }
 .trending-topics ul li {
   padding: 10px 0;
+  text-overflow: ellipsis;
 }
 
 @media (prefers-color-scheme: dark) {

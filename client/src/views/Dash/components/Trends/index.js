@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { Grid, Box, Paper, Typography, Radio } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Paper,
+  Typography,
+  Radio,
+  CircularProgress,
+} from "@mui/material";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import Chart from "chart.js/auto";
@@ -18,6 +25,8 @@ export default class Trends extends Component {
 
       trendingTopics: [],
       trendingQueries: [],
+
+      iotData: {},
 
       recent: false,
       popular: true,
@@ -104,25 +113,17 @@ export default class Trends extends Component {
       },
     };
 
-    let data = {
-      labels: [],
-      datasets: [
-        {
-          label: "# of Searches",
-          data: [],
-          backgroundColor: "rgba(255, 255, 255, 1)",
-          borderColor: "rgba(255, 255, 255, 1)",
-          borderWidth: 1,
-        },
-      ],
-    };
-
     return (
       <Box
         className="interest-over-time"
-        sx={{ marginTop: 4, marginBottom: 4 }}
+        sx={{ paddingTop: 4, paddingBottom: 2 }}
       >
-        <Line data={data} options={options} />
+        <div className="card">
+          <Typography variant="h5" sx={{ paddingBottom: 2 }}>
+            Interest over time
+          </Typography>
+          <Line data={this.state.iotData} options={options} />
+        </div>
       </Box>
     );
   };
@@ -131,26 +132,21 @@ export default class Trends extends Component {
     //console.log(new Date("2010-01-01").toISOString());
     return await axios
       .put("/google/interestOverTime", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: "valkyrae",
+        //searchQuery: this.props.state.previousSearchQuery,
         //startTime: new Date("2010-01-01").toISOString(),
         //endTime: new Date(Date.now()),
       })
       .then(
-        (response) => {
-          //console.log("response", response);
+        async (response) => {
           const timelineData = JSON.parse(response.data).default.timelineData;
 
-          //console.log(timelineData);
-          this.props.setAppState("interestOverTime", timelineData);
-
           let data = {
-            labels: this.generateLabels(timelineData),
-            //labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: await this.generateLabels(timelineData),
             datasets: [
               {
                 label: "# of Searches",
-                data: this.generateData(timelineData),
-                //data: [0, 0, 5, 2, 15],
+                data: await this.generateData(timelineData),
                 backgroundColor: "rgba(255, 255, 255, 1)",
                 borderColor: "rgba(255, 255, 255, 1)",
                 borderWidth: 1,
@@ -158,7 +154,7 @@ export default class Trends extends Component {
             ],
           };
 
-          this.setState({ iotData: data });
+          await this.setState({ iotData: data });
         },
         (error) => {
           console.log(error);
@@ -169,13 +165,16 @@ export default class Trends extends Component {
   getRelatedTopics = async (e) => {
     return await axios
       .put("/google/relatedTopics", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: "valkyrae",
+        //searchQuery: this.props.state.previousSearchQuery,
       })
       .then(
         (response) => {
           const rankedList = JSON.parse(response.data).default.rankedList;
+
           this.setState({
-            trendingTopics: rankedList[rankedList.length - 1].rankedKeyword,
+            //trendingTopics: rankedList[rankedList.length - 1].rankedKeyword,
+            trendingTopics: rankedList[0].rankedKeyword,
           });
         },
         (error) => {
@@ -187,13 +186,15 @@ export default class Trends extends Component {
   getRelatedQueries = async (e) => {
     return await axios
       .put("/google/relatedQueries", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: "valkyrae",
+        //searchQuery: this.props.state.previousSearchQuery,
       })
       .then(
         (response) => {
           const rankedList = JSON.parse(response.data).default.rankedList;
           this.setState({
-            trendingQueries: rankedList[rankedList.length - 1].rankedKeyword,
+            //trendingQueries: rankedList[rankedList.length - 1].rankedKeyword,
+            trendingQueries: rankedList[0].rankedKeyword,
           });
         },
         (error) => {
@@ -216,46 +217,10 @@ export default class Trends extends Component {
     let values = [];
 
     data.forEach((item) => {
-      values.push(item.value);
+      values.push(item.value[0]);
     });
 
     return values;
-  };
-
-  trendingTopics = () => {
-    return (
-      <Box className="trending-topics card">
-        <Typography variant="h5">Trending Topics</Typography>
-
-        <ul>
-          {this.state.trendingTopics.slice(0, 10).map((item, index) => {
-            return (
-              <li key={index}>
-                {index + 1} - {item.topic.title}
-              </li>
-            );
-          })}
-        </ul>
-      </Box>
-    );
-  };
-
-  trendingQueries = () => {
-    return (
-      <Box className="trending-topics card">
-        <Typography variant="h5">Trending Queries</Typography>
-
-        <ul>
-          {this.state.trendingQueries.slice(0, 10).map((item, index) => {
-            return (
-              <li key={index}>
-                {index + 1} - {item.query}
-              </li>
-            );
-          })}
-        </ul>
-      </Box>
-    );
   };
 
   render() {
@@ -263,14 +228,61 @@ export default class Trends extends Component {
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
         <h2>Trends</h2>
         {this.filters()}
-        {this.interestOverTime()}
 
-        <Grid container spacing={2} sx={{ paddingTop: 2 }}>
+        {"datasets" in this.state.iotData && this.interestOverTime()}
+
+        <Grid container spacing={2}>
           <Grid item xs={6}>
-            {this.trendingTopics()}
+            <Box className="trending-topics card">
+              <Typography variant="h5">Related Topics</Typography>
+
+              <ul>
+                {this.state.trendingTopics.slice(0, 10).map((item, index) => {
+                  return (
+                    <li key={index}>
+                      <Grid container spacing={2} sx={{ alignItems: "center" }}>
+                        <Grid item xs={1}>
+                          {index + 1}
+                        </Grid>
+                        <Grid item xs={9}>
+                          {item.topic.title} ({item.topic.type})
+                        </Grid>
+                        <Grid
+                          item
+                          xs={2}
+                          sx={{ textAlign: "right" }}
+                        >{`${item.value}%`}</Grid>
+                      </Grid>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Box>
           </Grid>
           <Grid item xs={6}>
-            {this.trendingQueries()}
+            <Box className="trending-topics card">
+              <Typography variant="h5">Related Queries</Typography>
+
+              <ul>
+                {this.state.trendingQueries.slice(0, 10).map((item, index) => {
+                  return (
+                    <li key={index}>
+                      <Grid container spacing={2} sx={{ alignItems: "center" }}>
+                        <Grid item xs={1}>
+                          {index + 1}
+                        </Grid>
+                        <Grid item xs={9}>
+                          {item.query}
+                        </Grid>
+                        <Grid item xs={2} sx={{ textAlign: "right" }}>
+                          {`${item.value}%`}
+                        </Grid>
+                      </Grid>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Box>
           </Grid>
         </Grid>
       </Box>
