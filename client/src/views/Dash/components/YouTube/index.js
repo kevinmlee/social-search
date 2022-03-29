@@ -39,9 +39,8 @@ export default class YouTube extends Component {
   componentDidMount = () => {
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    this.searchVideosRelevance();
-    this.searchVideosRating();
-    this.searchVideosDate();
+    if (!("items" in this.props.state.youtubeVideosRelevance))
+      this.searchVideosRelevance();
   };
 
   componentWillUnmount = () => {
@@ -63,6 +62,18 @@ export default class YouTube extends Component {
     });
 
     this.setState({ filterToggle: false });
+
+    // pull data from cooresponding API if not already pulled
+    if (
+      selectedTab === "rating" &&
+      !("items" in this.props.state.youtubeVideosRating)
+    )
+      this.searchVideosRating();
+    if (
+      selectedTab === "date" &&
+      !("items" in this.props.state.youtubeVideosDate)
+    )
+      this.searchVideosDate();
   };
 
   toggle = async (state) => {

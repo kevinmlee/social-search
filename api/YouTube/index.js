@@ -22,9 +22,10 @@ module.exports = {
 
         response.on("end", () => res.json(JSON.parse(data)));
       });
+
+      request.on("error", (e) => res.json(e));
     } catch (e) {
       res.json(e);
     }
-    //request.on("error", (e) => res.json(e));
   },
 };
