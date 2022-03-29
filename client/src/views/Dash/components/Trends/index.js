@@ -28,8 +28,9 @@ export default class Trends extends Component {
 
       iotData: {},
 
-      recent: false,
-      popular: true,
+      full: true,
+      twelveMonths: false,
+      sixMonths: false,
     };
 
     this.wrapperRef = React.createRef();
@@ -56,18 +57,42 @@ export default class Trends extends Component {
   };
 
   changeTab = (event) => {
-    const tab = event.target.getAttribute("data-tab");
+    const tabs = ["full, twelveMonths, sixMonths"];
+    const selectedTab = event.target.getAttribute("data-tab");
 
-    if (tab === "recent")
-      this.setState({ recent: true, popular: false, userTweets: false });
-    else if (tab === "popular")
-      this.setState({ recent: false, popular: true, userTweets: false });
+    tabs.forEach((tab) => {
+      if (tab === selectedTab) this.setState({ [tab]: true });
+      else this.setState({ [tab]: false });
+    });
 
     this.setState({ filterToggle: false });
+
+    this.iotFilter(selectedTab);
   };
 
   toggle = async (state) => {
     await this.setState({ [state]: !this.state[state] });
+  };
+
+  iotFilter = async (filter) => {
+    const currentDay = moment(new Date(Date.now())).format("MMM D YYYY");
+
+    let iotData = this.state.iotData;
+    let newIotDataset = [];
+
+    let filteredLabels = this.state.iotData.labels.filter((item, index) => {
+      if (moment(currentDay).diff(moment(item), "months", true) < 12)
+        newIotDataset.push(iotData.datasets[0].data[index]);
+
+      return moment(currentDay).diff(moment(item), "months", true) < 12;
+    });
+
+    iotData.labels = filteredLabels;
+    iotData.datasets[0].data = newIotDataset;
+
+    //console.log("newIotData", iotData);
+
+    await this.setState({ iotData });
   };
 
   filters = () => {
@@ -84,22 +109,32 @@ export default class Trends extends Component {
           className={"filter-options " + (this.state.filterToggle && "active")}
           ref={this.wrapperRef}
         >
-          {/*<li>All</li>*/}
           <li
-            className={this.state.recent ? "active" : ""}
+            className={this.state.full ? "active" : ""}
             onClick={this.changeTab}
-            data-tab="recent"
+            data-tab="full"
           >
-            Recent
-            <Radio checked={this.state.recent && "checked"} size="small" />
+            2004 - Present
+            <Radio checked={this.state.full && "checked"} size="small" />
           </li>
           <li
-            className={this.state.popular ? "active" : ""}
+            className={this.state.twelveMonths ? "active" : ""}
             onClick={this.changeTab}
-            data-tab="popular"
+            data-tab="twelveMonths"
           >
-            Hot
-            <Radio checked={this.state.popular && "checked"} size="small" />
+            Past 12 months
+            <Radio
+              checked={this.state.twelveMonths && "checked"}
+              size="small"
+            />
+          </li>
+          <li
+            className={this.state.sixMonths ? "active" : ""}
+            onClick={this.changeTab}
+            data-tab="sixMonths"
+          >
+            Past 6 months
+            <Radio checked={this.state.sixMonths && "checked"} size="small" />
           </li>
         </ul>
       </Box>
@@ -108,6 +143,11 @@ export default class Trends extends Component {
 
   interestOverTime = () => {
     let options = {
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
       scales: {
         y: {
           beginAtZero: true,
@@ -131,17 +171,19 @@ export default class Trends extends Component {
   };
 
   getInterestOverTime = async (e) => {
-    //console.log(new Date("2010-01-01").toISOString());
     return await axios
       .put("/google/interestOverTime", {
-        searchQuery: "valkyrae",
-        //searchQuery: this.props.state.previousSearchQuery,
+        //searchQuery: "valkyrae",
+        searchQuery: this.props.state.previousSearchQuery,
         //startTime: new Date("2010-01-01").toISOString(),
         //endTime: new Date(Date.now()),
+        //time: "today 12-m",
+        granularTimeResolution: true,
       })
       .then(
         async (response) => {
           const timelineData = JSON.parse(response.data).default.timelineData;
+          //console.log(timelineData);
 
           let iotData = {
             labels: await this.generateLabels(timelineData),
@@ -169,17 +211,20 @@ export default class Trends extends Component {
   getRelatedTopics = async (e) => {
     return await axios
       .put("/google/relatedTopics", {
-        searchQuery: "valkyrae",
-        //searchQuery: this.props.state.previousSearchQuery,
+        //searchQuery: "valkyrae",
+        searchQuery: this.props.state.previousSearchQuery,
       })
       .then(
         (response) => {
-          const rankedList = JSON.parse(response.data).default.rankedList;
+          // if response is as expected
+          if ("default" in JSON.parse(response.data)) {
+            const rankedList = JSON.parse(response.data).default.rankedList;
 
-          this.setState({
-            //trendingTopics: rankedList[rankedList.length - 1].rankedKeyword,
-            trendingTopics: rankedList[0].rankedKeyword,
-          });
+            this.setState({
+              //trendingTopics: rankedList[rankedList.length - 1].rankedKeyword,
+              trendingTopics: rankedList[0].rankedKeyword,
+            });
+          }
         },
         (error) => {
           console.log(error);
@@ -190,16 +235,19 @@ export default class Trends extends Component {
   getRelatedQueries = async (e) => {
     return await axios
       .put("/google/relatedQueries", {
-        searchQuery: "valkyrae",
-        //searchQuery: this.props.state.previousSearchQuery,
+        //searchQuery: "valkyrae",
+        searchQuery: this.props.state.previousSearchQuery,
       })
       .then(
         (response) => {
-          const rankedList = JSON.parse(response.data).default.rankedList;
-          this.setState({
-            //trendingQueries: rankedList[rankedList.length - 1].rankedKeyword,
-            trendingQueries: rankedList[0].rankedKeyword,
-          });
+          // if response is as expected
+          if ("default" in JSON.parse(response.data)) {
+            const rankedList = JSON.parse(response.data).default.rankedList;
+            this.setState({
+              //trendingQueries: rankedList[rankedList.length - 1].rankedKeyword,
+              trendingQueries: rankedList[0].rankedKeyword,
+            });
+          }
         },
         (error) => {
           console.log(error);
@@ -230,7 +278,7 @@ export default class Trends extends Component {
   render() {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        {this.filters()}
+        {/*this.filters()*/}
 
         {"datasets" in this.state.iotData && this.interestOverTime()}
 

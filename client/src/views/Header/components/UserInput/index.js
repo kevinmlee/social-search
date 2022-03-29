@@ -76,7 +76,7 @@ export default class UserInput extends Component {
       await this.redditSearchHot();
 
       //await this.instagramTopSearch();
-      await this.interestOverTime();
+      //await this.interestOverTime();
     }
 
     await this.props.setAppState("loadingBackdrop", false);
