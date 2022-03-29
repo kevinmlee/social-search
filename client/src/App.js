@@ -29,8 +29,8 @@ export default class App extends Component {
 
       // sidebar
       sidebar: false,
-      twitter: true,
-      reddit: false,
+      twitter: false,
+      reddit: true,
       instagram: false,
       trends: false,
 

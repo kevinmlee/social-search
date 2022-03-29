@@ -34,7 +34,6 @@ export default class Trends extends Component {
     };
 
     this.wrapperRef = React.createRef();
-
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
@@ -42,7 +41,6 @@ export default class Trends extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
 
     this.getInterestOverTime();
-
     this.getRelatedTopics();
     this.getRelatedQueries();
   };
@@ -66,7 +64,6 @@ export default class Trends extends Component {
     });
 
     this.setState({ filterToggle: false });
-
     this.iotFilter(selectedTab);
   };
 
@@ -91,7 +88,6 @@ export default class Trends extends Component {
     iotData.datasets[0].data = newIotDataset;
 
     //console.log("newIotData", iotData);
-
     await this.setState({ iotData });
   };
 
@@ -224,11 +220,7 @@ export default class Trends extends Component {
           // if response is as expected
           if ("default" in JSON.parse(response.data)) {
             const rankedList = JSON.parse(response.data).default.rankedList;
-
-            this.setState({
-              //trendingTopics: rankedList[rankedList.length - 1].rankedKeyword,
-              trendingTopics: rankedList[0].rankedKeyword,
-            });
+            this.setState({ trendingTopics: rankedList[0].rankedKeyword });
           }
         },
         (error) => {
@@ -248,10 +240,7 @@ export default class Trends extends Component {
           // if response is as expected
           if ("default" in JSON.parse(response.data)) {
             const rankedList = JSON.parse(response.data).default.rankedList;
-            this.setState({
-              //trendingQueries: rankedList[rankedList.length - 1].rankedKeyword,
-              trendingQueries: rankedList[0].rankedKeyword,
-            });
+            this.setState({ trendingQueries: rankedList[0].rankedKeyword });
           }
         },
         (error) => {

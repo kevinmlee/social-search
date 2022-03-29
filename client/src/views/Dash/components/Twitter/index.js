@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import axios from "axios";
 
 import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
 
@@ -24,19 +25,8 @@ export default class Twitter extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     document.addEventListener("mousedown", this.handleClickOutside);
-
-    /*
-    console.log("twitterUser", this.props.state.twitterUser);
-    if (
-      this.props.state.twitterUser && // 👈 null and undefined check
-      Object.keys(this.props.state.twitterUser).length === 0 &&
-      Object.getPrototypeOf(this.props.state.twitterUser) === Object.prototype
-    )
-      console.log("Twitter user not found");
-    else console.log("Twitter user found");
-    */
   };
 
   componentWillUnmount = () => {
@@ -53,37 +43,19 @@ export default class Twitter extends Component {
   };
 
   changeTab = (event) => {
-    const tab = event.target.getAttribute("data-tab");
+    const tabs = ["recent, popular, userTweets"];
+    const selectedTab = event.target.getAttribute("data-tab");
 
-    if (tab === "recent")
-      this.setState({ recent: true, popular: false, userTweets: false });
-    else if (tab === "popular")
-      this.setState({ recent: false, popular: true, userTweets: false });
-    else if (tab === "userTweets")
-      this.setState({ recent: false, popular: false, userTweets: true });
+    tabs.forEach((tab) => {
+      if (tab === selectedTab) this.setState({ [tab]: true });
+      else this.setState({ [tab]: false });
+    });
 
     this.setState({ filterToggle: false });
   };
 
   decodeText = (string) => {
     return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
-  };
-
-  filterTweets = (tweets) => {
-    // remove retweets
-    const removedRetweets = tweets.filter(
-      (tweet) => !tweet.text.includes("RT ")
-    );
-
-    // remove quoted tweets
-    const removedQuotedTweets = removedRetweets.filter(
-      (tweet) => tweet.referenced_tweets === undefined
-    );
-
-    // remove replies and return the filtered tweets
-    return removedQuotedTweets.filter(
-      (tweet) => tweet.in_reply_to_user_id === undefined
-    );
   };
 
   sortByPopularity = (tweets) => {
@@ -109,6 +81,7 @@ export default class Twitter extends Component {
       user = this.props.state.tweetsByRecent["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
+
     return user[0];
   };
 
@@ -348,6 +321,7 @@ export default class Twitter extends Component {
       </Box>
     );
   };
+
   render() {
     //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
 

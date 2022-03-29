@@ -43,6 +43,21 @@ export default class Sidebar extends Component {
 
         <div className="menu">
           <div
+            className={"menu-item " + (this.props.state.reddit ? "active" : "")}
+            onClick={this.props.changeTab}
+            data-tab="reddit"
+          >
+            <RedditIcon
+              className="reddit-icon"
+              onClick={this.props.changeTab}
+              data-tab="reddit"
+            />
+            <span onClick={this.props.changeTab} data-tab="reddit">
+              Reddit
+            </span>
+          </div>
+
+          <div
             className={
               "menu-item " + (this.props.state.twitter ? "active" : "")
             }
@@ -56,21 +71,6 @@ export default class Sidebar extends Component {
             />
             <span onClick={this.props.changeTab} data-tab="twitter">
               Twitter
-            </span>
-          </div>
-
-          <div
-            className={"menu-item " + (this.props.state.reddit ? "active" : "")}
-            onClick={this.props.changeTab}
-            data-tab="reddit"
-          >
-            <RedditIcon
-              className="reddit-icon"
-              onClick={this.props.changeTab}
-              data-tab="reddit"
-            />
-            <span onClick={this.props.changeTab} data-tab="reddit">
-              Reddit
             </span>
           </div>
 

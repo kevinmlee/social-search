@@ -72,6 +72,7 @@ export default class UserInput extends Component {
         if (userFound) await this.getTweetsByUserID();
       }
       await this.twitterSearchByRecent();
+
       await this.redditSearchNew();
       await this.redditSearchHot();
 
