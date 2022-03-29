@@ -189,7 +189,7 @@ export default class Trends extends Component {
             labels: await this.generateLabels(timelineData),
             datasets: [
               {
-                label: "# of Searches",
+                label: "Peak popularity",
                 data: await this.generateData(timelineData),
                 backgroundColor: "rgba(255, 255, 255, 1)",
                 borderColor: "rgba(255, 255, 255, 1)",
