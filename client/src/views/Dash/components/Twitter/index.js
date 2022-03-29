@@ -43,7 +43,7 @@ export default class Twitter extends Component {
   };
 
   changeTab = (event) => {
-    const tabs = ["recent, popular, userTweets"];
+    const tabs = ["recent", "popular", "userTweets"];
     const selectedTab = event.target.getAttribute("data-tab");
 
     tabs.forEach((tab) => {
