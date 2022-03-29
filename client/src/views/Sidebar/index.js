@@ -6,6 +6,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -90,6 +91,23 @@ export default class Sidebar extends Component {
               Instagram
             </span>
           </div>*/}
+
+          <div
+            className={
+              "menu-item " + (this.props.state.youtube ? "active" : "")
+            }
+            onClick={this.props.changeTab}
+            data-tab="youtube"
+          >
+            <YouTubeIcon
+              className="youtube-icon"
+              onClick={this.props.changeTab}
+              data-tab="youtube"
+            />
+            <span onClick={this.props.changeTab} data-tab="youtube">
+              YouTube
+            </span>
+          </div>
 
           <div
             className={"menu-item " + (this.props.state.trends ? "active" : "")}

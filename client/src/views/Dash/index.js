@@ -4,6 +4,7 @@ import { Box, Container, Typography } from "@mui/material";
 // components
 import Twitter from "./components/Twitter";
 import Reddit from "./components/Reddit";
+import YouTube from "./components/YouTube";
 import Trends from "./components/Trends";
 
 export default class Dash extends Component {
@@ -56,6 +57,13 @@ export default class Dash extends Component {
 
         {this.props.state.trends && this.props.state.previousSearchQuery && (
           <Trends
+            setAppState={this.props.setAppState}
+            state={this.props.state}
+          />
+        )}
+
+        {this.props.state.youtube && (
+          <YouTube
             setAppState={this.props.setAppState}
             state={this.props.state}
           />

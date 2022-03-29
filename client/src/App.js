@@ -32,6 +32,7 @@ export default class App extends Component {
       twitter: false,
       reddit: true,
       instagram: false,
+      youtube: false,
       trends: false,
 
       // back to top button
@@ -79,7 +80,7 @@ export default class App extends Component {
   };
 
   changeTab = (event) => {
-    const tabs = ["twitter", "reddit", "instagram", "trends"];
+    const tabs = ["twitter", "reddit", "instagram", "youtube", "trends"];
     const selectedTab = event.target.getAttribute("data-tab");
 
     tabs.forEach((tab) => {

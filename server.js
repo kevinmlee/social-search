@@ -6,6 +6,7 @@ const TWITTER = require("./api/Twitter");
 const REDDIT = require("./api/Reddit");
 const INSTAGRAM = require("./api/Instagram");
 const GOOGLE = require("./api/Google");
+const YOUTUBE = require("./api/YouTube");
 // const HUBSPOT = require("./api/HubSpot");
 // const MONGO = require("./api/MongoDB");
 
@@ -96,6 +97,12 @@ app.all("/google/interestOverTime", GOOGLE.interestOverTime);
 app.all("/google/interestByRegion", GOOGLE.interestByRegion);
 app.all("/google/relatedTopics", GOOGLE.relatedTopics);
 app.all("/google/relatedQueries", GOOGLE.relatedQueries);
+
+/////////////////////////////////////////////
+// Reddit
+/////////////////////////////////////////////
+
+app.all("/youtube/search", YOUTUBE.search);
 
 /////////////////////////////////////////////
 // Database API Routes
