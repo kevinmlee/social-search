@@ -148,6 +148,11 @@ export default class Trends extends Component {
           display: false,
         },
       },
+      elements: {
+        point: {
+          radius: 0,
+        },
+      },
       scales: {
         y: {
           beginAtZero: true,
@@ -191,11 +196,11 @@ export default class Trends extends Component {
               {
                 label: "Peak popularity",
                 data: await this.generateData(timelineData),
-                backgroundColor: "rgba(255, 255, 255, 1)",
+                //backgroundColor: "rgba(255, 255, 255, 1)",
                 borderColor: "rgba(255, 255, 255, 1)",
                 //backgroundColor: gradient,
-                pointBackgroundColor: "white",
-                borderWidth: 1,
+                //pointBackgroundColor: "white",
+                //borderWidth: 1,
               },
             ],
           };
