@@ -1,0 +1,77 @@
+.youtube-posts {
+  width: auto;
+  max-width: 100%;
+}
+.youtube-posts > * {
+  transition: ease-in-out transform 0.2s !important;
+}
+
+.youtube-post {
+  position: relative;
+  border: 1px solid #eaeaea;
+  border-radius: 12px !important;
+  /*padding: 20px;
+  width: calc(100% / 2 - 20px);
+  margin: 10px;*/
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.youtube-post .post-text {
+  position: relative;
+  z-index: 1;
+  overflow-wrap: break-word;
+}
+
+.youtube-post a {
+  color: #000000;
+}
+
+.youtube-post .media-image {
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .youtube-post {
+    border: none !important;
+    background-image: linear-gradient(
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0.02)
+    ) !important;
+    background-color: rgba(26, 32, 39, 1) !important;
+    color: #ffffff !important;
+  }
+  .youtube-post a {
+    color: #ffffff;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .youtube-post {
+    border: none !important;
+    color: #000000 !important;
+    background-color: #ffffff !important;
+  }
+  .youtube-post a {
+    color: #000000;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .youtube-posts > *:hover {
+    transform: translateY(-5px);
+  }
+  .youtube-posts > *:hover {
+    background-color: rgba(29, 161, 242, 0.1) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .youtube-posts {
+    margin: 0 !important;
+    height: auto !important;
+  }
+  .youtube-post {
+    margin: 15px 0px !important;
+    width: 100% !important;
+  }
+}

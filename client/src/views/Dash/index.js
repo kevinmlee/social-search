@@ -62,7 +62,7 @@ export default class Dash extends Component {
           />
         )}
 
-        {this.props.state.youtube && (
+        {this.props.state.youtube && this.props.state.previousSearchQuery && (
           <YouTube
             setAppState={this.props.setAppState}
             state={this.props.state}

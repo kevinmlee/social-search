@@ -10,11 +10,12 @@ import {
   Typography,
   Tooltip,
   Radio,
+  Grid,
 } from "@mui/material";
 
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+/*import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";*/
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import { Masonry } from "@mui/lab";
@@ -26,8 +27,9 @@ export default class YouTube extends Component {
     this.state = {
       filterToggle: false,
 
-      recent: false,
-      popular: true,
+      date: false,
+      rating: false,
+      relevance: true,
     };
 
     this.wrapperRef = React.createRef();
@@ -37,7 +39,9 @@ export default class YouTube extends Component {
   componentDidMount = () => {
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    this.searchVideos();
+    this.searchVideosRelevance();
+    this.searchVideosRating();
+    this.searchVideosDate();
   };
 
   componentWillUnmount = () => {
@@ -50,12 +54,13 @@ export default class YouTube extends Component {
   };
 
   changeTab = (event) => {
-    const tab = event.target.getAttribute("data-tab");
+    const tabs = ["date", "rating", "relevance"];
+    const selectedTab = event.target.getAttribute("data-tab");
 
-    if (tab === "recent")
-      this.setState({ recent: true, popular: false, userTweets: false });
-    else if (tab === "popular")
-      this.setState({ recent: false, popular: true, userTweets: false });
+    tabs.forEach((tab) => {
+      if (tab === selectedTab) this.setState({ [tab]: true });
+      else this.setState({ [tab]: false });
+    });
 
     this.setState({ filterToggle: false });
   };
@@ -71,23 +76,58 @@ export default class YouTube extends Component {
   };
 
   decodeText = (string) => {
-    return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
+    return string
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&#39;", "'")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&gt;", ">");
   };
 
-  searchVideos = async () => {
+  searchVideosRelevance = async () => {
     return await axios
       .put("/youtube/search", {
-        //searchQuery: this.props.state.previousSearchQuery,
-        searchQuery: "spacex",
+        searchQuery: this.props.state.previousSearchQuery,
+        order: "relevance",
       })
       .then(
         (response) => {
-          console.log("youtube search results", response);
+          if ("items" in response.data)
+            this.props.setAppState("youtubeVideosRelevance", response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
-          if (response.status === 200) {
-            //console.log("youtube search results", response.data.data.children);
-            //this.props.setAppState("youtubeVideos", response.data.ata);
-          }
+  searchVideosRating = async () => {
+    return await axios
+      .put("/youtube/search", {
+        searchQuery: this.props.state.previousSearchQuery,
+        order: "rating",
+      })
+      .then(
+        (response) => {
+          if ("items" in response.data)
+            this.props.setAppState("youtubeVideosRating", response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  searchVideosDate = async () => {
+    return await axios
+      .put("/youtube/search", {
+        searchQuery: this.props.state.previousSearchQuery,
+        order: "date",
+      })
+      .then(
+        (response) => {
+          if ("items" in response.data)
+            this.props.setAppState("youtubeVideosDate", response.data);
         },
         (error) => {
           console.log(error);
@@ -96,7 +136,71 @@ export default class YouTube extends Component {
   };
 
   post = (post) => {
-    return <Paper elevation={3} className="youtube-post post-card"></Paper>;
+    //console.log(post);
+    return (
+      <Paper
+        elevation={3}
+        className="youtube-post post-card"
+        key={post.id.videoId}
+      >
+        <a
+          href={"https://www.youtube.com/watch?v=" + post.id.videoId}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="youtube-post-link"
+        >
+          <Grid
+            container
+            spacing={2}
+            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
+          >
+            <Grid item xs={10}>
+              <span>{post.snippet.channelTitle}</span>
+              <span style={{ color: "#999999" }}> · </span>
+              <Typography variant="caption" style={{ color: "#999999" }}>
+                {moment(post.snippet.publishedAt).fromNow()}
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Box className="tweet-text" sx={{ padding: 2 }}>
+            <Typography variant="body1">
+              {this.decodeText(post.snippet.title)}
+            </Typography>
+          </Box>
+
+          <div className="media-image">
+            <img
+              src={post.snippet.thumbnails.high.url}
+              alt={this.decodeText(post.snippet.title)}
+            />
+          </div>
+        </a>
+
+        {/*<div className="yt-embed">
+          <iframe
+            id="ytplayer"
+            type="text/html"
+            width="100%"
+            height="250"
+            loading="lazy"
+            src={
+              "https://www.youtube.com/embed/" + post.id.videoId + "?autoplay=0"
+            }
+            frameborder="0"
+          ></iframe>
+          </div>*/}
+
+        <a
+          href={"https://www.youtube.com/watch?v=" + post.id.videoId}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="youtube-post-link"
+        >
+          <Box sx={{ padding: 2 }}></Box>
+        </a>
+      </Paper>
+    );
   };
 
   render() {
@@ -118,40 +222,76 @@ export default class YouTube extends Component {
           >
             {/*<li>All</li>*/}
             <li
-              className={this.state.recent ? "active" : ""}
+              className={this.state.relevance ? "active" : ""}
               onClick={this.changeTab}
-              data-tab="recent"
+              data-tab="relevance"
             >
-              Recent
-              <Radio checked={this.state.recent && "checked"} size="small" />
+              Relevance
+              <Radio checked={this.state.relevance && "checked"} size="small" />
             </li>
             <li
-              className={this.state.popular ? "active" : ""}
+              className={this.state.date ? "active" : ""}
               onClick={this.changeTab}
-              data-tab="popular"
+              data-tab="date"
             >
-              Hot
-              <Radio checked={this.state.popular && "checked"} size="small" />
+              Recent
+              <Radio checked={this.state.date && "checked"} size="small" />
+            </li>
+            <li
+              className={this.state.rating ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="rating"
+            >
+              Rating
+              <Radio checked={this.state.rating && "checked"} size="small" />
             </li>
           </ul>
         </Box>
 
-        {/*
-        {this.state.popular && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+        {this.state.relevance &&
+          "items" in this.props.state.youtubeVideosRelevance && (
+            <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+              <Masonry
+                className="youtube-posts"
+                columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+                spacing={2}
+              >
+                {this.props.state.youtubeVideosRelevance.items.map(
+                  (post, index) => {
+                    return this.post(post);
+                  }
+                )}
+              </Masonry>
+            </Box>
+          )}
+
+        {this.state.rating && "items" in this.props.state.youtubeVideosRating && (
+          <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="reddit-posts"
+              className="youtube-posts"
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
-              {this.props.state.redditHot &&
-                this.props.state.redditHot.slice(0, 50).map((post, index) => {
-                  return this.post(post);
-                })}
+              {this.props.state.youtubeVideosRating.items.map((post, index) => {
+                return this.post(post);
+              })}
             </Masonry>
           </Box>
         )}
-              */}
+
+        {this.state.date && "items" in this.props.state.youtubeVideosDate && (
+          <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Masonry
+              className="youtube-posts"
+              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+              spacing={2}
+            >
+              {this.props.state.youtubeVideosDate.items.map((post, index) => {
+                return this.post(post);
+              })}
+            </Masonry>
+          </Box>
+        )}
       </Box>
     );
   }

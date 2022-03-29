@@ -54,6 +54,11 @@ export default class App extends Component {
       relatedTopics: {},
       relatedQueries: {},
 
+      // youtube
+      youtubeVideosRelevance: {},
+      youtubeVideosRating: {},
+      youtubeVideosDate: {},
+
       searchQuery: "",
       previousSearchQuery: "",
 
