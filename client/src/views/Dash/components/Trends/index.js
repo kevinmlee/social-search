@@ -186,6 +186,12 @@ export default class Trends extends Component {
           const timelineData = JSON.parse(response.data).default.timelineData;
           //console.log(timelineData);
 
+          let borderColor = "";
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+            borderColor = "rgba(255, 255, 255, 1)";
+          else if (window.matchMedia("(prefers-color-scheme: light)").matches)
+            borderColor = "rgba(0, 0, 0, 1)";
+
           let iotData = {
             labels: await this.generateLabels(timelineData),
             datasets: [
@@ -193,7 +199,7 @@ export default class Trends extends Component {
                 label: "Peak popularity",
                 data: await this.generateData(timelineData),
                 //backgroundColor: "rgba(255, 255, 255, 1)",
-                borderColor: "rgba(255, 255, 255, 1)",
+                borderColor: borderColor,
                 //backgroundColor: gradient,
                 //pointBackgroundColor: "white",
                 //borderWidth: 1,
