@@ -198,27 +198,33 @@ export default class YouTube extends Component {
             </Typography>
           </Box>
 
-          {/*<div className="media-image">
-            <img
-              src={post.snippet.thumbnails.high.url}
-              alt={this.decodeText(post.snippet.title)}
-            />
-    </div>*/}
+          {type === "Channel" && (
+            <div className="media-image">
+              <img
+                src={post.snippet.thumbnails.high.url}
+                alt={this.decodeText(post.snippet.title)}
+              />
+            </div>
+          )}
         </a>
 
-        <div className="yt-embed">
-          <iframe
-            id="ytplayer"
-            type="text/html"
-            width="100%"
-            height="250"
-            loading="lazy"
-            src={
-              "https://www.youtube.com/embed/" + post.id.videoId + "?autoplay=0"
-            }
-            frameborder="0"
-          ></iframe>
-        </div>
+        {type === "Video" && (
+          <div className="yt-embed">
+            <iframe
+              id="ytplayer"
+              type="text/html"
+              width="100%"
+              height="250"
+              loading="lazy"
+              src={
+                "https://www.youtube.com/embed/" +
+                post.id.videoId +
+                "?autoplay=0"
+              }
+              frameborder="0"
+            ></iframe>
+          </div>
+        )}
 
         <a
           href={url}
