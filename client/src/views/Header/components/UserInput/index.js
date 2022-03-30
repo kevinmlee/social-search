@@ -49,146 +49,15 @@ export default class UserInput extends Component {
     e.preventDefault();
     await this.props.setAppState("loadingBackdrop", true);
 
-    //console.log("search query: ", this.state.search);
-    await this.props.setAppState("previousSearchQuery", this.state.search);
-
     if (this.state.search === "") {
       this.props.setAppState("searchQueryBlankError", true);
     } else {
-      this.props.setAppState("searchQuery", this.state.search);
-      this.props.setAppState("username", "");
-      this.props.setAppState("tweetsByUserId", [{ data: [], includes: [] }]);
-      this.props.setAppState("tweetsByRecent", [{ data: [], includes: [] }]);
-
-      if (this.oneWord(this.state.search)) {
-        // if search query is a username (has @ symbol in front), remove symbol and continue to get user
-        if (this.state.search.charAt(0) === "@")
-          await this.props.setAppState(
-            "searchQuery",
-            this.state.search.substring(1)
-          );
-
-        const userFound = await this.twitterSearchByUsername();
-        if (userFound) await this.getTweetsByUserID();
-      }
-      await this.twitterSearchByRecent();
+      await this.props.reset();
+      await this.props.setAppState("previousSearchQuery", this.state.search);
     }
 
     await this.props.setAppState("loadingBackdrop", false);
     await this.setState({ search: "" });
-  };
-
-  twitterSearchByUsername = async (e) => {
-    return await axios
-      .put("/twitter/search/username", {
-        searchQuery: this.state.search,
-      })
-      .then(
-        async (response) => {
-          //console.log("searchByUsername", response);
-          if (response.data.error || this.objectEmpty(response.data))
-            return false;
-          else {
-            await this.setState({
-              twitterUserID: response.data.twitterResults.id,
-            });
-            await this.props.setAppState(
-              "twitterUser",
-              response.data.twitterResults
-            );
-
-            return true;
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  getTweetsByUserID = async (e) => {
-    return await axios
-      .put("/twitter/get/tweets/id", {
-        userId: this.state.twitterUserID,
-      })
-      .then(
-        (response) => {
-          //console.log("getTweetsByUserID", response);
-          this.props.setAppState("tweetsByUserId", response.data.tweets);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  twitterSearchByRecent = async (e) => {
-    return await axios
-      .put("/twitter/search", {
-        searchQuery: this.state.search,
-      })
-      .then(
-        (response) => {
-          //console.log("searchByRecent", response);
-
-          if ("error" in response.data)
-            this.props.setAppState("twitterError", true);
-
-          this.props.setAppState("tweetsByRecent", response.data.tweets);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  redditSearchHot = async (e) => {
-    return await axios
-      .put("/reddit/search", {
-        searchQuery: this.state.search,
-        filter: "hot",
-      })
-      .then(
-        (response) => {
-          // console.log("reddit search", response.data.data.children);
-          this.props.setAppState("redditHot", response.data.data.children);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  instagramTopSearch = async (e) => {
-    return await axios
-      .put("/instagram/topSearch", {
-        searchQuery: this.state.search,
-      })
-      .then(
-        (response) => {
-          console.log("ig top search", response);
-          //this.props.setAppState("redditHot", response.data.data.children);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  interestOverTime = async (e) => {
-    return await axios
-      .put("/google/interestOverTime", {
-        searchQuery: this.state.search,
-      })
-      .then(
-        (response) => {
-          console.log("google trends", JSON.parse(response.data));
-          this.props.setAppState("interestOverTime", JSON.parse(response.data));
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
   };
 
   render() {

@@ -47,12 +47,13 @@ export default class Instagram extends Component {
   };
 
   changeTab = (event) => {
-    const tab = event.target.getAttribute("data-tab");
+    const tabs = ["recent", "popular"];
+    const selectedTab = event.target.getAttribute("data-tab");
 
-    if (tab === "recent")
-      this.setState({ recent: true, popular: false, userTweets: false });
-    else if (tab === "popular")
-      this.setState({ recent: false, popular: true, userTweets: false });
+    tabs.forEach((tab) => {
+      if (tab === selectedTab) this.setState({ [tab]: true });
+      else this.setState({ [tab]: false });
+    });
 
     this.setState({ filterToggle: false });
   };
@@ -68,7 +69,28 @@ export default class Instagram extends Component {
   };
 
   decodeText = (string) => {
-    return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
+    return string
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&#39;", "'")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&gt;", ">");
+  };
+
+  instagramTopSearch = async (e) => {
+    return await axios
+      .put("/instagram/topSearch", {
+        searchQuery: this.props.state.previousSearchQuery,
+      })
+      .then(
+        (response) => {
+          console.log("ig top search", response);
+          //this.props.setAppState("redditHot", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   post = (post) => {

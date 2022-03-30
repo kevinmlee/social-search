@@ -39,8 +39,8 @@ export default class App extends Component {
       backToTop: false,
 
       // twitter
-      tweetsByUserId: [{ data: [], includes: [] }],
-      tweetsByRecent: [{ data: [], includes: [] }],
+      tweetsByUserId: [],
+      tweetsByRecent: [],
       twitterUser: {},
       twitterError: false,
 
@@ -49,10 +49,9 @@ export default class App extends Component {
       redditNew: [],
 
       // google
+      trendingTopics: [],
+      trendingQueries: [],
       interestOverTime: {},
-      interestByRegion: {},
-      relatedTopics: {},
-      relatedQueries: {},
 
       // youtube
       youtubeVideosRelevance: {},
@@ -123,6 +122,22 @@ export default class App extends Component {
     */
   };
 
+  reset = async () => {
+    await this.setState({
+      searchQuery: "",
+      previousSearchQuery: "",
+      tweetsByUserId: [],
+      tweetsByRecent: [],
+      twitterUser: {},
+      twitterError: false,
+      redditHot: [],
+      redditNew: [],
+      youtubeVideosRelevance: {},
+      youtubeVideosRating: {},
+      youtubeVideosDate: {},
+    });
+  };
+
   imageBackdrop = () => {
     return (
       <Backdrop
@@ -172,6 +187,7 @@ export default class App extends Component {
           state={this.state}
           setAppState={this.setAppState}
           toggle={this.toggle}
+          reset={this.reset}
         />
         <Sidebar
           state={this.state}

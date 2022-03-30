@@ -39,7 +39,10 @@ export default class Header extends Component {
                   left: "8px",
                 }}
               />
-              <UserInput setAppState={this.props.setAppState} />
+              <UserInput
+                setAppState={this.props.setAppState}
+                reset={this.props.reset}
+              />
             </Box>
           </Toolbar>
         </AppBar>

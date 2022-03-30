@@ -15,6 +15,9 @@ export default class Twitter extends Component {
     super(props);
 
     this.state = {
+      twitterUserID: "",
+      queryWithoutSymbols: "",
+
       filterToggle: false,
 
       recent: false,
@@ -27,6 +30,12 @@ export default class Twitter extends Component {
 
   componentDidMount = async () => {
     document.addEventListener("mousedown", this.handleClickOutside);
+
+    if (!("data" in this.props.state.tweetsByRecent)) {
+      await this.twitterSearchByRecent();
+    }
+
+    await this.twitterSearchByUsername();
   };
 
   componentWillUnmount = () => {
@@ -52,10 +61,94 @@ export default class Twitter extends Component {
     });
 
     this.setState({ filterToggle: false });
+
+    if (selectedTab === "userTweets") this.getTweetsByUserID();
   };
 
   decodeText = (string) => {
-    return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
+    return string
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&#39;", "'")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&gt;", ">");
+  };
+
+  oneWord = (string) => {
+    var regexp = /[a-zA-Z]+\s+[a-zA-Z]+/g;
+    if (regexp.test(string)) return false;
+    else return true;
+  };
+
+  objectEmpty = (obj) => {
+    return (
+      obj && // 👈 null and undefined check
+      Object.keys(obj).length === 0 &&
+      Object.getPrototypeOf(obj) === Object.prototype
+    );
+  };
+
+  twitterSearchByRecent = async (e) => {
+    return await axios
+      .put("/twitter/search", {
+        searchQuery: this.props.state.previousSearchQuery,
+      })
+      .then(
+        (response) => {
+          if ("error" in response.data)
+            this.props.setAppState("twitterError", true);
+          else this.props.setAppState("tweetsByRecent", response.data.tweets);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  twitterSearchByUsername = async (e) => {
+    const query = this.props.state.searchQuery;
+
+    // if search query is a username (has @ symbol in front), remove symbol and continue to get user
+    if (this.oneWord(query)) {
+      if (query.charAt(0) === "@")
+        this.setState({ queryWithoutSymbols: query.substring(1) });
+    }
+
+    return await axios
+      .put("/twitter/search/username", {
+        searchQuery: this.props.state.previousSearchQuery,
+      })
+      .then(
+        (response) => {
+          //console.log("searchByUsername", response);
+          if (response.data.error || this.objectEmpty(response.data))
+            return false;
+          else {
+            this.setState({ twitterUserID: response.data.twitterResults.id });
+            this.props.setAppState("twitterUser", response.data.twitterResults);
+            return true;
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  getTweetsByUserID = async (e) => {
+    return await axios
+      .put("/twitter/get/tweets/id", {
+        userId: this.state.twitterUserID,
+      })
+      .then(
+        (response) => {
+          //console.log("getTweetsByUserID", response);
+          this.props.setAppState("tweetsByUserId", response.data.tweets);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   sortByPopularity = (tweets) => {
@@ -86,6 +179,7 @@ export default class Twitter extends Component {
   };
 
   tweet = (tweet, type) => {
+    // console.log(tweet);
     let mediaUrl = "";
     const user = this.getAuthor(tweet, type);
 
@@ -223,7 +317,7 @@ export default class Twitter extends Component {
             ref={this.wrapperRef}
           >
             {/*<li>All</li>*/}
-            {this.props.state.tweetsByUserId["data"] && (
+            {this.state.twitterUserID && (
               <li
                 className={this.state.userTweets ? "active" : ""}
                 onClick={this.changeTab}
@@ -272,7 +366,7 @@ export default class Twitter extends Component {
           </Box>
         )}
 
-        {this.state.recent && (
+        {this.state.recent && "data" in this.props.state.tweetsByRecent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
               className="tweets"
@@ -289,7 +383,7 @@ export default class Twitter extends Component {
           </Box>
         )}
 
-        {this.state.popular && (
+        {this.state.popular && "data" in this.props.state.tweetsByRecent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
               className="tweets"

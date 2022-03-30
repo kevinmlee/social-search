@@ -25,7 +25,6 @@ export default class Trends extends Component {
 
       trendingTopics: [],
       trendingQueries: [],
-
       iotData: {},
 
       full: true,
@@ -64,7 +63,7 @@ export default class Trends extends Component {
     });
 
     this.setState({ filterToggle: false });
-    this.iotFilter(selectedTab);
+    //this.iotFilter(selectedTab);
   };
 
   toggle = async (state) => {
