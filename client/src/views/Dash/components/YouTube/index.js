@@ -148,6 +148,16 @@ export default class YouTube extends Component {
 
   post = (post) => {
     //console.log(post);
+    let url = "";
+    let type = "";
+    if (post.id.kind === "youtube#video") {
+      url = "https://www.youtube.com/watch?v=" + post.id.videoId;
+      type = "Video";
+    } else if (post.id.kind === "youtube#channel") {
+      url = "https://www.youtube.com/channel/" + post.id.channelId;
+      type = "Channel";
+    }
+
     return (
       <Paper
         elevation={3}
@@ -155,7 +165,7 @@ export default class YouTube extends Component {
         key={post.id.videoId}
       >
         <a
-          href={"https://www.youtube.com/watch?v=" + post.id.videoId}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
           className="youtube-post-link"
@@ -173,6 +183,14 @@ export default class YouTube extends Component {
               </Typography>
             </Grid>
           </Grid>
+
+          <Typography
+            variant="caption"
+            style={{ color: "#999999" }}
+            sx={{ paddingLeft: 2, paddingRight: 2 }}
+          >
+            {type}
+          </Typography>
 
           <Box className="tweet-text" sx={{ padding: 2 }}>
             <Typography variant="body1">
@@ -203,7 +221,7 @@ export default class YouTube extends Component {
           </div>*/}
 
         <a
-          href={"https://www.youtube.com/watch?v=" + post.id.videoId}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
           className="youtube-post-link"
