@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import axios from "axios";
 
 import {
   Box,
@@ -35,6 +36,10 @@ export default class Tweets extends Component {
 
   componentDidMount = () => {
     document.addEventListener("mousedown", this.handleClickOutside);
+
+    // on initial load, fetch the data if not already present
+    if (this.state.popular && this.props.state.redditHot.length === 0)
+      this.redditSearchHot();
   };
 
   componentWillUnmount = () => {
@@ -47,14 +52,21 @@ export default class Tweets extends Component {
   };
 
   changeTab = (event) => {
-    const tab = event.target.getAttribute("data-tab");
+    const tabs = ["recent", "popular"];
+    const selectedTab = event.target.getAttribute("data-tab");
 
-    if (tab === "recent")
-      this.setState({ recent: true, popular: false, userTweets: false });
-    else if (tab === "popular")
-      this.setState({ recent: false, popular: true, userTweets: false });
+    tabs.forEach((tab) => {
+      if (tab === selectedTab) this.setState({ [tab]: true });
+      else this.setState({ [tab]: false });
+    });
 
     this.setState({ filterToggle: false });
+
+    // pull data from cooresponding API if not already pulled
+    if (selectedTab === "recent" && this.props.state.redditNew.length === 0)
+      this.redditSearchNew();
+    if (selectedTab === "popular" && this.props.state.redditHot.length === 0)
+      this.redditSearchHot();
   };
 
   toggle = async (state) => {
@@ -68,7 +80,12 @@ export default class Tweets extends Component {
   };
 
   decodeText = (string) => {
-    return string.replaceAll("&amp;", "&").replaceAll("&lt;", "<");
+    return string
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&#39;", "'")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&gt;", ">");
   };
 
   getVideo = (post) => {
@@ -115,9 +132,40 @@ export default class Tweets extends Component {
   };
 
   getPreviewImage = (post) => {
-    if (post.data.preview) {
+    if (post.data.preview)
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
-    }
+  };
+
+  redditSearchNew = async (e) => {
+    return await axios
+      .put("/reddit/search", {
+        searchQuery: this.props.state.previousSearchQuery,
+        filter: "new",
+      })
+      .then(
+        (response) => {
+          this.props.setAppState("redditNew", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  redditSearchHot = async (e) => {
+    return await axios
+      .put("/reddit/search", {
+        searchQuery: this.props.state.previousSearchQuery,
+        filter: "hot",
+      })
+      .then(
+        (response) => {
+          this.props.setAppState("redditHot", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   post = (post) => {
@@ -268,7 +316,7 @@ export default class Tweets extends Component {
           </ul>
         </Box>
 
-        {this.state.recent && (
+        {this.state.recent && this.props.state.redditNew.length > 0 && (
           <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
               className="reddit-posts"
@@ -283,7 +331,7 @@ export default class Tweets extends Component {
           </Box>
         )}
 
-        {this.state.popular && (
+        {this.state.popular && this.props.state.redditHot.length > 0 && (
           <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
               className="reddit-posts"

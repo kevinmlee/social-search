@@ -72,12 +72,6 @@ export default class UserInput extends Component {
         if (userFound) await this.getTweetsByUserID();
       }
       await this.twitterSearchByRecent();
-
-      await this.redditSearchNew();
-      await this.redditSearchHot();
-
-      //await this.instagramTopSearch();
-      //await this.interestOverTime();
     }
 
     await this.props.setAppState("loadingBackdrop", false);
@@ -148,21 +142,6 @@ export default class UserInput extends Component {
       );
   };
 
-  redditSearchNew = async (e) => {
-    return await axios
-      .put("/reddit/search", {
-        searchQuery: this.state.search,
-        filter: "new",
-      })
-      .then(
-        (response) => {
-          this.props.setAppState("redditNew", response.data.data.children);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
   redditSearchHot = async (e) => {
     return await axios
       .put("/reddit/search", {
