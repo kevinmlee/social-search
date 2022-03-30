@@ -198,15 +198,15 @@ export default class YouTube extends Component {
             </Typography>
           </Box>
 
-          <div className="media-image">
+          {/*<div className="media-image">
             <img
               src={post.snippet.thumbnails.high.url}
               alt={this.decodeText(post.snippet.title)}
             />
-          </div>
+    </div>*/}
         </a>
 
-        {/*<div className="yt-embed">
+        <div className="yt-embed">
           <iframe
             id="ytplayer"
             type="text/html"
@@ -218,7 +218,7 @@ export default class YouTube extends Component {
             }
             frameborder="0"
           ></iframe>
-          </div>*/}
+        </div>
 
         <a
           href={url}

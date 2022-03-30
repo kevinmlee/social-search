@@ -26,7 +26,8 @@
   color: #000000;
 }
 
-.youtube-post .media-image {
+.youtube-post .media-image,
+.youtube-post .media-image img {
   width: 100%;
 }
 
