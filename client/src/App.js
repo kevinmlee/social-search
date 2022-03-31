@@ -47,6 +47,8 @@ export default class App extends Component {
       // reddit
       redditHot: [],
       redditNew: [],
+      redditHotWorldNews: [],
+      redditHotGlobal: [],
 
       // google
       trendingTopics: [],

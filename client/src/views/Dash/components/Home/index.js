@@ -25,7 +25,7 @@ import { Masonry } from "@mui/lab";
  * or provide option for both
  */
 
-export default class Reddit extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -142,15 +142,17 @@ export default class Reddit extends Component {
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
   };
 
-  redditSearchNew = async (e) => {
+  getHotPosts = async (e) => {
     return await axios
-      .put("/reddit/search", {
-        searchQuery: this.props.state.previousSearchQuery,
-        filter: "new",
+      .put("/reddit/get/hot/posts", {
+        limit: 10,
       })
       .then(
         (response) => {
-          this.props.setAppState("redditNew", response.data.data.children);
+          this.props.setAppState(
+            "redditHotGlobal",
+            response.data.data.children
+          );
         },
         (error) => {
           console.log(error);
@@ -158,15 +160,19 @@ export default class Reddit extends Component {
       );
   };
 
-  redditSearchHot = async (e) => {
+  getSubredditPosts = async (e) => {
     return await axios
-      .put("/reddit/search", {
-        searchQuery: this.props.state.previousSearchQuery,
+      .put("/reddit/get/subreddit/posts", {
+        subreddit: "worldnews",
         filter: "hot",
+        limit: 10,
       })
       .then(
         (response) => {
-          this.props.setAppState("redditHot", response.data.data.children);
+          this.props.setAppState(
+            "redditHotWorldNews",
+            response.data.data.children
+          );
         },
         (error) => {
           console.log(error);
@@ -322,35 +328,23 @@ export default class Reddit extends Component {
           </ul>
         </Box>
 
-        {this.state.recent && this.props.state.redditNew.length > 0 && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className="reddit-posts"
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
-              {this.props.state.redditNew &&
-                this.props.state.redditNew.slice(0, 50).map((post, index) => {
-                  return this.post(post);
-                })}
-            </Masonry>
-          </Box>
-        )}
-
-        {this.state.popular && this.props.state.redditHot.length > 0 && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className="reddit-posts"
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
-              {this.props.state.redditHot &&
-                this.props.state.redditHot.slice(0, 50).map((post, index) => {
-                  return this.post(post);
-                })}
-            </Masonry>
-          </Box>
-        )}
+        {this.state.worldNews &&
+          this.props.state.redditHotWorldNews.length > 0 && (
+            <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+              <Masonry
+                className="reddit-posts"
+                columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+                spacing={2}
+              >
+                {this.props.state.redditHotWorldNews &&
+                  this.props.state.redditHotWorldNews
+                    .slice(0, 50)
+                    .map((post, index) => {
+                      return this.post(post);
+                    })}
+              </Masonry>
+            </Box>
+          )}
       </Box>
     );
   }
