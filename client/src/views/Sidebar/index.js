@@ -44,7 +44,7 @@ export default class Sidebar extends Component {
         </div>
 
         <div className="menu">
-          {/*<div
+          {/* <div
             className={"menu-item " + (this.props.state.home ? "active" : "")}
             onClick={this.props.changeTab}
             data-tab="home"

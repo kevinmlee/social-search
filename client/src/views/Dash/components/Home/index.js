@@ -309,7 +309,7 @@ export default class Home extends Component {
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
         <h2>Hottest posts</h2>
         {this.props.state.redditHotGlobal.length > 0 && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Box className="slider-1" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
               className="reddit-posts"
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
