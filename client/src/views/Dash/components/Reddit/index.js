@@ -53,7 +53,7 @@ export default class Tweets extends Component {
 
   changeTab = (event) => {
     const tabs = ["recent", "popular"];
-    const selectedTab = event.target.getAttribute("data-tab");
+    const selectedTab = event.currentTarget.getAttribute("data-tab");
 
     tabs.forEach((tab) => {
       if (tab === selectedTab) this.setState({ [tab]: true });

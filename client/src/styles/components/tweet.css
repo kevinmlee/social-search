@@ -33,7 +33,7 @@
 .tweet .tweet-text {
   position: relative;
   z-index: 1;
-  overflow-wrap: break-word;
+  word-break: break-all;
 }
 .tweet .tweet-text a {
   color: #000000;
@@ -71,6 +71,9 @@
 }
 .tweet.user .verified {
   margin-left: 10px;
+}
+.tweet.user .username {
+  word-break: break-all;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -121,5 +124,29 @@
   .tweet {
     width: 100% !important;
     margin: 8px 0 !important;
+  }
+  .tweet.user {
+    margin-top: 50px !important;
+  }
+  .MuiBox-root .twitter-tab {
+    margin-top: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .tweet.user .avatar {
+    width: 75px;
+    height: 75px;
+    min-width: 75px;
+  }
+  .tweet.user .username {
+    padding-left: 0;
+    padding-top: 15px;
+  }
+  .tweet.user .username h5 {
+    font-size: 1.3rem;
+  }
+  .tweet.user .username h6 {
+    font-size: 14px;
   }
 }

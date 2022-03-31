@@ -54,7 +54,7 @@ export default class YouTube extends Component {
 
   changeTab = (event) => {
     const tabs = ["date", "rating", "relevance"];
-    const selectedTab = event.target.getAttribute("data-tab");
+    const selectedTab = event.currentTarget.getAttribute("data-tab");
 
     tabs.forEach((tab) => {
       if (tab === selectedTab) this.setState({ [tab]: true });

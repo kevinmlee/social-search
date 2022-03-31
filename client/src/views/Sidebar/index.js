@@ -48,14 +48,8 @@ export default class Sidebar extends Component {
             onClick={this.props.changeTab}
             data-tab="reddit"
           >
-            <RedditIcon
-              className="reddit-icon"
-              onClick={this.props.changeTab}
-              data-tab="reddit"
-            />
-            <span onClick={this.props.changeTab} data-tab="reddit">
-              Reddit
-            </span>
+            <RedditIcon className="reddit-icon" />
+            <span>Reddit</span>
           </div>
 
           <div
@@ -65,14 +59,8 @@ export default class Sidebar extends Component {
             onClick={this.props.changeTab}
             data-tab="twitter"
           >
-            <TwitterIcon
-              className="twitter-icon"
-              onClick={this.props.changeTab}
-              data-tab="twitter"
-            />
-            <span onClick={this.props.changeTab} data-tab="twitter">
-              Twitter
-            </span>
+            <TwitterIcon className="twitter-icon" />
+            <span>Twitter</span>
           </div>
 
           {/*<div
@@ -82,14 +70,8 @@ export default class Sidebar extends Component {
             onClick={this.props.changeTab}
             data-tab="instagram"
           >
-            <InstagramIcon
-              className="instagram-icon"
-              onClick={this.props.changeTab}
-              data-tab="instagram"
-            />
-            <span onClick={this.props.changeTab} data-tab="instagram">
-              Instagram
-            </span>
+            <InstagramIcon className="instagram-icon"/>
+            <span>Instagram</span>
           </div>*/}
 
           <div
@@ -99,14 +81,8 @@ export default class Sidebar extends Component {
             onClick={this.props.changeTab}
             data-tab="youtube"
           >
-            <YouTubeIcon
-              className="youtube-icon"
-              onClick={this.props.changeTab}
-              data-tab="youtube"
-            />
-            <span onClick={this.props.changeTab} data-tab="youtube">
-              YouTube
-            </span>
+            <YouTubeIcon className="youtube-icon" />
+            <span>YouTube</span>
           </div>
 
           <div
@@ -114,14 +90,8 @@ export default class Sidebar extends Component {
             onClick={this.props.changeTab}
             data-tab="trends"
           >
-            <SsidChartIcon
-              className="trends-icon"
-              onClick={this.props.changeTab}
-              data-tab="trends"
-            />
-            <span onClick={this.props.changeTab} data-tab="trends">
-              Trends
-            </span>
+            <SsidChartIcon className="trends-icon" />
+            <span>Trends</span>
           </div>
         </div>
       </Box>

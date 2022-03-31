@@ -584,3 +584,8 @@ h3,
     display: block;
   }
 }
+@media screen and (max-width: 500px) {
+  .m-no-flex {
+    display: block;
+  }
+}

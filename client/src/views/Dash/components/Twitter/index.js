@@ -386,7 +386,7 @@ export default class Twitter extends Component {
           rel="noopener noreferrer"
         >
           <Box sx={{ padding: 2 }}>
-            <div className="d-flex align-center">
+            <div className="d-flex align-center m-no-flex">
               <div className="avatar">
                 <img
                   src={this.getHighQualityAvatar(user.profile_image_url)}
@@ -445,7 +445,7 @@ export default class Twitter extends Component {
 
     return (
       <Box>
-        <Box className="filter">
+        <Box className="filter" sx={{ paddingTop: 4 }}>
           <div
             className="active-display"
             onClick={() => this.toggle("filterToggle")}
