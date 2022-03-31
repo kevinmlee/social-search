@@ -395,11 +395,11 @@ export default class Twitter extends Component {
               </div>
 
               <Box className="username" sx={{ paddingLeft: 2 }}>
-                <div class="d-flex align-center">
+                <div className="d-flex align-center">
                   <Typography variant="h5">{user.name}</Typography>
 
                   {user.verified && (
-                    <div class="verified">
+                    <div className="verified">
                       <VerifiedIcon />
                     </div>
                   )}
