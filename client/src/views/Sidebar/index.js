@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Box } from "@mui/material";
 import HdrStrongIcon from "@mui/icons-material/HdrStrong";
+import HomeIcon from "@mui/icons-material/Home";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -43,6 +44,15 @@ export default class Sidebar extends Component {
         </div>
 
         <div className="menu">
+          {/*<div
+            className={"menu-item " + (this.props.state.home ? "active" : "")}
+            onClick={this.props.changeTab}
+            data-tab="home"
+          >
+            <HomeIcon className="home-icon" />
+            <span>Home</span>
+    </div>*/}
+
           <div
             className={"menu-item " + (this.props.state.reddit ? "active" : "")}
             onClick={this.props.changeTab}

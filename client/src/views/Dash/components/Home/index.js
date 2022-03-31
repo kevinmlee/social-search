@@ -44,8 +44,19 @@ export default class Home extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
 
     // on initial load, fetch the data if not already present
-    if (this.state.popular && this.props.state.redditHot.length === 0)
+    /*if (this.state.popular && this.props.state.redditHot.length === 0)
       this.redditSearchHot();
+
+       redditHotWorldNews: [],
+      redditHotGlobal: [],
+      */
+    if (this.props.state.home && this.props.state.redditHotGlobal.length === 0)
+      this.getHotPosts();
+    if (
+      this.props.state.home &&
+      this.props.state.redditHotWorldNews.length === 0
+    )
+      this.getWorldNewsHotPosts();
   };
 
   componentWillUnmount = () => {
@@ -160,7 +171,7 @@ export default class Home extends Component {
       );
   };
 
-  getSubredditPosts = async (e) => {
+  getWorldNewsHotPosts = async () => {
     return await axios
       .put("/reddit/get/subreddit/posts", {
         subreddit: "worldnews",
@@ -169,6 +180,7 @@ export default class Home extends Component {
       })
       .then(
         (response) => {
+          console.log("response worldnews hot posts", response);
           this.props.setAppState(
             "redditHotWorldNews",
             response.data.data.children
@@ -181,6 +193,7 @@ export default class Home extends Component {
   };
 
   post = (post) => {
+    console.log(post);
     return (
       <Paper elevation={3} className="reddit-post post-card" key={post.data.id}>
         <a
@@ -294,57 +307,36 @@ export default class Home extends Component {
   render() {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <TuneRoundedIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            <li
-              className={this.state.recent ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="recent"
+        <h2>Hottest posts</h2>
+        {this.props.state.redditHotGlobal.length > 0 && (
+          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Masonry
+              className="reddit-posts"
+              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+              spacing={2}
             >
-              Recent
-              <Radio checked={this.state.recent && "checked"} size="small" />
-            </li>
-            <li
-              className={this.state.popular ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="popular"
-            >
-              Hot
-              <Radio checked={this.state.popular && "checked"} size="small" />
-            </li>
-          </ul>
-        </Box>
+              {this.props.state.redditHotGlobal &&
+                this.props.state.redditHotGlobal.map((post, index) => {
+                  return this.post(post);
+                })}
+            </Masonry>
+          </Box>
+        )}
 
-        {this.state.worldNews &&
-          this.props.state.redditHotWorldNews.length > 0 && (
-            <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-              <Masonry
-                className="reddit-posts"
-                columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-                spacing={2}
-              >
-                {this.props.state.redditHotWorldNews &&
-                  this.props.state.redditHotWorldNews
-                    .slice(0, 50)
-                    .map((post, index) => {
-                      return this.post(post);
-                    })}
-              </Masonry>
-            </Box>
-          )}
+        {/*this.props.state.redditHotWorldNews.length > 0 && (
+          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Masonry
+              className="reddit-posts"
+              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
+              spacing={2}
+            >
+              {this.props.state.redditHotWorldNews &&
+                this.props.state.redditHotWorldNews.map((post, index) => {
+                  return this.post(post);
+                })}
+            </Masonry>
+          </Box>
+              )*/}
       </Box>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Box, Container, Typography } from "@mui/material";
 
 // components
+import Home from "./components/Home";
 import Twitter from "./components/Twitter";
 import Reddit from "./components/Reddit";
 import YouTube from "./components/YouTube";
@@ -39,6 +40,10 @@ export default class Dash extends Component {
               Search for a person or topic to get started.
             </Typography>
           </Box>
+        )}
+
+        {this.props.state.home && (
+          <Home setAppState={this.props.setAppState} state={this.props.state} />
         )}
 
         {this.props.state.twitter && this.props.state.previousSearchQuery && (

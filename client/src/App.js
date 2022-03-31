@@ -29,8 +29,9 @@ export default class App extends Component {
 
       // sidebar
       sidebar: false,
-      twitter: false,
+      home: false,
       reddit: true,
+      twitter: false,
       instagram: false,
       youtube: false,
       trends: false,
@@ -86,7 +87,14 @@ export default class App extends Component {
   };
 
   changeTab = (event) => {
-    const tabs = ["twitter", "reddit", "instagram", "youtube", "trends"];
+    const tabs = [
+      "home",
+      "twitter",
+      "reddit",
+      "instagram",
+      "youtube",
+      "trends",
+    ];
     const selectedTab = event.currentTarget.getAttribute("data-tab");
 
     tabs.forEach((tab) => {
@@ -134,6 +142,8 @@ export default class App extends Component {
       twitterError: false,
       redditHot: [],
       redditNew: [],
+      redditHotWorldNews: [],
+      redditHotGlobal: [],
       youtubeVideosRelevance: {},
       youtubeVideosRating: {},
       youtubeVideosDate: {},
