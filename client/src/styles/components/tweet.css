@@ -33,7 +33,7 @@
 .tweet .tweet-text {
   position: relative;
   z-index: 1;
-  word-break: break-all;
+  word-break: break-word;
 }
 .tweet .tweet-text a {
   color: #000000;
@@ -73,7 +73,7 @@
   margin-left: 10px;
 }
 .tweet.user .username {
-  word-break: break-all;
+  word-break: break-word;
 }
 
 @media (prefers-color-scheme: dark) {
