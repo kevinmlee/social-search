@@ -82,6 +82,8 @@ app.all("/twitter/get/tweets/id", TWITTER.getTweetsByUserId);
 /////////////////////////////////////////////
 
 app.all("/reddit/search", REDDIT.search);
+app.all("/reddit/get/subreddit/posts", REDDIT.getSubredditPosts);
+app.all("/reddit/get/hot/posts", REDDIT.getHotPosts);
 
 /////////////////////////////////////////////
 // Instagram
@@ -99,7 +101,7 @@ app.all("/google/relatedTopics", GOOGLE.relatedTopics);
 app.all("/google/relatedQueries", GOOGLE.relatedQueries);
 
 /////////////////////////////////////////////
-// Reddit
+// YouTube
 /////////////////////////////////////////////
 
 app.all("/youtube/search", YOUTUBE.search);

@@ -19,6 +19,12 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import { Masonry } from "@mui/lab";
 
+/*
+ * perhaps on first load, get recent hot posts from reddit
+ * or worldnews
+ * or provide option for both
+ */
+
 export default class Tweets extends Component {
   constructor(props) {
     super(props);
