@@ -55,12 +55,24 @@
   cursor: zoom-in;
 }
 
+/*
+* user card
+*/
+
+.tweet.user.closed .avatar {
+  width: 60px;
+  height: 60px;
+}
 .tweet.user .avatar {
   width: 145px;
   height: 145px;
 }
 .tweet.user .verified {
   margin-left: 10px;
+}
+
+.tweet.user.closed .hide-when-closed {
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
