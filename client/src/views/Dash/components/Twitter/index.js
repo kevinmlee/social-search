@@ -9,6 +9,9 @@ import { Masonry } from "@mui/lab";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import LoopIcon from "@mui/icons-material/Loop";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 export default class Twitter extends Component {
   constructor(props) {
@@ -86,6 +89,10 @@ export default class Twitter extends Component {
       Object.keys(obj).length === 0 &&
       Object.getPrototypeOf(obj) === Object.prototype
     );
+  };
+
+  getHighQualityAvatar = (url) => {
+    return url.replace("_normal", "_400x400");
   };
 
   twitterSearchByRecent = async (e) => {
@@ -302,53 +309,6 @@ export default class Twitter extends Component {
   displayTweets = () => {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <TuneRoundedIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            {this.state.twitterUserID && (
-              <li
-                className={this.state.userTweets ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="userTweets"
-              >
-                @{this.props.state.twitterUser.username}
-                <Radio
-                  checked={this.state.userTweets && "checked"}
-                  size="small"
-                />
-              </li>
-            )}
-            <li
-              className={this.state.recent ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="recent"
-            >
-              Recent
-              <Radio checked={this.state.recent && "checked"} size="small" />
-            </li>
-            <li
-              className={this.state.popular ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="popular"
-            >
-              Popular
-              <Radio checked={this.state.popular && "checked"} size="small" />
-            </li>
-          </ul>
-        </Box>
-
         {this.state.userTweets && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
@@ -416,11 +376,158 @@ export default class Twitter extends Component {
     );
   };
 
+  displayUserCard = () => {
+    const user = this.props.state.twitterUser;
+
+    return (
+      <Paper
+        elevation={3}
+        className="tweet user post-card"
+        sx={{ marginTop: 6 }}
+      >
+        <a
+          href={"https://twitter.com/" + user.username}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Box sx={{ padding: 2 }}>
+            <div className="d-flex align-center">
+              <div className="avatar">
+                <img
+                  src={this.getHighQualityAvatar(user.profile_image_url)}
+                  alt={user.name + "'s profile image'"}
+                />
+              </div>
+
+              <Box className="username" sx={{ paddingLeft: 2 }}>
+                <div class="d-flex align-center">
+                  <Typography variant="h5">{user.name}</Typography>
+
+                  {user.verified && (
+                    <div class="verified">
+                      <VerifiedIcon />
+                    </div>
+                  )}
+                </div>
+                <span style={{ color: "#999999" }}>@{user.username}</span>
+              </Box>
+            </div>
+          </Box>
+
+          <Box sx={{ padding: 2 }}>
+            <Typography variant="subtitle1">{user.description}</Typography>
+          </Box>
+
+          <Grid
+            container
+            spacing={2}
+            sx={{ paddingTop: 2, paddingLeft: "25px", paddingRight: "25px" }}
+          >
+            <Typography
+              className="d-flex align-center"
+              variant="body2"
+              style={{ color: "#999999" }}
+            >
+              <LocationOnIcon style={{ marginRight: "5px" }} />
+              {user.location}
+            </Typography>
+            <Typography
+              className="d-flex align-center"
+              variant="body2"
+              style={{ marginLeft: "15px", color: "#999999" }}
+            >
+              <CalendarMonthIcon style={{ marginRight: "5px" }} />
+              Joined {moment(user.created_at).format("MMMM YYYY")}
+            </Typography>
+          </Grid>
+
+          <Box
+            className="public-metrics"
+            container
+            spacing={2}
+            sx={{ padding: 2 }}
+          >
+            {user.public_metrics && (
+              <Typography
+                className="metric flex-container"
+                variant="overline"
+                sx={{ paddingRight: 4 }}
+                style={{ color: "#999999" }}
+              >
+                {user.public_metrics.followers_count.toLocaleString()} followers
+              </Typography>
+            )}
+
+            {user.public_metrics && (
+              <Typography
+                className="metric flex-container"
+                variant="overline"
+                style={{ color: "#999999" }}
+              >
+                {user.public_metrics.following_count.toLocaleString()} following
+              </Typography>
+            )}
+          </Box>
+        </a>
+      </Paper>
+    );
+  };
+
   render() {
     //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
 
     return (
       <Box>
+        <Box className="filter">
+          <div
+            className="active-display"
+            onClick={() => this.toggle("filterToggle")}
+          >
+            <span className="active-filter">Filter</span>
+            <TuneRoundedIcon />
+          </div>
+          <ul
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
+            ref={this.wrapperRef}
+          >
+            {/*<li>All</li>*/}
+            {this.state.twitterUserID && (
+              <li
+                className={this.state.userTweets ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="userTweets"
+              >
+                @{this.props.state.twitterUser.username}
+                <Radio
+                  checked={this.state.userTweets && "checked"}
+                  size="small"
+                />
+              </li>
+            )}
+            <li
+              className={this.state.recent ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="recent"
+            >
+              Recent
+              <Radio checked={this.state.recent && "checked"} size="small" />
+            </li>
+            <li
+              className={this.state.popular ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="popular"
+            >
+              Popular
+              <Radio checked={this.state.popular && "checked"} size="small" />
+            </li>
+          </ul>
+        </Box>
+
+        {/*!this.objectEmpty(this.props.state.twitterUser) &&
+          this.displayUserCard()*/}
+
         {this.props.state.twitterError
           ? this.displayErrorMessage()
           : this.displayTweets()}

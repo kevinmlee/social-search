@@ -37,7 +37,8 @@ module.exports = {
     const { searchQuery } = req.body;
 
     const params = {
-      "user.fields": "public_metrics,profile_image_url,verified,description",
+      "user.fields":
+        "public_metrics,profile_image_url,verified,description,location,created_at",
       expansions: "pinned_tweet_id",
     };
 
