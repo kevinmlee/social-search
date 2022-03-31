@@ -58,21 +58,19 @@
 /*
 * user card
 */
-
-.tweet.user.closed .avatar {
-  width: 60px;
-  height: 60px;
+.tweet.user {
+  cursor: pointer;
 }
 .tweet.user .avatar {
   width: 145px;
   height: 145px;
+  min-width: 145px;
+}
+.tweet.user .avatar img {
+  width: 100%;
 }
 .tweet.user .verified {
   margin-left: 10px;
-}
-
-.tweet.user.closed .hide-when-closed {
-  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
