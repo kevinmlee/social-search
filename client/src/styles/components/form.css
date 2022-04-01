@@ -48,3 +48,13 @@
     border: 1px solid #eaeaea;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .search-input input {
+    font-size: 14px;
+    padding: 8px 8px 8px 50px;
+  }
+  .search-input input::placeholder {
+    font-size: 14px;
+  }
+}
