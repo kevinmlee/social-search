@@ -19,6 +19,8 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import { Masonry } from "@mui/lab";
 
+import Weather from "../Weather";
+
 /*
  * perhaps on first load, get recent hot posts from reddit
  * or worldnews
@@ -40,7 +42,7 @@ export default class Home extends Component {
     //this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     //document.addEventListener("mousedown", this.handleClickOutside);
 
     // on initial load, fetch the data if not already present
@@ -57,8 +59,6 @@ export default class Home extends Component {
       this.props.state.redditHotWorldNews.length === 0
     )
       this.getWorldNewsHotPosts();
-
-    this.getGeolocation();
   };
 
   componentWillUnmount = () => {
@@ -193,134 +193,6 @@ export default class Home extends Component {
       );
   };
 
-  getGeolocation = async (e) => {
-    return await axios.put("/get/geolocation", {}).then(
-      (response) => {
-        console.log(response);
-        /*this.props.setAppState(
-            "geolocation",
-            response.data.data.children
-          );
-          */
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  };
-
-  post = (post) => {
-    //console.log(post);
-    return (
-      <Paper elevation={3} className="reddit-post post-card" key={post.data.id}>
-        <a
-          //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="details"
-            sx={{ paddingTop: 3, paddingLeft: 2, paddingRight: 2 }}
-          >
-            <div className="subreddit">{post.data.subreddit_name_prefixed}</div>
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              Posted by {post.data.author}
-            </Typography>
-            <span style={{ color: "#999999" }}> · </span>
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              {moment.unix(post.data.created).utc().fromNow()}
-            </Typography>
-          </Box>
-        </a>
-
-        <a
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="post-text"
-            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
-          >
-            <Typography variant="body1">
-              {this.decodeText(post.data.title)}
-            </Typography>
-          </Box>
-        </a>
-
-        {this.getVideo(post)
-          ? this.getVideo(post)
-          : this.getPreviewImage(post) && (
-              <Box
-                className="media"
-                sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
-                onClick={() => {
-                  this.props.setAppState(
-                    "backdropImage",
-                    this.getPreviewImage(post)
-                  );
-                  this.props.setAppState("backdropToggle", true);
-                }}
-              >
-                <div className="media-image">
-                  <img
-                    src={this.getPreviewImage(post)}
-                    alt={post.data.title}
-                    loading="lazy"
-                  />
-                </div>
-              </Box>
-            )}
-
-        <a
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="public-metrics"
-            container
-            spacing={2}
-            xs={12}
-            sx={{
-              padding: 2,
-            }}
-          >
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              sx={{ paddingRight: 4 }}
-              style={{ color: "#999999" }}
-            >
-              <ThumbUpIcon />
-              <span>{post.data.ups}</span>
-            </Typography>
-
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              sx={{ paddingRight: 4 }}
-              style={{ color: "#999999" }}
-            >
-              <ChatBubbleIcon />
-              {post.data.num_comments}
-            </Typography>
-
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              style={{ color: "#999999" }}
-            >
-              <EmojiEventsIcon />
-              {post.data.total_awards_received}
-            </Typography>
-          </Box>
-        </a>
-      </Paper>
-    );
-  };
-
   tinyPost = (post) => {
     //console.log(post);
     return (
@@ -380,9 +252,10 @@ export default class Home extends Component {
           </div>
 
           <div className="right-column">
-            <div className="weather">
-              <h2>Weather</h2>
-            </div>
+            <Weather
+              setAppState={this.props.setAppState}
+              state={this.props.state}
+            />
           </div>
         </div>
 

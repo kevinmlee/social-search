@@ -1,0 +1,138 @@
+#weather .location {
+  margin-bottom: 20px;
+}
+#weather .current-icon .icon {
+  font-size: 60px;
+  margin: 20px 0;
+}
+#weather #currentConditions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#weather #currentConditions .status {
+  font-size: 18px;
+}
+#weather #currentConditions .temp {
+  font-size: 32px;
+  line-height: 1;
+  margin: 15px 0;
+}
+
+#dailyConditions {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+#dailyConditions .day {
+  text-align: center;
+}
+#dailyConditions .day .icon {
+  font-size: 30px;
+  margin: 20px 0;
+}
+
+#weather #degree-selector {
+  list-style-type: none;
+  padding: 0;
+  margin: 30px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+#weather #degree-selector > * {
+  padding: 10px 15px 10px 10px;
+  transition: ease-in-out all 0.3s;
+  border-radius: 12px;
+}
+#weather #degree-selector > *.active {
+  background-color: rgba(29, 161, 242, 0.1);
+}
+#weather #degree-selector > *:hover {
+  cursor: pointer;
+  background-color: rgba(29, 161, 242, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  #weather {
+    display: none;
+  }
+}
+
+/*
+* Weather icons: https://erikflowers.github.io/weather-icons/
+* Weather codes from API: https://openweathermap.org/weather-conditions
+*/
+
+/* clear */
+.wi-01d:before {
+  content: "\f00d";
+}
+.wi-01n:before {
+  content: "\f02e";
+}
+
+/* cloudy */
+.wi-02d:before {
+  content: "\f002";
+}
+.wi-02n:before {
+  content: "\f086";
+}
+
+/* scattered clouds */
+.wi-03d:before {
+  content: "\f07d";
+}
+.wi-03n:before {
+  content: "\f080";
+}
+
+/* broken clouds */
+.wi-04d:before {
+  content: "\f00c";
+}
+.wi-04n:before {
+  content: "\f083";
+}
+
+/* shower rain */
+.wi-09d:before {
+  content: "\f01a";
+}
+.wi-09n:before {
+  content: "\f01a";
+}
+
+/* rain */
+.wi-10d:before {
+  content: "\f008";
+}
+.wi-10n:before {
+  content: "\f029";
+}
+
+/* thunderstorms */
+.wi-11d:before {
+  content: "\f005";
+}
+.wi-11n:before {
+  content: "\f025";
+}
+
+/* snow */
+.wi-13d:before {
+  content: "\f076";
+}
+.wi-13n:before {
+  content: "\f076";
+}
+
+/* mist */
+.wi-50d:before {
+  content: "\f063";
+}
+.wi-50n:before {
+  content: "\f063";
+}

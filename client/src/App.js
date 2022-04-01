@@ -64,6 +64,10 @@ export default class App extends Component {
       searchQuery: "",
       previousSearchQuery: "",
 
+      // weather
+      geolocation: {},
+      weather: {},
+
       backdropImage: "",
       backdropToggle: false,
       loadingBackdrop: false,

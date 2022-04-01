@@ -130,6 +130,31 @@ app.all("/get/geolocation", async function (req, res, next) {
   request.on("error", (e) => res.json(e));
 });
 
+app.all("/get/weather", async function (req, res, next) {
+  const { lat, lon, part } = req.body;
+
+  const url =
+    "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=" +
+    process.env.OPEN_WEATHER_API_KEY +
+    "&units=metric";
+
+  let request = https.get(url, (response) => {
+    let data = "";
+
+    response.on("data", (stream) => {
+      data += stream;
+    });
+
+    response.on("end", () => res.json(JSON.parse(data)));
+  });
+
+  request.on("error", (e) => res.json(e));
+});
+
 /////////////////////////////////////////////
 // Database API Routes
 /////////////////////////////////////////////
