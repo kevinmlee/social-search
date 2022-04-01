@@ -1,6 +1,6 @@
 @import url("./components/header.css");
 @import url("./components/sidebar.css");
-
+@import url("./components/home.css");
 @import url("./components/tweet.css");
 @import url("./components/reddit.css");
 @import url("./components/youtube.css");
@@ -565,6 +565,9 @@ h3,
 }
 .align-center {
   align-items: center;
+}
+.align-top {
+  align-items: flex-start;
 }
 .flex-container {
   display: -webkit-box;

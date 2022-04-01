@@ -193,7 +193,7 @@ export default class Home extends Component {
   };
 
   post = (post) => {
-    console.log(post);
+    //console.log(post);
     return (
       <Paper elevation={3} className="reddit-post post-card" key={post.data.id}>
         <a
@@ -304,24 +304,82 @@ export default class Home extends Component {
     );
   };
 
+  tinyPost = (post) => {
+    //console.log(post);
+    return (
+      <Box elevation={3} className="tiny-post" key={post.data.id}>
+        <a
+          //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
+          href={"https://reddit.com" + post.data.permalink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Box
+            className="details"
+            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
+          >
+            {/* <span className="subreddit">
+              {post.data.subreddit_name_prefixed}
+            </span>
+    <span style={{ color: "#999999" }}> · </span>*/}
+            <Typography variant="caption" style={{ color: "#999999" }}>
+              Posted by {post.data.author}
+            </Typography>
+            <span style={{ color: "#999999" }}> · </span>
+            <Typography variant="caption" style={{ color: "#999999" }}>
+              {moment.unix(post.data.created).utc().fromNow()}
+            </Typography>
+          </Box>
+
+          <Box className="post-text" sx={{ padding: 2 }}>
+            <Typography variant="body1">
+              {this.decodeText(post.data.title)}
+            </Typography>
+          </Box>
+        </a>
+      </Box>
+    );
+  };
+
   render() {
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <h2>Hottest posts</h2>
-        {this.props.state.redditHotGlobal.length > 0 && (
-          <Box className="slider-1" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className="reddit-posts"
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
-              {this.props.state.redditHotGlobal &&
-                this.props.state.redditHotGlobal.map((post, index) => {
-                  return this.post(post);
-                })}
-            </Masonry>
-          </Box>
-        )}
+        <div className="columns d-flex m-no-flex align-top">
+          <div className="center-column">
+            <div className="world-news">
+              <h2>Hottest World News</h2>
+
+              {this.props.state.redditHotWorldNews.length > 0 && (
+                <Paper
+                  className="tiny-card-container reddit-post"
+                  sx={{ marginTop: 4, marginBottom: 4 }}
+                >
+                  {this.props.state.redditHotWorldNews.map((post, index) => {
+                    return this.tinyPost(post);
+                  })}
+                </Paper>
+              )}
+            </div>
+          </div>
+
+          <div className="right-column">
+            <div className="weather">
+              <h2>Weather Here</h2>
+            </div>
+          </div>
+        </div>
+
+        {/*{this.props.state.redditHotGlobal.length > 0 && (
+          <Paper
+            className="tiny-card-container reddit-post"
+            sx={{ marginTop: 4, marginBottom: 4 }}
+          >
+            {this.props.state.redditHotGlobal &&
+              this.props.state.redditHotGlobal.map((post, index) => {
+                return this.tinyPost(post);
+              })}
+          </Paper>
+            )}*/}
 
         {/*this.props.state.redditHotWorldNews.length > 0 && (
           <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
