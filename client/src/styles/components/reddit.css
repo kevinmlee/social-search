@@ -98,6 +98,9 @@
 }
 
 @media screen and (min-width: 769px) {
+  .reddit-tab {
+    margin-right: -12px;
+  }
   .reddit-posts > *:hover {
     transform: translateY(-5px);
   }

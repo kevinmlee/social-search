@@ -58,6 +58,9 @@
 }
 
 @media screen and (min-width: 769px) {
+  .youtube-tab {
+    margin-right: -12px;
+  }
   .youtube-posts > *:hover {
     transform: translateY(-5px);
   }

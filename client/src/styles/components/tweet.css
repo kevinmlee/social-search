@@ -107,6 +107,9 @@
 }
 
 @media screen and (min-width: 769px) {
+  .tweet-tab {
+    margin-right: -12px;
+  }
   .tweets > *:hover {
     transform: translateY(-5px);
   }

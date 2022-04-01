@@ -307,7 +307,7 @@ export default class Twitter extends Component {
 
   displayTweets = () => {
     return (
-      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+      <Box sx={{ marginTop: 4, marginBottom: 4 }}>
         {this.state.userTweets && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
@@ -444,8 +444,8 @@ export default class Twitter extends Component {
     //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
 
     return (
-      <Box>
-        <Box className="filter" sx={{ paddingTop: 4 }}>
+      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+        <Box className="filter">
           <div
             className="active-display"
             onClick={() => this.toggle("filterToggle")}
