@@ -363,8 +363,8 @@ export default class Home extends Component {
           </div>
 
           <div className="right-column">
-            <div className="weather">
-              <h2>Weather Here</h2>
+            <div className="spotlight">
+              <h2>Spotlight</h2>
             </div>
           </div>
         </div>
