@@ -84,6 +84,8 @@ export default class Weather extends Component {
       "data" in this.props.state.geolocation &&
       this.props.state.geolocation.data;
 
+    console.log(geolocation);
+
     const current =
       "data" in this.props.state.weather &&
       this.props.state.weather.data.current;
@@ -119,7 +121,7 @@ export default class Weather extends Component {
                 const date = moment.unix(day.dt).format("ddd");
                 if (index < 5)
                   return (
-                    <div className="day">
+                    <div className="day" key={index}>
                       <div className="date">
                         {moment.unix(current.dt).format("ddd") === date
                           ? "Today"
@@ -143,21 +145,21 @@ export default class Weather extends Component {
 
             <ul id="degree-selector">
               <li
-                className={this.state.celsius && "active"}
+                className={this.state.celsius ? "active" : ""}
                 onClick={this.degreeSelector}
                 data-degrees="celsius"
               >
                 °C
               </li>
               <li
-                className={this.state.fahrenheit && "active"}
+                className={this.state.fahrenheit ? "active" : ""}
                 onClick={this.degreeSelector}
                 data-degrees="fahrenheit"
               >
                 °F
               </li>
               <li
-                className={this.state.kelvin && "active"}
+                className={this.state.kelvin ? "active" : ""}
                 onClick={this.degreeSelector}
                 data-degrees="kelvin"
               >
