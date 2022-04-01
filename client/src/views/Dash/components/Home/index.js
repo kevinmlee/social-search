@@ -57,6 +57,8 @@ export default class Home extends Component {
       this.props.state.redditHotWorldNews.length === 0
     )
       this.getWorldNewsHotPosts();
+
+    this.getGeolocation();
   };
 
   componentWillUnmount = () => {
@@ -180,7 +182,6 @@ export default class Home extends Component {
       })
       .then(
         (response) => {
-          console.log("response worldnews hot posts", response);
           this.props.setAppState(
             "redditHotWorldNews",
             response.data.data.children
@@ -190,6 +191,22 @@ export default class Home extends Component {
           console.log(error);
         }
       );
+  };
+
+  getGeolocation = async (e) => {
+    return await axios.put("/get/geolocation", {}).then(
+      (response) => {
+        console.log(response);
+        /*this.props.setAppState(
+            "geolocation",
+            response.data.data.children
+          );
+          */
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   post = (post) => {
