@@ -252,39 +252,12 @@ export default class Home extends Component {
           </div>
 
           <div className="right-column">
-            <Weather
+            {/*<Weather
               setAppState={this.props.setAppState}
               state={this.props.state}
-            />
+                />*/}
           </div>
         </div>
-
-        {/*{this.props.state.redditHotGlobal.length > 0 && (
-          <Paper
-            className="tiny-card-container reddit-post"
-            sx={{ marginTop: 4, marginBottom: 4 }}
-          >
-            {this.props.state.redditHotGlobal &&
-              this.props.state.redditHotGlobal.map((post, index) => {
-                return this.tinyPost(post);
-              })}
-          </Paper>
-            )}*/}
-
-        {/*this.props.state.redditHotWorldNews.length > 0 && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className="reddit-posts"
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
-              {this.props.state.redditHotWorldNews &&
-                this.props.state.redditHotWorldNews.map((post, index) => {
-                  return this.post(post);
-                })}
-            </Masonry>
-          </Box>
-              )*/}
       </Box>
     );
   }

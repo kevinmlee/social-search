@@ -2,6 +2,15 @@
   overflow: hidden;
 }
 
+@media screen and (min-width: 1200px) {
+  .columns .center-column {
+    width: 70%;
+  }
+  .columns .right-column {
+    width: 30%;
+  }
+}
+
 @media screen and (min-width: 769px) {
   .columns .center-column {
     width: 60%;
