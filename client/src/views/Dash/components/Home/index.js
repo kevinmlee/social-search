@@ -37,11 +37,11 @@ export default class Home extends Component {
     };
 
     this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    //this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount = () => {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    //document.addEventListener("mousedown", this.handleClickOutside);
 
     // on initial load, fetch the data if not already present
     /*if (this.state.popular && this.props.state.redditHot.length === 0)
@@ -62,7 +62,7 @@ export default class Home extends Component {
   };
 
   componentWillUnmount = () => {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    //document.removeEventListener("mousedown", this.handleClickOutside);
   };
 
   handleClickOutside = (event) => {
@@ -364,7 +364,7 @@ export default class Home extends Component {
         <div className="columns d-flex t-no-flex align-top">
           <div className="center-column">
             <div className="world-news">
-              <h2>Hottest World News</h2>
+              <h2>Trending World News</h2>
 
               {this.props.state.redditHotWorldNews.length > 0 && (
                 <Paper
