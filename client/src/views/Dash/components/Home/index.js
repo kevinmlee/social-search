@@ -343,8 +343,8 @@ export default class Home extends Component {
 
   render() {
     return (
-      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <div className="columns d-flex m-no-flex align-top">
+      <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+        <div className="columns d-flex t-no-flex align-top">
           <div className="center-column">
             <div className="world-news">
               <h2>Hottest World News</h2>
@@ -363,8 +363,8 @@ export default class Home extends Component {
           </div>
 
           <div className="right-column">
-            <div className="spotlight">
-              <h2>Spotlight</h2>
+            <div className="weather">
+              <h2>Weather</h2>
             </div>
           </div>
         </div>

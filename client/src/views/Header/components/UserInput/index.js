@@ -57,6 +57,8 @@ export default class UserInput extends Component {
     }
 
     await this.props.setAppState("loadingBackdrop", false);
+    await this.props.setAppState("home", false);
+    await this.props.setAppState("reddit", true);
     await this.setState({ search: "" });
   };
 
@@ -71,7 +73,7 @@ export default class UserInput extends Component {
               name="search"
               value={this.state.search}
               size="small"
-              placeholder="Search"
+              placeholder="Search for a person or topic"
               // defaultValue={this.state.search}
               spellCheck="false"
               onChange={this.handleChange}

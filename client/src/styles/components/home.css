@@ -1,8 +1,16 @@
-.columns .center-column {
-  width: 70%;
-  padding-right: 20px;
+@media screen and (min-width: 769px) {
+  .columns .center-column {
+    width: 70%;
+    padding-right: 20px;
+  }
+  .columns .right-column {
+    width: 30%;
+    padding-left: 20px;
+  }
 }
-.columns .right-column {
-  width: 30%;
-  padding-left: 20px;
+
+@media screen and (max-width: 768px) {
+  .weather {
+    display: none;
+  }
 }

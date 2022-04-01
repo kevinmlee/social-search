@@ -585,7 +585,7 @@ h3,
   justify-content: flex-end;
 }
 @media screen and (max-width: 768px) {
-  .flex-container.t-no-flex {
+  .t-no-flex {
     display: block;
   }
 }
