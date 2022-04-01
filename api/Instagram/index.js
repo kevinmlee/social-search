@@ -1,4 +1,6 @@
 require("dotenv").config();
+const Insta = require("scraper-instagram");
+const InstaClient = new Insta();
 const https = require("https");
 const request = require("request");
 
@@ -22,34 +24,47 @@ module.exports = {
 
     request.on("error", (e) => res.json(e));
   },
-  // get posts by user id
-  getUser: function (req, res, next) {
-    const options = {
-      method: "GET",
-      url: "https://" + HOSTNAME + "/cms/v3/domains/",
-      headers: {
-        accept: "application/json",
-        authorization: "Bearer " + req.body.access_token,
-      },
-    };
 
-    request(options, function (error, response, body) {
-      if (error) console.log(error);
+  searchHashtag: async function (req, res, next) {
+    const { hashtag } = req.body;
 
-      if (response.statusCode === 200) {
-        return res.json({
-          status: response.statusCode,
-          success: true,
-          domains: JSON.parse(body),
-        });
-      } else {
-        let error = JSON.parse(body);
+    InstaClient.searchHashtag(hashtag).then((hashtags) =>
+      res.json(JSON.parse(hashtags)).catch((err) => res.json(err))
+    );
+  },
 
-        return res.json({
-          status: response.statusCode,
-          success: false,
-        });
-      }
-    });
+  getProfile: async function (req, res, next) {
+    const { username } = req.body;
+    InstaClient.getProfile(username).then((profile) =>
+      res.json(JSON.parse(profile)).catch((err) => res.json(err))
+    );
+  },
+
+  getProfilePosts: async function (req, res, next) {
+    const { username } = req.body;
+    InstaClient.getProfilePosts(username, maxCount, pageId).then((posts) =>
+      res.json(JSON.parse(posts)).catch((err) => res.json(err))
+    );
+  },
+
+  getHashtag: async function (req, res, next) {
+    const { hashtag } = req.body;
+    InstaClient.getHashtag(hashtag).then((hashtag) =>
+      res.json(JSON.parse(hashtag)).catch((err) => res.json(err))
+    );
+  },
+
+  getHashtagPosts: async function (req, res, next) {
+    const { hashtag } = req.body;
+    InstaClient.getHashtagPosts(hashtag, maxCount, pageId).then((posts) =>
+      res.json(JSON.parse(posts)).catch((err) => res.json(err))
+    );
+  },
+
+  getPost: async function (req, res, next) {
+    const { shortcode } = req.body;
+    InstaClient.getPost(shortcode).then((post) =>
+      res.json(JSON.parse(post)).catch((err) => res.json(err))
+    );
   },
 };

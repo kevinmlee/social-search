@@ -7,6 +7,7 @@ import Twitter from "./components/Twitter";
 import Reddit from "./components/Reddit";
 import YouTube from "./components/YouTube";
 import Trends from "./components/Trends";
+import Instagram from "./components/Instagram";
 
 export default class Dash extends Component {
   /*
@@ -75,6 +76,13 @@ export default class Dash extends Component {
             state={this.props.state}
           />
         )}
+
+        {/*{this.props.state.instagram && (
+          <Instagram
+            setAppState={this.props.setAppState}
+            state={this.props.state}
+          />
+        )}*/}
 
         {/* 
         other APIs to use

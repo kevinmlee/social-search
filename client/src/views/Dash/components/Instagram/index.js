@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import axios from "axios";
 
 import {
   Box,
@@ -34,11 +35,14 @@ export default class Instagram extends Component {
   }
 
   componentDidMount = () => {
-    document.addEventListener("mousedown", this.handleClickOutside);
+    //document.addEventListener("mousedown", this.handleClickOutside);
+
+    //this.instagramTopSearch();
+    this.searchHashtag();
   };
 
   componentWillUnmount = () => {
-    document.removeEventListener("mousedown", this.handleClickOutside);
+    //document.removeEventListener("mousedown", this.handleClickOutside);
   };
 
   handleClickOutside = (event) => {
@@ -80,11 +84,29 @@ export default class Instagram extends Component {
   instagramTopSearch = async (e) => {
     return await axios
       .put("/instagram/topSearch", {
-        searchQuery: this.props.state.previousSearchQuery,
+        //searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: "tesla",
       })
       .then(
         (response) => {
           console.log("ig top search", response);
+          //this.props.setAppState("redditHot", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
+  searchHashtag = async (e) => {
+    return await axios
+      .put("/instagram/search/hashtag", {
+        //searchQuery: this.props.state.previousSearchQuery,
+        hashtag: "tesla",
+      })
+      .then(
+        (response) => {
+          console.log("searchHashtag", response);
           //this.props.setAppState("redditHot", response.data.data.children);
         },
         (error) => {
@@ -140,7 +162,9 @@ export default class Instagram extends Component {
             <TuneRoundedIcon />
           </div>
           <ul
-            class={"filter-options " + (this.state.filterToggle && "active")}
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
             ref={this.wrapperRef}
           >
             {/*<li>All</li>*/}

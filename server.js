@@ -91,6 +91,9 @@ app.all("/reddit/get/hot/posts", REDDIT.getHotPosts);
 /////////////////////////////////////////////
 
 app.all("/instagram/topSearch", INSTAGRAM.topSearch);
+app.all("/instagram/search/hashtag", INSTAGRAM.searchHashtag);
+app.all("/instagram/get/profile", INSTAGRAM.getProfile);
+app.all("/instagram/get/profile/posts", INSTAGRAM.getProfilePosts);
 
 /////////////////////////////////////////////
 // Google

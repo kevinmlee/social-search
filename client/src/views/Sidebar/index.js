@@ -80,7 +80,7 @@ export default class Sidebar extends Component {
             onClick={this.props.changeTab}
             data-tab="instagram"
           >
-            <InstagramIcon className="instagram-icon"/>
+            <InstagramIcon className="instagram-icon" />
             <span>Instagram</span>
           </div>*/}
 
