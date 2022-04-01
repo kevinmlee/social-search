@@ -72,9 +72,6 @@
   .reddit-post a {
     color: #ffffff;
   }
-  .tiny-card-container > *:not(:last-child) {
-    border-bottom: 1px solid #22303c;
-  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -91,9 +88,6 @@
   }
   .reddit-post .details .subreddit {
     color: #000000;
-  }
-  .tiny-card-container > *:not(:last-child) {
-    border-bottom: 1px solid #000000;
   }
 }
 
