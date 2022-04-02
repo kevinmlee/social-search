@@ -252,10 +252,10 @@ export default class Home extends Component {
           </div>
 
           <div className="right-column">
-            {/*<Weather
+            <Weather
               setAppState={this.props.setAppState}
               state={this.props.state}
-                />*/}
+            />
           </div>
         </div>
       </Box>

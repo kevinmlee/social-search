@@ -35,14 +35,35 @@ export default class Weather extends Component {
 
   componentDidMount = async () => {
     // ask user for location
-    //navigator.geolocation.getCurrentPosition(function(position){console.log(position)})
 
+    await this.getUserLocation();
     await this.getGeolocation();
-    this.getWeather();
   };
 
   text = (url) => {
     return fetch(url).then((res) => res.text());
+  };
+
+  getUserLocation = async () => {
+    if (!navigator.geolocation) {
+      //console.log("Geolocation is not supported by your browser");
+    } else {
+      //console.log("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          //console.log("Found");
+          await this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+
+          this.getWeather();
+        },
+        () => {
+          //console.log("Unable to retrieve your location");
+        }
+      );
+    }
   };
 
   degreeSelector = (event) => {
@@ -70,8 +91,10 @@ export default class Weather extends Component {
   getWeather = async (e) => {
     return await axios
       .put("/get/weather", {
-        lat: this.props.state.geolocation.data.latitude,
-        lon: this.props.state.geolocation.data.longitude,
+        //lat: this.props.state.geolocation.data.latitude,
+        //lon: this.props.state.geolocation.data.longitude,
+        lat: this.state.latitude,
+        lon: this.state.longitude,
       })
       .then(
         (response) => {
