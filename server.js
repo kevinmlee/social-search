@@ -115,7 +115,8 @@ app.all("/youtube/search", YOUTUBE.search);
 /////////////////////////////////////////////
 
 app.all("/get/geolocation", async function (req, res, next) {
-  const url = "https://geolocation-db.com/json/";
+  const url =
+    "https://geolocation-db.com/json/8dd79c70-0801-11ec-a29f-e381a788c2c0";
 
   let request = https.get(url, (response) => {
     let data = "";
