@@ -37,19 +37,6 @@ export default class Weather extends Component {
     // ask user for location
     //navigator.geolocation.getCurrentPosition(function(position){console.log(position)})
 
-    let apiKey = "d9e53816d07345139c58d0ea733e3870";
-    await $.getJSON(
-      "https://api.bigdatacloud.net/data/ip-geolocation?key=" + apiKey,
-      (data) => {
-        return data;
-      }
-    ).then((response) => {
-      this.setState({
-        latitude: response.location.latitude,
-        longitude: response.location.longitude,
-      });
-    });
-
     await this.getGeolocation();
     this.getWeather();
   };
@@ -79,10 +66,8 @@ export default class Weather extends Component {
   getWeather = async (e) => {
     return await axios
       .put("/get/weather", {
-        lat: this.state.latitude,
-        lon: this.state.longitude,
-        //lat: this.props.state.geolocation.data.latitude,
-        //lon: this.props.state.geolocation.data.longitude,
+        lat: this.props.state.geolocation.data.latitude,
+        lon: this.props.state.geolocation.data.longitude,
       })
       .then(
         (response) => {
