@@ -37,33 +37,55 @@ export default class Weather extends Component {
     // ask user for location
 
     await this.getUserLocation();
-    await this.getGeolocation();
+    //await this.getGeolocation();
   };
 
-  text = (url) => {
-    return fetch(url).then((res) => res.text());
-  };
-
-  getUserLocation = async () => {
+  getUserLocation = () => {
     if (!navigator.geolocation) {
-      //console.log("Geolocation is not supported by your browser");
+      // console.log("Geolocation is not supported by your browser");
     } else {
-      //console.log("Locating...");
+      console.log("Locating...");
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          //console.log("Found");
-          await this.setState({
+        (position) => {
+          // console.log("Found");
+          // console.log("position", position);
+          /* await this.setState({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
+          */
 
-          this.getWeather();
+          this.getWeather(position.coords.latitude, position.coords.longitude);
+          this.getGeolocationData(
+            position.coords.latitude,
+            position.coords.longitude
+          );
         },
         () => {
-          //console.log("Unable to retrieve your location");
+          //console.log("Unable to retrieve location");
         }
       );
     }
+  };
+
+  getGeolocationData = async (lat, lon) => {
+    const url =
+      "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=" +
+      lat +
+      "&longitude=" +
+      lon +
+      "&localityLanguage=en";
+
+    fetch(url)
+      .then((res) => res.json())
+      .then(
+        async (result) => {
+          await this.props.setAppState("geolocation", result);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   degreeSelector = (event) => {
@@ -76,8 +98,8 @@ export default class Weather extends Component {
     });
   };
 
-  getGeolocation = async (e) => {
-    return await axios.get("/get/geolocation", {}).then(
+  getGeolocation = async (lat, lon) => {
+    return await axios.get("/get/geolocation", { lat: lat, lon: lon }).then(
       async (response) => {
         await this.props.setAppState("geolocation", response);
         return;
@@ -88,13 +110,13 @@ export default class Weather extends Component {
     );
   };
 
-  getWeather = async (e) => {
+  getWeather = async (lat, lon) => {
     return await axios
       .put("/get/weather", {
         //lat: this.props.state.geolocation.data.latitude,
         //lon: this.props.state.geolocation.data.longitude,
-        lat: this.state.latitude,
-        lon: this.state.longitude,
+        lat: lat,
+        lon: lon,
       })
       .then(
         (response) => {
@@ -114,8 +136,7 @@ export default class Weather extends Component {
 
   render() {
     const geolocation =
-      "data" in this.props.state.geolocation &&
-      this.props.state.geolocation.data;
+      "city" in this.props.state.geolocation && this.props.state.geolocation;
 
     const current =
       "data" in this.props.state.weather &&
@@ -131,7 +152,7 @@ export default class Weather extends Component {
         {"data" in this.props.state.weather && (
           <Paper className="card" sx={{ marginTop: 2 }}>
             <div className="location">
-              {geolocation.city}, {geolocation.state}
+              {geolocation.city}, {geolocation.principalSubdivision}
             </div>
 
             <Box id="currentConditions">
