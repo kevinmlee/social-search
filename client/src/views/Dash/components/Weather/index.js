@@ -30,6 +30,9 @@ export default class Weather extends Component {
   }
 
   componentDidMount = async () => {
+    // ask user for location
+    //navigator.geolocation.getCurrentPosition(function(position){console.log(position)})
+
     await this.getGeolocation();
     this.getWeather();
   };
@@ -45,9 +48,9 @@ export default class Weather extends Component {
   };
 
   getGeolocation = async (e) => {
-    return await axios.put("/get/geolocation", {}).then(
+    return await axios.get("/get/geolocation", {}).then(
       async (response) => {
-        //console.log(response);
+        console.log("geolocation", response);
         await this.props.setAppState("geolocation", response);
         return;
       },
@@ -83,8 +86,6 @@ export default class Weather extends Component {
     const geolocation =
       "data" in this.props.state.geolocation &&
       this.props.state.geolocation.data;
-
-    console.log(geolocation);
 
     const current =
       "data" in this.props.state.weather &&
