@@ -41,6 +41,10 @@ export default class Weather extends Component {
     this.getWeather();
   };
 
+  text = (url) => {
+    return fetch(url).then((res) => res.text());
+  };
+
   degreeSelector = (event) => {
     const tabs = ["celsius", "fahrenheit", "kelvin"];
     const selectedTab = event.currentTarget.getAttribute("data-degrees");
