@@ -33,6 +33,17 @@ export default class Weather extends Component {
     // ask user for location
     //navigator.geolocation.getCurrentPosition(function(position){console.log(position)})
 
+    fetch(
+      "https://geolocation-db.com/json/8dd79c70-0801-11ec-a29f-e381a788c2c0"
+    )
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          console.log("client side geolocation", result);
+        },
+        (error) => {}
+      );
+
     await this.getGeolocation();
     this.getWeather();
   };
