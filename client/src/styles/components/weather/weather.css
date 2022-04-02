@@ -30,10 +30,12 @@
 }
 #dailyConditions .day {
   text-align: center;
+  width: calc(100% / 5);
+  padding: 0 10px;
 }
 #dailyConditions .day .icon {
   font-size: 30px;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 #weather #degree-selector {
