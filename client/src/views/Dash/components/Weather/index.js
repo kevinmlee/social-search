@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
+import $ from "jquery";
 
 import { Paper, Box, Typography } from "@mui/material";
 
@@ -23,6 +24,9 @@ export default class Weather extends Component {
       celsius: true,
       fahrenheit: false,
       kelvin: false,
+
+      latitude: "",
+      longitude: "",
     };
 
     //this.wrapperRef = React.createRef();
@@ -33,16 +37,18 @@ export default class Weather extends Component {
     // ask user for location
     //navigator.geolocation.getCurrentPosition(function(position){console.log(position)})
 
-    fetch(
-      "https://geolocation-db.com/json/8dd79c70-0801-11ec-a29f-e381a788c2c0"
-    )
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          console.log("client side geolocation", result);
-        },
-        (error) => {}
-      );
+    let apiKey = "d9e53816d07345139c58d0ea733e3870";
+    await $.getJSON(
+      "https://api.bigdatacloud.net/data/ip-geolocation?key=" + apiKey,
+      (data) => {
+        return data;
+      }
+    ).then((response) => {
+      this.setState({
+        latitude: response.location.latitude,
+        longitude: response.location.longitude,
+      });
+    });
 
     await this.getGeolocation();
     this.getWeather();
@@ -73,8 +79,10 @@ export default class Weather extends Component {
   getWeather = async (e) => {
     return await axios
       .put("/get/weather", {
-        lat: this.props.state.geolocation.data.latitude,
-        lon: this.props.state.geolocation.data.longitude,
+        lat: this.state.latitude,
+        lon: this.state.longitude,
+        //lat: this.props.state.geolocation.data.latitude,
+        //lon: this.props.state.geolocation.data.longitude,
       })
       .then(
         (response) => {
