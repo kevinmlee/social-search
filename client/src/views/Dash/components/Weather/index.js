@@ -63,8 +63,10 @@ export default class Weather extends Component {
   getWeather = async (e) => {
     return await axios
       .put("/get/weather", {
-        lat: this.props.state.geolocation.data.latitude,
-        lon: this.props.state.geolocation.data.longitude,
+        lat: this.props.state.geolocation.lat,
+        lon: this.props.state.geolocation.lon,
+        //lat: this.props.state.geolocation.data.latitude,
+        //lon: this.props.state.geolocation.data.longitude,
       })
       .then(
         (response) => {
