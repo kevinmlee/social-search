@@ -44,7 +44,7 @@ export default class Weather extends Component {
     if (!navigator.geolocation) {
       // console.log("Geolocation is not supported by your browser");
     } else {
-      console.log("Locating...");
+      //console.log("Locating...");
       navigator.geolocation.getCurrentPosition(
         (position) => {
           // console.log("Found");
