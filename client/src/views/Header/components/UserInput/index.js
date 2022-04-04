@@ -49,6 +49,10 @@ export default class UserInput extends Component {
     e.preventDefault();
     await this.props.setAppState("loadingBackdrop", true);
 
+    if (e.key == "Enter") {
+      e.target.blur();
+    }
+
     if (this.state.search === "") {
       this.props.setAppState("searchQueryBlankError", true);
     } else {
