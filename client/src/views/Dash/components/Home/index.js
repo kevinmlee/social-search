@@ -52,6 +52,7 @@ export default class Home extends Component {
        redditHotWorldNews: [],
       redditHotGlobal: [],
       */
+
     if (this.props.state.home && this.props.state.redditHotGlobal.length === 0)
       this.getHotPosts();
     if (
@@ -194,7 +195,6 @@ export default class Home extends Component {
   };
 
   tinyPost = (post) => {
-    //console.log(post);
     return (
       <Box elevation={3} className="tiny-post" key={post.data.id}>
         <a

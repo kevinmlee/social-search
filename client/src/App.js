@@ -35,6 +35,7 @@ export default class App extends Component {
       instagram: false,
       youtube: false,
       trends: false,
+      settings: false,
 
       // back to top button
       backToTop: false,
@@ -98,6 +99,7 @@ export default class App extends Component {
       "instagram",
       "youtube",
       "trends",
+      "settings",
     ];
     const selectedTab = event.currentTarget.getAttribute("data-tab");
 

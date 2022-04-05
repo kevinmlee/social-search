@@ -46,9 +46,11 @@ export default class UserInput extends Component {
   };
 
   search = async (e) => {
+    //console.log("key", e.target.key);
+    //console.log("keyCode", e.target.keyCode);
     e.preventDefault();
-    e.target.blur();
-    await this.props.setAppState("loadingBackdrop", true);
+    //e.target.blur();
+    //await this.props.setAppState("loadingBackdrop", true);
 
     if (this.state.search === "") {
       this.props.setAppState("searchQueryBlankError", true);
@@ -57,7 +59,7 @@ export default class UserInput extends Component {
       await this.props.setAppState("previousSearchQuery", this.state.search);
     }
 
-    await this.props.setAppState("loadingBackdrop", false);
+    //await this.props.setAppState("loadingBackdrop", false);
     await this.props.setAppState("home", false);
     await this.props.setAppState("reddit", true);
     await this.setState({ search: "" });

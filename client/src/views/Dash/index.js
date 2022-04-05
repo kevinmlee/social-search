@@ -8,6 +8,7 @@ import Reddit from "./components/Reddit";
 import YouTube from "./components/YouTube";
 import Trends from "./components/Trends";
 import Instagram from "./components/Instagram";
+import Settings from "./components/Settings";
 
 export default class Dash extends Component {
   /*
@@ -32,18 +33,20 @@ export default class Dash extends Component {
           </Box>
         )}
 
-        {!this.props.state.previousSearchQuery && !this.props.state.home && (
-          <Box
-            className="welcome-message"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-          >
-            <Typography variant="h3">Hello</Typography>
-            <Typography variant="body1" sx={{ paddingTop: 1 }}>
-              Search for a person or topic to get started.
-            </Typography>
-          </Box>
-        )}
+        {!this.props.state.previousSearchQuery &&
+          !this.props.state.home &&
+          !this.props.state.settings && (
+            <Box
+              className="welcome-message"
+              data-aos="fade-up"
+              data-aos-duration="1000"
+            >
+              <Typography variant="h3">Hello</Typography>
+              <Typography variant="body1" sx={{ paddingTop: 1 }}>
+                Search for a person or topic to get started.
+              </Typography>
+            </Box>
+          )}
 
         {this.props.state.home && (
           <Home setAppState={this.props.setAppState} state={this.props.state} />
@@ -72,6 +75,13 @@ export default class Dash extends Component {
 
         {this.props.state.youtube && this.props.state.previousSearchQuery && (
           <YouTube
+            setAppState={this.props.setAppState}
+            state={this.props.state}
+          />
+        )}
+
+        {this.props.state.settings && (
+          <Settings
             setAppState={this.props.setAppState}
             state={this.props.state}
           />

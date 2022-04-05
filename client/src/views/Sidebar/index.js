@@ -8,6 +8,7 @@ import RedditIcon from "@mui/icons-material/Reddit";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -102,6 +103,17 @@ export default class Sidebar extends Component {
           >
             <SsidChartIcon className="trends-icon" />
             <span>Trends</span>
+          </div>
+
+          <div
+            className={
+              "menu-item " + (this.props.state.settings ? "active" : "")
+            }
+            onClick={this.props.changeTab}
+            data-tab="settings"
+          >
+            <SettingsIcon className="settings-icon" />
+            <span>Settings</span>
           </div>
         </div>
       </Box>
