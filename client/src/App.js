@@ -49,7 +49,7 @@ export default class App extends Component {
       // reddit
       redditHot: [],
       redditNew: [],
-      redditHotWorldNews: [],
+      redditHotNews: [],
       redditHotGlobal: [],
 
       // google

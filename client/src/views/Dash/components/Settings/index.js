@@ -16,9 +16,7 @@ import {
 } from "@mui/material";
 
 /*
- * perhaps on first load, get recent hot posts from reddit
- * or worldnews
- * or provide option for both
+ * use localStorage to store the user's settings
  */
 
 export default class Settings extends Component {
@@ -59,7 +57,7 @@ export default class Settings extends Component {
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <div className="columns d-flex t-no-flex align-top">
           <div className="center-column">
-            <h2>Settings</h2>
+            <Typography variant="h5">Settings</Typography>
 
             <FormGroup>
               <FormControlLabel

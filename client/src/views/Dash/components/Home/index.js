@@ -55,11 +55,8 @@ export default class Home extends Component {
 
     if (this.props.state.home && this.props.state.redditHotGlobal.length === 0)
       this.getHotPosts();
-    if (
-      this.props.state.home &&
-      this.props.state.redditHotWorldNews.length === 0
-    )
-      this.getWorldNewsHotPosts();
+    if (this.props.state.home && this.props.state.redditHotNews.length === 0)
+      this.getNewsHotPosts();
   };
 
   componentWillUnmount = () => {
@@ -174,19 +171,16 @@ export default class Home extends Component {
       );
   };
 
-  getWorldNewsHotPosts = async () => {
+  getNewsHotPosts = async () => {
     return await axios
       .put("/reddit/get/subreddit/posts", {
-        subreddit: "worldnews",
+        subreddit: "news",
         filter: "hot",
         limit: 10,
       })
       .then(
         (response) => {
-          this.props.setAppState(
-            "redditHotWorldNews",
-            response.data.data.children
-          );
+          this.props.setAppState("redditHotNews", response.data.data.children);
         },
         (error) => {
           console.log(error);
@@ -236,14 +230,14 @@ export default class Home extends Component {
         <div className="columns d-flex t-no-flex align-top">
           <div className="center-column">
             <div className="world-news">
-              <h2>Trending World News</h2>
+              <Typography variant="h5">Trending News</Typography>
 
-              {this.props.state.redditHotWorldNews.length > 0 && (
+              {this.props.state.redditHotNews.length > 0 && (
                 <Paper
                   className="tiny-card-container reddit-post"
                   sx={{ marginTop: 4, marginBottom: 4 }}
                 >
-                  {this.props.state.redditHotWorldNews.map((post, index) => {
+                  {this.props.state.redditHotNews.map((post, index) => {
                     return this.tinyPost(post);
                   })}
                 </Paper>
