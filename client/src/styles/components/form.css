@@ -4,7 +4,8 @@
   border-radius: 16px;
   overflow: hidden;
 }
-.search-input input {
+.search-input
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
   padding: 8px 8px 8px 60px;
   height: 45px;
   border-radius: 16px;
@@ -25,6 +26,23 @@
   z-index: 1;
 }
 
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
+  outline: none;
+  padding: 8px 12px;
+  height: 35px;
+  border-radius: 16px;
+  font-size: 16px;
+}
+
+.MuiFilledInput-root {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.MuiFilledInput-root:before,
+.MuiFilledInput-root::after {
+  border: none !important;
+}
+
 @media (prefers-color-scheme: dark) {
   .standard-input input {
     color: #fff;
@@ -40,6 +58,11 @@
   .standard-input .MuiInputBase-root:before {
     border-color: #fff;
   }
+
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]) {
+    color: #fff;
+    border: 1px solid #22303c !important;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -50,7 +73,8 @@
 }
 
 @media screen and (max-width: 480px) {
-  .search-input input {
+  .search-input
+    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
     font-size: 14px;
     padding: 8px 8px 8px 50px;
   }

@@ -13,7 +13,9 @@ header.sticky {
   padding-top: 10px;
   padding-bottom: 10px;
 }
-header.sticky .search input {
+header.sticky
+  .search
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
   height: 30px;
 }
 header .search {

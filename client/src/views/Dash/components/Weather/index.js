@@ -34,6 +34,17 @@ export default class Weather extends Component {
   }
 
   componentDidMount = async () => {
+    const userSettings = JSON.parse(localStorage.getItem("userSettings"));
+
+    if ("degrees" in userSettings) {
+      this.setState({
+        celsius: false,
+        fahrenheit: false,
+        kelvin: false,
+        [userSettings.degrees]: true,
+      });
+    }
+
     // ask user for location
 
     await this.getUserLocation();
@@ -96,6 +107,8 @@ export default class Weather extends Component {
       if (tab === selectedTab) this.setState({ [tab]: true });
       else this.setState({ [tab]: false });
     });
+
+    this.props.updateLocalStorage("degrees", selectedTab);
   };
 
   getGeolocation = async (lat, lon) => {

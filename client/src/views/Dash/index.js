@@ -49,7 +49,11 @@ export default class Dash extends Component {
           )}
 
         {this.props.state.home && (
-          <Home setAppState={this.props.setAppState} state={this.props.state} />
+          <Home
+            setAppState={this.props.setAppState}
+            state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
+          />
         )}
 
         {this.props.state.twitter && this.props.state.previousSearchQuery && (
@@ -83,6 +87,7 @@ export default class Dash extends Component {
         {this.props.state.settings && (
           <Settings
             setAppState={this.props.setAppState}
+            updateLocalStorage={this.props.updateLocalStorage}
             state={this.props.state}
           />
         )}

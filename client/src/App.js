@@ -51,6 +51,7 @@ export default class App extends Component {
       redditNew: [],
       redditHotNews: [],
       redditHotGlobal: [],
+      subreddits: [],
 
       // google
       trendingTopics: [],
@@ -68,6 +69,9 @@ export default class App extends Component {
       // weather
       geolocation: {},
       weather: {},
+
+      // settings
+      followingSubreddits: ["news"],
 
       backdropImage: "",
       backdropToggle: false,
@@ -136,6 +140,19 @@ export default class App extends Component {
         </Alert>
       );
     */
+  };
+
+  updateLocalStorage = (key, value) => {
+    let userSettings = {};
+
+    if (localStorage.getItem("userSettings"))
+      userSettings = JSON.parse(localStorage.getItem("userSettings"));
+
+    userSettings = {
+      [key]: value,
+    };
+
+    localStorage.setItem("userSettings", JSON.stringify(userSettings));
   };
 
   reset = async () => {
@@ -220,7 +237,11 @@ export default class App extends Component {
           <Router>
             <Switch>
               <Route exact path="/">
-                <Dash state={this.state} setAppState={this.setAppState} />
+                <Dash
+                  state={this.state}
+                  setAppState={this.setAppState}
+                  updateLocalStorage={this.updateLocalStorage}
+                />
               </Route>
             </Switch>
           </Router>

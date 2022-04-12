@@ -57,6 +57,11 @@ export default class Home extends Component {
       this.getHotPosts();
     if (this.props.state.home && this.props.state.redditHotNews.length === 0)
       this.getNewsHotPosts();
+
+    for (const subreddit of this.props.state.followingSubreddits) {
+      //console.log("subreddit", subreddit);
+      this.getSubredditPosts(subreddit);
+    }
   };
 
   componentWillUnmount = () => {
@@ -188,6 +193,26 @@ export default class Home extends Component {
       );
   };
 
+  getSubredditPosts = async (subreddit) => {
+    return await axios
+      .put("/reddit/get/subreddit/posts", {
+        subreddit: subreddit,
+        filter: "hot",
+        limit: 10,
+      })
+      .then(
+        (response) => {
+          let subreddits = this.props.state.subreddits;
+          subreddits[subreddit] = response.data.data.children;
+
+          this.props.setAppState("subreddits", subreddits);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
   tinyPost = (post) => {
     return (
       <Box elevation={3} className="tiny-post" key={post.data.id}>
@@ -225,6 +250,7 @@ export default class Home extends Component {
   };
 
   render() {
+    console.log("subreddit posts", this.props.state.subreddits);
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <div className="columns d-flex t-no-flex align-top">
@@ -248,6 +274,7 @@ export default class Home extends Component {
           <div className="right-column">
             <Weather
               setAppState={this.props.setAppState}
+              updateLocalStorage={this.props.updateLocalStorage}
               state={this.props.state}
             />
           </div>
