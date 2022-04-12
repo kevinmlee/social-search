@@ -45,27 +45,15 @@ export default class Weather extends Component {
       });
     }
 
-    // ask user for location
-
     await this.getUserLocation();
-    //await this.getGeolocation();
   };
 
   getUserLocation = () => {
     if (!navigator.geolocation) {
-      // console.log("Geolocation is not supported by your browser");
+      console.log("Geolocation is not supported by your browser");
     } else {
-      //console.log("Locating...");
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // console.log("Found");
-          // console.log("position", position);
-          /* await this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          */
-
           this.getWeather(position.coords.latitude, position.coords.longitude);
           this.getGeolocationData(
             position.coords.latitude,
@@ -73,7 +61,7 @@ export default class Weather extends Component {
           );
         },
         () => {
-          //console.log("Unable to retrieve location");
+          console.log("Unable to retrieve location");
         }
       );
     }
@@ -126,8 +114,6 @@ export default class Weather extends Component {
   getWeather = async (lat, lon) => {
     return await axios
       .put("/get/weather", {
-        //lat: this.props.state.geolocation.data.latitude,
-        //lon: this.props.state.geolocation.data.longitude,
         lat: lat,
         lon: lon,
       })
