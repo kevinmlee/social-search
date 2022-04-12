@@ -59,8 +59,9 @@ export default class Home extends Component {
       this.getNewsHotPosts();
 
     for (const subreddit of this.props.state.followingSubreddits) {
-      //console.log("subreddit", subreddit);
-      this.getSubredditPosts(subreddit);
+      const subreddits = this.props.state.subreddits;
+
+      if (!subreddits[subreddit]) this.getSubredditPosts(subreddit);
     }
   };
 
@@ -250,7 +251,6 @@ export default class Home extends Component {
   };
 
   render() {
-    console.log("subreddit posts", this.props.state.subreddits);
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <div className="columns d-flex t-no-flex align-top">
