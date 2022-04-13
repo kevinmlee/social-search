@@ -32,8 +32,8 @@ export default class Trends extends Component {
       sixMonths: false,
     };
 
-    this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    // this.wrapperRef = React.createRef();
+    //this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount = () => {

@@ -262,7 +262,7 @@ export default class YouTube extends Component {
               data-tab="relevance"
             >
               Relevance
-              <Radio checked={this.state.relevance && "checked"} size="small" />
+              <Radio checked={this.state.relevance} size="small" />
             </li>
             <li
               className={this.state.date ? "active" : ""}
@@ -270,7 +270,7 @@ export default class YouTube extends Component {
               data-tab="date"
             >
               Recent
-              <Radio checked={this.state.date && "checked"} size="small" />
+              <Radio checked={this.state.date} size="small" />
             </li>
             <li
               className={this.state.rating ? "active" : ""}
@@ -278,7 +278,7 @@ export default class YouTube extends Component {
               data-tab="rating"
             >
               Rating
-              <Radio checked={this.state.rating && "checked"} size="small" />
+              <Radio checked={this.state.rating} size="small" />
             </li>
           </ul>
         </Box>

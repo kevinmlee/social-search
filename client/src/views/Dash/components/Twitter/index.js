@@ -467,10 +467,7 @@ export default class Twitter extends Component {
                 data-tab="userTweets"
               >
                 @{this.props.state.twitterUser.username}
-                <Radio
-                  checked={this.state.userTweets && "checked"}
-                  size="small"
-                />
+                <Radio checked={this.state.userTweets} size="small" />
               </li>
             )}
             <li
@@ -479,7 +476,7 @@ export default class Twitter extends Component {
               data-tab="recent"
             >
               Recent
-              <Radio checked={this.state.recent && "checked"} size="small" />
+              <Radio checked={this.state.recent} size="small" />
             </li>
             <li
               className={this.state.popular ? "active" : ""}
@@ -487,7 +484,7 @@ export default class Twitter extends Component {
               data-tab="popular"
             >
               Popular
-              <Radio checked={this.state.popular && "checked"} size="small" />
+              <Radio checked={this.state.popular} size="small" />
             </li>
           </ul>
         </Box>
