@@ -64,7 +64,8 @@
     color: #effcef;
     background-color: rgb(22, 24, 25);
   }
-  .sidebar .menu-item:hover {
+  .sidebar .menu-item:hover,
+  .sidebar .menu-item.active {
     background-color: rgba(0, 0, 0, 0.2);
   }
   .sidebar .menu-item.active:before {
