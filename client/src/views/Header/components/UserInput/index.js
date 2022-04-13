@@ -139,7 +139,11 @@ export default class UserInput extends Component {
               name="search"
               value={this.state.search}
               size="small"
-              placeholder="Search for a person or topic"
+              placeholder={
+                this.props.state.previousSearchQuery
+                  ? this.props.state.previousSearchQuery
+                  : "Search for a person or topic"
+              }
               // defaultValue={this.state.search}
               spellCheck="false"
               onChange={this.handleChange}

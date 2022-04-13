@@ -25,7 +25,7 @@ export default class Dash extends Component {
   render() {
     return (
       <Container id="dashboard" maxWidth="100%">
-        {this.props.state.previousSearchQuery &&
+        {/*this.props.state.previousSearchQuery &&
           !this.props.state.home &&
           !this.props.state.settings && (
             <Box className="previous-search-query" sx={{ paddingTop: 2 }}>
@@ -33,7 +33,7 @@ export default class Dash extends Component {
                 Results for '{this.props.state.previousSearchQuery}'
               </Typography>
             </Box>
-          )}
+          )*/}
 
         {!this.props.state.previousSearchQuery &&
           !this.props.state.home &&

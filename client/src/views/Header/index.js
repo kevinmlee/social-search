@@ -40,6 +40,7 @@ export default class Header extends Component {
                 }}
               />
               <UserInput
+                state={this.props.state}
                 setAppState={this.props.setAppState}
                 reset={this.props.reset}
                 updateLocalStorage={this.props.updateLocalStorage}
