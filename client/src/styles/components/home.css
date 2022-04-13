@@ -1,6 +1,9 @@
 .tiny-card-container {
   overflow: hidden;
 }
+.tiny-post.card {
+  padding: 0;
+}
 
 @media screen and (min-width: 1200px) {
   .columns .center-column {
@@ -24,8 +27,11 @@
     transition: ease-in-out all 0.3s;
     overflow: hidden;
   }
+  .tiny-post:not(:last-child) {
+    margin-bottom: 10px;
+  }
   .tiny-post:hover {
-    background-color: rgba(29, 161, 242, 0.1) !important;
+    background-color: rgba(111, 90, 247, 0.1) !important;
   }
 }
 
@@ -36,12 +42,6 @@
 }
 
 @media (prefers-color-scheme: light) {
-  .tiny-card-container > *:not(:last-child) {
-    border-bottom: 1px solid #eaeaea;
-  }
 }
 @media (prefers-color-scheme: dark) {
-  .tiny-card-container > *:not(:last-child) {
-    border-bottom: 1px solid #22303c;
-  }
 }

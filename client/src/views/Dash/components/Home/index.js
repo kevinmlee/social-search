@@ -216,16 +216,22 @@ export default class Home extends Component {
 
   tinyPost = (post) => {
     return (
-      <Box elevation={3} className="tiny-post" key={post.data.id}>
+      <Box elevation={3} className="tiny-post card" key={post.data.id}>
         <a
           //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
           href={"https://reddit.com" + post.data.permalink}
           target="_blank"
           rel="noopener noreferrer"
         >
+          <Box className="post-text" sx={{ padding: 2 }}>
+            <Typography variant="body1">
+              {this.decodeText(post.data.title)}
+            </Typography>
+          </Box>
+
           <Box
             className="details"
-            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
+            sx={{ paddingBottom: 2, paddingLeft: 2, paddingRight: 2 }}
           >
             {/* <span className="subreddit">
               {post.data.subreddit_name_prefixed}
@@ -239,12 +245,6 @@ export default class Home extends Component {
               {moment.unix(post.data.created).utc().fromNow()}
             </Typography>
           </Box>
-
-          <Box className="post-text" sx={{ padding: 2 }}>
-            <Typography variant="body1">
-              {this.decodeText(post.data.title)}
-            </Typography>
-          </Box>
         </a>
       </Box>
     );
@@ -255,18 +255,18 @@ export default class Home extends Component {
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <div className="columns d-flex t-no-flex align-top">
           <div className="center-column">
-            <div className="world-news">
+            <div className="news">
               <Typography variant="h5">Trending News</Typography>
 
               {this.props.state.redditHotNews.length > 0 && (
-                <Paper
-                  className="tiny-card-container reddit-post"
+                <Box
+                  className="tiny-card-container"
                   sx={{ marginTop: 4, marginBottom: 4 }}
                 >
                   {this.props.state.redditHotNews.map((post, index) => {
                     return this.tinyPost(post);
                   })}
-                </Paper>
+                </Box>
               )}
             </div>
           </div>

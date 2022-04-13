@@ -28,12 +28,13 @@ header .search input {
 @media (prefers-color-scheme: dark) {
   header {
     background-image: none !important;
-    background-color: rgba(26, 32, 39, 1) !important;
+    background-color: rgb(22, 24, 25) !important;
   }
 
   header .search-input input {
     color: #fff;
-    border: 1px solid #22303c !important;
+    background-color: #131516;
+    border: 1px solid #2d2f2f !important;
   }
 }
 

@@ -60,15 +60,15 @@
 
 @media (prefers-color-scheme: dark) {
   .sidebar {
-    border-right: 1px solid #22303c;
+    border-right: 1px solid #2d2f2f;
     color: #effcef;
-    background-color: rgb(26, 32, 39);
+    background-color: rgb(22, 24, 25);
   }
   .sidebar .menu-item:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
   .sidebar .menu-item.active:before {
-    background-color: #ffffff;
+    background-color: rgb(111, 90, 247);
   }
 }
 

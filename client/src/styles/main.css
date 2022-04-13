@@ -44,7 +44,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: rgb(26, 32, 39);
+    background-color: rgb(22, 24, 25);
     color: #ffffff;
   }
 }
@@ -136,16 +136,8 @@ body .dark-theme {
 }
 @media (prefers-color-scheme: dark) {
   .back-to-top {
-    /*
-    background-image: linear-gradient(
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.02)
-    ) !important;
-    background-color: rgba(26, 32, 39, 1);
+    background-color: rgb(111, 90, 247);
     color: #ffffff;
-    */
-    background-color: #ffffff;
-    color: rgba(26, 32, 39, 1);
   }
 }
 @media (prefers-color-scheme: light) {

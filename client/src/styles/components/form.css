@@ -61,7 +61,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type=
 
   input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]) {
     color: #fff;
-    border: 1px solid #22303c !important;
+    border: 1px solid #2d2f2f !important;
   }
 }
 
