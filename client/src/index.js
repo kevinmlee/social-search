@@ -7,15 +7,7 @@ import * as serviceWorker from "./serviceWorker";
 // check if userSetting object exists in localStorage
 // if not, create it
 let userSettings = localStorage.getItem("userSettings");
-
-if (!userSettings) {
-  userSettings = {
-    searches: [],
-    degrees: "celsius",
-  };
-
-  localStorage.setItem("userSettings", JSON.stringify(userSettings));
-}
+if (!userSettings) localStorage.setItem("userSettings", "{}");
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

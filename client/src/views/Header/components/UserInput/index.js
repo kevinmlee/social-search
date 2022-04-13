@@ -27,9 +27,10 @@ export default class UserInput extends Component {
   componentDidMount = async () => {
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    this.setState({
-      searches: JSON.parse(localStorage.getItem("userSettings")).searches,
-    });
+    let userSettings = JSON.parse(localStorage.getItem("userSettings"));
+    if ("searches" in userSettings)
+      this.setState({ searches: userSettings.searches });
+    else this.props.updateLocalStorage("searches", []);
   };
 
   componentWillUnmount = () => {
