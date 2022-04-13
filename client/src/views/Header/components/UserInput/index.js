@@ -85,7 +85,7 @@ export default class UserInput extends Component {
     // switch tab
     await this.props.setAppState("home", false);
     await this.props.setAppState("reddit", true);
-    await this.setState({ search: "" });
+    await this.setState({ search: "", searchFocused: false });
   };
 
   updateRecentSearches = (searchQuery) => {
