@@ -24,7 +24,13 @@
   font-size: 30px;
   left: 16px;
   z-index: 1;
+  /* top: 32px;*/
 }
+
+/*header.sticky .search .search-icon {
+  top: 24px;
+}
+*/
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
   outline: none;

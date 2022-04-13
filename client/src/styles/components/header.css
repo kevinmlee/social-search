@@ -20,6 +20,7 @@ header.sticky
 }
 header .search {
   width: 100%;
+  max-width: 500px;
 }
 header .search input {
   font-family: "Poppins", sans-serif;
@@ -55,4 +56,81 @@ header .search input {
   header .menu-button {
     display: none;
   }
+}
+
+/*
+* Recent Searches
+*/
+#recentSearches {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
+    0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+}
+#recentSearches .top {
+  justify-content: space-between;
+  padding: 20px;
+}
+#recentSearches ul.searches {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#recentSearches .recent-item {
+  transition: ease-in-out all 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#recentSearches .query {
+  width: 100%;
+  padding: 20px;
+  cursor: pointer;
+}
+#recentSearches .clear {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 14px;
+}
+#recentSearches .recent-item .MuiIconButton-root {
+  margin-right: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  #recentSearches {
+    background-color: #131516;
+  }
+  #recentSearches .recent-item:hover {
+    background-color: rgb(30, 32, 33);
+  }
+  #recentSearches .recent-item .MuiSvgIcon-root {
+    fill: rgb(210, 193, 156);
+  }
+  #recentSearches .recent-item .MuiIconButton-root:hover,
+  #recentSearches .clear:hover {
+    background-color: rgba(210, 193, 156, 0.1);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  #recentSearches {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  #recentSearches .recent-item:hover {
+    background-color: #faf8f4;
+  }
+  #recentSearches .recent-item .MuiSvgIcon-root {
+    fill: #000000;
+  }
+  #recentSearches .recent-item .MuiIconButton-root:hover,
+  #recentSearches .clear:hover {
+    background-color: rgba(210, 193, 156, 0.1);
+    color: #000000;
+  }
+}
+
+@media screen and (min-width: 769px) {
 }
