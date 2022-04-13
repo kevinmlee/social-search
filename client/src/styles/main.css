@@ -136,8 +136,8 @@ body .dark-theme {
 }
 @media (prefers-color-scheme: dark) {
   .back-to-top {
-    background-color: rgb(111, 90, 247);
-    color: #ffffff;
+    background-color: rgb(210, 193, 156);
+    color: #000000;
   }
 }
 @media (prefers-color-scheme: light) {

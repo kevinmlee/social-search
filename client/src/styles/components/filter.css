@@ -56,13 +56,13 @@
 
 @media (prefers-color-scheme: dark) {
   .filter .active-display {
-    background-color: #181e25;
+    background-color: #131516;
   }
   .filter .filter-options {
-    background-color: #181e25;
+    background-color: #131516;
   }
   .filter .active-display {
-    border: 1px solid #22303c;
+    border: 1px solid #2d2f2f;
   }
 
   .filter .active-display:hover,
@@ -70,7 +70,7 @@
     background-color: rgba(0, 0, 0, 0.2);
   }
   .filter .MuiRadio-root svg {
-    fill: #38444f;
+    fill: rgb(210, 193, 156);
   }
 }
 

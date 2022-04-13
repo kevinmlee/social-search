@@ -52,12 +52,12 @@
   border-radius: 12px;
 }
 #weather #degree-selector > *.active {
-  background-color: rgb(111, 90, 247);
-  color: #ffffff;
+  background-color: rgb(210, 193, 156);
+  color: #000000;
 }
 #weather #degree-selector > *:hover {
   cursor: pointer;
-  background-color: rgba(111, 90, 247, 0.3);
+  background-color: rgba(210, 193, 156, 0.3);
 }
 
 @media screen and (max-width: 768px) {

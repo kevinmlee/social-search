@@ -68,7 +68,7 @@
     background-color: rgba(0, 0, 0, 0.2);
   }
   .sidebar .menu-item.active:before {
-    background-color: rgb(111, 90, 247);
+    background-color: rgb(210, 193, 156);
   }
 }
 
@@ -82,7 +82,7 @@
     background-color: #faf8f4;
   }
   .sidebar .menu-item.active:before {
-    background-color: rgb(111, 90, 247);
+    background-color: #000000;
   }
 }
 

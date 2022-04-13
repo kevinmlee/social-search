@@ -95,7 +95,7 @@
     transform: translateY(-5px);
   }
   .reddit-posts > *:hover {
-    background-color: rgba(29, 161, 242, 0.1) !important;
+    background-color: rgba(210, 193, 156, 0.2) !important;
   }
 }
 
