@@ -89,11 +89,6 @@ export default class App extends Component {
 
       this.setState({ scrollStatus, backToTop });
     });
-
-    console.log(
-      "userSettings",
-      JSON.parse(localStorage.getItem("userSettings"))
-    );
   };
 
   componentWillUnmount = () => {
