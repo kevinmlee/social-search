@@ -83,9 +83,12 @@ export default class UserInput extends Component {
     }
 
     //await this.props.setAppState("loadingBackdrop", false);
-    // switch tab
-    await this.props.setAppState("home", false);
-    await this.props.setAppState("reddit", true);
+    // switch tab to reddit if on homepage
+    if (this.props.state.home) {
+      await this.props.setAppState("home", false);
+      await this.props.setAppState("reddit", true);
+    }
+
     await this.setState({ search: "", searchFocused: false });
   };
 
