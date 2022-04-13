@@ -42,6 +42,7 @@ export default class Header extends Component {
               <UserInput
                 setAppState={this.props.setAppState}
                 reset={this.props.reset}
+                updateLocalStorage={this.props.updateLocalStorage}
               />
             </Box>
           </Toolbar>

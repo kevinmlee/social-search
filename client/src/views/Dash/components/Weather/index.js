@@ -34,7 +34,7 @@ export default class Weather extends Component {
   }
 
   componentDidMount = async () => {
-    const userSettings = JSON.parse(localStorage.getItem("userSettings"));
+    let userSettings = JSON.parse(localStorage.getItem("userSettings"));
 
     if ("degrees" in userSettings) {
       this.setState({
@@ -43,7 +43,7 @@ export default class Weather extends Component {
         kelvin: false,
         [userSettings.degrees]: true,
       });
-    }
+    } else this.props.updateLocalStorage("degrees", "celsius");
 
     await this.getUserLocation();
   };

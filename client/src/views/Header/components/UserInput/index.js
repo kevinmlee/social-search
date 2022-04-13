@@ -19,7 +19,17 @@ export default class UserInput extends Component {
     };
   }
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    /*
+    const userSettings = JSON.parse(localStorage.getItem("userSettings"));
+
+    if ("recentSearches" in userSettings) {
+      this.setState({
+        //[userSettings.recentSearches]: searches,
+      });
+    }
+    */
+  };
 
   handleChange = async (event) => {
     const NAME = event.target.name;
@@ -46,10 +56,7 @@ export default class UserInput extends Component {
   };
 
   search = async (e) => {
-    //console.log("key", e.target.key);
-    //console.log("keyCode", e.target.keyCode);
     e.preventDefault();
-    //e.target.blur();
     //await this.props.setAppState("loadingBackdrop", true);
 
     if (this.state.search === "") {
@@ -57,12 +64,36 @@ export default class UserInput extends Component {
     } else {
       await this.props.reset();
       await this.props.setAppState("previousSearchQuery", this.state.search);
+      this.updateRecentSearches(this.state.search);
     }
 
     //await this.props.setAppState("loadingBackdrop", false);
+    // switch tab
     await this.props.setAppState("home", false);
     await this.props.setAppState("reddit", true);
     await this.setState({ search: "" });
+  };
+
+  updateRecentSearches = (searchQuery) => {
+    let userSettings = JSON.parse(localStorage.getItem("userSettings"));
+    let searches = [];
+
+    if ("searches" in userSettings) {
+      searches = userSettings.searches;
+
+      // remove queries over 5
+      if (searches.length >= 5) searches.pop();
+
+      // if query already exists, move to top / front of array
+      if (searches.includes(searchQuery)) {
+        searches = searches.filter((item) => item !== searchQuery);
+        searches.unshift(searchQuery);
+      }
+      // if query does not exist, add to front of array
+      else searches.unshift(searchQuery);
+    } else searches = [searchQuery];
+
+    this.props.updateLocalStorage("searches", searches);
   };
 
   render() {

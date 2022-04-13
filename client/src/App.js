@@ -89,6 +89,12 @@ export default class App extends Component {
 
       this.setState({ scrollStatus, backToTop });
     });
+
+    /*console.log(
+      "userSettings",
+      JSON.parse(localStorage.getItem("userSettings"))
+    );
+    */
   };
 
   componentWillUnmount = () => {
@@ -148,9 +154,7 @@ export default class App extends Component {
     if (localStorage.getItem("userSettings"))
       userSettings = JSON.parse(localStorage.getItem("userSettings"));
 
-    userSettings = {
-      [key]: value,
-    };
+    userSettings[key] = value;
 
     localStorage.setItem("userSettings", JSON.stringify(userSettings));
   };
@@ -221,6 +225,7 @@ export default class App extends Component {
         <Header
           state={this.state}
           setAppState={this.setAppState}
+          updateLocalStorage={this.updateLocalStorage}
           toggle={this.toggle}
           reset={this.reset}
         />
