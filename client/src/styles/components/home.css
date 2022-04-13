@@ -1,6 +1,10 @@
 .tiny-post.card {
   padding: 0;
 }
+.tiny-post .post-text,
+.tiny-post .post-text .MuiTypography-root {
+  font-weight: 500;
+}
 
 @media screen and (min-width: 1200px) {
   .columns .center-column {
