@@ -53,6 +53,7 @@
 }
 #weather #degree-selector > *.active {
   background-color: rgb(111, 90, 247);
+  color: #ffffff;
 }
 #weather #degree-selector > *:hover {
   cursor: pointer;
