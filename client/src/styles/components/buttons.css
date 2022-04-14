@@ -84,6 +84,9 @@ button.active {
     opacity: 1;
     color: rgb(210, 193, 156);
   }
+  #layoutSelector .MuiButton-root:not(.active):hover {
+    background-color: rgba(210, 193, 156, 0.3);
+  }
 }
 @media (prefers-color-scheme: light) {
   #layoutSelector .MuiButtonGroup-grouped:not(:last-of-type) {
