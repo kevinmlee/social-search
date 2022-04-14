@@ -72,6 +72,7 @@ export default class App extends Component {
 
       // settings
       followingSubreddits: ["news"],
+      layout: "grid",
 
       backdropImage: "",
       backdropToggle: false,

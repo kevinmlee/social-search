@@ -59,3 +59,48 @@ button.active {
     border: 1px solid #e5e5e5;
   }
 }
+
+/*
+* Layout selector
+*/
+#layoutSelector .MuiButtonGroup-root {
+  border-radius: 12px;
+  overflow: hidden;
+  height: 46.8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  #layoutSelector .MuiButtonGroup-root {
+    border: 1px solid #2d2f2f;
+  }
+  #layoutSelector .MuiButtonGroup-grouped:not(:last-of-type) {
+    border-color: #2d2f2f;
+  }
+  #layoutSelector .MuiButton-root {
+    background-color: #131516;
+    opacity: 0.3;
+  }
+  #layoutSelector .MuiButton-root.active {
+    opacity: 1;
+    color: rgb(210, 193, 156);
+  }
+}
+@media (prefers-color-scheme: light) {
+  #layoutSelector .MuiButtonGroup-grouped:not(:last-of-type) {
+    border-color: #eaeaea;
+  }
+  #layoutSelector .MuiButton-root {
+    background-color: rgb(210, 193, 156);
+    opacity: 0.3;
+    color: #000000;
+  }
+  #layoutSelector .MuiButton-root.active {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #layoutSelector {
+    display: none;
+  }
+}

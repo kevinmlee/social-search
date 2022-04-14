@@ -19,6 +19,8 @@ import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import { Masonry } from "@mui/lab";
 
+import LayoutSelector from "../../../LayoutSelector";
+
 /*
  * perhaps on first load, get recent hot posts from reddit
  * or worldnews
@@ -41,7 +43,15 @@ export default class Reddit extends Component {
   }
 
   componentDidMount = () => {
+    //let userSettings = JSON.parse(localStorage.getItem("userSettings"));
     document.addEventListener("mousedown", this.handleClickOutside);
+
+    // get layout preference from localStorage
+    /*
+    if ("layout" in userSettings)
+      this.setState({ layout: userSettings.layout });
+    else this.props.updateLocalStorage("layout", "grid");
+    */
 
     // on initial load, fetch the data if not already present
     if (this.state.popular && this.props.state.redditHot.length === 0)
@@ -286,46 +296,56 @@ export default class Reddit extends Component {
   };
 
   render() {
+    const layout = this.props.state.layout;
+
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <TuneRoundedIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            <li
-              className={this.state.recent ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="recent"
+        <Box id="filterRow">
+          <Box className="filter">
+            <div
+              className="active-display"
+              onClick={() => this.toggle("filterToggle")}
             >
-              Recent
-              <Radio checked={this.state.recent} size="small" />
-            </li>
-            <li
-              className={this.state.popular ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="popular"
+              <span className="active-filter">Filter</span>
+              <TuneRoundedIcon />
+            </div>
+            <ul
+              className={
+                "filter-options " + (this.state.filterToggle && "active")
+              }
+              ref={this.wrapperRef}
             >
-              Hot
-              <Radio checked={this.state.popular} size="small" />
-            </li>
-          </ul>
+              {/*<li>All</li>*/}
+              <li
+                className={this.state.recent ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="recent"
+              >
+                Recent
+                <Radio checked={this.state.recent} size="small" />
+              </li>
+              <li
+                className={this.state.popular ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="popular"
+              >
+                Hot
+                <Radio checked={this.state.popular} size="small" />
+              </li>
+            </ul>
+          </Box>
+
+          <LayoutSelector
+            state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
+            setAppState={this.props.setAppState}
+          />
         </Box>
 
         {this.state.recent && this.props.state.redditNew.length > 0 && (
           <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="reddit-posts"
+              className={"reddit-posts " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
@@ -340,7 +360,7 @@ export default class Reddit extends Component {
         {this.state.popular && this.props.state.redditHot.length > 0 && (
           <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="reddit-posts"
+              className={"reddit-posts " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >

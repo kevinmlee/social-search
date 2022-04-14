@@ -55,7 +55,6 @@
 }
 .reddit-post .youtube-video iframe {
   width: 100%;
-  height: 250;
   height: 275px;
 }
 
@@ -96,6 +95,19 @@
   }
   .reddit-posts > *:hover {
     background-color: rgba(210, 193, 156, 0.2) !important;
+  }
+  .card-layout.reddit-posts {
+    padding-top: 2px !important;
+  }
+  .card-layout .reddit-post .media-image {
+    max-height: none;
+  }
+  .card-layout .reddit-post .media-image img {
+    width: 100%;
+  }
+  .card-layout .reddit-post .youtube-video iframe {
+    width: 100%;
+    height: 45vw;
   }
 }
 

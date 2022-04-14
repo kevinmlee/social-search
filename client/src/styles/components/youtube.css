@@ -63,6 +63,10 @@
   .youtube-posts > *:hover {
     background-color: rgba(210, 193, 156, 0.2) !important;
   }
+  .card-layout .youtube-post iframe {
+    width: 100%;
+    height: 45vw;
+  }
 }
 
 @media screen and (max-width: 768px) {

@@ -113,6 +113,12 @@
   .tweet.user:hover {
     background-color: rgba(210, 193, 156, 0.2) !important;
   }
+  .card-layout .tweet .media-image {
+    max-height: none;
+  }
+  .card-layout .tweet .media-image img {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 768px) {

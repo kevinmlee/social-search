@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
+import LayoutSelector from "../../../LayoutSelector";
+
 import {
   Box,
   ButtonGroup,
@@ -239,55 +241,64 @@ export default class YouTube extends Component {
   };
 
   render() {
+    const layout = this.props.state.layout;
+
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <TuneRoundedIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            <li
-              className={this.state.relevance ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="relevance"
+        <Box id="filterRow">
+          <Box className="filter">
+            <div
+              className="active-display"
+              onClick={() => this.toggle("filterToggle")}
             >
-              Relevance
-              <Radio checked={this.state.relevance} size="small" />
-            </li>
-            <li
-              className={this.state.date ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="date"
+              <span className="active-filter">Filter</span>
+              <TuneRoundedIcon />
+            </div>
+            <ul
+              className={
+                "filter-options " + (this.state.filterToggle && "active")
+              }
+              ref={this.wrapperRef}
             >
-              Recent
-              <Radio checked={this.state.date} size="small" />
-            </li>
-            <li
-              className={this.state.rating ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="rating"
-            >
-              Rating
-              <Radio checked={this.state.rating} size="small" />
-            </li>
-          </ul>
+              {/*<li>All</li>*/}
+              <li
+                className={this.state.relevance ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="relevance"
+              >
+                Relevance
+                <Radio checked={this.state.relevance} size="small" />
+              </li>
+              <li
+                className={this.state.date ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="date"
+              >
+                Recent
+                <Radio checked={this.state.date} size="small" />
+              </li>
+              <li
+                className={this.state.rating ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="rating"
+              >
+                Rating
+                <Radio checked={this.state.rating} size="small" />
+              </li>
+            </ul>
+          </Box>
+          <LayoutSelector
+            state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
+            setAppState={this.props.setAppState}
+          />
         </Box>
 
         {this.state.relevance &&
           "items" in this.props.state.youtubeVideosRelevance && (
             <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
               <Masonry
-                className="youtube-posts"
+                className={"youtube-posts " + layout + "-layout"}
                 columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
                 spacing={2}
               >
@@ -303,7 +314,7 @@ export default class YouTube extends Component {
         {this.state.rating && "items" in this.props.state.youtubeVideosRating && (
           <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="youtube-posts"
+              className={"youtube-posts " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
@@ -317,7 +328,7 @@ export default class YouTube extends Component {
         {this.state.date && "items" in this.props.state.youtubeVideosDate && (
           <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="youtube-posts"
+              className={"youtube-posts " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >

@@ -62,6 +62,7 @@ export default class Dash extends Component {
           <Twitter
             setAppState={this.props.setAppState}
             state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
           />
         )}
 
@@ -69,6 +70,7 @@ export default class Dash extends Component {
           <Reddit
             setAppState={this.props.setAppState}
             state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
           />
         )}
 
@@ -83,6 +85,7 @@ export default class Dash extends Component {
           <YouTube
             setAppState={this.props.setAppState}
             state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
           />
         )}
 

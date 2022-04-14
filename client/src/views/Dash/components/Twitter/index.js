@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
+import LayoutSelector from "../../../LayoutSelector";
+
 import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
 
 import { Masonry } from "@mui/lab";
@@ -306,12 +308,14 @@ export default class Twitter extends Component {
   };
 
   displayTweets = () => {
+    const layout = this.props.state.layout;
+
     return (
       <Box sx={{ marginTop: 4, marginBottom: 4 }}>
         {this.state.userTweets && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="tweets"
+              className={"tweets " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
@@ -328,7 +332,7 @@ export default class Twitter extends Component {
         {this.state.recent && "data" in this.props.state.tweetsByRecent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="tweets"
+              className={"tweets " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
@@ -345,7 +349,7 @@ export default class Twitter extends Component {
         {this.state.popular && "data" in this.props.state.tweetsByRecent && (
           <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
             <Masonry
-              className="tweets"
+              className={"tweets " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
               spacing={2}
             >
@@ -445,48 +449,55 @@ export default class Twitter extends Component {
 
     return (
       <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <TuneRoundedIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            {this.state.twitterUserID && (
+        <Box id="filterRow">
+          <Box className="filter">
+            <div
+              className="active-display"
+              onClick={() => this.toggle("filterToggle")}
+            >
+              <span className="active-filter">Filter</span>
+              <TuneRoundedIcon />
+            </div>
+            <ul
+              className={
+                "filter-options " + (this.state.filterToggle && "active")
+              }
+              ref={this.wrapperRef}
+            >
+              {/*<li>All</li>*/}
+              {this.state.twitterUserID && (
+                <li
+                  className={this.state.userTweets ? "active" : ""}
+                  onClick={this.changeTab}
+                  data-tab="userTweets"
+                >
+                  @{this.props.state.twitterUser.username}
+                  <Radio checked={this.state.userTweets} size="small" />
+                </li>
+              )}
               <li
-                className={this.state.userTweets ? "active" : ""}
+                className={this.state.recent ? "active" : ""}
                 onClick={this.changeTab}
-                data-tab="userTweets"
+                data-tab="recent"
               >
-                @{this.props.state.twitterUser.username}
-                <Radio checked={this.state.userTweets} size="small" />
+                Recent
+                <Radio checked={this.state.recent} size="small" />
               </li>
-            )}
-            <li
-              className={this.state.recent ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="recent"
-            >
-              Recent
-              <Radio checked={this.state.recent} size="small" />
-            </li>
-            <li
-              className={this.state.popular ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="popular"
-            >
-              Popular
-              <Radio checked={this.state.popular} size="small" />
-            </li>
-          </ul>
+              <li
+                className={this.state.popular ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="popular"
+              >
+                Popular
+                <Radio checked={this.state.popular} size="small" />
+              </li>
+            </ul>
+          </Box>
+          <LayoutSelector
+            state={this.props.state}
+            updateLocalStorage={this.props.updateLocalStorage}
+            setAppState={this.props.setAppState}
+          />
         </Box>
 
         {!this.objectEmpty(this.props.state.twitterUser) &&
