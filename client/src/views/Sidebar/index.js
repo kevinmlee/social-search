@@ -105,7 +105,7 @@ export default class Sidebar extends Component {
             <span>Trends</span>
           </div>
 
-          <div
+          {/*<div
             className={
               "menu-item " + (this.props.state.settings ? "active" : "")
             }
@@ -115,6 +115,7 @@ export default class Sidebar extends Component {
             <SettingsIcon className="settings-icon" />
             <span>Settings</span>
           </div>
+          */}
         </div>
       </Box>
     );
