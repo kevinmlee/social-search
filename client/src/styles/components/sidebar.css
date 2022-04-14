@@ -79,7 +79,8 @@
     color: #000000;
     background-color: #ffffff;
   }
-  .sidebar .menu-item:hover {
+  .sidebar .menu-item:hover,
+  .sidebar .menu-item.active {
     background-color: #faf8f4;
   }
   .sidebar .menu-item.active:before {

@@ -1,6 +1,7 @@
 .tiny-post.card {
   padding: 0;
 }
+
 .tiny-post .post-text,
 .tiny-post .post-text .MuiTypography-root {
   font-weight: 500;
@@ -39,6 +40,9 @@
 @media screen and (max-width: 768px) {
   .weather {
     display: none;
+  }
+  .tiny-post.card:not(:last-child) {
+    margin-bottom: 15px;
   }
 }
 
