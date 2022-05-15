@@ -21,9 +21,7 @@
 
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Pacifico&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 * {
   outline: none;
@@ -500,7 +498,7 @@ h1,
 h2,
 .h2,
 .MuiTypography-root.h2 {
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
   font-weight: 600;
   font-size: 24px;
   letter-spacing: -0.13px;
@@ -508,18 +506,20 @@ h2,
 h3,
 .h3,
 .MuiTypography-root.h3 {
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.27px;
 }
 .MuiTypography-h5 {
   font-weight: 500 !important;
+  font-size: 20px !important;
 }
 
 .MuiTypography-root,
 .MuiTableCell-root {
-  font-family: "Poppins", sans-serif !important;
+  /*font-family: "Poppins", sans-serif !important;*/
+  font-family: "Merriweather", serif !important;
 }
 
 .MuiTypography-root.MuiTypography-h6 {

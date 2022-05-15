@@ -21,11 +21,7 @@ import { Masonry } from "@mui/lab";
 
 import Weather from "../Weather";
 
-/*
- * perhaps on first load, get recent hot posts from reddit
- * or worldnews
- * or provide option for both
- */
+const TOPICS = ["news", "technology"];
 
 export default class Home extends Component {
   constructor(props) {
@@ -44,25 +40,8 @@ export default class Home extends Component {
 
   componentDidMount = async () => {
     //document.addEventListener("mousedown", this.handleClickOutside);
-
-    // on initial load, fetch the data if not already present
-    /*if (this.state.popular && this.props.state.redditHot.length === 0)
-      this.redditSearchHot();
-
-       redditHotWorldNews: [],
-      redditHotGlobal: [],
-      */
-
-    if (this.props.state.home && this.props.state.redditHotGlobal.length === 0)
-      this.getHotPosts();
-    if (this.props.state.home && this.props.state.redditHotNews.length === 0)
-      this.getNewsHotPosts();
-
-    for (const subreddit of this.props.state.followingSubreddits) {
-      const subreddits = this.props.state.subreddits;
-
-      if (!subreddits[subreddit]) this.getSubredditPosts(subreddit);
-    }
+    // if (this.props.state.home && this.props.state.subreddits.length === 0)
+    this.getPosts();
   };
 
   componentWillUnmount = () => {
@@ -194,6 +173,23 @@ export default class Home extends Component {
       );
   };
 
+  getTechHotPosts = async () => {
+    return await axios
+      .put("/reddit/get/subreddit/posts", {
+        subreddit: "technology",
+        filter: "hot",
+        limit: 10,
+      })
+      .then(
+        (response) => {
+          this.props.setAppState("redditHotTech", response.data.data.children);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
   getSubredditPosts = async (subreddit) => {
     return await axios
       .put("/reddit/get/subreddit/posts", {
@@ -214,36 +210,38 @@ export default class Home extends Component {
       );
   };
 
+  getPosts = async () => {
+    for (const topic of TOPICS) await this.getSubredditPosts(topic);
+  };
+
   tinyPost = (post) => {
     return (
-      <Box elevation={3} className="tiny-post card" key={post.data.id}>
-        <a
-          //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box className="post-text" sx={{ padding: 2 }}>
-            <Typography variant="body1">
-              {this.decodeText(post.data.title)}
-            </Typography>
-          </Box>
+      <Box className="post" key={post.data.id}>
+        <a href={post.data.url} target="_blank" rel="noopener noreferrer">
+          <Box className="details">
+            {"preview" in post.data && (
+              <img
+                className="featured-image"
+                src={this.getPreviewImage(post)}
+                alt={this.decodeText(post.data.title)}
+              />
+            )}
 
-          <Box
-            className="details"
-            sx={{ paddingBottom: 2, paddingLeft: 2, paddingRight: 2 }}
-          >
-            {/* <span className="subreddit">
-              {post.data.subreddit_name_prefixed}
-            </span>
-    <span style={{ color: "#999999" }}> · </span>*/}
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              Posted by {post.data.author}
-            </Typography>
-            <span style={{ color: "#999999" }}> · </span>
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              {moment.unix(post.data.created).utc().fromNow()}
-            </Typography>
+            <Box className="author-details">
+              <Typography variant="caption" style={{ color: "#999999" }}>
+                Posted by {post.data.author}
+              </Typography>
+              <span style={{ color: "#999999" }}> · </span>
+              <Typography variant="caption" style={{ color: "#999999" }}>
+                {moment.unix(post.data.created).utc().fromNow()}
+              </Typography>
+            </Box>
+
+            <Box className="post-title">
+              <Typography variant="h5">
+                {this.decodeText(post.data.title)}
+              </Typography>
+            </Box>
           </Box>
         </a>
       </Box>
@@ -251,34 +249,24 @@ export default class Home extends Component {
   };
 
   render() {
+    const posts = this.props.state.subreddits;
+    console.log("posts", posts);
+
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
-        <div className="columns d-flex t-no-flex align-top">
-          <div className="center-column">
-            <div className="news">
-              <Typography variant="h5">Trending News</Typography>
+        {Object.keys(posts).map((key) => (
+          <Box id={key} className="topic">
+            <Typography className="section-title" variant="h4">
+              {key}
+            </Typography>
 
-              {this.props.state.redditHotNews.length > 0 && (
-                <Box
-                  className="tiny-card-container"
-                  sx={{ marginTop: 4, marginBottom: 4 }}
-                >
-                  {this.props.state.redditHotNews.map((post, index) => {
-                    return this.tinyPost(post);
-                  })}
-                </Box>
-              )}
-            </div>
-          </div>
-
-          <div className="right-column">
-            <Weather
-              setAppState={this.props.setAppState}
-              updateLocalStorage={this.props.updateLocalStorage}
-              state={this.props.state}
-            />
-          </div>
-        </div>
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={5}>
+              {posts[key].map((post, index) => {
+                return this.tinyPost(post);
+              })}
+            </Masonry>
+          </Box>
+        ))}
       </Box>
     );
   }

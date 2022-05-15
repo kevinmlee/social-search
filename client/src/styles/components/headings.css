@@ -1,3 +1,9 @@
+.section-title,
+.section-title.MuiTypography-root {
+  margin-bottom: 50px;
+  text-transform: capitalize;
+}
+
 @media (prefers-color-scheme: dark) {
   h1,
   h2,
