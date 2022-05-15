@@ -2,26 +2,10 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Paper,
-  Typography,
-  Tooltip,
-  Radio,
-} from "@mui/material";
-
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
-
+import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
 
-import Weather from "../Weather";
-
-const TOPICS = ["news", "technology"];
+const TOPICS = ["news", "technology", "sports", "travel"];
 
 export default class Home extends Component {
   constructor(props) {
