@@ -138,58 +138,6 @@ export default class Home extends Component {
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
   };
 
-  getHotPosts = async (e) => {
-    return await axios
-      .put("/reddit/get/hot/posts", {
-        limit: 10,
-      })
-      .then(
-        (response) => {
-          this.props.setAppState(
-            "redditHotGlobal",
-            response.data.data.children
-          );
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  getNewsHotPosts = async () => {
-    return await axios
-      .put("/reddit/get/subreddit/posts", {
-        subreddit: "news",
-        filter: "hot",
-        limit: 10,
-      })
-      .then(
-        (response) => {
-          this.props.setAppState("redditHotNews", response.data.data.children);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
-  getTechHotPosts = async () => {
-    return await axios
-      .put("/reddit/get/subreddit/posts", {
-        subreddit: "technology",
-        filter: "hot",
-        limit: 10,
-      })
-      .then(
-        (response) => {
-          this.props.setAppState("redditHotTech", response.data.data.children);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-
   getSubredditPosts = async (subreddit) => {
     return await axios
       .put("/reddit/get/subreddit/posts", {
@@ -224,6 +172,7 @@ export default class Home extends Component {
                 className="featured-image"
                 src={this.getPreviewImage(post)}
                 alt={this.decodeText(post.data.title)}
+                loading="lazy"
               />
             )}
 
@@ -250,12 +199,20 @@ export default class Home extends Component {
 
   render() {
     const posts = this.props.state.subreddits;
-    console.log("posts", posts);
+    //console.log("posts", posts);
 
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+        <ul className="fw-filter">
+          {Object.keys(posts).map((key) => (
+            <li key={"key-" + key}>
+              <a href={"#" + key}>{key}</a>
+            </li>
+          ))}
+        </ul>
+
         {Object.keys(posts).map((key) => (
-          <Box id={key} className="topic">
+          <Box id={key} className="topic posts" key={key}>
             <Typography className="section-title" variant="h4">
               {key}
             </Typography>

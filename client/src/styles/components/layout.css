@@ -12,6 +12,10 @@
   margin-bottom: 0 !important;
 }
 
+.posts {
+  padding-top: 175px;
+  margin-top: -100px;
+}
 .post .featured-image {
   border-radius: 8px;
   display: block;
