@@ -34,6 +34,9 @@ html {
   width: 100%;
   height: auto;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   font-size: 14px;
   font-family: "Poppins", sans-serif;
