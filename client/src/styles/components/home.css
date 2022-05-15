@@ -48,6 +48,9 @@
   .tiny-post.card:not(:last-child) {
     margin-bottom: 15px;
   }
+  .topic.posts .MuiMasonry-root {
+    margin: 0;
+  }
 }
 
 @media (prefers-color-scheme: light) {
