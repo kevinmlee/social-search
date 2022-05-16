@@ -161,48 +161,17 @@ export default class YouTube extends Component {
     }
 
     return (
-      <Paper
-        elevation={3}
-        className="youtube-post post-card"
-        key={post.id.videoId}
-      >
+      <Box className="post" key={post.id.videoId}>
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
           className="youtube-post-link"
         >
-          <Grid
-            container
-            spacing={2}
-            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
-          >
-            <Grid item xs={10}>
-              <span>{post.snippet.channelTitle}</span>
-              <span style={{ color: "#999999" }}> · </span>
-              <Typography variant="caption" style={{ color: "#999999" }}>
-                {moment(post.snippet.publishedAt).fromNow()}
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Typography
-            variant="caption"
-            style={{ color: "#999999" }}
-            sx={{ paddingLeft: 2, paddingRight: 2 }}
-          >
-            {type}
-          </Typography>
-
-          <Box className="tweet-text" sx={{ padding: 2 }}>
-            <Typography variant="body1">
-              {this.decodeText(post.snippet.title)}
-            </Typography>
-          </Box>
-
           {type === "Channel" && (
             <div className="media-image">
               <img
+                className="featured-image"
                 src={post.snippet.thumbnails.high.url}
                 alt={this.decodeText(post.snippet.title)}
               />
@@ -228,15 +197,26 @@ export default class YouTube extends Component {
           </div>
         )}
 
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="youtube-post-link"
-        >
-          <Box sx={{ padding: 2 }}></Box>
-        </a>
-      </Paper>
+        <Grid container spacing={2} sx={{ paddingTop: 2 }}>
+          <Grid item xs={10}>
+            <span className="username">{post.snippet.channelTitle}</span>
+            <span style={{ color: "#999999" }}> · </span>
+            <Typography variant="caption" style={{ color: "#999999" }}>
+              {moment(post.snippet.publishedAt).fromNow()}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Typography variant="caption" style={{ color: "#999999" }}>
+          {type}
+        </Typography>
+
+        <Box className="post-title" sx={{ paddingTop: 2 }}>
+          <Typography variant="h5">
+            {this.decodeText(post.snippet.title)}
+          </Typography>
+        </Box>
+      </Box>
     );
   };
 
@@ -287,21 +267,17 @@ export default class YouTube extends Component {
               </li>
             </ul>
           </Box>
-          <LayoutSelector
+          {/*<LayoutSelector
             state={this.props.state}
             updateLocalStorage={this.props.updateLocalStorage}
             setAppState={this.props.setAppState}
-          />
+            />*/}
         </Box>
 
         {this.state.relevance &&
           "items" in this.props.state.youtubeVideosRelevance && (
-            <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-              <Masonry
-                className={"youtube-posts " + layout + "-layout"}
-                columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-                spacing={2}
-              >
+            <Box className="topic posts" sx={{ marginTop: 4, marginBottom: 4 }}>
+              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
                 {this.props.state.youtubeVideosRelevance.items.map(
                   (post, index) => {
                     return this.post(post);
@@ -312,12 +288,8 @@ export default class YouTube extends Component {
           )}
 
         {this.state.rating && "items" in this.props.state.youtubeVideosRating && (
-          <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className={"youtube-posts " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
+          <Box className="topic posts" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.youtubeVideosRating.items.map((post, index) => {
                 return this.post(post);
               })}
@@ -326,12 +298,8 @@ export default class YouTube extends Component {
         )}
 
         {this.state.date && "items" in this.props.state.youtubeVideosDate && (
-          <Box className="youtube-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className={"youtube-posts " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
+          <Box className="topic posts" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.youtubeVideosDate.items.map((post, index) => {
                 return this.post(post);
               })}
