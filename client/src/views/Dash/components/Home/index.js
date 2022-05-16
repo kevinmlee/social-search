@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
-import $ from "jquery";
+//import $ from "jquery";
 
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
+
+//import CircularProgress from "@mui/material/CircularProgress";
 
 const TOPICS = [
   "news",
@@ -25,6 +27,8 @@ export default class Home extends Component {
 
       recent: false,
       popular: true,
+
+      progress: 0,
     };
   }
 
@@ -160,9 +164,13 @@ export default class Home extends Component {
     );
   };
 
+  calculateProgress = (currentIndex, length) => {
+    let progress = currentIndex / length;
+    this.setState({ progress });
+  };
+
   render() {
     const posts = this.props.state.subreddits;
-    //console.log("posts", posts);
 
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
@@ -180,7 +188,7 @@ export default class Home extends Component {
           ))}
         </ul>
 
-        {Object.keys(posts).map((key) => (
+        {Object.keys(posts).map((key, index) => (
           <Box id={key} className="topic posts" key={key}>
             <Typography className="section-title" variant="h4">
               {key}

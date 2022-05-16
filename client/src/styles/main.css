@@ -534,3 +534,7 @@ table td img {
 .setting-group .MuiFilledInput-root {
   margin-top: 10px;
 }
+
+.loading-circle {
+  text-align: center;
+}
