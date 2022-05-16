@@ -273,11 +273,11 @@ export default class Reddit extends Component {
             </ul>
           </Box>
 
-          <LayoutSelector
+          {/*<LayoutSelector
             state={this.props.state}
             updateLocalStorage={this.props.updateLocalStorage}
             setAppState={this.props.setAppState}
-          />
+            />*/}
         </Box>
 
         {this.state.recent && this.props.state.redditNew.length > 0 && (

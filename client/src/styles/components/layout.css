@@ -1,8 +1,9 @@
-.card-layout {
+.card-layout.card-layout {
   display: block !important;
   height: auto !important;
   padding-top: 15px !important;
   padding-right: 15px !important;
+  width: 100% !important;
 }
 .card-layout > * {
   width: 100% !important;
