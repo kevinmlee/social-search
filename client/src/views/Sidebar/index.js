@@ -46,63 +46,73 @@ export default class Sidebar extends Component {
 
         <ul className="menu">
           <li
-            className={"menu-item " + (this.props.state.home ? "active" : "")}
+            className="menu-item-container tier-1"
             onClick={this.props.changeTab}
             data-tab="home"
           >
-            <HomeIcon className="home-icon" />
-            <span>Home</span>
+            <div
+              className={"menu-item " + (this.props.state.home ? "active" : "")}
+            >
+              <HomeIcon className="home-icon" />
+              <span>Home</span>
+            </div>
+          </li>
+
+          <li className="menu-item-container tier-1">
+            <div className="menu-section-label">Platforms</div>
+
+            <ul className="sub-menu">
+              <li
+                className={
+                  "menu-item tier-2 " +
+                  (this.props.state.reddit ? "active" : "")
+                }
+                onClick={this.props.changeTab}
+                data-tab="reddit"
+              >
+                <RedditIcon className="reddit-icon" />
+                <span>Reddit</span>
+              </li>
+
+              <li
+                className={
+                  "menu-item tier-2 " +
+                  (this.props.state.twitter ? "active" : "")
+                }
+                onClick={this.props.changeTab}
+                data-tab="twitter"
+              >
+                <TwitterIcon className="twitter-icon" />
+                <span>Twitter</span>
+              </li>
+
+              <li
+                className={
+                  "menu-item tier-2 " +
+                  (this.props.state.youtube ? "active" : "")
+                }
+                onClick={this.props.changeTab}
+                data-tab="youtube"
+              >
+                <YouTubeIcon className="youtube-icon" />
+                <span>YouTube</span>
+              </li>
+            </ul>
           </li>
 
           <li
-            className={"menu-item " + (this.props.state.reddit ? "active" : "")}
-            onClick={this.props.changeTab}
-            data-tab="reddit"
-          >
-            <RedditIcon className="reddit-icon" />
-            <span>Reddit</span>
-          </li>
-
-          <li
-            className={
-              "menu-item " + (this.props.state.twitter ? "active" : "")
-            }
-            onClick={this.props.changeTab}
-            data-tab="twitter"
-          >
-            <TwitterIcon className="twitter-icon" />
-            <span>Twitter</span>
-          </li>
-
-          {/*<div
-            className={
-              "menu-item " + (this.props.state.instagram ? "active" : "")
-            }
-            onClick={this.props.changeTab}
-            data-tab="instagram"
-          >
-            <InstagramIcon className="instagram-icon" />
-            <span>Instagram</span>
-          </div>*/}
-
-          <li
-            className={
-              "menu-item " + (this.props.state.youtube ? "active" : "")
-            }
-            onClick={this.props.changeTab}
-            data-tab="youtube"
-          >
-            <YouTubeIcon className="youtube-icon" />
-            <span>YouTube</span>
-          </li>
-
-          <li
-            className={"menu-item " + (this.props.state.trends ? "active" : "")}
+            className="menu-item-container tier-1"
             onClick={this.props.changeTab}
             data-tab="trends"
           >
-            <SsidChartIcon className="trends-icon" />
-            <span>Trends</span>
+            <div
+              className={
+                "menu-item " + (this.props.state.trends ? "active" : "")
+              }
+            >
+              <SsidChartIcon className="trends-icon" />
+              <span>Trends</span>
+            </div>
           </li>
 
           {/*<div

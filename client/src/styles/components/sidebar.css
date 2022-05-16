@@ -18,6 +18,14 @@
   padding: 50px 0 0;
   margin: 0;
 }
+.sidebar .menu-item-container:not(:first-child) {
+  margin-top: 20px;
+}
+
+.sidebar .menu-section-label {
+  padding: 0 30px 15px;
+  color: #aeaeae;
+}
 
 .sidebar .menu-item:before {
   height: 0;
@@ -32,13 +40,12 @@
   top: 0;
   width: 3px;
   height: 100%;
-  height: 54px;
 }
 .sidebar .menu-item > *:first-child {
   margin-right: 15px;
 }
 
-.sidebar .menu-item-container.t1 > .menu-item {
+.sidebar .menu-item-container.tier-1 > .menu-item {
   display: flex;
   align-items: center;
 }
@@ -46,7 +53,7 @@
 .sidebar .menu-item {
   padding: 15px 30px;
   font-size: 16px;
-  display: flex;
+  /*display: flex;*/
   align-items: center;
   cursor: pointer;
   position: relative;
@@ -54,17 +61,17 @@
   text-transform: capitalize;
 }
 
-.sidebar .menu-item.t2 {
-  padding: 8px 10px;
-  margin-left: 40px;
+.sidebar .menu-item.tier-2 {
+  padding: 8px 30px;
   font-size: 14px;
+  display: flex;
   align-items: center;
   cursor: pointer;
   position: relative;
   transition: ease-in-out all 0.3s;
 }
 
-.sidebar .menu-l2 {
+.sidebar .sub-menu {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -95,6 +102,9 @@
   .sidebar .menu-item.active:before {
     background-color: rgb(210, 193, 156);
   }
+  .sidebar .menu-item.active {
+    color: rgb(210, 193, 156);
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -109,6 +119,9 @@
   }
   .sidebar .menu-item.active:before {
     background-color: #000000;
+  }
+  .sidebar .menu-item.active {
+    color: #000000;
   }
 }
 
