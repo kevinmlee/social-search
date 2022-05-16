@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 
 import { Box } from "@mui/material";
+import GridViewIcon from "@mui/icons-material/GridView";
 import HdrStrongIcon from "@mui/icons-material/HdrStrong";
-import HomeIcon from "@mui/icons-material/Home";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import SettingsIcon from "@mui/icons-material/Settings";
+//import SettingsIcon from "@mui/icons-material/Settings";
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -53,7 +52,7 @@ export default class Sidebar extends Component {
             <div
               className={"menu-item " + (this.props.state.home ? "active" : "")}
             >
-              <HomeIcon className="home-icon" />
+              <GridViewIcon className="home-icon" />
               <span>Home</span>
             </div>
           </li>
