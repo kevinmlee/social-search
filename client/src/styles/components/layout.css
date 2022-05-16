@@ -24,7 +24,9 @@
   width: 100%;
   border-radius: 8px;
 }
-
+.post .post-title {
+  word-break: break-word;
+}
 .post .author .name {
   font-size: 16px;
 }
