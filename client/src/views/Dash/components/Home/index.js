@@ -26,9 +26,6 @@ export default class Home extends Component {
       recent: false,
       popular: true,
     };
-
-    //this.wrapperRef = React.createRef();
-    //this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount = async () => {
@@ -37,45 +34,9 @@ export default class Home extends Component {
       behavior: "smooth",
     });
 
-    //document.addEventListener("mousedown", this.handleClickOutside);
     if (this.props.state.home && this.props.state.subreddits.length === 0)
       this.getPosts();
   };
-
-  componentWillUnmount = () => {
-    //document.removeEventListener("mousedown", this.handleClickOutside);
-  };
-
-  /*
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
-      this.setState({ filterToggle: false });
-  };
-  */
-
-  /*
-  changeTab = (event) => {
-    const tabs = ["recent", "popular"];
-    const selectedTab = event.currentTarget.getAttribute("data-tab");
-
-    tabs.forEach((tab) => {
-      if (tab === selectedTab) this.setState({ [tab]: true });
-      else this.setState({ [tab]: false });
-    });
-
-    this.setState({ filterToggle: false });
-
-    // pull data from cooresponding API if not already pulled
-    if (selectedTab === "recent" && this.props.state.redditNew.length === 0)
-      this.redditSearchNew();
-    if (selectedTab === "popular" && this.props.state.redditHot.length === 0)
-      this.redditSearchHot();
-  };
-
-  toggle = async (state) => {
-    await this.setState({ [state]: !this.state[state] });
-  };
-  */
 
   htmlDecode = (input) => {
     var e = document.createElement("div");
