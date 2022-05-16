@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
+import $ from "jquery";
 
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
 
-const TOPICS = ["news", "technology", "sports", "travel"];
+const TOPICS = [
+  "news",
+  "technology",
+  //"futurology",
+  "science",
+  "sports",
+  "space",
+  "nutrition",
+];
 
 export default class Home extends Component {
   constructor(props) {
@@ -188,9 +197,9 @@ export default class Home extends Component {
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <ul className="fw-filter">
-          {Object.keys(posts).map((key) => (
-            <li key={"key-" + key}>
-              <a href={"#" + key}>{key}</a>
+          {TOPICS.map((topic) => (
+            <li key={"key-" + topic}>
+              <a href={"#" + topic}>{topic}</a>
             </li>
           ))}
         </ul>

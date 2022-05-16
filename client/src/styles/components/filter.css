@@ -145,5 +145,6 @@
 @media screen and (max-width: 768px) {
   .fw-filter {
     top: 75px;
+    display: none;
   }
 }
