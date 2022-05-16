@@ -100,19 +100,21 @@ export default class Sidebar extends Component {
             </ul>
           </li>
 
-          <li
-            className="menu-item-container tier-1"
-            onClick={this.props.changeTab}
-            data-tab="trends"
-          >
-            <div
-              className={
-                "menu-item " + (this.props.state.trends ? "active" : "")
-              }
-            >
-              <SsidChartIcon className="trends-icon" />
-              <span>Trends</span>
-            </div>
+          <li className="menu-item-container tier-1">
+            <div className="menu-section-label">Reports</div>
+
+            <ul className="sub-menu">
+              <li
+                className={
+                  "menu-item tier-2 " + (this.props.state.trends && "active")
+                }
+                onClick={this.props.changeTab}
+                data-tab="trends"
+              >
+                <SsidChartIcon className="trends-icon" />
+                <span>Trends</span>
+              </li>
+            </ul>
           </li>
 
           {/*<div
