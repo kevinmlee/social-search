@@ -19,7 +19,8 @@
   margin-bottom: 25px;
   width: 100%;
 }
-.post iframe {
+.post iframe,
+.post video {
   width: 100%;
   border-radius: 8px;
 }
