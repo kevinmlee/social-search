@@ -35,7 +35,6 @@
   position: relative;
 }
 .post .yt-embed .thumb {
-  position: absolute;
   border-radius: 8px;
 }
 .post .yt-embed iframe {

@@ -149,9 +149,10 @@ export default class YouTube extends Component {
   };
 
   post = (post) => {
-    console.log(post);
+    //console.log(post);
     let url = "";
     let type = "";
+
     if (post.id.kind === "youtube#video") {
       url = "https://www.youtube.com/watch?v=" + post.id.videoId;
       type = "Video";
@@ -178,18 +179,17 @@ export default class YouTube extends Component {
               />
             </div>
           )}
-        </a>
 
-        {type === "Video" && (
-          <div className="yt-embed">
-            <img
-              className="thumb"
-              src={post.snippet.thumbnails.high.url}
-              alt="thumb"
-              loading="lazy"
-            />
+          {type === "Video" && (
+            <div className="yt-embed">
+              <img
+                className="thumb"
+                src={post.snippet.thumbnails.high.url}
+                alt="thumb"
+                loading="lazy"
+              />
 
-            <iframe
+              {/*<iframe
               id="ytplayer"
               type="text/html"
               width="100%"
@@ -201,29 +201,30 @@ export default class YouTube extends Component {
                 "?autoplay=0"
               }
               frameborder="0"
-            ></iframe>
-          </div>
-        )}
+            ></iframe>*/}
+            </div>
+          )}
 
-        <Grid container spacing={2} sx={{ paddingTop: 2 }}>
-          <Grid item xs={10}>
-            <span className="username">{post.snippet.channelTitle}</span>
-            <span style={{ color: "#999999" }}> · </span>
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              {moment(post.snippet.publishedAt).fromNow()}
-            </Typography>
+          <Grid container spacing={2} sx={{ paddingTop: 2 }}>
+            <Grid item xs={10}>
+              <span className="username">{post.snippet.channelTitle}</span>
+              <span style={{ color: "#999999" }}> · </span>
+              <Typography variant="caption" style={{ color: "#999999" }}>
+                {moment(post.snippet.publishedAt).fromNow()}
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
 
-        <Typography variant="caption" style={{ color: "#999999" }}>
-          {type}
-        </Typography>
-
-        <Box className="post-title" sx={{ paddingTop: 2 }}>
-          <Typography variant="h5">
-            {this.decodeText(post.snippet.title)}
+          <Typography variant="caption" style={{ color: "#999999" }}>
+            {type}
           </Typography>
-        </Box>
+
+          <Box className="post-title" sx={{ paddingTop: 2 }}>
+            <Typography variant="h5">
+              {this.decodeText(post.snippet.title)}
+            </Typography>
+          </Box>
+        </a>
       </Box>
     );
   };
