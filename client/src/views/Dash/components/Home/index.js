@@ -146,7 +146,7 @@ export default class Home extends Component {
     for (const topic of TOPICS) await this.getSubredditPosts(topic);
   };
 
-  tinyPost = (post) => {
+  post = (post) => {
     return (
       <Box className="post" key={post.data.id}>
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
@@ -201,10 +201,8 @@ export default class Home extends Component {
               {key}
             </Typography>
 
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={5}>
-              {posts[key].map((post, index) => {
-                return this.tinyPost(post);
-              })}
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+              {posts[key].map((post, index) => this.post(post))}
             </Masonry>
           </Box>
         ))}
