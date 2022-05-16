@@ -168,8 +168,14 @@ export default class Home extends Component {
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <ul className="fw-filter">
           {TOPICS.map((topic) => (
-            <li key={"key-" + topic}>
-              <a href={"#" + topic}>{topic}</a>
+            <li
+              key={"key-" + topic}
+              className="topic"
+              onClick={() => {
+                document.getElementById(topic).scrollIntoView();
+              }}
+            >
+              {topic}
             </li>
           ))}
         </ul>
