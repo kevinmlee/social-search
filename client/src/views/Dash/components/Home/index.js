@@ -27,11 +27,16 @@ export default class Home extends Component {
       popular: true,
     };
 
-    this.wrapperRef = React.createRef();
+    //this.wrapperRef = React.createRef();
     //this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount = async () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     //document.addEventListener("mousedown", this.handleClickOutside);
     if (this.props.state.home && this.props.state.subreddits.length === 0)
       this.getPosts();
@@ -41,11 +46,14 @@ export default class Home extends Component {
     //document.removeEventListener("mousedown", this.handleClickOutside);
   };
 
+  /*
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
       this.setState({ filterToggle: false });
   };
+  */
 
+  /*
   changeTab = (event) => {
     const tabs = ["recent", "popular"];
     const selectedTab = event.currentTarget.getAttribute("data-tab");
@@ -67,6 +75,7 @@ export default class Home extends Component {
   toggle = async (state) => {
     await this.setState({ [state]: !this.state[state] });
   };
+  */
 
   htmlDecode = (input) => {
     var e = document.createElement("div");
