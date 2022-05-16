@@ -110,7 +110,7 @@ export default class Reddit extends Component {
         if ("reddit_video" in post.data.secure_media) {
           //console.log(post.data);
           return (
-            <Box className="reddit-video" sx={{ marginTop: 2 }}>
+            <Box className="reddit-video" sx={{ marginBottom: 2 }}>
               <video
                 preload="none"
                 width="100%"
@@ -134,7 +134,7 @@ export default class Reddit extends Component {
           );
 
           return (
-            <Box className="youtube-video" sx={{ marginTop: 2 }}>
+            <Box className="youtube-video" sx={{ marginBottom: 2 }}>
               <div
                 dangerouslySetInnerHTML={{
                   __html: this.htmlDecode(updatedString),
@@ -186,17 +186,33 @@ export default class Reddit extends Component {
 
   post = (post) => {
     return (
-      <Paper elevation={3} className="reddit-post post-card" key={post.data.id}>
-        <a
-          //href={"https://reddit.com/" + post.data.subreddit_name_prefixed}
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="details"
-            sx={{ paddingTop: 3, paddingLeft: 2, paddingRight: 2 }}
-          >
+      <Box className="post" key={post.data.id}>
+        <a href={post.data.url} target="_blank" rel="noopener noreferrer">
+          {this.getVideo(post)
+            ? this.getVideo(post)
+            : this.getPreviewImage(post) && (
+                <Box
+                  className="media"
+                  /*onClick={() => {
+                    this.props.setAppState(
+                      "backdropImage",
+                      this.getPreviewImage(post)
+                    );
+                    this.props.setAppState("backdropToggle", true);
+                  }}*/
+                >
+                  <div className="media-image">
+                    <img
+                      className="featured-image"
+                      src={this.getPreviewImage(post)}
+                      alt={post.data.title}
+                      loading="lazy"
+                    />
+                  </div>
+                </Box>
+              )}
+
+          <Box className="details">
             <div className="subreddit">{post.data.subreddit_name_prefixed}</div>
             <Typography variant="caption" style={{ color: "#999999" }}>
               Posted by {post.data.author}
@@ -206,92 +222,14 @@ export default class Reddit extends Component {
               {moment.unix(post.data.created).utc().fromNow()}
             </Typography>
           </Box>
-        </a>
 
-        <a
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="post-text"
-            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
-          >
-            <Typography variant="body1">
+          <Box className="post-title" sx={{ paddingTop: 2 }}>
+            <Typography variant="h5">
               {this.decodeText(post.data.title)}
             </Typography>
           </Box>
         </a>
-
-        {this.getVideo(post)
-          ? this.getVideo(post)
-          : this.getPreviewImage(post) && (
-              <Box
-                className="media"
-                sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
-                onClick={() => {
-                  this.props.setAppState(
-                    "backdropImage",
-                    this.getPreviewImage(post)
-                  );
-                  this.props.setAppState("backdropToggle", true);
-                }}
-              >
-                <div className="media-image">
-                  <img
-                    src={this.getPreviewImage(post)}
-                    alt={post.data.title}
-                    loading="lazy"
-                  />
-                </div>
-              </Box>
-            )}
-
-        <a
-          href={"https://reddit.com" + post.data.permalink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="public-metrics"
-            container
-            spacing={2}
-            xs={12}
-            sx={{
-              padding: 2,
-            }}
-          >
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              sx={{ paddingRight: 4 }}
-              style={{ color: "#999999" }}
-            >
-              <ThumbUpIcon />
-              <span>{post.data.ups}</span>
-            </Typography>
-
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              sx={{ paddingRight: 4 }}
-              style={{ color: "#999999" }}
-            >
-              <ChatBubbleIcon />
-              {post.data.num_comments}
-            </Typography>
-
-            <Typography
-              className="metric flex-container"
-              variant="overline"
-              style={{ color: "#999999" }}
-            >
-              <EmojiEventsIcon />
-              {post.data.total_awards_received}
-            </Typography>
-          </Box>
-        </a>
-      </Paper>
+      </Box>
     );
   };
 
@@ -343,11 +281,11 @@ export default class Reddit extends Component {
         </Box>
 
         {this.state.recent && this.props.state.redditNew.length > 0 && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Box className="topic posts">
             <Masonry
-              className={"reddit-posts " + layout + "-layout"}
+              className={"posts " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
+              spacing={7}
             >
               {this.props.state.redditNew &&
                 this.props.state.redditNew.slice(0, 50).map((post, index) => {
@@ -358,11 +296,11 @@ export default class Reddit extends Component {
         )}
 
         {this.state.popular && this.props.state.redditHot.length > 0 && (
-          <Box className="reddit-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Box className="topic posts">
             <Masonry
-              className={"reddit-posts " + layout + "-layout"}
+              className={"posts " + layout + "-layout"}
               columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
+              spacing={7}
             >
               {this.props.state.redditHot &&
                 this.props.state.redditHot.slice(0, 50).map((post, index) => {
