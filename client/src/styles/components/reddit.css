@@ -58,10 +58,6 @@
   height: 275px;
 }
 
-.subreddit {
-  color: rgb(210, 193, 156);
-}
-
 @media (prefers-color-scheme: dark) {
   .reddit-post {
     border: none !important;
@@ -70,6 +66,9 @@
   }
   .reddit-post a {
     color: #ffffff;
+  }
+  .subreddit {
+    color: rgb(210, 193, 156);
   }
 }
 
@@ -86,6 +85,9 @@
     fill: #888888;
   }
   .reddit-post .details .subreddit {
+    color: #000000;
+  }
+  .subreddit {
     color: #000000;
   }
 }
