@@ -33,8 +33,8 @@ export default class Home extends Component {
 
   componentDidMount = async () => {
     //document.addEventListener("mousedown", this.handleClickOutside);
-    // if (this.props.state.home && this.props.state.subreddits.length === 0)
-    this.getPosts();
+    if (this.props.state.home && this.props.state.subreddits.length === 0)
+      this.getPosts();
   };
 
   componentWillUnmount = () => {

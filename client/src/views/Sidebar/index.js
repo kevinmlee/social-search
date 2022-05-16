@@ -44,26 +44,26 @@ export default class Sidebar extends Component {
           <HdrStrongIcon sx={{ fontSize: "50px" }} />
         </div>
 
-        <div className="menu">
-          <div
+        <ul className="menu">
+          <li
             className={"menu-item " + (this.props.state.home ? "active" : "")}
             onClick={this.props.changeTab}
             data-tab="home"
           >
             <HomeIcon className="home-icon" />
             <span>Home</span>
-          </div>
+          </li>
 
-          <div
+          <li
             className={"menu-item " + (this.props.state.reddit ? "active" : "")}
             onClick={this.props.changeTab}
             data-tab="reddit"
           >
             <RedditIcon className="reddit-icon" />
             <span>Reddit</span>
-          </div>
+          </li>
 
-          <div
+          <li
             className={
               "menu-item " + (this.props.state.twitter ? "active" : "")
             }
@@ -72,7 +72,7 @@ export default class Sidebar extends Component {
           >
             <TwitterIcon className="twitter-icon" />
             <span>Twitter</span>
-          </div>
+          </li>
 
           {/*<div
             className={
@@ -85,7 +85,7 @@ export default class Sidebar extends Component {
             <span>Instagram</span>
           </div>*/}
 
-          <div
+          <li
             className={
               "menu-item " + (this.props.state.youtube ? "active" : "")
             }
@@ -94,16 +94,16 @@ export default class Sidebar extends Component {
           >
             <YouTubeIcon className="youtube-icon" />
             <span>YouTube</span>
-          </div>
+          </li>
 
-          <div
+          <li
             className={"menu-item " + (this.props.state.trends ? "active" : "")}
             onClick={this.props.changeTab}
             data-tab="trends"
           >
             <SsidChartIcon className="trends-icon" />
             <span>Trends</span>
-          </div>
+          </li>
 
           {/*<div
             className={
@@ -116,7 +116,7 @@ export default class Sidebar extends Component {
             <span>Settings</span>
           </div>
           */}
-        </div>
+        </ul>
       </Box>
     );
   }
