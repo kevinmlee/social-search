@@ -9,6 +9,8 @@ import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 //import SettingsIcon from "@mui/icons-material/Settings";
 
+import logo from "../../assets/news-256.svg";
+
 export default class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +42,8 @@ export default class Sidebar extends Component {
         sx={{}}
       >
         <div className="logo">
-          <HdrStrongIcon sx={{ fontSize: "50px" }} />
+          {/*<img src={logo} alt="current logo" />*/}
+          <h2>current</h2>
         </div>
 
         <ul className="menu">
