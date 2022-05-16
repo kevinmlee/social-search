@@ -234,9 +234,7 @@ export default class Twitter extends Component {
 
             <Grid item xs={10}>
               <Box className="author" sx={{ paddingBottom: 1 }}>
-                <div className="name" style={{ color: "#ffffff" }}>
-                  {user.name}
-                </div>{" "}
+                <div className="name">{user.name}</div>
                 <span className="username">@{user.username}</span>
                 <span style={{ color: "#999999" }}> · </span>
                 <Typography variant="caption" style={{ color: "#999999" }}>

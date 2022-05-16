@@ -62,10 +62,16 @@
   .post:hover .post-title {
     text-decoration-color: #ffffff;
   }
+  .post .name {
+    color: #ffffff;
+  }
 }
 
 @media (prefers-color-scheme: light) {
   .post:hover .post-title {
     text-decoration-color: black;
+  }
+  .post .name {
+    color: #000000;
   }
 }
