@@ -18,7 +18,8 @@
 .tweet a {
   display: block;
 }
-.tweet .avatar {
+.tweet .avatar,
+.post .avatar {
   border-radius: 50%;
   overflow: hidden;
   width: 48px;
@@ -85,6 +86,9 @@
   .tweet a {
     color: #ffffff;
   }
+  .username {
+    color: rgb(210, 193, 156);
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -99,6 +103,9 @@
   }
   .tweet .public-metrics svg {
     fill: #888888;
+  }
+  .username {
+    color: #000000;
   }
 }
 

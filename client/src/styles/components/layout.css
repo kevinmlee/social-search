@@ -22,11 +22,15 @@
   border-radius: 8px;
   display: block;
   margin-bottom: 25px;
+  width: 100%;
 }
 .post iframe {
   width: 100%;
 }
 
+.post .author .name {
+  font-size: 16px;
+}
 .post .author-details {
   margin-bottom: 10px;
 }

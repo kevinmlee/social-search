@@ -212,7 +212,7 @@ export default class Twitter extends Component {
     }
 
     return (
-      <Paper elevation={3} className="tweet post-card" key={tweet.id}>
+      <Box className="post" key={tweet.id}>
         <a
           href={"https://twitter.com/twitter/status/" + tweet.id}
           target="_blank"
@@ -234,10 +234,10 @@ export default class Twitter extends Component {
 
             <Grid item xs={10}>
               <Box className="author" sx={{ paddingBottom: 1 }}>
-                <Typography variant="h6" style={{ color: "#ffffff" }}>
+                <div className="name" style={{ color: "#ffffff" }}>
                   {user.name}
-                </Typography>{" "}
-                <span style={{ color: "#999999" }}>@{user.username}</span>
+                </div>{" "}
+                <span className="username">@{user.username}</span>
                 <span style={{ color: "#999999" }}> · </span>
                 <Typography variant="caption" style={{ color: "#999999" }}>
                   {moment(tweet.created_at).fromNow()}
@@ -246,10 +246,8 @@ export default class Twitter extends Component {
             </Grid>
           </Grid>
 
-          <Box className="tweet-text" sx={{ padding: 2 }}>
-            <Typography variant="body1">
-              {this.decodeText(tweet.text)}
-            </Typography>
+          <Box className="post-title" sx={{ padding: 2 }}>
+            <Typography variant="h6">{this.decodeText(tweet.text)}</Typography>
           </Box>
         </a>
 
@@ -263,12 +261,17 @@ export default class Twitter extends Component {
             }}
           >
             <div className="media-image">
-              <img src={mediaUrl} alt={tweet.text} loading="lazy" />
+              <img
+                className="featured-image"
+                src={mediaUrl}
+                alt={tweet.text}
+                loading="lazy"
+              />
             </div>
           </Box>
         )}
 
-        <a
+        {/*<a
           href={"https://twitter.com/twitter/status/" + tweet.id}
           target="_blank"
           rel="noopener noreferrer"
@@ -302,8 +305,8 @@ export default class Twitter extends Component {
               </Typography>
             )}
           </Box>
-        </a>
-      </Paper>
+            </a>*/}
+      </Box>
     );
   };
 
@@ -311,14 +314,10 @@ export default class Twitter extends Component {
     const layout = this.props.state.layout;
 
     return (
-      <Box sx={{ marginTop: 4, marginBottom: 4 }}>
+      <Box>
         {this.state.userTweets && (
-          <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className={"tweets " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.tweetsByUserId["data"] &&
                 this.props.state.tweetsByUserId["data"]
                   .slice(0, 50)
@@ -330,12 +329,8 @@ export default class Twitter extends Component {
         )}
 
         {this.state.recent && "data" in this.props.state.tweetsByRecent && (
-          <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className={"tweets " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.tweetsByRecent["data"] &&
                 this.props.state.tweetsByRecent["data"]
                   .slice(0, 50)
@@ -347,12 +342,8 @@ export default class Twitter extends Component {
         )}
 
         {this.state.popular && "data" in this.props.state.tweetsByRecent && (
-          <Box className="twitter-tab" sx={{ marginTop: 4, marginBottom: 4 }}>
-            <Masonry
-              className={"tweets " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={2}
-            >
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.tweetsByRecent["data"] &&
                 this.sortByPopularity(this.props.state.tweetsByRecent["data"])
                   .slice(0, 50)
@@ -493,11 +484,11 @@ export default class Twitter extends Component {
               </li>
             </ul>
           </Box>
-          <LayoutSelector
+          {/*<LayoutSelector
             state={this.props.state}
             updateLocalStorage={this.props.updateLocalStorage}
             setAppState={this.props.setAppState}
-          />
+              />*/}
         </Box>
 
         {!this.objectEmpty(this.props.state.twitterUser) &&
