@@ -31,6 +31,18 @@
   width: 100%;
 }
 
+.post .yt-embed {
+  position: relative;
+}
+.post .yt-embed .thumb {
+  position: absolute;
+  border-radius: 8px;
+}
+.post .yt-embed iframe {
+  position: relative;
+  z-index: 1;
+}
+
 @media (prefers-color-scheme: dark) {
   .youtube-post {
     border: none !important;

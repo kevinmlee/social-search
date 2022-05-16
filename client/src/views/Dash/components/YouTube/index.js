@@ -149,7 +149,7 @@ export default class YouTube extends Component {
   };
 
   post = (post) => {
-    //console.log(post);
+    console.log(post);
     let url = "";
     let type = "";
     if (post.id.kind === "youtube#video") {
@@ -174,6 +174,7 @@ export default class YouTube extends Component {
                 className="featured-image"
                 src={post.snippet.thumbnails.high.url}
                 alt={this.decodeText(post.snippet.title)}
+                loading="lazy"
               />
             </div>
           )}
@@ -181,6 +182,13 @@ export default class YouTube extends Component {
 
         {type === "Video" && (
           <div className="yt-embed">
+            <img
+              className="thumb"
+              src={post.snippet.thumbnails.high.url}
+              alt="thumb"
+              loading="lazy"
+            />
+
             <iframe
               id="ytplayer"
               type="text/html"
