@@ -46,7 +46,7 @@
     transition: ease-in-out all 0.2s;
   }
   .post:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) !important;
   }
   .post:hover .post-title {
     text-decoration: underline;
