@@ -131,7 +131,7 @@ export default class Home extends Component {
 
   post = (post) => {
     return (
-      <Box className="post" key={post.data.id}>
+      <Box className="post" key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           <Box className="details">
             {"preview" in post.data && (
@@ -188,17 +188,19 @@ export default class Home extends Component {
           ))}
         </ul>
 
-        {Object.keys(posts).map((key, index) => (
-          <Box id={key} className="topic posts" key={key}>
-            <Typography className="section-title" variant="h4">
-              {key}
-            </Typography>
+        <Box>
+          {Object.keys(posts).map((key, index) => (
+            <Box id={key} className="topic posts" key={key}>
+              <Typography className="section-title" variant="h4">
+                {key}
+              </Typography>
 
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {posts[key].map((post, index) => this.post(post))}
-            </Masonry>
-          </Box>
-        ))}
+              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+                {posts[key].map((post, index) => this.post(post))}
+              </Masonry>
+            </Box>
+          ))}
+        </Box>
       </Box>
     );
   }
