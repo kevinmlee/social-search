@@ -43,6 +43,11 @@ export default class Reddit extends Component {
   }
 
   componentDidMount = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     //let userSettings = JSON.parse(localStorage.getItem("userSettings"));
     document.addEventListener("mousedown", this.handleClickOutside);
 
@@ -60,6 +65,12 @@ export default class Reddit extends Component {
 
   componentWillUnmount = () => {
     document.removeEventListener("mousedown", this.handleClickOutside);
+  };
+
+  componentDidUpdate = () => {
+    setTimeout(function () {
+      window.AOS.refresh();
+    }, 500);
   };
 
   handleClickOutside = (event) => {
@@ -186,7 +197,7 @@ export default class Reddit extends Component {
 
   post = (post) => {
     return (
-      <Box className="post" key={post.data.id}>
+      <Box className="post" key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           {this.getVideo(post)
             ? this.getVideo(post)
@@ -237,7 +248,7 @@ export default class Reddit extends Component {
     const layout = this.props.state.layout;
 
     return (
-      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+      <Box>
         <Box id="filterRow">
           <Box className="filter">
             <div

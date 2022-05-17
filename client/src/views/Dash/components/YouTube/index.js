@@ -39,6 +39,11 @@ export default class YouTube extends Component {
   }
 
   componentDidMount = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     document.addEventListener("mousedown", this.handleClickOutside);
 
     if (!("items" in this.props.state.youtubeVideosRelevance))
@@ -47,6 +52,12 @@ export default class YouTube extends Component {
 
   componentWillUnmount = () => {
     document.removeEventListener("mousedown", this.handleClickOutside);
+  };
+
+  componentDidUpdate = () => {
+    setTimeout(function () {
+      window.AOS.refresh();
+    }, 500);
   };
 
   handleClickOutside = (event) => {
@@ -160,7 +171,7 @@ export default class YouTube extends Component {
     }
 
     return (
-      <Box className="post" key={post.id.videoId}>
+      <Box className="post" key={post.id.videoId} data-aos="fade-up">
         <a
           href={url}
           target="_blank"
@@ -231,7 +242,7 @@ export default class YouTube extends Component {
     const layout = this.props.state.layout;
 
     return (
-      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+      <Box>
         <Box id="filterRow">
           <Box className="filter">
             <div

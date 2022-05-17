@@ -34,6 +34,11 @@ export default class Twitter extends Component {
   }
 
   componentDidMount = async () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     document.addEventListener("mousedown", this.handleClickOutside);
 
     if (!("data" in this.props.state.tweetsByRecent)) {
@@ -45,6 +50,12 @@ export default class Twitter extends Component {
 
   componentWillUnmount = () => {
     document.removeEventListener("mousedown", this.handleClickOutside);
+  };
+
+  componentDidUpdate = () => {
+    setTimeout(function () {
+      window.AOS.refresh();
+    }, 500);
   };
 
   handleClickOutside = (event) => {
@@ -212,7 +223,7 @@ export default class Twitter extends Component {
     }
 
     return (
-      <Box className="post" key={tweet.id}>
+      <Box className="post" key={tweet.id} data-aos="fade-up">
         <a
           href={"https://twitter.com/twitter/status/" + tweet.id}
           target="_blank"
@@ -437,7 +448,7 @@ export default class Twitter extends Component {
     //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
 
     return (
-      <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+      <Box>
         <Box id="filterRow">
           <Box className="filter">
             <div

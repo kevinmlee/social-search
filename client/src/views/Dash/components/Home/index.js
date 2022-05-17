@@ -32,7 +32,7 @@ export default class Home extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -40,6 +40,12 @@ export default class Home extends Component {
 
     if (this.props.state.home && this.props.state.subreddits.length === 0)
       this.getPosts();
+  };
+
+  componentDidUpdate = () => {
+    setTimeout(function () {
+      window.AOS.refresh();
+    }, 500);
   };
 
   htmlDecode = (input) => {
@@ -131,7 +137,7 @@ export default class Home extends Component {
 
   post = (post) => {
     return (
-      <Box className="post" key={post.data.id}>
+      <Box className="post" key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           <Box className="details">
             {"preview" in post.data && (
