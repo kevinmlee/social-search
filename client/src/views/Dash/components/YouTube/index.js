@@ -149,10 +149,8 @@ export default class YouTube extends Component {
   };
 
   post = (post) => {
-    //console.log(post);
     let url = "";
     let type = "";
-
     if (post.id.kind === "youtube#video") {
       url = "https://www.youtube.com/watch?v=" + post.id.videoId;
       type = "Video";
@@ -285,7 +283,7 @@ export default class YouTube extends Component {
 
         {this.state.relevance &&
           "items" in this.props.state.youtubeVideosRelevance && (
-            <Box className="topic posts" sx={{ marginTop: 4, marginBottom: 4 }}>
+            <Box className="topic posts">
               <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
                 {this.props.state.youtubeVideosRelevance.items.map(
                   (post, index) => {
@@ -297,7 +295,7 @@ export default class YouTube extends Component {
           )}
 
         {this.state.rating && "items" in this.props.state.youtubeVideosRating && (
-          <Box className="topic posts" sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.youtubeVideosRating.items.map((post, index) => {
                 return this.post(post);
@@ -307,7 +305,7 @@ export default class YouTube extends Component {
         )}
 
         {this.state.date && "items" in this.props.state.youtubeVideosDate && (
-          <Box className="topic posts" sx={{ marginTop: 4, marginBottom: 4 }}>
+          <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.youtubeVideosDate.items.map((post, index) => {
                 return this.post(post);
