@@ -282,30 +282,22 @@ export default class Reddit extends Component {
 
         {this.state.recent && this.props.state.redditNew.length > 0 && (
           <Box className="topic posts">
-            <Masonry
-              className={"posts " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={7}
-            >
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.redditNew &&
-                this.props.state.redditNew.slice(0, 50).map((post, index) => {
-                  return this.post(post);
-                })}
+                this.props.state.redditNew
+                  .slice(0, 50)
+                  .map((post, index) => this.post(post))}
             </Masonry>
           </Box>
         )}
 
         {this.state.popular && this.props.state.redditHot.length > 0 && (
           <Box className="topic posts">
-            <Masonry
-              className={"posts " + layout + "-layout"}
-              columns={{ xs: 1, md: 2, lg: 3, xl: 4 }}
-              spacing={7}
-            >
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.redditHot &&
-                this.props.state.redditHot.slice(0, 50).map((post, index) => {
-                  return this.post(post);
-                })}
+                this.props.state.redditHot
+                  .slice(0, 50)
+                  .map((post, index) => this.post(post))}
             </Masonry>
           </Box>
         )}

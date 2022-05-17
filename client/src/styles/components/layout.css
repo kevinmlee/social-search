@@ -16,8 +16,8 @@
 .post .featured-image {
   border-radius: 8px;
   display: block;
-  margin-bottom: 25px;
   width: 100%;
+  margin-bottom: 25px;
 }
 .post iframe,
 .post video {
