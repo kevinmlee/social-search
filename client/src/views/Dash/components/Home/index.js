@@ -40,6 +40,8 @@ export default class Home extends Component {
 
     if (this.props.state.home && this.props.state.subreddits.length === 0)
       this.getPosts();
+
+    this.searchSubreddits("tesla");
   };
 
   componentDidUpdate = () => {
@@ -144,6 +146,26 @@ export default class Home extends Component {
 
   getPosts = async () => {
     for (const topic of TOPICS) await this.getSubredditPosts(topic);
+  };
+
+  searchSubreddits = async (query) => {
+    return await axios
+      .put("/reddit/search/subreddits", {
+        searchQuery: query,
+      })
+      .then(
+        (response) => {
+          //let subreddits = this.props.state.subreddits;
+          //subreddits[subreddit] = response.data.data.children;
+
+          console.log("subreddit search results", response.data.data.children);
+
+          //this.props.setAppState("subreddits", subreddits);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   post = (post) => {

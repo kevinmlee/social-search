@@ -83,6 +83,7 @@ app.all("/twitter/get/tweets/id", TWITTER.getTweetsByUserId);
 /////////////////////////////////////////////
 
 app.all("/reddit/search", REDDIT.search);
+app.all("/reddit/search/subreddits", REDDIT.searchSubreddits);
 app.all("/reddit/get/subreddit/posts", REDDIT.getSubredditPosts);
 app.all("/reddit/get/hot/posts", REDDIT.getHotPosts);
 
