@@ -151,16 +151,20 @@ export default class Home extends Component {
       <Box className="post" key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           <Box className="details">
-            {"preview" in post.data && (
-              <div className="media">
-                <img
-                  className="featured-image"
-                  src={this.getPreviewImage(post)}
-                  alt={this.decodeText(post.data.title)}
-                  loading="lazy"
-                />
-              </div>
-            )}
+            {this.getVideo(post)
+              ? this.getVideo(post)
+              : this.getPreviewImage(post) && (
+                  <Box className="media">
+                    <div className="media-image">
+                      <img
+                        className="featured-image"
+                        src={this.getPreviewImage(post)}
+                        alt={post.data.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  </Box>
+                )}
 
             <Box className="author-details">
               <Typography variant="caption" style={{ color: "#999999" }}>
