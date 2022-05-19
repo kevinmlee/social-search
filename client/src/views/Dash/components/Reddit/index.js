@@ -302,7 +302,7 @@ export default class Reddit extends Component {
         )}
 
         {this.state.loading && (
-          <Box className="d-flex justify-center" sx={{ paddingTop: "100px" }}>
+          <Box className="ta-center" sx={{ paddingTop: "100px" }}>
             <CircularProgress color="inherit" />
           </Box>
         )}
