@@ -41,7 +41,7 @@ export default class Home extends Component {
     if (this.props.state.home && this.props.state.subreddits.length === 0)
       this.getPosts();
 
-    this.searchSubreddits("tesla");
+    //this.searchSubreddits("tesla");
   };
 
   componentDidUpdate = () => {

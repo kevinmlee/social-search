@@ -34,6 +34,13 @@ export default class Sidebar extends Component {
     }
   };
 
+  scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   render() {
     return (
       <Box
@@ -43,13 +50,15 @@ export default class Sidebar extends Component {
       >
         <div className="logo">
           {/*<img src={logo} alt="current logo" />*/}
-          <h2>current</h2>
+          <h2>Currently</h2>
         </div>
 
         <ul className="menu">
           <li
             className="menu-item-container tier-1"
-            onClick={this.props.changeTab}
+            onClick={
+              this.props.state.home ? this.scrollToTop : this.props.changeTab
+            }
             data-tab="home"
           >
             <div
@@ -69,7 +78,11 @@ export default class Sidebar extends Component {
                   "menu-item tier-2 " +
                   (this.props.state.reddit ? "active" : "")
                 }
-                onClick={this.props.changeTab}
+                onClick={
+                  this.props.state.reddit
+                    ? this.scrollToTop
+                    : this.props.changeTab
+                }
                 data-tab="reddit"
               >
                 <RedditIcon className="reddit-icon" />
@@ -81,7 +94,11 @@ export default class Sidebar extends Component {
                   "menu-item tier-2 " +
                   (this.props.state.twitter ? "active" : "")
                 }
-                onClick={this.props.changeTab}
+                onClick={
+                  this.props.state.twitter
+                    ? this.scrollToTop
+                    : this.props.changeTab
+                }
                 data-tab="twitter"
               >
                 <TwitterIcon className="twitter-icon" />
@@ -93,7 +110,11 @@ export default class Sidebar extends Component {
                   "menu-item tier-2 " +
                   (this.props.state.youtube ? "active" : "")
                 }
-                onClick={this.props.changeTab}
+                onClick={
+                  this.props.state.youtube
+                    ? this.scrollToTop
+                    : this.props.changeTab
+                }
                 data-tab="youtube"
               >
                 <YouTubeIcon className="youtube-icon" />
@@ -110,7 +131,11 @@ export default class Sidebar extends Component {
                 className={
                   "menu-item tier-2 " + (this.props.state.trends && "active")
                 }
-                onClick={this.props.changeTab}
+                onClick={
+                  this.props.state.trends
+                    ? this.scrollToTop
+                    : this.props.changeTab
+                }
                 data-tab="trends"
               >
                 <SsidChartIcon className="trends-icon" />
