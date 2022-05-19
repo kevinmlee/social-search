@@ -37,7 +37,8 @@ export default class Dash extends Component {
 
         {!this.props.state.previousSearchQuery &&
           !this.props.state.home &&
-          !this.props.state.settings && (
+          !this.props.state.settings &&
+          !this.props.state.reddit && (
             <Box
               className="welcome-message"
               data-aos="fade-up"
@@ -66,7 +67,7 @@ export default class Dash extends Component {
           />
         )}
 
-        {this.props.state.reddit && this.props.state.previousSearchQuery && (
+        {this.props.state.reddit && (
           <Reddit
             setAppState={this.props.setAppState}
             state={this.props.state}

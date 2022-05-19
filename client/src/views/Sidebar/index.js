@@ -2,14 +2,13 @@ import React, { Component } from "react";
 
 import { Box } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
-import HdrStrongIcon from "@mui/icons-material/HdrStrong";
+//import HdrStrongIcon from "@mui/icons-material/HdrStrong";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 //import SettingsIcon from "@mui/icons-material/Settings";
-
-import logo from "../../assets/news-256.svg";
+//import logo from "../../assets/news-256.svg";
 
 export default class Sidebar extends Component {
   constructor(props) {

@@ -2,24 +2,12 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Paper,
-  Typography,
-  Tooltip,
-  Radio,
-} from "@mui/material";
-
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import { Box, Typography, Radio } from "@mui/material";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
-
 import { Masonry } from "@mui/lab";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import LayoutSelector from "../../../LayoutSelector";
+//import LayoutSelector from "../../../LayoutSelector";
 
 /*
  * perhaps on first load, get recent hot posts from reddit
@@ -32,7 +20,10 @@ export default class Reddit extends Component {
     super(props);
 
     this.state = {
+      hotPosts: [],
+
       filterToggle: false,
+      loading: false,
 
       recent: false,
       popular: true,
@@ -51,6 +42,8 @@ export default class Reddit extends Component {
     //let userSettings = JSON.parse(localStorage.getItem("userSettings"));
     document.addEventListener("mousedown", this.handleClickOutside);
 
+    this.getHotPosts();
+
     // get layout preference from localStorage
     /*
     if ("layout" in userSettings)
@@ -68,6 +61,13 @@ export default class Reddit extends Component {
   };
 
   componentDidUpdate = () => {
+    if (this.props.state.previousSearchQuery !== "") {
+      if (this.state.popular && this.props.state.redditHot.length === 0)
+        this.redditSearchHot();
+      if (this.state.recent && this.props.state.redditNew.length === 0)
+        this.redditSearchNew();
+    }
+
     setTimeout(function () {
       window.AOS.refresh();
     }, 500);
@@ -195,6 +195,21 @@ export default class Reddit extends Component {
       );
   };
 
+  getHotPosts = async (e) => {
+    this.setState({ loading: true });
+    return await axios.put("/reddit/get/hot/posts", {}).then(
+      (response) => {
+        this.setState({
+          hotPosts: response.data.data.children,
+          loading: false,
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+
   post = (post) => {
     return (
       <Box className="post" key={post.data.id} data-aos="fade-up">
@@ -245,51 +260,61 @@ export default class Reddit extends Component {
   };
 
   render() {
-    const layout = this.props.state.layout;
+    //const layout = this.props.state.layout;
 
     return (
       <Box>
-        <Box id="filterRow">
-          <Box className="filter">
-            <div
-              className="active-display"
-              onClick={() => this.toggle("filterToggle")}
-            >
-              <span className="active-filter">Filter</span>
-              <TuneRoundedIcon />
-            </div>
-            <ul
-              className={
-                "filter-options " + (this.state.filterToggle && "active")
-              }
-              ref={this.wrapperRef}
-            >
-              {/*<li>All</li>*/}
-              <li
-                className={this.state.recent ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="recent"
+        {this.props.state.previousSearchQuery && (
+          <Box id="filterRow">
+            <Box className="filter">
+              <div
+                className="active-display"
+                onClick={() => this.toggle("filterToggle")}
               >
-                Recent
-                <Radio checked={this.state.recent} size="small" />
-              </li>
-              <li
-                className={this.state.popular ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="popular"
+                <span className="active-filter">Filter</span>
+                <TuneRoundedIcon />
+              </div>
+              <ul
+                className={
+                  "filter-options " + (this.state.filterToggle && "active")
+                }
+                ref={this.wrapperRef}
               >
-                Hot
-                <Radio checked={this.state.popular} size="small" />
-              </li>
-            </ul>
+                <li
+                  className={this.state.recent ? "active" : ""}
+                  onClick={this.changeTab}
+                  data-tab="recent"
+                >
+                  Recent
+                  <Radio checked={this.state.recent} size="small" />
+                </li>
+                <li
+                  className={this.state.popular ? "active" : ""}
+                  onClick={this.changeTab}
+                  data-tab="popular"
+                >
+                  Hot
+                  <Radio checked={this.state.popular} size="small" />
+                </li>
+              </ul>
+            </Box>
           </Box>
+        )}
 
-          {/*<LayoutSelector
-            state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
-            setAppState={this.props.setAppState}
-            />*/}
-        </Box>
+        {this.state.loading && (
+          <Box className="d-flex justify-center" sx={{ paddingTop: "100px" }}>
+            <CircularProgress color="inherit" />
+          </Box>
+        )}
+
+        {this.state.hotPosts.length > 0 &&
+          !this.props.state.previousSearchQuery && (
+            <Box className="topic posts">
+              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+                {this.state.hotPosts.map((post, index) => this.post(post))}
+              </Masonry>
+            </Box>
+          )}
 
         {this.state.recent && this.props.state.redditNew.length > 0 && (
           <Box className="topic posts">
