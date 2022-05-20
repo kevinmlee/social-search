@@ -7,6 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 
 import UserInput from "./components/UserInput";
+import User from "./components/User";
 
 export default class Header extends Component {
   render() {
@@ -16,7 +17,7 @@ export default class Header extends Component {
           className={"expanded " + this.props.state.scrollStatus}
           sx={{ display: { md: "flex" } }}
         >
-          <Toolbar>
+          <Toolbar className="d-flex space-between align-center">
             <IconButton
               className="menu-button"
               size="large"
@@ -45,6 +46,10 @@ export default class Header extends Component {
                 reset={this.props.reset}
                 updateLocalStorage={this.props.updateLocalStorage}
               />
+            </Box>
+
+            <Box>
+              <User />
             </Box>
           </Toolbar>
         </AppBar>

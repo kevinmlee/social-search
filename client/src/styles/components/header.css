@@ -134,3 +134,39 @@ header .search input {
 
 @media screen and (min-width: 769px) {
 }
+
+/*
+* Avatar / Account Menu
+*/
+header .avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  text-align: center;
+  position: relative;
+  margin-left: 16px;
+}
+
+header .avatar .default {
+  margin: 0 auto;
+  width: 30px;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 0;
+  right: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  header .avatar {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+@media (prefers-color-scheme: light) {
+  header .avatar {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}

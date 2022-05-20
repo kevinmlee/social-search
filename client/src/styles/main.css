@@ -514,6 +514,9 @@ table td img {
 .flex-end {
   justify-content: flex-end;
 }
+.space-between {
+  justify-content: space-between;
+}
 @media screen and (max-width: 768px) {
   .t-no-flex {
     display: block;
