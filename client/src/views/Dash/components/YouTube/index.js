@@ -37,11 +37,7 @@ export default class YouTube extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
 
     const ytSearchResults = this.props.state.ytSearchResults;
-    if (
-      this.props.state.previousSearchQuery &&
-      this.state.relevance &&
-      !ytSearchResults["relevance"]
-    )
+    if (this.props.state.previousSearchQuery && !ytSearchResults["relevance"])
       this.search("relevance");
     else this.getTrendingVideos();
   };
