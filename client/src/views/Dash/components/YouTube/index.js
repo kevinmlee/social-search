@@ -51,11 +51,17 @@ export default class YouTube extends Component {
     if (this.props.state.previousSearchQuery) {
       const ytSearchResults = this.props.state.ytSearchResults;
 
+      FILTERS.forEach((filter) => {
+        if (this.state[filter] && !ytSearchResults[filter]) this.search(filter);
+      });
+
+      /*
       if (this.state.relevance && !ytSearchResults["relevance"])
         this.search("relevance");
       else if (this.state.rating && !ytSearchResults["rating"])
         this.search("rating");
       else if (this.state.date && !ytSearchResults["date"]) this.search("date");
+      */
     }
 
     setTimeout(function () {
