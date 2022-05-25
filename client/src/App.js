@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import {
   BrowserRouter as Router,
   Switch,
@@ -89,6 +90,8 @@ export default class App extends Component {
 
       this.setState({ scrollStatus, backToTop });
     });
+
+    this.getGeolocation();
   };
 
   componentWillUnmount = () => {
@@ -169,6 +172,15 @@ export default class App extends Component {
       youtubeVideosRating: {},
       youtubeVideosDate: {},
     });
+  };
+
+  getGeolocation = async () => {
+    await axios.get("/get/geolocation").then(
+      async (response) => {
+        await this.setState({ geolocation: response });
+      },
+      (error) => console.log(error)
+    );
   };
 
   imageBackdrop = () => {

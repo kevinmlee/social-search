@@ -31,7 +31,7 @@ export default class User extends Component {
   render() {
     return (
       <Box id="user" ref={this.wrapperRef}>
-        <div class="avatar" onClick={() => this.setState({ opened: true })}>
+        <div className="avatar" onClick={() => this.setState({ opened: true })}>
           {/* if no user is logged in, show the person icon */}
           <PersonIcon className="default" />
         </div>

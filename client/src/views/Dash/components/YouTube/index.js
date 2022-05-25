@@ -38,10 +38,8 @@ export default class YouTube extends Component {
 
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    /*
-    this.getTrendingVideos();
-    console.log(this.props.state.ytTrendingVideos);
-    */
+    //this.getTrendingVideos();
+    //console.log(this.props.state.ytTrendingVideos);
 
     if (!("items" in this.props.state.youtubeVideosRelevance))
       this.searchVideosRelevance();
@@ -157,18 +155,23 @@ export default class YouTube extends Component {
   };
 
   getTrendingVideos = async () => {
-    this.setState({ loading: true });
-    return await axios.put("/youtube/get/trending", {}).then(
-      (response) => {
-        if ("items" in response.data)
-          this.props.setAppState("ytTrendingVideos", response.data);
+    await this.setState({ loading: true });
+    const countryCode = this.props.state.geolocation.data.country_code;
 
-        this.setState({ loading: false });
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    return await axios
+      .put("/youtube/get/trending", { region: countryCode })
+      .then(
+        async (response) => {
+          console.log(response.data);
+          if ("items" in response.data)
+            await this.props.setAppState("ytTrendingVideos", response.data);
+
+          await this.setState({ loading: false });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   post = (post) => {
@@ -309,6 +312,16 @@ export default class YouTube extends Component {
             <CircularProgress color="inherit" />
           </Box>
         )}
+
+        {/*{"items" in this.props.state.ytTrendingVideos && (
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+              {this.props.state.ytTrendingVideos.items.map((post, index) => {
+                return this.post(post);
+              })}
+            </Masonry>
+          </Box>
+            )}*/}
 
         {this.state.relevance &&
           "items" in this.props.state.youtubeVideosRelevance && (
