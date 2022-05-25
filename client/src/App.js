@@ -58,9 +58,6 @@ export default class App extends Component {
       interestOverTime: {},
 
       // youtube
-      youtubeVideosRelevance: {},
-      youtubeVideosRating: {},
-      youtubeVideosDate: {},
       ytTrendingVideos: {},
       ytSearchResults: [],
 
