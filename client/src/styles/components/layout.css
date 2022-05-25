@@ -13,16 +13,20 @@
   margin-bottom: 0 !important;
 }
 
+.post {
+  overflow: hidden;
+}
 .post .featured-image {
-  border-radius: 8px;
   display: block;
   width: 100%;
-  margin-bottom: 25px;
 }
 .post iframe,
 .post video {
   width: 100%;
+  height: auto;
   border-radius: 8px;
+  background-color: #000000;
+  min-height: 200px;
 }
 .post .post-title {
   word-break: break-word;
@@ -32,6 +36,14 @@
 }
 .post .author-details {
   margin-bottom: 10px;
+}
+.post.nsfw .featured-image {
+  filter: blur(1.17rem);
+}
+.post .media {
+  overflow: hidden;
+  margin-bottom: 25px;
+  border-radius: 8px;
 }
 
 @media screen and (min-width: 769px) {

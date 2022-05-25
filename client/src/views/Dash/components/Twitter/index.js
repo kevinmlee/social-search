@@ -229,11 +229,7 @@ export default class Twitter extends Component {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Grid
-            container
-            spacing={2}
-            sx={{ paddingTop: 2, paddingLeft: 2, paddingRight: 2 }}
-          >
+          <Grid container spacing={2} sx={{ paddingTop: 2 }}>
             <Grid item sx={{ width: "60px" }}>
               <div className="avatar">
                 <img
@@ -255,7 +251,7 @@ export default class Twitter extends Component {
             </Grid>
           </Grid>
 
-          <Box className="post-title" sx={{ padding: 2 }}>
+          <Box className="post-title" sx={{ paddingTop: 2, paddingBottom: 2 }}>
             <Typography variant="h6">{this.decodeText(tweet.text)}</Typography>
           </Box>
         </a>
@@ -263,7 +259,6 @@ export default class Twitter extends Component {
         {mediaUrl && (
           <Box
             className="media"
-            sx={{ paddingBottom: 2, paddingLeft: 2, paddingRight: 2 }}
             onClick={() => {
               this.props.setAppState("backdropImage", mediaUrl);
               this.props.setAppState("backdropToggle", true);

@@ -121,7 +121,7 @@ export default class Reddit extends Component {
         if ("reddit_video" in post.data.secure_media) {
           //console.log(post.data);
           return (
-            <Box className="reddit-video" sx={{ marginBottom: 2 }}>
+            <Box className="reddit-video media" sx={{ marginBottom: 2 }}>
               <video
                 preload="none"
                 width="100%"
@@ -145,7 +145,7 @@ export default class Reddit extends Component {
           );
 
           return (
-            <Box className="youtube-video" sx={{ marginBottom: 2 }}>
+            <Box className="youtube-video media" sx={{ marginBottom: 2 }}>
               <div
                 dangerouslySetInnerHTML={{
                   __html: this.htmlDecode(updatedString),

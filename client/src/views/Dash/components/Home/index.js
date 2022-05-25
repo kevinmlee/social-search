@@ -82,7 +82,7 @@ export default class Home extends Component {
         if ("reddit_video" in post.data.secure_media) {
           //console.log(post.data);
           return (
-            <Box className="reddit-video" sx={{ marginTop: 2 }}>
+            <Box className="reddit-video media" sx={{ marginTop: 2 }}>
               <video
                 preload="none"
                 width="100%"
@@ -169,8 +169,13 @@ export default class Home extends Component {
   };
 
   post = (post) => {
+    console.log(post);
+    let classes = "";
+
+    if (post.data.over_18) classes += "nsfw ";
+
     return (
-      <Box className="post" key={post.data.id} data-aos="fade-up">
+      <Box className={"post " + classes} key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           <Box className="details">
             {this.getVideo(post)
