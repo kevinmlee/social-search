@@ -28,4 +28,29 @@ module.exports = {
       res.json(e);
     }
   },
+
+  getTrendingVideos: async function (req, res, next) {
+    const { region } = req.body;
+    //https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&key=
+
+    const url =
+      "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&maxResults=10&key=" +
+      process.env.YOUTUBE_API_KEY;
+
+    try {
+      let request = https.get(url, (response) => {
+        let data = "";
+
+        response.on("data", (stream) => {
+          data += stream;
+        });
+
+        response.on("end", () => res.json(JSON.parse(data)));
+      });
+
+      request.on("error", (e) => res.json(e));
+    } catch (e) {
+      res.json(e);
+    }
+  },
 };

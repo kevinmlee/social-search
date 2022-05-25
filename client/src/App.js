@@ -60,6 +60,7 @@ export default class App extends Component {
       youtubeVideosRelevance: {},
       youtubeVideosRating: {},
       youtubeVideosDate: {},
+      ytTrendingVideos: {},
 
       searchQuery: "",
       previousSearchQuery: "",

@@ -2,24 +2,14 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import LayoutSelector from "../../../LayoutSelector";
-
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Paper,
-  Typography,
-  Tooltip,
-  Radio,
-  Grid,
-} from "@mui/material";
+//import LayoutSelector from "../../../LayoutSelector";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Box, Typography, Radio, Grid } from "@mui/material";
 
 /*import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";*/
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
-
 import { Masonry } from "@mui/lab";
 
 export default class YouTube extends Component {
@@ -27,6 +17,8 @@ export default class YouTube extends Component {
     super(props);
 
     this.state = {
+      loading: false,
+
       filterToggle: false,
 
       date: false,
@@ -45,6 +37,11 @@ export default class YouTube extends Component {
     });
 
     document.addEventListener("mousedown", this.handleClickOutside);
+
+    /*
+    this.getTrendingVideos();
+    console.log(this.props.state.ytTrendingVideos);
+    */
 
     if (!("items" in this.props.state.youtubeVideosRelevance))
       this.searchVideosRelevance();
@@ -157,6 +154,21 @@ export default class YouTube extends Component {
           console.log(error);
         }
       );
+  };
+
+  getTrendingVideos = async () => {
+    this.setState({ loading: true });
+    return await axios.put("/youtube/get/trending", {}).then(
+      (response) => {
+        if ("items" in response.data)
+          this.props.setAppState("ytTrendingVideos", response.data);
+
+        this.setState({ loading: false });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   post = (post) => {
@@ -291,6 +303,12 @@ export default class YouTube extends Component {
             setAppState={this.props.setAppState}
             />*/}
         </Box>
+
+        {this.state.loading && (
+          <Box className="ta-center" sx={{ paddingTop: "100px" }}>
+            <CircularProgress color="inherit" />
+          </Box>
+        )}
 
         {this.state.relevance &&
           "items" in this.props.state.youtubeVideosRelevance && (

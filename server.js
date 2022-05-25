@@ -110,6 +110,7 @@ app.all("/google/relatedQueries", GOOGLE.relatedQueries);
 /////////////////////////////////////////////
 
 app.all("/youtube/search", YOUTUBE.search);
+app.all("/youtube/get/trending", YOUTUBE.getTrendingVideos);
 
 /////////////////////////////////////////////
 // Other
