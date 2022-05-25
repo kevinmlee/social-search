@@ -22,23 +22,21 @@ export default class YouTube extends Component {
       date: false,
       rating: false,
       relevance: true,
+
+      dataRetreived: [],
     };
 
     this.wrapperRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  componentDidMount = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
+  componentDidMount = async () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     document.addEventListener("mousedown", this.handleClickOutside);
 
     const ytSearchResults = this.props.state.ytSearchResults;
     if (this.props.state.previousSearchQuery && !ytSearchResults["relevance"])
-      this.search("relevance");
+      await this.search("relevance");
     else this.getTrendingVideos();
   };
 
@@ -46,22 +44,39 @@ export default class YouTube extends Component {
     document.removeEventListener("mousedown", this.handleClickOutside);
   };
 
-  componentDidUpdate = () => {
+  componentDidUpdate = async () => {
+    const dataRetreived = this.state.dataRetreived;
+    //console.log("dataRetreived", dataRetreived);
+
     // pull data from cooresponding API if not already pulled
     if (this.props.state.previousSearchQuery) {
       const ytSearchResults = this.props.state.ytSearchResults;
 
+      //console.log("ytSearchResults", ytSearchResults);
+
+      /*
+      if (
+        this.state.relevance &&
+        !dataRetreived["relevance"] &&
+        !ytSearchResults["relevance"]
+      )
+        await this.search("relevance");
+        */
+
+      /*
       FILTERS.forEach((filter) => {
         if (this.state[filter] && !ytSearchResults[filter]) this.search(filter);
       });
+      */
 
       /*
       if (this.state.relevance && !ytSearchResults["relevance"])
-        this.search("relevance");
+        await this.search("relevance");
       else if (this.state.rating && !ytSearchResults["rating"])
-        this.search("rating");
-      else if (this.state.date && !ytSearchResults["date"]) this.search("date");
-      */
+        await this.search("rating");
+      else if (this.state.date && !ytSearchResults["date"])
+        await this.search("date");
+        */
     }
 
     setTimeout(function () {
@@ -109,7 +124,7 @@ export default class YouTube extends Component {
   };
 
   search = async (filter) => {
-    this.setState({ loading: true });
+    await this.setState({ loading: true });
 
     return await axios
       .put("/youtube/search", {
@@ -118,13 +133,20 @@ export default class YouTube extends Component {
       })
       .then(
         async (response) => {
+          let dataRetreived = this.state.dataRetreived;
+
           if ("items" in response.data) {
             let ytSearchResults = this.props.state.ytSearchResults;
             ytSearchResults[filter] = response.data;
 
+            dataRetreived[filter] = true;
+
             await this.props.setAppState("ytSearchResults", ytSearchResults);
-            this.setState({ loading: false });
-          }
+            await this.setState({
+              loading: false,
+              dataRetreived: dataRetreived,
+            });
+          } else dataRetreived[filter] = false;
         },
         (error) => {
           console.log(error);
@@ -133,8 +155,8 @@ export default class YouTube extends Component {
   };
 
   getTrendingVideos = async () => {
-    this.setState({ loading: true });
     const countryCode = this.props.state.geolocation.data.country_code;
+    this.setState({ loading: true });
 
     return await axios
       .put("/youtube/get/trending", { region: countryCode })
