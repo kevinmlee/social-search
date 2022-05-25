@@ -169,7 +169,6 @@ export default class Home extends Component {
   };
 
   post = (post) => {
-    console.log(post);
     let classes = "";
 
     if (post.data.over_18) classes += "nsfw ";
