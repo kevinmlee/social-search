@@ -38,7 +38,8 @@ export default class Dash extends Component {
         {!this.props.state.previousSearchQuery &&
           !this.props.state.home &&
           !this.props.state.settings &&
-          !this.props.state.reddit && (
+          !this.props.state.reddit &&
+          !this.props.state.youtube && (
             <Box
               className="welcome-message"
               data-aos="fade-up"
@@ -82,7 +83,7 @@ export default class Dash extends Component {
           />
         )}
 
-        {this.props.state.youtube && this.props.state.previousSearchQuery && (
+        {this.props.state.youtube && (
           <YouTube
             setAppState={this.props.setAppState}
             state={this.props.state}

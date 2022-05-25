@@ -3,14 +3,12 @@ import moment from "moment";
 import axios from "axios";
 
 //import LayoutSelector from "../../../LayoutSelector";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Box, Typography, Radio, Grid } from "@mui/material";
-
-/*import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";*/
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import { Masonry } from "@mui/lab";
+import CircularProgress from "@mui/material/CircularProgress";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+
+const FILTERS = ["relevance", "rating", "date"];
 
 export default class YouTube extends Component {
   constructor(props) {
@@ -38,11 +36,14 @@ export default class YouTube extends Component {
 
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    //this.getTrendingVideos();
-    //console.log(this.props.state.ytTrendingVideos);
-
-    if (!("items" in this.props.state.youtubeVideosRelevance))
-      this.searchVideosRelevance();
+    const ytSearchResults = this.props.state.ytSearchResults;
+    if (
+      this.props.state.previousSearchQuery &&
+      this.state.relevance &&
+      !ytSearchResults["relevance"]
+    )
+      this.search("relevance");
+    else this.getTrendingVideos();
   };
 
   componentWillUnmount = () => {
@@ -50,9 +51,20 @@ export default class YouTube extends Component {
   };
 
   componentDidUpdate = () => {
+    // pull data from cooresponding API if not already pulled
+    if (this.props.state.previousSearchQuery) {
+      const ytSearchResults = this.props.state.ytSearchResults;
+
+      if (this.state.relevance && !ytSearchResults["relevance"])
+        this.search("relevance");
+      else if (this.state.rating && !ytSearchResults["rating"])
+        this.search("rating");
+      else if (this.state.date && !ytSearchResults["date"]) this.search("date");
+    }
+
     setTimeout(function () {
       window.AOS.refresh();
-    }, 500);
+    }, 700);
   };
 
   handleClickOutside = (event) => {
@@ -61,27 +73,18 @@ export default class YouTube extends Component {
   };
 
   changeTab = (event) => {
-    const tabs = ["date", "rating", "relevance"];
-    const selectedTab = event.currentTarget.getAttribute("data-tab");
+    const selectedFilter = event.currentTarget.getAttribute("data-tab");
 
-    tabs.forEach((tab) => {
-      if (tab === selectedTab) this.setState({ [tab]: true });
-      else this.setState({ [tab]: false });
+    FILTERS.forEach((filter) => {
+      if (filter === selectedFilter) this.setState({ [filter]: true });
+      else this.setState({ [filter]: false });
     });
 
     this.setState({ filterToggle: false });
 
     // pull data from cooresponding API if not already pulled
-    if (
-      selectedTab === "rating" &&
-      !("items" in this.props.state.youtubeVideosRating)
-    )
-      this.searchVideosRating();
-    if (
-      selectedTab === "date" &&
-      !("items" in this.props.state.youtubeVideosDate)
-    )
-      this.searchVideosDate();
+    const ytSearchResults = this.props.state.ytSearchResults;
+    if (!ytSearchResults[selectedFilter]) this.search(selectedFilter);
   };
 
   toggle = async (state) => {
@@ -103,50 +106,23 @@ export default class YouTube extends Component {
       .replaceAll("&gt;", ">");
   };
 
-  searchVideosRelevance = async () => {
-    return await axios
-      .put("/youtube/search", {
-        searchQuery: this.props.state.previousSearchQuery,
-        order: "relevance",
-      })
-      .then(
-        (response) => {
-          if ("items" in response.data)
-            this.props.setAppState("youtubeVideosRelevance", response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
+  search = async (filter) => {
+    this.setState({ loading: true });
 
-  searchVideosRating = async () => {
     return await axios
       .put("/youtube/search", {
         searchQuery: this.props.state.previousSearchQuery,
-        order: "rating",
+        order: filter,
       })
       .then(
-        (response) => {
-          if ("items" in response.data)
-            this.props.setAppState("youtubeVideosRating", response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
+        async (response) => {
+          if ("items" in response.data) {
+            let ytSearchResults = this.props.state.ytSearchResults;
+            ytSearchResults[filter] = response.data;
 
-  searchVideosDate = async () => {
-    return await axios
-      .put("/youtube/search", {
-        searchQuery: this.props.state.previousSearchQuery,
-        order: "date",
-      })
-      .then(
-        (response) => {
-          if ("items" in response.data)
-            this.props.setAppState("youtubeVideosDate", response.data);
+            await this.props.setAppState("ytSearchResults", ytSearchResults);
+            this.setState({ loading: false });
+          }
         },
         (error) => {
           console.log(error);
@@ -155,14 +131,13 @@ export default class YouTube extends Component {
   };
 
   getTrendingVideos = async () => {
-    await this.setState({ loading: true });
+    this.setState({ loading: true });
     const countryCode = this.props.state.geolocation.data.country_code;
 
     return await axios
       .put("/youtube/get/trending", { region: countryCode })
       .then(
         async (response) => {
-          console.log(response.data);
           if ("items" in response.data)
             await this.props.setAppState("ytTrendingVideos", response.data);
 
@@ -177,10 +152,14 @@ export default class YouTube extends Component {
   post = (post) => {
     let url = "";
     let type = "";
-    if (post.id.kind === "youtube#video") {
+
+    if (post.id.kind === "youtube#video" || post.kind === "youtube#video") {
       url = "https://www.youtube.com/watch?v=" + post.id.videoId;
       type = "Video";
-    } else if (post.id.kind === "youtube#channel") {
+    } else if (
+      post.id.kind === "youtube#channel" ||
+      post.kind === "youtube#channel"
+    ) {
       url = "https://www.youtube.com/channel/" + post.id.channelId;
       type = "Channel";
     }
@@ -254,58 +233,62 @@ export default class YouTube extends Component {
   };
 
   render() {
-    const layout = this.props.state.layout;
+    //const layout = this.props.state.layout;
+    const ytTrendingVideos = this.props.state.ytTrendingVideos;
+    const ytSearchResults = this.props.state.ytSearchResults;
 
     return (
       <Box>
-        <Box id="filterRow">
-          <Box className="filter">
-            <div
-              className="active-display"
-              onClick={() => this.toggle("filterToggle")}
-            >
-              <span className="active-filter">Filter</span>
-              <TuneRoundedIcon />
-            </div>
-            <ul
-              className={
-                "filter-options " + (this.state.filterToggle && "active")
-              }
-              ref={this.wrapperRef}
-            >
-              {/*<li>All</li>*/}
-              <li
-                className={this.state.relevance ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="relevance"
+        {this.props.state.previousSearchQuery && (
+          <Box id="filterRow">
+            <Box className="filter">
+              <div
+                className="active-display"
+                onClick={() => this.toggle("filterToggle")}
               >
-                Relevance
-                <Radio checked={this.state.relevance} size="small" />
-              </li>
-              <li
-                className={this.state.date ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="date"
+                <span className="active-filter">Filter</span>
+                <TuneRoundedIcon />
+              </div>
+              <ul
+                className={
+                  "filter-options " + (this.state.filterToggle && "active")
+                }
+                ref={this.wrapperRef}
               >
-                Recent
-                <Radio checked={this.state.date} size="small" />
-              </li>
-              <li
-                className={this.state.rating ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="rating"
-              >
-                Rating
-                <Radio checked={this.state.rating} size="small" />
-              </li>
-            </ul>
-          </Box>
-          {/*<LayoutSelector
+                {/*<li>All</li>*/}
+                <li
+                  className={this.state.relevance ? "active" : ""}
+                  onClick={this.changeTab}
+                  data-tab="relevance"
+                >
+                  Relevance
+                  <Radio checked={this.state.relevance} size="small" />
+                </li>
+                <li
+                  className={this.state.date ? "active" : ""}
+                  onClick={this.changeTab}
+                  data-tab="date"
+                >
+                  Recent
+                  <Radio checked={this.state.date} size="small" />
+                </li>
+                <li
+                  className={this.state.rating ? "active" : ""}
+                  onClick={this.changeTab}
+                  data-tab="rating"
+                >
+                  Rating
+                  <Radio checked={this.state.rating} size="small" />
+                </li>
+              </ul>
+            </Box>
+            {/*<LayoutSelector
             state={this.props.state}
             updateLocalStorage={this.props.updateLocalStorage}
             setAppState={this.props.setAppState}
             />*/}
-        </Box>
+          </Box>
+        )}
 
         {this.state.loading && (
           <Box className="ta-center" sx={{ paddingTop: "100px" }}>
@@ -313,48 +296,49 @@ export default class YouTube extends Component {
           </Box>
         )}
 
-        {/*{"items" in this.props.state.ytTrendingVideos && (
+        {"items" in ytTrendingVideos && !this.props.state.previousSearchQuery && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.ytTrendingVideos.items.map((post, index) => {
-                return this.post(post);
-              })}
+              {ytTrendingVideos.items.map((post, index) => this.post(post))}
             </Masonry>
           </Box>
-            )}*/}
+        )}
 
         {this.state.relevance &&
-          "items" in this.props.state.youtubeVideosRelevance && (
+          ytSearchResults["relevance"] &&
+          this.props.state.previousSearchQuery && (
             <Box className="topic posts">
               <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {this.props.state.youtubeVideosRelevance.items.map(
-                  (post, index) => {
-                    return this.post(post);
-                  }
+                {ytSearchResults["relevance"].items.map((post, index) =>
+                  this.post(post)
                 )}
               </Masonry>
             </Box>
           )}
 
-        {this.state.rating && "items" in this.props.state.youtubeVideosRating && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.youtubeVideosRating.items.map((post, index) => {
-                return this.post(post);
-              })}
-            </Masonry>
-          </Box>
-        )}
+        {this.state.rating &&
+          ytSearchResults["rating"] &&
+          this.props.state.previousSearchQuery && (
+            <Box className="topic posts">
+              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+                {ytSearchResults["rating"].items.map((post, index) =>
+                  this.post(post)
+                )}
+              </Masonry>
+            </Box>
+          )}
 
-        {this.state.date && "items" in this.props.state.youtubeVideosDate && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.youtubeVideosDate.items.map((post, index) => {
-                return this.post(post);
-              })}
-            </Masonry>
-          </Box>
-        )}
+        {this.state.date &&
+          ytSearchResults["date"] &&
+          this.props.state.previousSearchQuery && (
+            <Box className="topic posts">
+              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+                {ytSearchResults["date"].items.map((post, index) =>
+                  this.post(post)
+                )}
+              </Masonry>
+            </Box>
+          )}
       </Box>
     );
   }
