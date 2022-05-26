@@ -7,6 +7,7 @@ import { Box, Typography, Radio, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import CircularProgress from "@mui/material/CircularProgress";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import { compareSync } from "bcrypt";
 
 const FILTERS = ["relevance", "rating", "date"];
 
@@ -174,11 +175,16 @@ export default class YouTube extends Component {
   };
 
   post = (post) => {
+    console.log(post);
+
     let url = "";
     let type = "";
 
-    if (post.id.kind === "youtube#video" || post.kind === "youtube#video") {
+    if (post.id.kind === "youtube#video") {
       url = "https://www.youtube.com/watch?v=" + post.id.videoId;
+      type = "Video";
+    } else if (post.kind === "youtube#video") {
+      url = "https://www.youtube.com/watch?v=" + post.videoId;
       type = "Video";
     } else if (
       post.id.kind === "youtube#channel" ||

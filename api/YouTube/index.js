@@ -34,7 +34,9 @@ module.exports = {
     //https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&key=
 
     const url =
-      "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=10&key=" +
+      "https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=15&regionCode=" +
+      region +
+      "&key=" +
       process.env.YOUTUBE_API_KEY;
 
     try {

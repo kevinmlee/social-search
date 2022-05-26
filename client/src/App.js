@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   //Redirect,
 } from "react-router-dom";
@@ -244,7 +244,7 @@ export default class App extends Component {
 
         <div id="main-content">
           <Router>
-            <Switch>
+            <Routes>
               <Route exact path="/">
                 <Dash
                   state={this.state}
@@ -252,7 +252,7 @@ export default class App extends Component {
                   updateLocalStorage={this.updateLocalStorage}
                 />
               </Route>
-            </Switch>
+            </Routes>
           </Router>
         </div>
 
