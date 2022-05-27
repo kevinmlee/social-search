@@ -1,16 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment";
-import {
-  Grid,
-  Box,
-  Paper,
-  Typography,
-  Radio,
-  CircularProgress,
-} from "@mui/material";
+import { Grid, Box, Typography, Radio } from "@mui/material";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
-import Chart from "chart.js/auto";
+//import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 //import "chartjs-plugin-trendline";
 
