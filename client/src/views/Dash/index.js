@@ -59,7 +59,7 @@ export default class Dash extends Component {
             sx={{ paddingTop: 5 }}
           >
             <Typography variant="h4">
-              We could not fetch posts for this platform
+              Something went wrong while fetching posts
             </Typography>
             <Typography variant="body1" sx={{ paddingTop: 1 }}>
               Please try again later.
