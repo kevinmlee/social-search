@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
+//import axios from "axios";
+import validator from "validator";
 
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -58,19 +59,11 @@ export default class UserInput extends Component {
     else return true;
   };
 
-  objectEmpty = (obj) => {
-    return (
-      obj && // 👈 null and undefined check
-      Object.keys(obj).length === 0 &&
-      Object.getPrototypeOf(obj) === Object.prototype
-    );
-  };
-
   search = async (e) => {
     if (e) e.preventDefault();
     //await this.props.setAppState("loadingBackdrop", true);
 
-    if (this.state.search === "")
+    if (!validator.isAlphanumeric(this.state.search))
       this.props.setAppState("searchQueryBlankError", true);
     else {
       await this.props.reset();

@@ -33,7 +33,8 @@
     "react-use-googlelogin": "^0.12.5",
     "saslprep": "^1.0.3",
     "secure-ls": "^1.2.6",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
