@@ -41,6 +41,9 @@ export default class Dash extends Component {
             </Box>
           )}
 
+        {/*
+         * Error message when posts could not be loaded
+         */}
         {this.props.state.previousSearchQuery && this.props.state.fetchError && (
           <Box
             className="welcome-message ta-center"

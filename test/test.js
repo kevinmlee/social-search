@@ -1,18 +1,18 @@
-const puppeteer = require("puppeteer");
+//const puppeteer = require("puppeteer");
 const expect = require("chai").expect;
 const { startServer } = require("polyserve");
 var assert = require("assert");
 
-describe("Array", function() {
-  describe("#indexOf()", function() {
-    it("should return -1 when the value is not present", function() {
+describe("Array", function () {
+  describe("#indexOf()", function () {
+    it("should return -1 when the value is not present", function () {
       assert.equal([1, 2, 3].indexOf(4), -1);
     });
   });
 });
 
-describe("Image match", function() {
-  it("should be 0", function() {
+describe("Image match", function () {
+  it("should be 0", function () {
     //assert.equal(100, 0);
     expect(12, "number of different pixels").equal(0);
   });

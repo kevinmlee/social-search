@@ -6,6 +6,7 @@ import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default class Twitter extends Component {
   constructor(props) {
@@ -20,6 +21,8 @@ export default class Twitter extends Component {
       recent: false,
       popular: true,
       userTweets: false,
+
+      loading: false,
     };
     this.wrapperRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -100,6 +103,8 @@ export default class Twitter extends Component {
   };
 
   twitterSearchByRecent = async (e) => {
+    this.setState({ loading: true });
+
     return await axios
       .put("/twitter/search", {
         searchQuery: this.props.state.previousSearchQuery,
@@ -109,6 +114,8 @@ export default class Twitter extends Component {
           if ("error" in response.data)
             this.props.setAppState("twitterError", true);
           else this.props.setAppState("tweetsByRecent", response.data.tweets);
+
+          this.setState({ loading: false });
         },
         (error) => {
           console.log(error);
@@ -147,14 +154,16 @@ export default class Twitter extends Component {
   };
 
   getTweetsByUserID = async (e) => {
+    this.setState({ loading: true });
+
     return await axios
       .put("/twitter/get/tweets/id", {
         userId: this.state.twitterUserID,
       })
       .then(
         (response) => {
-          //console.log("getTweetsByUserID", response);
           this.props.setAppState("tweetsByUserId", response.data.tweets);
+          this.setState({ loading: false });
         },
         (error) => {
           console.log(error);
@@ -307,8 +316,6 @@ export default class Twitter extends Component {
   };
 
   displayTweets = () => {
-    const layout = this.props.state.layout;
-
     return (
       <Box>
         {this.state.userTweets && (
@@ -486,6 +493,12 @@ export default class Twitter extends Component {
             setAppState={this.props.setAppState}
               />*/}
         </Box>
+
+        {this.state.loading && (
+          <Box className="ta-center" sx={{ paddingTop: "100px" }}>
+            <CircularProgress color="inherit" />
+          </Box>
+        )}
 
         {!this.objectEmpty(this.props.state.twitterUser) &&
           this.state.userTweets &&
