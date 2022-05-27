@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import {
   BrowserRouter as Router,
-  Routes,
+  Switch,
   Route,
   //Redirect,
 } from "react-router-dom";
@@ -76,6 +76,9 @@ export default class App extends Component {
       backdropToggle: false,
       loadingBackdrop: false,
       searchQueryBlankError: false,
+
+      // error handling
+      fetchError: false,
     };
   }
 
@@ -113,7 +116,7 @@ export default class App extends Component {
       else this.setState({ [tab]: false });
     });
 
-    this.setState({ sidebar: false });
+    this.setState({ sidebar: false, fetchError: false });
   };
 
   setAppState = async (name, value) => {
@@ -244,7 +247,7 @@ export default class App extends Component {
 
         <div id="main-content">
           <Router>
-            <Routes>
+            <Switch>
               <Route exact path="/">
                 <Dash
                   state={this.state}
@@ -252,7 +255,7 @@ export default class App extends Component {
                   updateLocalStorage={this.updateLocalStorage}
                 />
               </Route>
-            </Routes>
+            </Switch>
           </Router>
         </div>
 

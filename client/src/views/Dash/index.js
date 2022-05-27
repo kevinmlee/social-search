@@ -7,7 +7,7 @@ import Twitter from "./components/Twitter";
 import Reddit from "./components/Reddit";
 import YouTube from "./components/YouTube";
 import Trends from "./components/Trends";
-import Instagram from "./components/Instagram";
+//import Instagram from "./components/Instagram";
 import Settings from "./components/Settings";
 
 export default class Dash extends Component {
@@ -38,8 +38,7 @@ export default class Dash extends Component {
         {!this.props.state.previousSearchQuery &&
           !this.props.state.home &&
           !this.props.state.settings &&
-          !this.props.state.reddit &&
-          !this.props.state.youtube && (
+          !this.props.state.reddit && (
             <Box
               className="welcome-message"
               data-aos="fade-up"
@@ -51,6 +50,22 @@ export default class Dash extends Component {
               </Typography>
             </Box>
           )}
+
+        {this.props.state.previousSearchQuery && this.props.state.fetchError && (
+          <Box
+            className="welcome-message ta-center"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+            sx={{ paddingTop: 5 }}
+          >
+            <Typography variant="h4">
+              We could not fetch posts for this platform
+            </Typography>
+            <Typography variant="body1" sx={{ paddingTop: 1 }}>
+              Please try again later.
+            </Typography>
+          </Box>
+        )}
 
         {this.props.state.home && (
           <Home
@@ -83,7 +98,7 @@ export default class Dash extends Component {
           />
         )}
 
-        {this.props.state.youtube && (
+        {this.props.state.youtube && this.props.state.previousSearchQuery && (
           <YouTube
             setAppState={this.props.setAppState}
             state={this.props.state}

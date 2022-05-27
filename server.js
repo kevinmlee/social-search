@@ -26,7 +26,7 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 //const STRIPE_API = require("./api/stripe-functions.js");
 const crypto = require("crypto");
 
-//mongoose.set("useFindAndModify", false);
+mongoose.set("useFindAndModify", false);
 
 /////////////////////////////////////////////
 // Settings

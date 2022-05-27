@@ -7,7 +7,6 @@ import { Box, Typography, Radio, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import CircularProgress from "@mui/material/CircularProgress";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
-import { compareSync } from "bcrypt";
 
 const FILTERS = ["relevance", "rating", "date"];
 
@@ -23,8 +22,6 @@ export default class YouTube extends Component {
       date: false,
       rating: false,
       relevance: true,
-
-      dataRetreived: [],
     };
 
     this.wrapperRef = React.createRef();
@@ -46,15 +43,16 @@ export default class YouTube extends Component {
   };
 
   componentDidUpdate = async () => {
-    const dataRetreived = this.state.dataRetreived;
-    //console.log("dataRetreived", dataRetreived);
+    const ytSearchResults = this.props.state.ytSearchResults;
 
     // pull data from cooresponding API if not already pulled
     if (this.props.state.previousSearchQuery) {
-      const ytSearchResults = this.props.state.ytSearchResults;
-
+      /*
+      if (!ytSearchResults["relevance"] && !dataRetreived["relevance"]) {
+        await this.search("relevance");
+      }
+      */
       //console.log("ytSearchResults", ytSearchResults);
-
       /*
       if (
         this.state.relevance &&
@@ -63,13 +61,11 @@ export default class YouTube extends Component {
       )
         await this.search("relevance");
         */
-
       /*
       FILTERS.forEach((filter) => {
         if (this.state[filter] && !ytSearchResults[filter]) this.search(filter);
       });
       */
-
       /*
       if (this.state.relevance && !ytSearchResults["relevance"])
         await this.search("relevance");
@@ -126,6 +122,7 @@ export default class YouTube extends Component {
 
   search = async (filter) => {
     await this.setState({ loading: true });
+    await this.props.setAppState("fetchError", false);
 
     return await axios
       .put("/youtube/search", {
@@ -134,20 +131,15 @@ export default class YouTube extends Component {
       })
       .then(
         async (response) => {
-          let dataRetreived = this.state.dataRetreived;
-
           if ("items" in response.data) {
             let ytSearchResults = this.props.state.ytSearchResults;
             ytSearchResults[filter] = response.data;
 
-            dataRetreived[filter] = true;
-
             await this.props.setAppState("ytSearchResults", ytSearchResults);
-            await this.setState({
-              loading: false,
-              dataRetreived: dataRetreived,
-            });
-          } else dataRetreived[filter] = false;
+          } else if ("error" in response.data)
+            await this.props.setAppState("fetchError", true);
+
+          await this.setState({ loading: false });
         },
         (error) => {
           console.log(error);
@@ -175,8 +167,6 @@ export default class YouTube extends Component {
   };
 
   post = (post) => {
-    console.log(post);
-
     let url = "";
     let type = "";
 
@@ -269,7 +259,7 @@ export default class YouTube extends Component {
 
     return (
       <Box>
-        {this.props.state.previousSearchQuery && (
+        {this.props.state.previousSearchQuery && !this.props.state.fetchError && (
           <Box id="filterRow">
             <Box className="filter">
               <div
