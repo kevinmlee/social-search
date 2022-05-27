@@ -6,7 +6,7 @@ import axios from "axios";
 import { Box, Typography, Radio, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import CircularProgress from "@mui/material/CircularProgress";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const FILTERS = ["relevance", "rating", "date"];
 
@@ -267,7 +267,7 @@ export default class YouTube extends Component {
                 onClick={() => this.toggle("filterToggle")}
               >
                 <span className="active-filter">Filter</span>
-                <TuneRoundedIcon />
+                <FilterAltIcon />
               </div>
               <ul
                 className={

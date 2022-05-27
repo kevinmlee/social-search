@@ -3,9 +3,9 @@ import moment from "moment";
 import axios from "axios";
 
 import { Box, Typography, Radio } from "@mui/material";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import { Masonry } from "@mui/lab";
 import CircularProgress from "@mui/material/CircularProgress";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 //import LayoutSelector from "../../../LayoutSelector";
 
@@ -272,7 +272,7 @@ export default class Reddit extends Component {
                 onClick={() => this.toggle("filterToggle")}
               >
                 <span className="active-filter">Filter</span>
-                <TuneRoundedIcon />
+                <FilterAltIcon />
               </div>
               <ul
                 className={

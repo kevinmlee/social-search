@@ -2,18 +2,10 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import LayoutSelector from "../../../LayoutSelector";
-
 import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
-
 import { Masonry } from "@mui/lab";
-
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import LoopIcon from "@mui/icons-material/Loop";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 export default class Twitter extends Component {
   constructor(props) {
@@ -451,7 +443,7 @@ export default class Twitter extends Component {
               onClick={() => this.toggle("filterToggle")}
             >
               <span className="active-filter">Filter</span>
-              <TuneRoundedIcon />
+              <FilterAltIcon />
             </div>
             <ul
               className={
