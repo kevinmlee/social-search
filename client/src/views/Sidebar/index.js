@@ -7,7 +7,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
 import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-//import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsIcon from "@mui/icons-material/Settings";
 //import logo from "../../assets/news-256.svg";
 
 export default class Sidebar extends Component {
@@ -143,17 +143,26 @@ export default class Sidebar extends Component {
             </ul>
           </li>
 
-          {/*<div
-            className={
-              "menu-item " + (this.props.state.settings ? "active" : "")
-            }
-            onClick={this.props.changeTab}
-            data-tab="settings"
-          >
-            <SettingsIcon className="settings-icon" />
-            <span>Settings</span>
-          </div>
-          */}
+          {/*<li className="menu-item-container tier-1">
+            <div className="menu-section-label">Settings</div>
+
+            <ul className="sub-menu">
+              <li
+                className={
+                  "menu-item tier-2 " + (this.props.state.settings && "active")
+                }
+                onClick={
+                  this.props.state.settings
+                    ? this.scrollToTop
+                    : this.props.changeTab
+                }
+                data-tab="settings"
+              >
+                <SettingsIcon className="settings-icon" />
+                <span>Settings</span>
+              </li>
+            </ul>
+              </li>*/}
         </ul>
       </Box>
     );

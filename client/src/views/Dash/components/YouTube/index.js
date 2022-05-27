@@ -302,11 +302,6 @@ export default class YouTube extends Component {
                 </li>
               </ul>
             </Box>
-            {/*<LayoutSelector
-            state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
-            setAppState={this.props.setAppState}
-            />*/}
           </Box>
         )}
 
