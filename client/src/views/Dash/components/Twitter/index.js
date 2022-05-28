@@ -142,8 +142,14 @@ export default class Twitter extends Component {
           if (response.data.error || this.objectEmpty(response.data))
             return false;
           else {
-            this.setState({ twitterUserID: response.data.twitterResults.id });
+            this.setState({
+              twitterUserID: response.data.twitterResults.id,
+              recent: false,
+              popular: false,
+              userTweets: true,
+            });
             this.props.setAppState("twitterUser", response.data.twitterResults);
+            this.getTweetsByUserID();
             return true;
           }
         },
@@ -230,7 +236,7 @@ export default class Twitter extends Component {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Grid container spacing={2} sx={{ paddingTop: 2 }}>
+          <Grid className="top" container spacing={2} sx={{ paddingTop: 2 }}>
             <Grid item sx={{ width: "60px" }}>
               <div className="avatar">
                 <img
