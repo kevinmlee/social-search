@@ -122,7 +122,7 @@ export default class Sidebar extends Component {
             </ul>
           </li>
 
-          <li className="menu-item-container tier-1">
+          {/*<li className="menu-item-container tier-1">
             <div className="menu-section-label">Reports</div>
 
             <ul className="sub-menu">
@@ -142,6 +142,7 @@ export default class Sidebar extends Component {
               </li>
             </ul>
           </li>
+              */}
 
           {/*<li className="menu-item-container tier-1">
             <div className="menu-section-label">Settings</div>
