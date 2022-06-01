@@ -14,6 +14,12 @@ export default class Sidebar extends Component {
   constructor(props) {
     super(props);
 
+    this.platforms = [
+      { name: "Reddit", icon: <RedditIcon /> },
+      { name: "Twitter", icon: <TwitterIcon /> },
+      { name: "YouTube", icon: <YouTubeIcon /> },
+    ];
+
     this.wrapperRef = React.createRef();
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
@@ -58,9 +64,7 @@ export default class Sidebar extends Component {
             }
             data-tab="home"
           >
-            <div
-              className={"menu-item " + (this.props.state.home ? "active" : "")}
-            >
+            <div className={"menu-item " + (this.props.state.home && "active")}>
               <GridViewIcon className="home-icon" />
               <span>Home</span>
             </div>
@@ -70,53 +74,24 @@ export default class Sidebar extends Component {
             <div className="menu-section-label">Platforms</div>
 
             <ul className="sub-menu">
-              <li
-                className={
-                  "menu-item tier-2 " +
-                  (this.props.state.reddit ? "active" : "")
-                }
-                onClick={
-                  this.props.state.reddit
-                    ? this.scrollToTop
-                    : this.props.changeTab
-                }
-                data-tab="reddit"
-              >
-                <RedditIcon className="reddit-icon" />
-                <span>Reddit</span>
-              </li>
-
-              <li
-                className={
-                  "menu-item tier-2 " +
-                  (this.props.state.twitter ? "active" : "")
-                }
-                onClick={
-                  this.props.state.twitter
-                    ? this.scrollToTop
-                    : this.props.changeTab
-                }
-                data-tab="twitter"
-              >
-                <TwitterIcon className="twitter-icon" />
-                <span>Twitter</span>
-              </li>
-
-              <li
-                className={
-                  "menu-item tier-2 " +
-                  (this.props.state.youtube ? "active" : "")
-                }
-                onClick={
-                  this.props.state.youtube
-                    ? this.scrollToTop
-                    : this.props.changeTab
-                }
-                data-tab="youtube"
-              >
-                <YouTubeIcon className="youtube-icon" />
-                <span>YouTube</span>
-              </li>
+              {this.platforms.map((platform) => (
+                <li
+                  className={
+                    "menu-item tier-2 " +
+                    (this.props.state[platform.name.toLowerCase()] && "active")
+                  }
+                  onClick={
+                    this.props.state[platform.name.toLowerCase()]
+                      ? this.scrollToTop
+                      : this.props.changeTab
+                  }
+                  data-tab={platform.name.toLowerCase()}
+                  key={platform.name}
+                >
+                  {platform.icon}
+                  <span>{platform.name}</span>
+                </li>
+              ))}
             </ul>
           </li>
 
