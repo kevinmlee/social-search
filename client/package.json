@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -60,5 +60,11 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:6000"
+  "proxy": "http://localhost:6000",
+  "devDependencies": {
+    "@testing-library/react": "^13.3.0",
+    "jest": "^28.1.0",
+    "jest-dom": "^4.0.0",
+    "react-test-renderer": "^18.1.0"
+  }
 }

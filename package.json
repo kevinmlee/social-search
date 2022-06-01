@@ -3,7 +3,7 @@
   "homepage": "https://ss.kevinmlee.com",
   "version": "0.0.1",
   "engines": {
-    "node": "16.x"
+    "node": "16.15.0"
   },
   "description": "",
   "main": "server.js",
@@ -11,7 +11,8 @@
     "server": "node server.js",
     "client": "npm start --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

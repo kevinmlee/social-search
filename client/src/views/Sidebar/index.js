@@ -5,9 +5,9 @@ import GridViewIcon from "@mui/icons-material/GridView";
 //import HdrStrongIcon from "@mui/icons-material/HdrStrong";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
-import SsidChartIcon from "@mui/icons-material/SsidChart";
+//import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import SettingsIcon from "@mui/icons-material/Settings";
+//import SettingsIcon from "@mui/icons-material/Settings";
 //import logo from "../../assets/news-256.svg";
 
 export default class Sidebar extends Component {
@@ -27,10 +27,8 @@ export default class Sidebar extends Component {
   };
 
   handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
       this.props.setAppState("sidebar", false);
-      //alert("You clicked outside of me!");
-    }
   };
 
   scrollToTop = () => {
