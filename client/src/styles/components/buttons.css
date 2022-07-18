@@ -1,3 +1,15 @@
+.cta-button {
+  padding: 12px 24px;
+  border-radius: 12px;
+  display: inline-block;
+  background-color: rgb(210, 193, 156);
+  transition: ease-in-out all 0.3s;
+  color: #000000;
+}
+.cta-button:hover {
+  background-color: #a79b7c;
+}
+
 button.active {
   background-color: #1976d2;
   color: #fff;

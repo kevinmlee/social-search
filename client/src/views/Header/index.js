@@ -49,7 +49,7 @@ export default class Header extends Component {
             </Box>
 
             <Box>
-              <User />
+              <User state={this.props.state} />
             </Box>
           </Toolbar>
         </AppBar>
