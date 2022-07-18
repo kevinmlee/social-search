@@ -35,6 +35,23 @@ export default class User extends Component {
           {/* if no user is logged in, show the person icon */}
           <PersonIcon className="default" />
         </div>
+
+        <div class={"account " + (this.state.opened && "opened")}>
+          <div class="top">
+            <div class="avatar">
+              <PersonIcon className="default" />
+            </div>
+
+            <div class="name">First name Last name</div>
+            <div class="email">email@address.com</div>
+          </div>
+
+          <ul class="options">
+            <li>Profile</li>
+            <li>Settings</li>
+            <li>Sign out</li>
+          </ul>
+        </div>
       </Box>
     );
   }

@@ -160,13 +160,67 @@ header .avatar .default {
   right: 0;
 }
 
+header .account {
+  display: none;
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  width: 250px;
+  padding: 20px;
+  border-radius: 10px;
+}
+header .account.opened {
+  display: block;
+}
+
+header .account .top {
+  text-align: center;
+}
+header .account .top .avatar {
+  margin: 0 auto 20px;
+  width: 60px;
+  height: 60px;
+}
+header .account .name {
+  font-weight: 600;
+}
+header .account .email {
+  margin-top: 5px;
+  opacity: 0.5;
+}
+header .account .options {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+header .account .options li {
+  padding: 15px 0;
+}
+header .account .options li:last-child {
+  padding-bottom: 0;
+}
+
 @media (prefers-color-scheme: dark) {
   header .avatar {
     background-color: rgba(255, 255, 255, 0.1);
+  }
+  header .account {
+    background-color: rgb(22, 24, 25);
+    border: 1px solid #2d2f2f;
+  }
+  header .account .options li {
+    border-top: 1px solid #2d2f2f;
   }
 }
 @media (prefers-color-scheme: light) {
   header .avatar {
     background-color: rgba(0, 0, 0, 0.2);
+  }
+  header .account {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+  }
+  header .account .options li {
+    border-top: 1px solid #eaeaea;
   }
 }
