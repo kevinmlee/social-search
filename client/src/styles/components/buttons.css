@@ -10,6 +10,13 @@
   background-color: #a79b7c;
 }
 
+@media screen and (max-width: 500px) {
+  .cta-button {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+
 button.active {
   background-color: #1976d2;
   color: #fff;
