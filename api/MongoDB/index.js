@@ -11,6 +11,7 @@ const saltRounds = 10;
  * Mailer
  */
 // Send the email
+/*
 const transporter = nodemailer.createTransport({
   //port: 587,
   host: "smtp.gmail.com",
@@ -21,6 +22,7 @@ const transporter = nodemailer.createTransport({
     //pass: process.env.SENDGRID_PASSWORD
   },
 });
+*/
 
 /*
  * Exports. Requests to MongoDB live here.
@@ -98,9 +100,9 @@ module.exports = {
       .replace(/\//g, "_");
 
     var mailOptions = {
-      from: "no-reply@schemahelper.com",
+      from: "no-reply@getcurrently.com",
       to: user, // client email address
-      subject: "Schema Helper: Account Verification",
+      subject: "Currently: Account Verification",
       text:
         "This email was sent because someone is attempting to recover this account.\n\n" +
         "If this was you, please verify your account by clicking the link below: \nhttps://" +
@@ -111,12 +113,8 @@ module.exports = {
     };
 
     transporter.sendMail(mailOptions, function (err) {
-      if (err) {
-        console.log(err.message);
-        //return res.status(500).send({ msg: err.message });
-      }
-      //res.status(200).send("A verification email has been sent to " + data.username + ".");
-      console.log("A verification email has been sent to " + user + ".");
+      if (err) console.log(err.message);
+      else console.log("A verification email has been sent to " + user + ".");
     });
 
     Data.findOneAndUpdate(
@@ -137,9 +135,9 @@ module.exports = {
       .replace(/\//g, "_");
 
     var mailOptions = {
-      from: "no-reply@schemahelper.com",
+      from: "no-reply@getcurrently.com",
       to: user, // client email address
-      subject: "Schema Helper: Account Verification",
+      subject: "Currently: Account Verification",
       text:
         "Please verify your account by clicking the link below: \nhttps://" +
         req.headers.host +
@@ -202,12 +200,12 @@ module.exports = {
     /*
       if (data) {
         var mailOptions = {
-          from: "no-reply@schemahelper.com",
+          from: "no-reply@getcurrently.com",
           to: data.username, // client email address
-          subject: "Schema Helper: Verification Confirmed",
+          subject: "Currently: Verification Confirmed",
           text:
             "Thank you for verifying your account!\n\n" +
-            "Visit: https://app.schemahelper.com to sign in and get started.",
+            "Visit: http://socialmediasearch.herokuapp.com to sign in and get started.",
         };
     
         transporter.sendMail(mailOptions, function (err) {
@@ -277,10 +275,11 @@ module.exports = {
       data.avatarFilename = avatarFilename;
       data.accountType = "owner";
 
+      /*
       var mailOptions = {
         from: "no-reply@schemahelper.com",
         to: data.username, // client email address
-        subject: "Schema Helper: Account Verification",
+        subject: "Currently: Account Verification",
         text:
           "Thank you for registering!\n\n" +
           "Please verify your account by clicking the link below: \nhttps://" +
@@ -300,6 +299,7 @@ module.exports = {
           "A verification email has been sent to " + data.username + "."
         );
       });
+      */
 
       // push the data to the database
       data.save((err) => {
@@ -311,10 +311,8 @@ module.exports = {
 
   // Get user data by email
   getUser: function (req, res, next) {
-    const { usernameToCheck } = req.body;
-    const usernameLowercase = usernameToCheck
-      ? usernameToCheck.toLowerCase()
-      : "";
+    const { username } = req.body;
+    const usernameLowercase = username ? username.toLowerCase() : "";
 
     Data.findOne({ username: usernameLowercase }, async (err, data) => {
       // if theres an error, user doesn't exists in database
@@ -336,12 +334,12 @@ module.exports = {
 
   // Update user
   updateUser: function (req, res, next) {
-    const { usernameToUpdate, domainURLToUpdate, member, update } = req.body;
+    const { username, domainURLToUpdate, member, update } = req.body;
 
-    if (domainURLToUpdate && usernameToUpdate) {
+    if (domainURLToUpdate && username) {
       Data.findOneAndUpdate(
         {
-          username: usernameToUpdate,
+          username: username,
           domains: { $elemMatch: { domainURL: domainURLToUpdate } },
         },
         update,
@@ -351,7 +349,7 @@ module.exports = {
         }
       );
     } else {
-      Data.findOneAndUpdate({ username: usernameToUpdate }, update, (err) => {
+      Data.findOneAndUpdate({ username: username }, update, (err) => {
         if (err) return res.json({ success: false, error: err });
         return res.json({ success: true });
       });
@@ -368,9 +366,9 @@ module.exports = {
 
   // Update user password
   updateUserPassword: function (req, res, next) {
-    const { userToUpdate, currentPassword, newPassword } = req.body;
+    const { username, currentPassword, newPassword } = req.body;
 
-    Data.findOne({ username: userToUpdate }, async (err, data) => {
+    Data.findOne({ username: username }, async (err, data) => {
       // if the user exists, compare the current password with what we have in the database
       if (data) {
         bcrypt.compare(
@@ -383,7 +381,7 @@ module.exports = {
             if (response) {
               bcrypt.hash(newPassword, saltRounds, function (err, hash) {
                 Data.findOneAndUpdate(
-                  { username: userToUpdate },
+                  { username: username },
                   { password: hash },
                   (err) => {
                     if (err) return res.json({ success: false, error: err });

@@ -1,5 +1,5 @@
 const { domain, port } = require("./constants");
-const nodemailer = require("nodemailer");
+//const nodemailer = require("nodemailer");
 const https = require("https");
 
 // Routes
@@ -9,7 +9,7 @@ const INSTAGRAM = require("./api/Instagram");
 const GOOGLE = require("./api/Google");
 const YOUTUBE = require("./api/YouTube");
 // const HUBSPOT = require("./api/HubSpot");
-// const MONGO = require("./api/MongoDB");
+const MONGO = require("./api/MongoDB");
 
 /* Database & API */
 const express = require("express");
@@ -20,11 +20,11 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+//const passport = require("passport");
+//const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 //const STRIPE_API = require("./api/stripe-functions.js");
-const crypto = require("crypto");
+//const crypto = require("crypto");
 
 mongoose.set("useFindAndModify", false);
 
@@ -43,8 +43,8 @@ app.use(logger("dev"));
 app.use(cors());
 app.options("*", cors());
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // Serve static files from the React app
 if (process.env.NODE_ENV === "production") {
@@ -163,7 +163,6 @@ app.all("/get/weather", async function (req, res, next) {
 /////////////////////////////////////////////
 
 // Authentication & verification
-/*
 app.all("/api/auth", MONGO.auth);
 app.all("/api/support/auth", MONGO.supportPinAuth);
 app.post("/api/user/verify", MONGO.verifyUser);
@@ -182,7 +181,6 @@ app.all("/api/user/remove", MONGO.removeUser);
 // Domains
 app.all("/api/get/domain", MONGO.getDomain);
 app.all("/api/get/memberDomains/", MONGO.getMemberDomains);
-*/
 
 /////////////////////////////////////////////
 // Database Connection
@@ -192,7 +190,6 @@ app.all("/api/get/memberDomains/", MONGO.getMemberDomains);
 const dbRoute = process.env.MONGODB;
 
 // connects our back end code with the database
-/*
 mongoose.connect(dbRoute, { useUnifiedTopology: true, useNewUrlParser: true });
 
 let db = mongoose.connection;
@@ -200,7 +197,6 @@ db.once("open", () => console.log("Connection established to MongoDB"));
 
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-*/
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
@@ -218,4 +214,4 @@ if (process.env.NODE_ENV === "production") {
  *  Start server and listen
  */
 app.listen(port);
-console.log(`Social Search listening on ${port}`);
+console.log(`Currently listening on ${port}`);

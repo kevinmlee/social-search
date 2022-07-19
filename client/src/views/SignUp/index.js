@@ -12,8 +12,11 @@ export default class SignUp extends Component {
     this.state = {
       username: "",
       password: "",
+      firstName: "",
+      lastName: "",
 
       formStepTwo: false,
+      formStepThree: false,
     };
 
     this.googleUser = {};
@@ -58,6 +61,19 @@ export default class SignUp extends Component {
     //this.setState({ formStepTwo: false });
   };
 
+  validatePassword = () => {
+    // should not be empty
+    // should be secure
+    // should not be compromised?
+
+    // if all pass, then move on
+    this.setState({ formStepTwo: false, formStepThree: true });
+  };
+
+  validateName = () => {
+    // should not be empty
+  };
+
   formStepOne = () => {
     return (
       <form
@@ -84,7 +100,7 @@ export default class SignUp extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.checkPasswords();
+          this.validatePassword();
         }}
       >
         <TextField
@@ -95,6 +111,39 @@ export default class SignUp extends Component {
           variant="outlined"
           onChange={this.handleChange}
           value={this.state.password}
+        />
+
+        <input className="cta-button" type="submit" value="Continue" />
+      </form>
+    );
+  };
+
+  formStepThree = () => {
+    return (
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          //this.validateName();
+        }}
+      >
+        <TextField
+          id="outlined-basic"
+          type="text"
+          label="First name"
+          name="firstName"
+          variant="outlined"
+          onChange={this.handleChange}
+          value={this.state.firstName}
+        />
+
+        <TextField
+          id="outlined-basic"
+          type="text"
+          label="Last Name"
+          name="lastName"
+          variant="outlined"
+          onChange={this.handleChange}
+          value={this.state.lastName}
         />
 
         <input className="cta-button" type="submit" value="Create account" />
@@ -110,8 +159,11 @@ export default class SignUp extends Component {
             <div className="form-container">
               <h2>Create an account</h2>
 
-              {!this.state.formStepTwo && this.formStepOne()}
+              {!this.state.formStepTwo &&
+                !this.state.formStepThree &&
+                this.formStepOne()}
               {this.state.formStepTwo && this.formStepTwo()}
+              {this.state.formStepThree && this.formStepThree()}
 
               <div className="or separator-text">OR</div>
               <div className="social-signin">
