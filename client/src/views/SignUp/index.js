@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import jwt_decode from "jwt-decode";
-//import validator from "validator";
+import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-export default class SignIn extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      username: "",
       password: "",
 
       formStepTwo: false,
@@ -19,21 +20,13 @@ export default class SignIn extends Component {
   }
 
   handleChange = async (event) => {
+    // await this.props.setAppState({ [event.target.name]: event.target.value });
     this.setState({ [event.target.name]: event.target.value });
-  };
-
-  setAppState = async (event) => {
-    await this.props.setAppState({ [event.target.name]: event.target.value });
   };
 
   handleGoogleSignin = async (response) => {
     this.googleUser = response;
-
     console.log(response);
-
-    // check if user exists in db
-    // yes, then sign user in then send to dashboard
-    // no, create user and send to dashboard
   };
 
   createGoogleAccount = () => {
@@ -55,13 +48,14 @@ export default class SignIn extends Component {
       );
   };
 
-  emailCheck = () => {
-    console.log("checking if " + this.props.state.username + " exists");
+  searchEmail = () => {
+    console.log("checking if " + this.state.username + " exists");
 
     // should search database for user.
-    // if found, show password field and signin button
+    // if not found, show password field and create account button
     this.setState({ formStepTwo: true });
-    // notify user that this account does not exist
+    // else let user know they already have an account with this email address
+    //this.setState({ formStepTwo: false });
   };
 
   formStepOne = () => {
@@ -69,7 +63,7 @@ export default class SignIn extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.emailCheck();
+          this.searchEmail();
         }}
       >
         <TextField
@@ -77,8 +71,8 @@ export default class SignIn extends Component {
           label="Email address"
           name="username"
           variant="outlined"
-          onChange={this.setAppState}
-          value={this.props.state.username}
+          onChange={this.handleChange}
+          value={this.state.username}
         />
         <input className="cta-button" type="submit" value="Continue" />
       </form>
@@ -90,6 +84,7 @@ export default class SignIn extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
+          this.checkPasswords();
         }}
       >
         <TextField
@@ -102,7 +97,7 @@ export default class SignIn extends Component {
           value={this.state.password}
         />
 
-        <input className="cta-button" type="submit" value="Sign in" />
+        <input className="cta-button" type="submit" value="Create account" />
       </form>
     );
   };
@@ -113,7 +108,7 @@ export default class SignIn extends Component {
         <div className="flex-container">
           <div className="left">
             <div className="form-container">
-              <h2>Welcome back</h2>
+              <h2>Create an account</h2>
 
               {!this.state.formStepTwo && this.formStepOne()}
               {this.state.formStepTwo && this.formStepTwo()}
@@ -136,7 +131,7 @@ export default class SignIn extends Component {
 
               <div className="signup">
                 <p>
-                  Don't have an account? <a href="/signup">Sign up</a>
+                  Already have an account? <a href="/signin">Sign in</a>
                 </p>
               </div>
             </div>

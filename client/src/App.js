@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -21,6 +20,7 @@ import Header from "./views/Header";
 import Sidebar from "./views/Sidebar";
 import Dash from "./views/Dash";
 import SignIn from "./views/SignIn";
+import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound";
 
 export default class App extends Component {
@@ -30,7 +30,6 @@ export default class App extends Component {
     this.state = {
       authenticated: false,
       username: "",
-      password: "",
 
       // header
       scrollStatus: "",
@@ -240,29 +239,35 @@ export default class App extends Component {
   render() {
     return (
       <Box>
-        {window.location.pathname !== "/signin" && (
-          <Box>
-            <Header
-              state={this.state}
-              setAppState={this.setAppState}
-              updateLocalStorage={this.updateLocalStorage}
-              toggle={this.toggle}
-              reset={this.reset}
-            />
-            <Sidebar
-              state={this.state}
-              setAppState={this.setAppState}
-              changeTab={this.changeTab}
-              toggle={this.toggle}
-            />
-          </Box>
-        )}
+        {window.location.pathname === "/signin" &&
+          window.location.pathname === "/signup" && (
+            <Box>
+              <Header
+                state={this.state}
+                setAppState={this.setAppState}
+                updateLocalStorage={this.updateLocalStorage}
+                toggle={this.toggle}
+                reset={this.reset}
+              />
+              <Sidebar
+                state={this.state}
+                setAppState={this.setAppState}
+                changeTab={this.changeTab}
+                toggle={this.toggle}
+              />
+            </Box>
+          )}
 
         {this.alerts()}
 
         <div
           id="main-content"
-          className={window.location.pathname === "/signin" ? "fw" : undefined}
+          className={
+            window.location.pathname === "/signin" &&
+            window.location.pathname === "/signup"
+              ? "fw"
+              : undefined
+          }
         >
           <Router>
             <Switch>
@@ -276,6 +281,14 @@ export default class App extends Component {
 
               <Route exact path="/signin">
                 <SignIn
+                  state={this.state}
+                  setAppState={this.setAppState}
+                  updateLocalStorage={this.updateLocalStorage}
+                />
+              </Route>
+
+              <Route exact path="/signup">
+                <SignUp
                   state={this.state}
                   setAppState={this.setAppState}
                   updateLocalStorage={this.updateLocalStorage}
