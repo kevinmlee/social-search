@@ -32,29 +32,32 @@ export default class User extends Component {
     return (
       <Box id="user" ref={this.wrapperRef}>
         {/* if no user is logged in, show sign in button. otherwise show their avatar */}
-        <div class="user">
+        <div className="user">
           {this.props.state.authenticated ? (
-            <div class="avatar" onClick={() => this.setState({ opened: true })}>
+            <div
+              className="avatar"
+              onClick={() => this.setState({ opened: true })}
+            >
               <PersonIcon className="default" />
             </div>
           ) : (
-            <a href="/signin" class="sign-in cta-button">
+            <a href="/signin" className="sign-in cta-button">
               Sign in
             </a>
           )}
         </div>
 
-        <div class={"account " + (this.state.opened && "opened")}>
-          <div class="top">
-            <div class="avatar">
+        <div className={"account " + (this.state.opened && "opened")}>
+          <div className="top">
+            <div className="avatar">
               <PersonIcon className="default" />
             </div>
 
-            <div class="name">First name Last name</div>
-            <div class="email">email@address.com</div>
+            <div className="name">First name Last name</div>
+            <div className="email">email@address.com</div>
           </div>
 
-          <ul class="options">
+          <ul className="options">
             <li>Profile</li>
             <li>Settings</li>
             <li>Sign out</li>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -20,6 +21,7 @@ import Header from "./views/Header";
 import Sidebar from "./views/Sidebar";
 import Dash from "./views/Dash";
 import SignIn from "./views/SignIn";
+import NotFound from "./views/NotFound";
 
 export default class App extends Component {
   constructor(props) {
@@ -260,7 +262,7 @@ export default class App extends Component {
 
         <div
           id="main-content"
-          className={window.location.pathname === "/signin" && "fw"}
+          className={window.location.pathname === "/signin" ? "fw" : undefined}
         >
           <Router>
             <Switch>
@@ -279,6 +281,8 @@ export default class App extends Component {
                   updateLocalStorage={this.updateLocalStorage}
                 />
               </Route>
+
+              <Route component={NotFound} />
             </Switch>
           </Router>
         </div>
