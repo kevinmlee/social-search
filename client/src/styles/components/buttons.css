@@ -5,9 +5,11 @@
   background-color: rgb(210, 193, 156);
   transition: ease-in-out all 0.3s;
   color: #000000;
+  text-decoration: none;
 }
 .cta-button:hover {
   background-color: #a79b7c;
+  color: #000000;
 }
 
 @media screen and (max-width: 500px) {
