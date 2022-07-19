@@ -38,10 +38,7 @@ export default class User extends Component {
               <PersonIcon className="default" />
             </div>
           ) : (
-            <a
-              href="#should-go-to-signup-signin-page"
-              class="sign-in cta-button"
-            >
+            <a href="/signin" class="sign-in cta-button">
               Sign in
             </a>
           )}
