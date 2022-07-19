@@ -129,8 +129,9 @@ export default class App extends Component {
     this.setState({ sidebar: false, fetchError: false });
   };
 
-  setAppState = async (state) => {
-    await this.promisedSetState(state);
+  setAppState = async (event) => {
+    // await this.promisedSetState(state);
+    await this.setState({ [event.target.name]: event.target.value });
   };
 
   toggle = (state) => {
