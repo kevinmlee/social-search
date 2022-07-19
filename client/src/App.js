@@ -239,8 +239,8 @@ export default class App extends Component {
   render() {
     return (
       <Box>
-        {window.location.pathname === "/signin" &&
-          window.location.pathname === "/signup" && (
+        {window.location.pathname !== "/signin" &&
+          window.location.pathname !== "/signup" && (
             <Box>
               <Header
                 state={this.state}
