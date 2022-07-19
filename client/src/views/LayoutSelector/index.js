@@ -26,13 +26,13 @@ export default class LayoutSelector extends Component {
   componentDidMount = async () => {
     let userSettings = JSON.parse(localStorage.getItem("userSettings"));
     if ("layout" in userSettings)
-      this.props.setAppState("layout", userSettings.layout);
+      this.props.setAppState({ layout: userSettings.layout });
     else this.props.updateLocalStorage("layout", "grid");
   };
 
   changeView = (event) => {
     const selectedView = event.currentTarget.getAttribute("data-view");
-    this.props.setAppState("layout", selectedView);
+    this.props.setAppState({ layout: selectedView });
     this.props.updateLocalStorage("layout", selectedView);
   };
 

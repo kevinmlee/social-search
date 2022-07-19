@@ -88,9 +88,8 @@ export default class App extends Component {
     };
   }
 
-  promisedSetState = (newState) => {
+  promisedSetState = (newState) =>
     new Promise((resolve) => this.setState(newState, resolve));
-  };
 
   componentDidMount = () => {
     window.addEventListener("scroll", () => {
@@ -129,9 +128,9 @@ export default class App extends Component {
     this.setState({ sidebar: false, fetchError: false });
   };
 
-  setAppState = async (event) => {
-    // await this.promisedSetState(state);
-    await this.setState({ [event.target.name]: event.target.value });
+  setAppState = async (state) => {
+    await this.promisedSetState(state);
+    //await this.setState({ [event.target.name]: event.target.value });
   };
 
   toggle = (state) => {

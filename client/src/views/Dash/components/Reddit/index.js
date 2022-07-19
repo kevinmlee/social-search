@@ -171,7 +171,7 @@ export default class Reddit extends Component {
       })
       .then(
         (response) => {
-          this.props.setAppState("redditNew", response.data.data.children);
+          this.props.setAppState({ redditNew: response.data.data.children });
         },
         (error) => {
           console.log(error);
@@ -187,7 +187,7 @@ export default class Reddit extends Component {
       })
       .then(
         (response) => {
-          this.props.setAppState("redditHot", response.data.data.children);
+          this.props.setAppState({ redditHot: response.data.data.children });
         },
         (error) => {
           console.log(error);

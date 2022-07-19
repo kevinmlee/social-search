@@ -112,8 +112,8 @@ export default class Twitter extends Component {
       .then(
         (response) => {
           if ("error" in response.data)
-            this.props.setAppState("twitterError", true);
-          else this.props.setAppState("tweetsByRecent", response.data.tweets);
+            this.props.setAppState({ twitterError: true });
+          else this.props.setAppState({ tweetsByRecent: response.data.tweets });
 
           this.setState({ loading: false });
         },
@@ -148,7 +148,9 @@ export default class Twitter extends Component {
               popular: false,
               userTweets: true,
             });
-            this.props.setAppState("twitterUser", response.data.twitterResults);
+            this.props.setAppState({
+              twitterUser: response.data.twitterResults,
+            });
             this.getTweetsByUserID();
             return true;
           }
@@ -168,7 +170,7 @@ export default class Twitter extends Component {
       })
       .then(
         (response) => {
-          this.props.setAppState("tweetsByUserId", response.data.tweets);
+          this.props.setAppState({ tweetsByUserId: response.data.tweets });
           this.setState({ loading: false });
         },
         (error) => {
@@ -267,8 +269,8 @@ export default class Twitter extends Component {
           <Box
             className="media"
             onClick={() => {
-              this.props.setAppState("backdropImage", mediaUrl);
-              this.props.setAppState("backdropToggle", true);
+              this.props.setAppState({ backdropImage: mediaUrl });
+              this.props.setAppState({ backdropToggle: true });
             }}
           >
             <div className="media-image">

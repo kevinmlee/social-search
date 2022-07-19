@@ -79,7 +79,7 @@ export default class Weather extends Component {
       .then((res) => res.json())
       .then(
         async (result) => {
-          await this.props.setAppState("geolocation", result);
+          await this.props.setAppState({ geolocation: result });
         },
         (error) => {
           console.log(error);
@@ -102,7 +102,7 @@ export default class Weather extends Component {
   getGeolocation = async (lat, lon) => {
     return await axios.get("/get/geolocation", { lat: lat, lon: lon }).then(
       async (response) => {
-        await this.props.setAppState("geolocation", response);
+        await this.props.setAppState({ geolocation: response });
         return;
       },
       (error) => {
@@ -119,7 +119,7 @@ export default class Weather extends Component {
       })
       .then(
         (response) => {
-          this.props.setAppState("weather", response);
+          this.props.setAppState({ weather: response });
         },
         (error) => {
           console.log(error);

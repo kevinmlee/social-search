@@ -122,7 +122,7 @@ export default class YouTube extends Component {
 
   search = async (filter) => {
     await this.setState({ loading: true });
-    await this.props.setAppState("fetchError", false);
+    await this.props.setAppState({ fetchError: false });
 
     return await axios
       .put("/youtube/search", {
@@ -135,9 +135,9 @@ export default class YouTube extends Component {
             let ytSearchResults = this.props.state.ytSearchResults;
             ytSearchResults[filter] = response.data;
 
-            await this.props.setAppState("ytSearchResults", ytSearchResults);
+            await this.props.setAppState({ ytSearchResults: ytSearchResults });
           } else if ("error" in response.data)
-            await this.props.setAppState("fetchError", true);
+            await this.props.setAppState({ fetchError: true });
 
           await this.setState({ loading: false });
         },
@@ -156,7 +156,7 @@ export default class YouTube extends Component {
       .then(
         async (response) => {
           if ("items" in response.data)
-            await this.props.setAppState("ytTrendingVideos", response.data);
+            await this.props.setAppState({ ytTrendingVideos: response.data });
 
           await this.setState({ loading: false });
         },

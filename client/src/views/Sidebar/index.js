@@ -34,7 +34,7 @@ export default class Sidebar extends Component {
 
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
-      this.props.setAppState("sidebar", false);
+      this.props.setAppState({ sidebar: false });
   };
 
   scrollToTop = () => {

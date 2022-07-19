@@ -48,7 +48,7 @@ export default class UserInput extends Component {
     const VALUE = event.target.value;
 
     if (NAME === "search" && VALUE !== "")
-      await this.props.setAppState("searchQueryBlankError", false);
+      await this.props.setAppState({ searchQueryBlankError: false });
 
     await this.setState({ [NAME]: VALUE });
   };
@@ -64,10 +64,10 @@ export default class UserInput extends Component {
     //await this.props.setAppState("loadingBackdrop", true);
 
     if (!validator.isAlphanumeric(this.state.search))
-      this.props.setAppState("searchQueryBlankError", true);
+      this.props.setAppState({ searchQueryBlankError: true });
     else {
       await this.props.reset();
-      await this.props.setAppState("previousSearchQuery", this.state.search);
+      await this.props.setAppState({ previousSearchQuery: this.state.search });
       this.updateRecentSearches(this.state.search);
 
       this.setState({
@@ -78,8 +78,8 @@ export default class UserInput extends Component {
     //await this.props.setAppState("loadingBackdrop", false);
     // switch tab to reddit if on homepage
     if (this.props.state.home) {
-      await this.props.setAppState("home", false);
-      await this.props.setAppState("reddit", true);
+      await this.props.setAppState({ home: false });
+      await this.props.setAppState({ reddit: true });
     }
 
     await this.setState({ search: "", searchFocused: false });

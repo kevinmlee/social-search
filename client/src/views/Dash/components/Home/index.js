@@ -136,7 +136,7 @@ export default class Home extends Component {
           let subreddits = this.props.state.subreddits;
           subreddits[subreddit] = response.data.data.children;
 
-          this.props.setAppState("subreddits", subreddits);
+          this.props.setAppState({ subreddits: subreddits });
         },
         (error) => {
           console.log(error);
