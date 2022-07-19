@@ -141,38 +141,3 @@ input[type="submit"] {
     font-size: 22px;
   }
 }
-
-#signin form > * {
-  width: 100%;
-}
-#signin form > *:not(:first-child) {
-  margin-top: 20px;
-}
-
-/*
-* Separator with text
-*/
-.separator-text {
-  overflow: hidden;
-  text-align: center;
-  margin: 20px 0;
-}
-.separator-text:before,
-.separator-text:after {
-  background-color: #ffffff;
-  content: "";
-  display: inline-block;
-  height: 1px;
-  position: relative;
-  vertical-align: middle;
-  width: 50%;
-}
-
-.separator-text:before {
-  left: 2em;
-  margin-right: -50%;
-}
-.separator-text:after {
-  right: 2em;
-  margin-left: -50%;
-}

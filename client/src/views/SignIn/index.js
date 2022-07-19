@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Box, TextField } from "@mui/material";
+import { Box, FormControl, TextField } from "@mui/material";
 import jwt_decode from "jwt-decode";
 import validator from "validator";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
 export default class SignIn extends Component {
@@ -19,6 +19,8 @@ export default class SignIn extends Component {
 
   handleGoogleSignin = async (response) => {
     this.googleUser = response;
+
+    console.log(response);
 
     // check if user exists in db
     // yes, then sign user in then send to dashboard
@@ -44,37 +46,54 @@ export default class SignIn extends Component {
       );
   };
 
+  emailCheck = () => {
+    console.log("checking if " + this.props.state.username + " exists");
+  };
+
   render() {
     return (
       <div id="signin">
         <div className="flex-container">
           <div className="left">
-            <h2>Welcome back</h2>
-            <div className="form">
-              <form>
-                <TextField
-                  id="outlined-basic"
-                  label="Email address"
-                  name="username"
-                  variant="outlined"
-                  onChange={this.handleChange}
-                  value={this.props.state.username}
-                />
-                <input className="cta-button" type="submit" value="Continue" />
-              </form>
-            </div>
-            <div className="or separator-text">or</div>
-            <div className="social-signin">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  this.handleGoogleSignin(
-                    jwt_decode(credentialResponse.credential)
-                  );
-                }}
-                onError={() => {
-                  console.log("Login failed");
-                }}
-              />
+            <div className="form-container">
+              <h2>Welcome back</h2>
+              <div className="form">
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    this.emailCheck();
+                  }}
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Email address"
+                    name="username"
+                    variant="outlined"
+                    onChange={this.handleChange}
+                    value={this.props.state.username}
+                  />
+                  <input
+                    className="cta-button"
+                    type="submit"
+                    value="Continue"
+                  />
+                </form>
+              </div>
+              <div className="or separator-text">or</div>
+              <div className="social-signin">
+                <div id="googleLogin">
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      this.handleGoogleSignin(
+                        jwt_decode(credentialResponse.credential)
+                      );
+                    }}
+                    onError={() => {
+                      console.log("Login failed");
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="right"></div>
