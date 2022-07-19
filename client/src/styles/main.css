@@ -93,6 +93,12 @@ body .dark-theme {
   padding-top: 100px;
 }
 
+#main-content.fw {
+  padding: 0;
+  width: 100%;
+  margin: 0;
+}
+
 #main-content.expanded {
   width: calc(100% - 200px);
   margin-left: 200px;

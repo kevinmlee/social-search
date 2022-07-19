@@ -19,6 +19,7 @@ import "./styles/main.css";
 import Header from "./views/Header";
 import Sidebar from "./views/Sidebar";
 import Dash from "./views/Dash";
+import SignIn from "./views/SignIn";
 
 export default class App extends Component {
   constructor(props) {
@@ -26,6 +27,8 @@ export default class App extends Component {
 
     this.state = {
       authenticated: false,
+      username: "",
+      password: "",
 
       // header
       scrollStatus: "",
@@ -84,6 +87,10 @@ export default class App extends Component {
     };
   }
 
+  promisedSetState = (newState) => {
+    new Promise((resolve) => this.setState(newState, resolve));
+  };
+
   componentDidMount = () => {
     window.addEventListener("scroll", () => {
       let scrollStatus = "sticky";
@@ -121,8 +128,8 @@ export default class App extends Component {
     this.setState({ sidebar: false, fetchError: false });
   };
 
-  setAppState = async (name, value) => {
-    await this.setState({ [name]: value });
+  setAppState = async (state) => {
+    await this.promisedSetState(state);
   };
 
   toggle = (state) => {
@@ -231,27 +238,42 @@ export default class App extends Component {
   render() {
     return (
       <Box>
-        <Header
-          state={this.state}
-          setAppState={this.setAppState}
-          updateLocalStorage={this.updateLocalStorage}
-          toggle={this.toggle}
-          reset={this.reset}
-        />
-        <Sidebar
-          state={this.state}
-          setAppState={this.setAppState}
-          changeTab={this.changeTab}
-          toggle={this.toggle}
-        />
+        {window.location.pathname !== "/signin" && (
+          <Box>
+            <Header
+              state={this.state}
+              setAppState={this.setAppState}
+              updateLocalStorage={this.updateLocalStorage}
+              toggle={this.toggle}
+              reset={this.reset}
+            />
+            <Sidebar
+              state={this.state}
+              setAppState={this.setAppState}
+              changeTab={this.changeTab}
+              toggle={this.toggle}
+            />
+          </Box>
+        )}
 
         {this.alerts()}
 
-        <div id="main-content">
+        <div
+          id="main-content"
+          className={window.location.pathname === "/signin" && "fw"}
+        >
           <Router>
             <Switch>
               <Route exact path="/">
                 <Dash
+                  state={this.state}
+                  setAppState={this.setAppState}
+                  updateLocalStorage={this.updateLocalStorage}
+                />
+              </Route>
+
+              <Route exact path="/signin">
+                <SignIn
                   state={this.state}
                   setAppState={this.setAppState}
                   updateLocalStorage={this.updateLocalStorage}

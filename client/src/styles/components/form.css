@@ -1,3 +1,42 @@
+/* 
+* Mui form overrides 
+*/
+.MuiTextField-root fieldset {
+  border: none !important;
+}
+
+@media (prefers-color-scheme: light) {
+  .Mui-focused fieldset {
+    border: 1px solid #000000 !important;
+    border-radius: 16px;
+  }
+  label.Mui-focused {
+    color: #000000 !important;
+  }
+  .MuiTextField-root > label {
+    color: #000000;
+    font-family: inherit;
+    font-size: 14px;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .Mui-focused fieldset {
+    border: 1px solid #ffffff !important;
+    border-radius: 16px;
+  }
+  label.Mui-focused {
+    color: #ffffff !important;
+  }
+  .MuiTextField-root > label {
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+  }
+}
+
+/*
+* Search Input
+*/
 .search-input {
   width: 100%;
   max-width: 500px;
@@ -38,6 +77,17 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type=
   height: 35px;
   border-radius: 16px;
   font-size: 16px;
+}
+input[type="submit"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  padding: 16px 42px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .MuiFilledInput-root {
@@ -90,4 +140,39 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type=
   .search .search-icon {
     font-size: 22px;
   }
+}
+
+#signin form > * {
+  width: 100%;
+}
+#signin form > *:not(:first-child) {
+  margin-top: 20px;
+}
+
+/*
+* Separator with text
+*/
+.separator-text {
+  overflow: hidden;
+  text-align: center;
+  margin: 20px 0;
+}
+.separator-text:before,
+.separator-text:after {
+  background-color: #ffffff;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.separator-text:before {
+  left: 2em;
+  margin-right: -50%;
+}
+.separator-text:after {
+  right: 2em;
+  margin-left: -50%;
 }
