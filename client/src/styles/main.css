@@ -162,10 +162,25 @@ body .dark-theme {
 
 a,
 .link {
-  color: #3faebf;
   font-weight: 500;
   transition: ease-in-out all 0.3s;
-  text-decoration: none;
+  text-decoration: underline;
+}
+a:hover,
+.link:hover {
+  color: #a79b7c;
+}
+@media (prefers-color-scheme: light) {
+  a,
+  .link {
+    color: #000000;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  a,
+  .link {
+    color: rgb(210, 193, 156);
+  }
 }
 
 .link {

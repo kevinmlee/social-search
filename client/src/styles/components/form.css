@@ -4,14 +4,16 @@
 .MuiTextField-root fieldset {
   border: none !important;
 }
+.Mui-focused fieldset {
+  border: 2px solid rgb(210, 193, 156) !important;
+  border-radius: 16px;
+}
 
 @media (prefers-color-scheme: light) {
-  .Mui-focused fieldset {
-    border: 1px solid #000000 !important;
-    border-radius: 16px;
-  }
   label.Mui-focused {
     color: #000000 !important;
+    background-color: #fff;
+    top: 2px;
   }
   .MuiTextField-root > label {
     color: #000000;
@@ -20,10 +22,6 @@
   }
 }
 @media (prefers-color-scheme: dark) {
-  .Mui-focused fieldset {
-    border: 1px solid #ffffff !important;
-    border-radius: 16px;
-  }
   label.Mui-focused {
     color: #ffffff !important;
   }
@@ -49,6 +47,10 @@
   height: 45px;
   border-radius: 16px;
   font-size: 16px;
+}
+.search-input
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus {
+  border: 1px solid rgb(210, 193, 156) !important;
 }
 .search-input input::placeholder {
   font-size: 16px;
@@ -77,6 +79,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type=
   height: 35px;
   border-radius: 16px;
   font-size: 16px;
+}
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus {
+  border-color: transparent !important;
 }
 input[type="submit"] {
   appearance: none;
@@ -125,6 +130,10 @@ input[type="submit"] {
   .search-input input {
     border-color: #eaeaea;
     border: 1px solid #eaeaea;
+  }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]) {
+    color: #000000;
+    border: 1px solid #2d2f2f !important;
   }
 }
 

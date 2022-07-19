@@ -48,6 +48,10 @@ export default class SignIn extends Component {
 
   emailCheck = () => {
     console.log("checking if " + this.props.state.username + " exists");
+
+    // should search database for user.
+    // if found, show password field and signin button
+    // show signin page
   };
 
   render() {
@@ -57,29 +61,25 @@ export default class SignIn extends Component {
           <div className="left">
             <div className="form-container">
               <h2>Welcome back</h2>
-              <div className="form">
-                <form
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    this.emailCheck();
-                  }}
-                >
-                  <TextField
-                    id="outlined-basic"
-                    label="Email address"
-                    name="username"
-                    variant="outlined"
-                    onChange={this.handleChange}
-                    value={this.props.state.username}
-                  />
-                  <input
-                    className="cta-button"
-                    type="submit"
-                    value="Continue"
-                  />
-                </form>
-              </div>
-              <div className="or separator-text">or</div>
+
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  this.emailCheck();
+                }}
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Email address"
+                  name="username"
+                  variant="outlined"
+                  onChange={this.handleChange}
+                  value={this.props.state.username}
+                />
+                <input className="cta-button" type="submit" value="Continue" />
+              </form>
+
+              <div className="or separator-text">OR</div>
               <div className="social-signin">
                 <div id="googleLogin">
                   <GoogleLogin
@@ -93,6 +93,12 @@ export default class SignIn extends Component {
                     }}
                   />
                 </div>
+              </div>
+
+              <div className="signup">
+                <p>
+                  Don't have an account? <a href="/signup">Sign up</a>
+                </p>
               </div>
             </div>
           </div>
