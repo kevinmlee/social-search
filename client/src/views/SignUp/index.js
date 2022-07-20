@@ -145,6 +145,7 @@ export default class SignUp extends Component {
           variant="outlined"
           onChange={this.handleChange}
           value={this.state.password}
+          autoFocus={true}
         />
 
         {Object.keys(this.state.password).length !== 0 && (
@@ -183,6 +184,7 @@ export default class SignUp extends Component {
           variant="outlined"
           onChange={this.handleChange}
           value={this.state.firstName}
+          autoFocus={true}
         />
 
         <TextField
