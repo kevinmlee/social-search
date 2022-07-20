@@ -20,6 +20,23 @@ export const getUser = async (data) => {
     );
 };
 
-export const createUser = async (data) => {};
+export const createUser = async (data) => {
+  const { username, password, firstName, lastName, avatar, googleUserId } =
+    data;
+
+  return axios
+    .post("/api/get/user", {
+      username: username,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      avatar: avatar,
+      googleUserId: googleUserId,
+    })
+    .then(
+      (response) => response.data.data,
+      (error) => error
+    );
+};
 
 export const updateUser = async (data) => {};

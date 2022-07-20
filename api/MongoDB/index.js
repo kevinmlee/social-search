@@ -239,16 +239,7 @@ module.exports = {
 
   // Create new user
   createUser: function (req, res, next) {
-    const {
-      username,
-      password,
-      email,
-      firstName,
-      lastName,
-      avatar,
-      avatarFilename,
-      googleUserId,
-    } = req.body;
+    const { username, password, firstName, lastName, avatar } = req.body;
 
     let verificationToken = bcrypt
       .hashSync(username + Date.now(), saltRounds)
@@ -263,17 +254,13 @@ module.exports = {
 
     bcrypt.hash(password, saltRounds, function (err, hash) {
       data.userId = newUserId;
-      data.googleUserId = googleUserId;
       data.username = username;
       data.password = hash;
-      data.email = email;
       data.firstName = firstName;
       data.lastName = lastName;
       data.verificationToken = verificationToken;
       data.subscription = "Free";
       data.avatar = avatar;
-      data.avatarFilename = avatarFilename;
-      data.accountType = "owner";
 
       /*
       var mailOptions = {
@@ -302,9 +289,9 @@ module.exports = {
       */
 
       // push the data to the database
-      data.save((err) => {
-        if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true });
+      data.save((err, data) => {
+        if (err) return res.json({ error: err });
+        return res.json({ success: true, data: data });
       });
     });
   },
