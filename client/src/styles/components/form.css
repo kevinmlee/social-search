@@ -38,14 +38,14 @@
 .search-input {
   width: 100%;
   max-width: 500px;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
 }
 .search-input
   input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
   padding: 8px 8px 8px 60px;
   height: 45px;
-  border-radius: 16px;
+  border-radius: 12px;
   font-size: 16px;
 }
 .search-input
