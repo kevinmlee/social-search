@@ -1,8 +1,9 @@
 #signin h2 {
   text-align: center;
+  margin-bottom: 30px;
 }
 #signin form {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 #signin form > * {
   width: 100%;
