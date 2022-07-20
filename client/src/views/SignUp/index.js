@@ -95,10 +95,13 @@ export default class SignUp extends Component {
       !validator.isEmpty(this.state.firstName) &&
       !validator.isEmpty(this.state.lastName)
     ) {
-    } else
+      return true;
+    } else {
       this.setState({
         errorMessage: "First and last name fields cannot be blank",
       });
+      return false;
+    }
   };
 
   formStepOne = () => {
@@ -142,7 +145,7 @@ export default class SignUp extends Component {
         />
 
         {Object.keys(this.state.password).length !== 0 && (
-          <div class="password-strength">
+          <div className="password-strength">
             Strength:{" "}
             <span className={"strength-" + this.state.passwordStrength.id}>
               {this.state.passwordStrength.value}
@@ -160,7 +163,13 @@ export default class SignUp extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.validateName();
+          if (this.validateName())
+            API.createUser({
+              username: this.state.username,
+              password: this.state.password,
+              firstName: this.state.firstName,
+              lastName: this.state.lastName,
+            });
         }}
       >
         <TextField

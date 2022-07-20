@@ -25,7 +25,7 @@ export const createUser = async (data) => {
     data;
 
   return axios
-    .post("/api/get/user", {
+    .post("/api/create/user", {
       username: username,
       password: password,
       firstName: firstName,
