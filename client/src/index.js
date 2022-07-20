@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -12,11 +12,11 @@ if (!userSettings) localStorage.setItem("userSettings", "{}");
 const GOOGLE_CLIENT_ID =
   "755162400821-sthb8ebrfdpvutds6f4qmcq4iefk7a0a.apps.googleusercontent.com";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
   <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
     <App />
-  </GoogleOAuthProvider>,
-  document.getElementById("root")
+  </GoogleOAuthProvider>
 );
 
 // If you want your app to work offline and load faster, you can change

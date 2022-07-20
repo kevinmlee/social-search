@@ -1,18 +1,23 @@
 import React, { Component } from "react";
 import { TextField } from "@mui/material";
 import jwt_decode from "jwt-decode";
-//import validator from "validator";
+import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+
+const API = require("../../api");
 
 export default class SignIn extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      username: "",
       password: "",
 
       formStepTwo: false,
+
+      errorMessage: "",
     };
 
     this.googleUser = {};
@@ -20,6 +25,9 @@ export default class SignIn extends Component {
 
   handleChange = async (event) => {
     this.setState({ [event.target.name]: event.target.value });
+
+    // clear errors
+    this.setState({ errorMessage: "" });
   };
 
   setAppState = async (event) => {
@@ -55,13 +63,21 @@ export default class SignIn extends Component {
       );
   };
 
-  emailCheck = () => {
-    console.log("checking if " + this.props.state.username + " exists");
+  findUser = async () => {
+    if (validator.isEmail(this.state.username)) {
+      const user = await API.getUser({ username: this.state.username });
 
-    // should search database for user.
-    // if found, show password field and signin button
-    this.setState({ formStepTwo: true });
-    // notify user that this account does not exist
+      console.log(user);
+
+      if (user) this.setState({ formStepTwo: true });
+      else
+        this.setState({
+          errorMessage: "No users found with this email address",
+        });
+    } else
+      this.setState({
+        errorMessage: "Not a valid email address",
+      });
   };
 
   formStepOne = () => {
@@ -69,7 +85,7 @@ export default class SignIn extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.emailCheck();
+          this.findUser();
         }}
       >
         <TextField
@@ -77,8 +93,9 @@ export default class SignIn extends Component {
           label="Email address"
           name="username"
           variant="outlined"
-          onChange={this.setAppState}
-          value={this.props.state.username}
+          onChange={this.handleChange}
+          value={this.state.username}
+          autoFocus={true}
         />
         <input className="cta-button" type="submit" value="Continue" />
       </form>
@@ -88,8 +105,15 @@ export default class SignIn extends Component {
   formStepTwo = () => {
     return (
       <form
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
+
+          const authResult = await API.auth({
+            username: this.state.username,
+            password: this.state.password,
+          });
+
+          console.log("auth result", authResult);
         }}
       >
         <TextField
@@ -100,11 +124,16 @@ export default class SignIn extends Component {
           variant="outlined"
           onChange={this.handleChange}
           value={this.state.password}
+          autoFocus={true}
         />
 
         <input className="cta-button" type="submit" value="Sign in" />
       </form>
     );
+  };
+
+  errorMessage = () => {
+    return <div className="alert error">{this.state.errorMessage}</div>;
   };
 
   render() {
@@ -114,6 +143,8 @@ export default class SignIn extends Component {
           <div className="left">
             <div className="form-container">
               <h2>Welcome back</h2>
+
+              {this.state.errorMessage && this.errorMessage()}
 
               {!this.state.formStepTwo && this.formStepOne()}
               {this.state.formStepTwo && this.formStepTwo()}

@@ -26,8 +26,6 @@ const cors = require("cors");
 //const STRIPE_API = require("./api/stripe-functions.js");
 //const crypto = require("crypto");
 
-mongoose.set("useFindAndModify", false);
-
 /////////////////////////////////////////////
 // Settings
 /////////////////////////////////////////////
@@ -163,7 +161,7 @@ app.all("/get/weather", async function (req, res, next) {
 /////////////////////////////////////////////
 
 // Authentication & verification
-app.all("/api/auth", MONGO.auth);
+app.all("/api/user/auth", MONGO.auth);
 app.all("/api/support/auth", MONGO.supportPinAuth);
 app.post("/api/user/verify", MONGO.verifyUser);
 app.all("/api/user/resendVerifyEmail", MONGO.resendVerifyEmail);

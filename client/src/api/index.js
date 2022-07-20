@@ -1,6 +1,18 @@
 const axios = require("axios");
 
-export const auth = async (data) => {};
+export const auth = async (data) => {
+  const { username, password } = data;
+
+  return axios
+    .post("/api/get/user", {
+      username: username,
+      password: password,
+    })
+    .then(
+      (response) => response.data.data,
+      (error) => error
+    );
+};
 
 /**
  * Returns user object if found

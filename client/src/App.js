@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
+  Routes,
   //Redirect,
 } from "react-router-dom";
 //import moment from "moment";
@@ -270,33 +270,45 @@ export default class App extends Component {
           }
         >
           <Router>
-            <Switch>
-              <Route exact path="/">
-                <Dash
-                  state={this.state}
-                  setAppState={this.setAppState}
-                  updateLocalStorage={this.updateLocalStorage}
-                />
-              </Route>
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={
+                  <Dash
+                    state={this.state}
+                    setAppState={this.setAppState}
+                    updateLocalStorage={this.updateLocalStorage}
+                  />
+                }
+              />
 
-              <Route exact path="/signin">
-                <SignIn
-                  state={this.state}
-                  setAppState={this.setAppState}
-                  updateLocalStorage={this.updateLocalStorage}
-                />
-              </Route>
+              <Route
+                exact
+                path="/signin"
+                element={
+                  <SignIn
+                    state={this.state}
+                    setAppState={this.setAppState}
+                    updateLocalStorage={this.updateLocalStorage}
+                  />
+                }
+              />
 
-              <Route exact path="/signup">
-                <SignUp
-                  state={this.state}
-                  setAppState={this.setAppState}
-                  updateLocalStorage={this.updateLocalStorage}
-                />
-              </Route>
+              <Route
+                exact
+                path="/signup"
+                element={
+                  <SignUp
+                    state={this.state}
+                    setAppState={this.setAppState}
+                    updateLocalStorage={this.updateLocalStorage}
+                  />
+                }
+              />
 
               <Route component={NotFound} />
-            </Switch>
+            </Routes>
           </Router>
         </div>
 

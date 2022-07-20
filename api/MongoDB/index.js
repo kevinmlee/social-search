@@ -34,8 +34,8 @@ module.exports = {
 
   // Sign in
   auth: function (req, res, next) {
-    const { usernameToCheck, passwordToCheck } = req.body;
-    const usernameLowercase = usernameToCheck.toLowerCase();
+    const { username, password } = req.body;
+    const usernameLowercase = username.toLowerCase();
     //console.log("Received request for authentication for", usernameLowercase);
 
     Data.findOne({ username: usernameLowercase }, async (err, data) => {
@@ -43,25 +43,21 @@ module.exports = {
       if (err) return res.json({ success: false, error: err });
 
       if (data) {
-        bcrypt.compare(
-          passwordToCheck,
-          data.password,
-          function (err, response) {
-            if (err) console.log(err);
+        bcrypt.compare(password, data.password, function (err, response) {
+          if (err) console.log(err);
 
-            if (response) {
-              return res.json({
-                success: true,
-                message: "Success. Passwords match.",
-              });
-            } else {
-              return res.json({
-                success: false,
-                message: "Passwords do not match. Please try again.",
-              });
-            }
+          if (response) {
+            return res.json({
+              success: true,
+              message: "Success. Passwords match.",
+            });
+          } else {
+            return res.json({
+              success: false,
+              message: "Passwords do not match. Please try again.",
+            });
           }
-        );
+        });
       } else return res.json({ success: false, data: data });
     });
   },
