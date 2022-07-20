@@ -48,10 +48,21 @@ export default class SignUp extends Component {
     this.googleUser = response;
     console.log(response);
 
-    // check if user exists if already exists
-    // const user = await API.getUser({ username: this.state.username });
-    // if(user) display error
-    // else this.createGoogleAccount();
+    const user = await API.getUser({ username: this.state.username });
+    if (user)
+      this.setState({
+        errorMessage: "A user with this email address already exists",
+      });
+    else {
+      const createdUser = await API.createUser({
+        username: this.state.username,
+        firstName: this.googleUser.given_name,
+        lastName: this.googleUser.family_name,
+        avatar: this.googleUser.picture,
+      });
+
+      if (createdUser) window.location.href = "/signin";
+    }
   };
 
   createGoogleAccount = () => {
