@@ -161,15 +161,18 @@ export default class SignUp extends Component {
   formStepThree = () => {
     return (
       <form
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
-          if (this.validateName())
-            API.createUser({
+          if (this.validateName()) {
+            const user = await API.createUser({
               username: this.state.username,
               password: this.state.password,
               firstName: this.state.firstName,
               lastName: this.state.lastName,
             });
+
+            if (user) window.location.href = "/signin";
+          }
         }}
       >
         <TextField
