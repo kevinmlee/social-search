@@ -38,11 +38,10 @@ export default class SignUp extends Component {
     this.setState({ validEmail: true, errorMessage: "" });
 
     // calculate password strength
-    if (this.state.formStepTwo) {
+    if (this.state.formStepTwo)
       this.setState({
         passwordStrength: passwordStrength(this.state.password),
       });
-    }
   };
 
   handleGoogleSignin = async (response) => {
@@ -88,11 +87,6 @@ export default class SignUp extends Component {
       });
   };
 
-  validatePassword = () => {
-    if (!validator.isEmpty(this.state.password))
-      this.setState({ formStepTwo: false, formStepThree: true });
-  };
-
   validateName = () => {
     if (
       !validator.isEmpty(this.state.firstName) &&
@@ -134,7 +128,9 @@ export default class SignUp extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.validatePassword();
+
+          if (!validator.isEmpty(this.state.password))
+            this.setState({ formStepTwo: false, formStepThree: true });
         }}
       >
         <TextField
