@@ -79,20 +79,26 @@ export default class SignUp extends Component {
           errorMessage: "A user with this email address already exists",
         });
       } else this.setState({ formStepTwo: true });
-    } else this.setState({ validEmail: false });
+    } else
+      this.setState({
+        errorMessage: "Not a valid email address",
+      });
   };
 
   validatePassword = () => {
-    // should not be empty
-    if (!validator.isEmpty(this.state.password)) {
-      // change color of text depending on
-      //console.log(passwordStrength(this.state.password));
-      //this.setState({ formStepTwo: false, formStepThree: true });
-    }
+    if (!validator.isEmpty(this.state.password))
+      this.setState({ formStepTwo: false, formStepThree: true });
   };
 
   validateName = () => {
-    // should not be empty
+    if (
+      !validator.isEmpty(this.state.firstName) &&
+      !validator.isEmpty(this.state.lastName)
+    ) {
+    } else
+      this.setState({
+        errorMessage: "First and last name fields cannot be blank",
+      });
   };
 
   formStepOne = () => {
@@ -111,8 +117,6 @@ export default class SignUp extends Component {
           onChange={this.handleChange}
           value={this.state.username}
           autoFocus={true}
-          error={!this.state.validEmail}
-          helperText={!this.state.validEmail ? "Not a valid email address" : ""}
         />
         <input className="cta-button" type="submit" value="Continue" />
       </form>
@@ -156,7 +160,7 @@ export default class SignUp extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          //this.validateName();
+          this.validateName();
         }}
       >
         <TextField
