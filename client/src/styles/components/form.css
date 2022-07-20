@@ -150,3 +150,8 @@ input[type="submit"] {
     font-size: 22px;
   }
 }
+
+.password-strength {
+  padding: 5px;
+  text-align: center;
+}

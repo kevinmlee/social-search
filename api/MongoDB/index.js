@@ -315,12 +315,9 @@ module.exports = {
     const usernameLowercase = username ? username.toLowerCase() : "";
 
     Data.findOne({ username: usernameLowercase }, async (err, data) => {
-      // if theres an error, user doesn't exists in database
-      if (err) return res.json({ success: false, error: err });
-
-      // if user exists, send success
-      if (data) return res.json({ success: true, data: data });
-      else return res.json({ success: false, data: data });
+      if (err) return res.json({ error: err });
+      if (data) return res.json({ data: data });
+      else return res.json({ data: data });
     });
   },
 

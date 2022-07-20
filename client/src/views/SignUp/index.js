@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
+import axios from "axios";
+import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import validator from "validator";
-import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { passwordStrength } from "check-password-strength";
+
+const API = require("../../api");
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -17,14 +20,30 @@ export default class SignUp extends Component {
 
       formStepTwo: false,
       formStepThree: false,
+
+      errorMessage: "",
+
+      validEmail: true,
+      passwordStrength: {},
     };
 
     this.googleUser = {};
   }
 
-  handleChange = async (event) => {
+  handleChange = (event) => {
     // await this.props.setAppState({ [event.target.name]: event.target.value });
     this.setState({ [event.target.name]: event.target.value });
+    this.clearErrors();
+
+    if (this.state.formStepTwo) {
+      this.setState({
+        passwordStrength: passwordStrength(this.state.password),
+      });
+    }
+  };
+
+  clearErrors = () => {
+    this.setState({ validEmail: true, errorMessage: "" });
   };
 
   handleGoogleSignin = async (response) => {
@@ -51,23 +70,25 @@ export default class SignUp extends Component {
       );
   };
 
-  searchEmail = () => {
-    console.log("checking if " + this.state.username + " exists");
+  findUser = async () => {
+    if (validator.isEmail(this.state.username)) {
+      const user = await API.getUser(this.state.username);
 
-    // should search database for user.
-    // if not found, show password field and create account button
-    this.setState({ formStepTwo: true });
-    // else let user know they already have an account with this email address
-    //this.setState({ formStepTwo: false });
+      if (user) {
+        this.setState({
+          errorMessage: "A user with this email address already exists",
+        });
+      } else this.setState({ formStepTwo: true });
+    } else this.setState({ validEmail: false });
   };
 
   validatePassword = () => {
     // should not be empty
-    // should be secure
-    // should not be compromised?
-
-    // if all pass, then move on
-    this.setState({ formStepTwo: false, formStepThree: true });
+    if (!validator.isEmpty(this.state.password)) {
+      // change color of text depending on
+      //console.log(passwordStrength(this.state.password));
+      //this.setState({ formStepTwo: false, formStepThree: true });
+    }
   };
 
   validateName = () => {
@@ -79,7 +100,7 @@ export default class SignUp extends Component {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          this.searchEmail();
+          this.findUser();
         }}
       >
         <TextField
@@ -89,6 +110,9 @@ export default class SignUp extends Component {
           variant="outlined"
           onChange={this.handleChange}
           value={this.state.username}
+          autoFocus={true}
+          error={!this.state.validEmail}
+          helperText={!this.state.validEmail ? "Not a valid email address" : ""}
         />
         <input className="cta-button" type="submit" value="Continue" />
       </form>
@@ -112,6 +136,15 @@ export default class SignUp extends Component {
           onChange={this.handleChange}
           value={this.state.password}
         />
+
+        {Object.keys(this.state.password).length !== 0 && (
+          <div class="password-strength">
+            Strength:{" "}
+            <span className={"strength-" + this.state.passwordStrength.id}>
+              {this.state.passwordStrength.value}
+            </span>
+          </div>
+        )}
 
         <input className="cta-button" type="submit" value="Continue" />
       </form>
@@ -151,6 +184,10 @@ export default class SignUp extends Component {
     );
   };
 
+  errorMessage = () => {
+    return <div className="alert error">{this.state.errorMessage}</div>;
+  };
+
   render() {
     return (
       <div id="signin">
@@ -158,6 +195,8 @@ export default class SignUp extends Component {
           <div className="left">
             <div className="form-container">
               <h2>Create an account</h2>
+
+              {this.state.errorMessage && this.errorMessage()}
 
               {!this.state.formStepTwo &&
                 !this.state.formStepThree &&

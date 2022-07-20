@@ -564,3 +564,17 @@ table td img {
 .loading-circle {
   text-align: center;
 }
+
+.alert {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+.alert.error {
+  background-color: #fdedee;
+  border-color: #f04d62;
+  color: #f04d62;
+}

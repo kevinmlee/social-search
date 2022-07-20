@@ -172,7 +172,7 @@ app.all("/api/user/recovery", MONGO.recoverAccount);
 app.all("/api/user/updatePassword", MONGO.updateUserPassword);
 
 // User
-app.post("/api/user/create", MONGO.createUser);
+app.post("/api/create/user", MONGO.createUser);
 app.all("/api/get/user", MONGO.getUser);
 app.get("/api/get/allUsers", MONGO.getAllUsers);
 app.all("/api/user/update", MONGO.updateUser);
