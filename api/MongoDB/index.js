@@ -36,10 +36,8 @@ module.exports = {
   auth: function (req, res, next) {
     const { username, password } = req.body;
     const usernameLowercase = username.toLowerCase();
-    //console.log("Received request for authentication for", usernameLowercase);
 
     Data.findOne({ username: usernameLowercase }, async (err, data) => {
-      // if theres an error, user doesn't exists in database
       if (err) return res.json({ success: false, error: err });
 
       if (data) {
@@ -50,6 +48,7 @@ module.exports = {
             return res.json({
               success: true,
               message: "Success. Passwords match.",
+              data: data,
             });
           } else {
             return res.json({

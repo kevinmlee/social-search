@@ -4,12 +4,12 @@ export const auth = async (data) => {
   const { username, password } = data;
 
   return axios
-    .post("/api/get/user", {
+    .post("/api/user/auth", {
       username: username,
       password: password,
     })
     .then(
-      (response) => response.data.data,
+      (response) => response.data,
       (error) => error
     );
 };
