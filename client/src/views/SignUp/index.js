@@ -72,7 +72,7 @@ export default class SignUp extends Component {
 
   findUser = async () => {
     if (validator.isEmail(this.state.username)) {
-      const user = await API.getUser(this.state.username);
+      const user = await API.getUser({ username: this.state.username });
 
       if (user) {
         this.setState({
