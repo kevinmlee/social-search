@@ -33,8 +33,11 @@ export default class SignUp extends Component {
   handleChange = (event) => {
     // await this.props.setAppState({ [event.target.name]: event.target.value });
     this.setState({ [event.target.name]: event.target.value });
-    this.clearErrors();
 
+    // clear errors
+    this.setState({ validEmail: true, errorMessage: "" });
+
+    // calculate password strength
     if (this.state.formStepTwo) {
       this.setState({
         passwordStrength: passwordStrength(this.state.password),
@@ -42,22 +45,22 @@ export default class SignUp extends Component {
     }
   };
 
-  clearErrors = () => {
-    this.setState({ validEmail: true, errorMessage: "" });
-  };
-
   handleGoogleSignin = async (response) => {
     this.googleUser = response;
     console.log(response);
+
+    // check if user exists if already exists
+    // const user = await API.getUser({ username: this.state.username });
+    // if(user) display error
+    // else this.createGoogleAccount();
   };
 
   createGoogleAccount = () => {
     return axios
-      .post("/api/user/create", {
-        username: "",
+      .post("/api/create/user", {
+        username: this.state.username,
         firstName: this.googleUser.given_name,
         lastName: this.googleUser.family_name,
-        googleUid: this.googleUser.jti,
         avatar: this.googleUser.picture,
       })
       .then(
