@@ -20,6 +20,11 @@ export const getUser = async (data) => {
     );
 };
 
+/**
+ * Creates user in the database and returns created user object
+ * @param {Object} data
+ * @returns {Object}
+ */
 export const createUser = async (data) => {
   const { username, password, firstName, lastName, avatar, googleUserId } =
     data;
