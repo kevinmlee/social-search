@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { TextField } from "@mui/material";
-import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import validator from "validator";
@@ -46,16 +45,15 @@ export default class SignUp extends Component {
 
   handleGoogleSignin = async (response) => {
     this.googleUser = response;
-    console.log(response);
 
-    const user = await API.getUser({ username: this.state.username });
+    const user = await API.getUser({ username: this.googleUser.email });
     if (user)
       this.setState({
         errorMessage: "A user with this email address already exists",
       });
     else {
       const createdUser = await API.createUser({
-        username: this.state.username,
+        username: this.googleUser.email,
         firstName: this.googleUser.given_name,
         lastName: this.googleUser.family_name,
         avatar: this.googleUser.picture,
@@ -63,24 +61,6 @@ export default class SignUp extends Component {
 
       if (createdUser) window.location.href = "/signin";
     }
-  };
-
-  createGoogleAccount = () => {
-    return axios
-      .post("/api/create/user", {
-        username: this.state.username,
-        firstName: this.googleUser.given_name,
-        lastName: this.googleUser.family_name,
-        avatar: this.googleUser.picture,
-      })
-      .then(
-        (response) => {
-          // do something
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
   };
 
   findUser = async () => {
