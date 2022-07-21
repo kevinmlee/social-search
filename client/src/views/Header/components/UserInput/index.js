@@ -76,10 +76,8 @@ export default class UserInput extends Component {
 
     //await this.props.setAppState("loadingBackdrop", false);
     // switch tab to reddit if on homepage
-    if (this.props.state.home) {
-      await this.props.setAppState({ home: false });
-      await this.props.setAppState({ reddit: true });
-    }
+    if (window.location.pathname === "/") window.location.href = "/reddit";
+    else window.location.reload();
 
     await this.setState({ search: "", searchFocused: false });
   };
