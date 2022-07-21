@@ -325,12 +325,23 @@ export default class Twitter extends Component {
   displayErrorMessage = () => {
     return (
       <Box sx={{ paddingTop: 8, paddingBottom: 4 }}>
-        <Typography variant="h5">Hmm. Something went wrong.</Typography>
-        <Typography variant="body1" sx={{ paddingTop: 2 }}>
-          We could not retreive tweets for "{this.props.state.searchQuery}".
-          Check other platforms for more results or try a different search
-          query.
-        </Typography>
+        {localStorage.getItem("searchQuery") ? (
+          <Box>
+            <Typography variant="h5">Hmm. Something went wrong.</Typography>
+            <Typography variant="body1" sx={{ paddingTop: 2 }}>
+              We could not retreive tweets for "{this.props.state.searchQuery}".
+              Check other platforms for more results or try a different search
+              query.
+            </Typography>
+          </Box>
+        ) : (
+          <Box>
+            <Typography variant="h4">Hello!</Typography>
+            <Typography variant="body1" sx={{ paddingTop: 2 }}>
+              Please search for a topic or person to get started.
+            </Typography>
+          </Box>
+        )}
       </Box>
     );
   };

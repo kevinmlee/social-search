@@ -36,7 +36,7 @@ export default class YouTube extends Component {
     const ytSearchResults = this.props.state.ytSearchResults;
     if (searchQuery && !ytSearchResults["relevance"])
       await this.search("relevance");
-    else this.getTrendingVideos();
+    //else this.getTrendingVideos();
   };
 
   componentWillUnmount = () => {
@@ -220,6 +220,54 @@ export default class YouTube extends Component {
     );
   };
 
+  filter = () => {
+    return (
+      <Box id="filterRow">
+        <Box className="filter">
+          <div
+            className="active-display"
+            onClick={() => this.toggle("filterToggle")}
+          >
+            <span className="active-filter">Filter</span>
+            <FilterAltIcon />
+          </div>
+          <ul
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
+            ref={this.wrapperRef}
+          >
+            {/*<li>All</li>*/}
+            <li
+              className={this.state.relevance ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="relevance"
+            >
+              Relevance
+              <Radio checked={this.state.relevance} size="small" />
+            </li>
+            <li
+              className={this.state.date ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="date"
+            >
+              Recent
+              <Radio checked={this.state.date} size="small" />
+            </li>
+            <li
+              className={this.state.rating ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="rating"
+            >
+              Rating
+              <Radio checked={this.state.rating} size="small" />
+            </li>
+          </ul>
+        </Box>
+      </Box>
+    );
+  };
+
   render() {
     //const layout = this.props.state.layout;
     const ytTrendingVideos = this.props.state.ytTrendingVideos;
@@ -227,51 +275,7 @@ export default class YouTube extends Component {
 
     return (
       <Box sx={{ padding: "0 30px;" }}>
-        {searchQuery && !this.props.state.fetchError && (
-          <Box id="filterRow">
-            <Box className="filter">
-              <div
-                className="active-display"
-                onClick={() => this.toggle("filterToggle")}
-              >
-                <span className="active-filter">Filter</span>
-                <FilterAltIcon />
-              </div>
-              <ul
-                className={
-                  "filter-options " + (this.state.filterToggle && "active")
-                }
-                ref={this.wrapperRef}
-              >
-                {/*<li>All</li>*/}
-                <li
-                  className={this.state.relevance ? "active" : ""}
-                  onClick={this.changeTab}
-                  data-tab="relevance"
-                >
-                  Relevance
-                  <Radio checked={this.state.relevance} size="small" />
-                </li>
-                <li
-                  className={this.state.date ? "active" : ""}
-                  onClick={this.changeTab}
-                  data-tab="date"
-                >
-                  Recent
-                  <Radio checked={this.state.date} size="small" />
-                </li>
-                <li
-                  className={this.state.rating ? "active" : ""}
-                  onClick={this.changeTab}
-                  data-tab="rating"
-                >
-                  Rating
-                  <Radio checked={this.state.rating} size="small" />
-                </li>
-              </ul>
-            </Box>
-          </Box>
-        )}
+        {searchQuery && !this.props.state.fetchError && this.filter()}
 
         {this.state.loading && (
           <Box className="ta-center" sx={{ paddingTop: "100px" }}>
