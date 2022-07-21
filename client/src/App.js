@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  //Redirect,
-} from "react-router-dom";
-//import moment from "moment";
-//import ReactNotification from "react-notifications-component";
-//import "react-notifications-component/dist/theme.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Backdrop, Box, CircularProgress } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -256,7 +247,7 @@ export default class App extends Component {
 
               <Route
                 exact
-                path="/signup"
+                path="/settings"
                 element={
                   <Settings state={this.state} setAppState={this.setAppState} />
                 }

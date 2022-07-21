@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import axios from "axios";
 import validator from "validator";
 
 import { Box, IconButton, TextField, Typography } from "@mui/material";
@@ -68,6 +67,7 @@ export default class UserInput extends Component {
       await this.props.reset();
       await this.props.setAppState({ previousSearchQuery: this.state.search });
       this.updateRecentSearches(this.state.search);
+      localStorage.setItem("searchQuery", this.state.search);
 
       this.setState({
         searches: JSON.parse(localStorage.getItem("searches")),
