@@ -45,7 +45,14 @@ export default class User extends Component {
               className="avatar"
               onClick={() => this.setState({ opened: true })}
             >
-              <PersonIcon className="default" />
+              {user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user.firstName + " " + user.lastName}
+                />
+              ) : (
+                <PersonIcon className="default" />
+              )}
             </div>
           ) : (
             <a href="/signin" className="sign-in cta-button">
