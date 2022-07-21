@@ -73,9 +73,15 @@ export default class User extends Component {
             </div>
 
             <ul className="options">
-              <li>Profile</li>
-              <li>Settings</li>
-              <li onClick={this.signOut}>Sign out</li>
+              <li>
+                <span>Profile</span>
+              </li>
+              <li>
+                <span>Settings</span>
+              </li>
+              <li onClick={this.signOut}>
+                <span className="sign-out">Sign out</span>
+              </li>
             </ul>
           </div>
         )}

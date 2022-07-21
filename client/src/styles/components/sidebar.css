@@ -106,7 +106,7 @@
   }
   .sidebar .menu-item:hover,
   .sidebar .menu-item.active {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .sidebar .menu-item.active:before {
     background-color: rgb(210, 193, 156);
@@ -124,7 +124,7 @@
   }
   .sidebar .menu-item:hover,
   .sidebar .menu-item.active {
-    background-color: #faf8f4;
+    background-color: rgb(210, 193, 156, 0.4);
   }
   .sidebar .menu-item.active:before {
     background-color: #000000;

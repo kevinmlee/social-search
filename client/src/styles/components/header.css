@@ -172,20 +172,24 @@ header .account {
   top: 80px;
   right: 30px;
   width: 250px;
-  padding: 20px;
+  overflow: hidden;
   border-radius: 10px;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
 }
 header .account.opened {
   display: block;
 }
 
 header .account .top {
+  padding: 15px 15px 0;
   text-align: center;
 }
 header .account .top .avatar {
   margin: 0 auto 20px;
   width: 60px;
   height: 60px;
+  cursor: initial;
 }
 header .account .name {
   font-weight: 600;
@@ -196,15 +200,20 @@ header .account .email {
 }
 header .account .options {
   list-style: none;
-  padding: 0;
   margin: 20px 0 0;
+  padding: 0;
 }
 header .account .options li {
-  padding: 15px 0;
+  padding: 0 15px;
   cursor: pointer;
 }
-header .account .options li:last-child {
-  padding-bottom: 0;
+header .account .options li span {
+  display: block;
+  padding: 15px 0;
+}
+header .account .options li:hover span,
+header .account .options li:hover + li span {
+  border-color: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -215,8 +224,11 @@ header .account .options li:last-child {
     background-color: rgb(22, 24, 25);
     border: 1px solid #2d2f2f;
   }
-  header .account .options li {
+  header .account .options li span {
     border-top: 1px solid #2d2f2f;
+  }
+  header .account .options li:hover {
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }
 @media (prefers-color-scheme: light) {
@@ -227,7 +239,17 @@ header .account .options li:last-child {
     background-color: #ffffff;
     border: 1px solid #eaeaea;
   }
-  header .account .options li {
+  header .account .name {
+    color: #000000;
+  }
+  header .account .email {
+    color: rgba(0, 0, 0, 0.8);
+  }
+  header .account .options li span {
     border-top: 1px solid #eaeaea;
+    color: #000000;
+  }
+  header .account .options li:hover {
+    background-color: rgb(210, 193, 156, 0.4);
   }
 }
