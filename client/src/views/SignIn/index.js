@@ -67,8 +67,6 @@ export default class SignIn extends Component {
     if (validator.isEmail(this.state.username)) {
       const user = await API.getUser({ username: this.state.username });
 
-      console.log(user);
-
       if (user) this.setState({ formStepTwo: true });
       else
         this.setState({
@@ -113,7 +111,8 @@ export default class SignIn extends Component {
             password: this.state.password,
           });
 
-          console.log("auth result", authResult);
+          localStorage.setItem("user", JSON.stringify(authResult.data));
+          window.location.href = "/";
         }}
       >
         <TextField

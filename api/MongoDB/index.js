@@ -45,10 +45,18 @@ module.exports = {
           if (err) console.log(err);
 
           if (response) {
+            const slimUserData = {
+              username: data.username,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              avatar: data.avatar,
+              settings: data.settings,
+            };
+
             return res.json({
               success: true,
               message: "Success. Passwords match.",
-              data: data,
+              data: slimUserData,
             });
           } else {
             return res.json({

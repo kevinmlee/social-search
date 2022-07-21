@@ -201,6 +201,7 @@ header .account .options {
 }
 header .account .options li {
   padding: 15px 0;
+  cursor: pointer;
 }
 header .account .options li:last-child {
   padding-bottom: 0;

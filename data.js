@@ -11,15 +11,15 @@ const DataSchema = new Schema(
     password: { type: String },
     firstName: { type: String },
     lastName: { type: String },
-    isVerified: { type: Boolean, default: false },
-    passwordResetToken: String,
-    passwordResetExpires: Date,
-    verificationToken: { type: String },
     avatar: { type: String },
-    subscription: String,
     settings: {
       homeTopics: [],
     },
+
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    verificationToken: { type: String },
+    isVerified: { type: Boolean, default: false },
   },
   // name of collection in MongoDB
   { collection: "users" }

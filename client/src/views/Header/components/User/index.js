@@ -28,12 +28,19 @@ export default class User extends Component {
       this.setState({ opened: false });
   };
 
+  signOut = () => {
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
+
   render() {
+    const user = JSON.parse(localStorage.getItem("user"));
+
     return (
       <Box id="user" ref={this.wrapperRef}>
         {/* if no user is logged in, show sign in button. otherwise show their avatar */}
         <div className="user">
-          {this.props.state.authenticated ? (
+          {user ? (
             <div
               className="avatar"
               onClick={() => this.setState({ opened: true })}
@@ -47,22 +54,24 @@ export default class User extends Component {
           )}
         </div>
 
-        <div className={"account " + (this.state.opened && "opened")}>
-          <div className="top">
-            <div className="avatar">
-              <PersonIcon className="default" />
+        {user && (
+          <div className={"account " + (this.state.opened && "opened")}>
+            <div className="top">
+              <div className="avatar">
+                <PersonIcon className="default" />
+              </div>
+
+              <div className="name">{user.firstName + " " + user.lastName}</div>
+              <div className="email">{user.username}</div>
             </div>
 
-            <div className="name">First name Last name</div>
-            <div className="email">email@address.com</div>
+            <ul className="options">
+              <li>Profile</li>
+              <li>Settings</li>
+              <li onClick={this.signOut}>Sign out</li>
+            </ul>
           </div>
-
-          <ul className="options">
-            <li>Profile</li>
-            <li>Settings</li>
-            <li>Sign out</li>
-          </ul>
-        </div>
+        )}
       </Box>
     );
   }

@@ -29,7 +29,6 @@ export default class App extends Component {
 
     this.state = {
       authenticated: false,
-      username: "",
 
       // header
       scrollStatus: "",
@@ -88,9 +87,6 @@ export default class App extends Component {
     };
   }
 
-  promisedSetState = (newState) =>
-    new Promise((resolve) => this.setState(newState, resolve));
-
   componentDidMount = () => {
     window.addEventListener("scroll", () => {
       let scrollStatus = "sticky";
@@ -106,6 +102,10 @@ export default class App extends Component {
 
   componentWillUnmount = () => {
     window.removeEventListener("scroll", null);
+  };
+
+  setAppState = async (state) => {
+    new Promise((resolve) => this.setState(state, resolve));
   };
 
   changeTab = (event) => {
@@ -126,11 +126,6 @@ export default class App extends Component {
     });
 
     this.setState({ sidebar: false, fetchError: false });
-  };
-
-  setAppState = async (state) => {
-    await this.promisedSetState(state);
-    //await this.setState({ [event.target.name]: event.target.value });
   };
 
   toggle = (state) => {
