@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
           <a
             className="menu-item-container tier-1"
             onClick={window.location.pathname === "/" && this.scrollToTop}
-            href={window.location.pathname === "/" ? "javascript:;" : "/"}
+            href={window.location.pathname === "/" ? undefined : "/"}
             data-tab="home"
           >
             <div
