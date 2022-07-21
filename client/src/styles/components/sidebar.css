@@ -61,13 +61,16 @@
 }
 
 .sidebar .menu-item {
+  display: block;
   padding: 8px 30px;
   font-size: 14px;
+  font-weight: 400;
   align-items: center;
   cursor: pointer;
   position: relative;
   transition: ease-in-out all 0.3s;
   text-transform: capitalize;
+  color: #ffffff;
 }
 
 .sidebar .menu-item.tier-2 {

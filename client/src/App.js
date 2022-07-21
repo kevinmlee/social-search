@@ -15,6 +15,10 @@ import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound";
 import Settings from "./views/Settings";
 
+import Reddit from "./views/Platforms/Reddit";
+import Twitter from "./views/Platforms/Twitter";
+import YouTube from "./views/Platforms/YouTube";
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -226,6 +230,30 @@ export default class App extends Component {
                 path="/"
                 element={
                   <Dash state={this.state} setAppState={this.setAppState} />
+                }
+              />
+
+              <Route
+                exact
+                path="/reddit"
+                element={
+                  <Reddit state={this.state} setAppState={this.setAppState} />
+                }
+              />
+
+              <Route
+                exact
+                path="/twitter"
+                element={
+                  <Twitter state={this.state} setAppState={this.setAppState} />
+                }
+              />
+
+              <Route
+                exact
+                path="/youtube"
+                element={
+                  <YouTube state={this.state} setAppState={this.setAppState} />
                 }
               />
 

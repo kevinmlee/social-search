@@ -19,6 +19,7 @@
 .post .featured-image {
   display: block;
   width: 100%;
+  border-radius: 8px;
 }
 .post iframe,
 .post video {

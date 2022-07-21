@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const FILTERS = ["relevance", "rating", "date"];
+const searchQuery = localStorage.getItem("searchQuery");
 
 export default class YouTube extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class YouTube extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
 
     const ytSearchResults = this.props.state.ytSearchResults;
-    if (this.props.state.previousSearchQuery && !ytSearchResults["relevance"])
+    if (searchQuery && !ytSearchResults["relevance"])
       await this.search("relevance");
     else this.getTrendingVideos();
   };
@@ -43,39 +44,6 @@ export default class YouTube extends Component {
   };
 
   componentDidUpdate = async () => {
-    const ytSearchResults = this.props.state.ytSearchResults;
-
-    // pull data from cooresponding API if not already pulled
-    if (this.props.state.previousSearchQuery) {
-      /*
-      if (!ytSearchResults["relevance"] && !dataRetreived["relevance"]) {
-        await this.search("relevance");
-      }
-      */
-      //console.log("ytSearchResults", ytSearchResults);
-      /*
-      if (
-        this.state.relevance &&
-        !dataRetreived["relevance"] &&
-        !ytSearchResults["relevance"]
-      )
-        await this.search("relevance");
-        */
-      /*
-      FILTERS.forEach((filter) => {
-        if (this.state[filter] && !ytSearchResults[filter]) this.search(filter);
-      });
-      */
-      /*
-      if (this.state.relevance && !ytSearchResults["relevance"])
-        await this.search("relevance");
-      else if (this.state.rating && !ytSearchResults["rating"])
-        await this.search("rating");
-      else if (this.state.date && !ytSearchResults["date"])
-        await this.search("date");
-        */
-    }
-
     setTimeout(function () {
       window.AOS.refresh();
     }, 700);
@@ -126,7 +94,7 @@ export default class YouTube extends Component {
 
     return await axios
       .put("/youtube/search", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: searchQuery,
         order: filter,
       })
       .then(
@@ -258,8 +226,8 @@ export default class YouTube extends Component {
     const ytSearchResults = this.props.state.ytSearchResults;
 
     return (
-      <Box>
-        {this.props.state.previousSearchQuery && !this.props.state.fetchError && (
+      <Box sx={{ padding: "0 30px;" }}>
+        {searchQuery && !this.props.state.fetchError && (
           <Box id="filterRow">
             <Box className="filter">
               <div
@@ -311,7 +279,7 @@ export default class YouTube extends Component {
           </Box>
         )}
 
-        {"items" in ytTrendingVideos && !this.props.state.previousSearchQuery && (
+        {"items" in ytTrendingVideos && !searchQuery && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {ytTrendingVideos.items.map((post, index) => this.post(post))}
@@ -319,41 +287,35 @@ export default class YouTube extends Component {
           </Box>
         )}
 
-        {this.state.relevance &&
-          ytSearchResults["relevance"] &&
-          this.props.state.previousSearchQuery && (
-            <Box className="topic posts">
-              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {ytSearchResults["relevance"].items.map((post, index) =>
-                  this.post(post)
-                )}
-              </Masonry>
-            </Box>
-          )}
+        {this.state.relevance && ytSearchResults["relevance"] && searchQuery && (
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+              {ytSearchResults["relevance"].items.map((post, index) =>
+                this.post(post)
+              )}
+            </Masonry>
+          </Box>
+        )}
 
-        {this.state.rating &&
-          ytSearchResults["rating"] &&
-          this.props.state.previousSearchQuery && (
-            <Box className="topic posts">
-              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {ytSearchResults["rating"].items.map((post, index) =>
-                  this.post(post)
-                )}
-              </Masonry>
-            </Box>
-          )}
+        {this.state.rating && ytSearchResults["rating"] && searchQuery && (
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+              {ytSearchResults["rating"].items.map((post, index) =>
+                this.post(post)
+              )}
+            </Masonry>
+          </Box>
+        )}
 
-        {this.state.date &&
-          ytSearchResults["date"] &&
-          this.props.state.previousSearchQuery && (
-            <Box className="topic posts">
-              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {ytSearchResults["date"].items.map((post, index) =>
-                  this.post(post)
-                )}
-              </Masonry>
-            </Box>
-          )}
+        {this.state.date && ytSearchResults["date"] && searchQuery && (
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+              {ytSearchResults["date"].items.map((post, index) =>
+                this.post(post)
+              )}
+            </Masonry>
+          </Box>
+        )}
       </Box>
     );
   }

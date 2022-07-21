@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 //import HdrStrongIcon from "@mui/icons-material/HdrStrong";
@@ -15,9 +15,9 @@ export default class Sidebar extends Component {
     super(props);
 
     this.platforms = [
-      { name: "Reddit", icon: <RedditIcon /> },
-      { name: "Twitter", icon: <TwitterIcon /> },
-      { name: "YouTube", icon: <YouTubeIcon /> },
+      { name: "Reddit", icon: <RedditIcon />, href: "/reddit" },
+      { name: "Twitter", icon: <TwitterIcon />, href: "/twitter" },
+      { name: "YouTube", icon: <YouTubeIcon />, href: "/youtube" },
     ];
 
     this.wrapperRef = React.createRef();
@@ -56,44 +56,44 @@ export default class Sidebar extends Component {
           <h2>Currently</h2>
         </div>
 
-        <ul className="menu">
-          <li
+        <div className="menu">
+          <a
             className="menu-item-container tier-1"
-            onClick={
-              this.props.state.home ? this.scrollToTop : this.props.changeTab
-            }
+            onClick={window.location.pathname === "/" && this.scrollToTop}
+            href={window.location.pathname === "/" ? "javascript:;" : "/"}
             data-tab="home"
           >
-            <div className={"menu-item " + (this.props.state.home && "active")}>
+            <div
+              className={
+                "menu-item " + (window.location.pathname === "/" && "active")
+              }
+            >
               <GridViewIcon className="home-icon" />
               <span>Home</span>
             </div>
-          </li>
+          </a>
 
-          <li className="menu-item-container tier-1">
+          <div className="menu-item-container tier-1">
             <div className="menu-section-label">Platforms</div>
 
-            <ul className="sub-menu">
+            <div className="sub-menu">
               {this.platforms.map((platform) => (
-                <li
+                <a
                   className={
                     "menu-item tier-2 " +
-                    (this.props.state[platform.name.toLowerCase()] && "active")
+                    (window.location.pathname.includes(platform.href) &&
+                      "active")
                   }
-                  onClick={
-                    this.props.state[platform.name.toLowerCase()]
-                      ? this.scrollToTop
-                      : this.props.changeTab
-                  }
+                  href={platform.href}
                   data-tab={platform.name.toLowerCase()}
                   key={platform.name}
                 >
                   {platform.icon}
                   <span>{platform.name}</span>
-                </li>
+                </a>
               ))}
-            </ul>
-          </li>
+            </div>
+          </div>
 
           {/*<li className="menu-item-container tier-1">
             <div className="menu-section-label">Reports</div>
@@ -137,7 +137,7 @@ export default class Sidebar extends Component {
               </li>
             </ul>
               </li>*/}
-        </ul>
+        </div>
       </Box>
     );
   }

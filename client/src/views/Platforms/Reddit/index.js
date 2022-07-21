@@ -15,6 +15,8 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
  * or provide option for both
  */
 
+const searchQuery = localStorage.getItem("searchQuery");
+
 export default class Reddit extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +56,7 @@ export default class Reddit extends Component {
   };
 
   componentDidUpdate = () => {
-    if (this.props.state.previousSearchQuery !== "") {
+    if (searchQuery !== "") {
       if (this.state.popular && this.props.state.redditHot.length === 0)
         this.redditSearchHot();
       if (this.state.recent && this.props.state.redditNew.length === 0)
@@ -159,37 +161,34 @@ export default class Reddit extends Component {
   redditSearchNew = async (e) => {
     return await axios
       .put("/reddit/search", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: searchQuery,
         filter: "new",
       })
       .then(
         (response) => {
           this.props.setAppState({ redditNew: response.data.data.children });
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
   redditSearchHot = async (e) => {
     return await axios
       .put("/reddit/search", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: searchQuery,
         filter: "hot",
       })
       .then(
         (response) => {
           this.props.setAppState({ redditHot: response.data.data.children });
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
   getHotPosts = async (e) => {
     this.setState({ loading: true });
+
     return await axios.put("/reddit/get/hot/posts", {}).then(
       (response) => {
         this.setState({
@@ -197,9 +196,7 @@ export default class Reddit extends Component {
           loading: false,
         });
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => console.log(error)
     );
   };
 
@@ -252,47 +249,51 @@ export default class Reddit extends Component {
     );
   };
 
+  filter = () => {
+    return (
+      <Box id="filterRow">
+        <Box className="filter">
+          <div
+            className="active-display"
+            onClick={() => this.toggle("filterToggle")}
+          >
+            <span className="active-filter">Filter</span>
+            <FilterAltIcon />
+          </div>
+          <ul
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
+            ref={this.wrapperRef}
+          >
+            <li
+              className={this.state.recent ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="recent"
+            >
+              Recent
+              <Radio checked={this.state.recent} size="small" />
+            </li>
+            <li
+              className={this.state.popular ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="popular"
+            >
+              Hot
+              <Radio checked={this.state.popular} size="small" />
+            </li>
+          </ul>
+        </Box>
+      </Box>
+    );
+  };
+
   render() {
     //const layout = this.props.state.layout;
 
     return (
-      <Box>
-        {this.props.state.previousSearchQuery && (
-          <Box id="filterRow">
-            <Box className="filter">
-              <div
-                className="active-display"
-                onClick={() => this.toggle("filterToggle")}
-              >
-                <span className="active-filter">Filter</span>
-                <FilterAltIcon />
-              </div>
-              <ul
-                className={
-                  "filter-options " + (this.state.filterToggle && "active")
-                }
-                ref={this.wrapperRef}
-              >
-                <li
-                  className={this.state.recent ? "active" : ""}
-                  onClick={this.changeTab}
-                  data-tab="recent"
-                >
-                  Recent
-                  <Radio checked={this.state.recent} size="small" />
-                </li>
-                <li
-                  className={this.state.popular ? "active" : ""}
-                  onClick={this.changeTab}
-                  data-tab="popular"
-                >
-                  Hot
-                  <Radio checked={this.state.popular} size="small" />
-                </li>
-              </ul>
-            </Box>
-          </Box>
-        )}
+      <Box sx={{ padding: "0 30px" }}>
+        {this.filter()}
 
         {this.state.loading && (
           <Box className="ta-center" sx={{ paddingTop: "100px" }}>
@@ -300,22 +301,20 @@ export default class Reddit extends Component {
           </Box>
         )}
 
-        {this.state.hotPosts.length > 0 &&
-          !this.props.state.previousSearchQuery && (
-            <Box className="topic posts">
-              <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {this.state.hotPosts.map((post, index) => this.post(post))}
-              </Masonry>
-            </Box>
-          )}
+        {!searchQuery && this.state.hotPosts.length > 0 && (
+          <Box className="topic posts">
+            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+              {this.state.hotPosts.map((post, index) => this.post(post))}
+            </Masonry>
+          </Box>
+        )}
 
         {this.state.recent && this.props.state.redditNew.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.redditNew &&
-                this.props.state.redditNew
-                  .slice(0, 50)
-                  .map((post, index) => this.post(post))}
+              {this.props.state.redditNew
+                .slice(0, 50)
+                .map((post, index) => this.post(post))}
             </Masonry>
           </Box>
         )}
@@ -323,10 +322,9 @@ export default class Reddit extends Component {
         {this.state.popular && this.props.state.redditHot.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.redditHot &&
-                this.props.state.redditHot
-                  .slice(0, 50)
-                  .map((post, index) => this.post(post))}
+              {this.props.state.redditHot
+                .slice(0, 50)
+                .map((post, index) => this.post(post))}
             </Masonry>
           </Box>
         )}

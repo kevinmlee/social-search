@@ -109,7 +109,7 @@ export default class Twitter extends Component {
 
     return await axios
       .put("/twitter/search", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: localStorage.getItem("searchQuery"),
       })
       .then(
         (response) => {
@@ -124,7 +124,7 @@ export default class Twitter extends Component {
   };
 
   twitterSearchByUsername = async (e) => {
-    const query = this.props.state.searchQuery;
+    const query = localStorage.getItem("searchQuery");
 
     // if search query is a username (has @ symbol in front), remove symbol and continue to get user
     if (this.oneWord(query)) {
@@ -134,7 +134,7 @@ export default class Twitter extends Component {
 
     return await axios
       .put("/twitter/search/username", {
-        searchQuery: this.props.state.previousSearchQuery,
+        searchQuery: query,
       })
       .then(
         async (response) => {
@@ -452,7 +452,7 @@ export default class Twitter extends Component {
 
   render() {
     return (
-      <Box>
+      <Box sx={{ padding: "0 30px" }}>
         {this.filter()}
 
         {this.state.loading && (

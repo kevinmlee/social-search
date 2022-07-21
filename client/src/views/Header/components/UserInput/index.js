@@ -124,6 +124,8 @@ export default class UserInput extends Component {
   };
 
   render() {
+    const searchQuery = localStorage.getItem("searchQuery");
+
     return (
       <div className="search-input">
         <Box sx={{}}>
@@ -135,9 +137,7 @@ export default class UserInput extends Component {
               value={this.state.search}
               size="small"
               placeholder={
-                this.props.state.previousSearchQuery
-                  ? this.props.state.previousSearchQuery
-                  : "Search for a person or topic"
+                searchQuery ? searchQuery : "Search for a person or topic"
               }
               // defaultValue={this.state.search}
               spellCheck="false"
