@@ -44,13 +44,6 @@ export default class Reddit extends Component {
 
     this.getHotPosts();
 
-    // get layout preference from localStorage
-    /*
-    if ("layout" in userSettings)
-      this.setState({ layout: userSettings.layout });
-    else this.props.updateLocalStorage("layout", "grid");
-    */
-
     // on initial load, fetch the data if not already present
     if (this.state.popular && this.props.state.redditHot.length === 0)
       this.redditSearchHot();

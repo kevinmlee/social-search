@@ -28,10 +28,9 @@ export default class UserInput extends Component {
   componentDidMount = async () => {
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    let userSettings = JSON.parse(localStorage.getItem("userSettings"));
-    if ("searches" in userSettings)
-      this.setState({ searches: userSettings.searches });
-    else this.props.updateLocalStorage("searches", []);
+    let searches = JSON.parse(localStorage.getItem("searches"));
+    if (searches) this.setState({ searches: searches });
+    else localStorage.setItem("searches", JSON.stringify([]));
   };
 
   componentWillUnmount = () => {
@@ -71,7 +70,7 @@ export default class UserInput extends Component {
       this.updateRecentSearches(this.state.search);
 
       this.setState({
-        searches: JSON.parse(localStorage.getItem("userSettings")).searches,
+        searches: JSON.parse(localStorage.getItem("searches")),
       });
     }
 
@@ -86,12 +85,12 @@ export default class UserInput extends Component {
   };
 
   updateRecentSearches = (searchQuery) => {
-    let userSettings = JSON.parse(localStorage.getItem("userSettings"));
     let searches = [];
 
-    if ("searches" in userSettings) {
-      searches = userSettings.searches;
+    if (localStorage.getItem("searches"))
+      searches = JSON.parse(localStorage.getItem("searches"));
 
+    if (searches.length > 0) {
       // remove queries over 5
       if (searches.length >= 5) searches.pop();
 
@@ -104,19 +103,19 @@ export default class UserInput extends Component {
       else searches.unshift(searchQuery);
     } else searches = [searchQuery];
 
-    this.props.updateLocalStorage("searches", searches);
+    localStorage.setItem("searches", JSON.stringify(searches));
   };
 
   clearRecentSearches = () => {
     this.setState({ searches: [], searchFocused: false });
-    this.props.updateLocalStorage("searches", []);
+    localStorage.setItem("searches", JSON.stringify([]));
   };
 
   clearSelectedSearch = (query) => {
     const searches = this.state.searches.filter((e) => e !== query);
 
     this.setState({ searches, searchFocused: false });
-    this.props.updateLocalStorage("searches", searches);
+    localStorage.setItem("searches", JSON.stringify(searches));
   };
 
   selectRecentSearch = async (searchQuery) => {

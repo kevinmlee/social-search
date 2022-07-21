@@ -61,18 +61,13 @@ export default class Dash extends Component {
         )}
 
         {this.props.state.home && (
-          <Home
-            setAppState={this.props.setAppState}
-            state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
-          />
+          <Home setAppState={this.props.setAppState} state={this.props.state} />
         )}
 
         {this.props.state.twitter && this.props.state.previousSearchQuery && (
           <Twitter
             setAppState={this.props.setAppState}
             state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
           />
         )}
 
@@ -80,7 +75,6 @@ export default class Dash extends Component {
           <Reddit
             setAppState={this.props.setAppState}
             state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
           />
         )}
 
@@ -95,14 +89,12 @@ export default class Dash extends Component {
           <YouTube
             setAppState={this.props.setAppState}
             state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
           />
         )}
 
         {this.props.state.settings && (
           <Settings
             setAppState={this.props.setAppState}
-            updateLocalStorage={this.props.updateLocalStorage}
             state={this.props.state}
           />
         )}

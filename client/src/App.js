@@ -22,6 +22,7 @@ import Dash from "./views/Dash";
 import SignIn from "./views/SignIn";
 import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound";
+import Settings from "./views/Settings";
 
 export default class App extends Component {
   constructor(props) {
@@ -96,8 +97,6 @@ export default class App extends Component {
 
       this.setState({ scrollStatus, backToTop });
     });
-
-    this.getGeolocation();
   };
 
   componentWillUnmount = () => {
@@ -139,29 +138,6 @@ export default class App extends Component {
     });
   };
 
-  alerts = () => {
-    /*
-    if (this.state.searchQueryBlankError)
-      return (
-        <Alert severity="error">
-          Search query cannot be blank. Please enter a search query and try
-          again.
-        </Alert>
-      );
-    */
-  };
-
-  updateLocalStorage = (key, value) => {
-    let userSettings = {};
-
-    if (localStorage.getItem("userSettings"))
-      userSettings = JSON.parse(localStorage.getItem("userSettings"));
-
-    userSettings[key] = value;
-
-    localStorage.setItem("userSettings", JSON.stringify(userSettings));
-  };
-
   reset = async () => {
     await this.setState({
       searchQuery: "",
@@ -178,15 +154,6 @@ export default class App extends Component {
       youtubeVideosRating: {},
       youtubeVideosDate: {},
     });
-  };
-
-  getGeolocation = async () => {
-    await axios.get("/get/geolocation").then(
-      async (response) => {
-        await this.setState({ geolocation: response });
-      },
-      (error) => console.log(error)
-    );
   };
 
   imageBackdrop = () => {
@@ -240,7 +207,6 @@ export default class App extends Component {
               <Header
                 state={this.state}
                 setAppState={this.setAppState}
-                updateLocalStorage={this.updateLocalStorage}
                 toggle={this.toggle}
                 reset={this.reset}
               />
@@ -252,8 +218,6 @@ export default class App extends Component {
               />
             </Box>
           )}
-
-        {this.alerts()}
 
         <div
           id="main-content"
@@ -270,11 +234,7 @@ export default class App extends Component {
                 exact
                 path="/"
                 element={
-                  <Dash
-                    state={this.state}
-                    setAppState={this.setAppState}
-                    updateLocalStorage={this.updateLocalStorage}
-                  />
+                  <Dash state={this.state} setAppState={this.setAppState} />
                 }
               />
 
@@ -282,11 +242,7 @@ export default class App extends Component {
                 exact
                 path="/signin"
                 element={
-                  <SignIn
-                    state={this.state}
-                    setAppState={this.setAppState}
-                    updateLocalStorage={this.updateLocalStorage}
-                  />
+                  <SignIn state={this.state} setAppState={this.setAppState} />
                 }
               />
 
@@ -294,11 +250,15 @@ export default class App extends Component {
                 exact
                 path="/signup"
                 element={
-                  <SignUp
-                    state={this.state}
-                    setAppState={this.setAppState}
-                    updateLocalStorage={this.updateLocalStorage}
-                  />
+                  <SignUp state={this.state} setAppState={this.setAppState} />
+                }
+              />
+
+              <Route
+                exact
+                path="/signup"
+                element={
+                  <Settings state={this.state} setAppState={this.setAppState} />
                 }
               />
 

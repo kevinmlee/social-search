@@ -28,6 +28,10 @@ export default class Twitter extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
+  setPromisedState = async (state) => {
+    new Promise((resolve) => this.setState(state, resolve));
+  };
+
   componentDidMount = async () => {
     window.scrollTo({
       top: 0,
@@ -36,9 +40,8 @@ export default class Twitter extends Component {
 
     document.addEventListener("mousedown", this.handleClickOutside);
 
-    if (!("data" in this.props.state.tweetsByRecent)) {
+    if (!("data" in this.props.state.tweetsByRecent))
       await this.twitterSearchByRecent();
-    }
 
     await this.twitterSearchByUsername();
   };
@@ -72,7 +75,6 @@ export default class Twitter extends Component {
     });
 
     this.setState({ filterToggle: false });
-    if (selectedTab === "userTweets") this.getTweetsByUserID();
   };
 
   decodeText = (string) => {
@@ -117,9 +119,7 @@ export default class Twitter extends Component {
 
           this.setState({ loading: false });
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
@@ -137,45 +137,45 @@ export default class Twitter extends Component {
         searchQuery: this.props.state.previousSearchQuery,
       })
       .then(
-        (response) => {
-          //console.log("searchByUsername", response);
+        async (response) => {
           if (response.data.error || this.objectEmpty(response.data))
             return false;
           else {
-            this.setState({
+            await this.setPromisedState({
               twitterUserID: response.data.twitterResults.id,
               recent: false,
               popular: false,
               userTweets: true,
             });
-            this.props.setAppState({
+
+            await this.props.setAppState({
               twitterUser: response.data.twitterResults,
             });
-            this.getTweetsByUserID();
+
+            this.getTweetsByUserID(response.data.twitterResults.id);
+
             return true;
           }
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
-  getTweetsByUserID = async (e) => {
+  getTweetsByUserID = async (twitterId) => {
     this.setState({ loading: true });
 
     return await axios
       .put("/twitter/get/tweets/id", {
-        userId: this.state.twitterUserID,
+        userId: twitterId,
       })
       .then(
-        (response) => {
-          this.props.setAppState({ tweetsByUserId: response.data.tweets });
+        async (response) => {
+          await this.props.setAppState({
+            tweetsByUserId: response.data.tweets,
+          });
           this.setState({ loading: false });
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
@@ -207,7 +207,6 @@ export default class Twitter extends Component {
   };
 
   tweet = (tweet, type) => {
-    // console.log(tweet);
     let mediaUrl = "";
     const user = this.getAuthor(tweet, type);
 
@@ -283,42 +282,6 @@ export default class Twitter extends Component {
             </div>
           </Box>
         )}
-
-        {/*<a
-          href={"https://twitter.com/twitter/status/" + tweet.id}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Box
-            className="public-metrics"
-            container
-            spacing={2}
-            sx={{ paddingLeft: 2, paddingRight: 2, paddingBottom: 2 }}
-          >
-            {tweet.public_metrics && (
-              <Typography
-                className="metric flex-container"
-                variant="overline"
-                sx={{ paddingRight: 4 }}
-                style={{ color: "#999999" }}
-              >
-                <ThumbUpIcon />
-                {tweet.public_metrics.like_count}
-              </Typography>
-            )}
-
-            {tweet.public_metrics && (
-              <Typography
-                className="metric flex-container"
-                variant="overline"
-                style={{ color: "#999999" }}
-              >
-                <LoopIcon />
-                {tweet.public_metrics.retweet_count}
-              </Typography>
-            )}
-          </Box>
-            </a>*/}
       </Box>
     );
   };
@@ -326,15 +289,12 @@ export default class Twitter extends Component {
   displayTweets = () => {
     return (
       <Box>
-        {this.state.userTweets && (
+        {this.state.userTweets && "data" in this.props.state.tweetsByUserId && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.tweetsByUserId["data"] &&
-                this.props.state.tweetsByUserId["data"]
-                  .slice(0, 50)
-                  .map((tweet, index) => {
-                    return this.tweet(tweet, "userTweets");
-                  })}
+              {this.props.state.tweetsByUserId["data"]
+                .slice(0, 50)
+                .map((tweet, index) => this.tweet(tweet, "userTweets"))}
             </Masonry>
           </Box>
         )}
@@ -342,12 +302,9 @@ export default class Twitter extends Component {
         {this.state.recent && "data" in this.props.state.tweetsByRecent && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.tweetsByRecent["data"] &&
-                this.props.state.tweetsByRecent["data"]
-                  .slice(0, 50)
-                  .map((tweet, index) => {
-                    return this.tweet(tweet, "recent");
-                  })}
+              {this.props.state.tweetsByRecent["data"]
+                .slice(0, 50)
+                .map((tweet, index) => this.tweet(tweet, "recent"))}
             </Masonry>
           </Box>
         )}
@@ -355,12 +312,9 @@ export default class Twitter extends Component {
         {this.state.popular && "data" in this.props.state.tweetsByRecent && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.tweetsByRecent["data"] &&
-                this.sortByPopularity(this.props.state.tweetsByRecent["data"])
-                  .slice(0, 50)
-                  .map((tweet, index) => {
-                    return this.tweet(tweet, "recent");
-                  })}
+              {this.sortByPopularity(this.props.state.tweetsByRecent["data"])
+                .slice(0, 50)
+                .map((tweet, index) => this.tweet(tweet, "recent"))}
             </Masonry>
           </Box>
         )}
@@ -446,61 +400,60 @@ export default class Twitter extends Component {
     );
   };
 
-  render() {
-    //const filteredTweets = this.filterTweets(this.props.tweetsByRecent);
+  filter = () => {
+    return (
+      <Box id="filterRow">
+        <Box className="filter">
+          <div
+            className="active-display"
+            onClick={() => this.toggle("filterToggle")}
+          >
+            <span className="active-filter">Filter</span>
+            <FilterAltIcon />
+          </div>
+          <ul
+            className={
+              "filter-options " + (this.state.filterToggle && "active")
+            }
+            ref={this.wrapperRef}
+          >
+            {/*<li>All</li>*/}
+            {this.state.twitterUserID && (
+              <li
+                className={this.state.userTweets ? "active" : ""}
+                onClick={this.changeTab}
+                data-tab="userTweets"
+              >
+                @{this.props.state.twitterUser.username}
+                <Radio checked={this.state.userTweets} size="small" />
+              </li>
+            )}
+            <li
+              className={this.state.recent ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="recent"
+            >
+              Recent
+              <Radio checked={this.state.recent} size="small" />
+            </li>
+            <li
+              className={this.state.popular ? "active" : ""}
+              onClick={this.changeTab}
+              data-tab="popular"
+            >
+              Popular
+              <Radio checked={this.state.popular} size="small" />
+            </li>
+          </ul>
+        </Box>
+      </Box>
+    );
+  };
 
+  render() {
     return (
       <Box>
-        <Box id="filterRow">
-          <Box className="filter">
-            <div
-              className="active-display"
-              onClick={() => this.toggle("filterToggle")}
-            >
-              <span className="active-filter">Filter</span>
-              <FilterAltIcon />
-            </div>
-            <ul
-              className={
-                "filter-options " + (this.state.filterToggle && "active")
-              }
-              ref={this.wrapperRef}
-            >
-              {/*<li>All</li>*/}
-              {this.state.twitterUserID && (
-                <li
-                  className={this.state.userTweets ? "active" : ""}
-                  onClick={this.changeTab}
-                  data-tab="userTweets"
-                >
-                  @{this.props.state.twitterUser.username}
-                  <Radio checked={this.state.userTweets} size="small" />
-                </li>
-              )}
-              <li
-                className={this.state.recent ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="recent"
-              >
-                Recent
-                <Radio checked={this.state.recent} size="small" />
-              </li>
-              <li
-                className={this.state.popular ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="popular"
-              >
-                Popular
-                <Radio checked={this.state.popular} size="small" />
-              </li>
-            </ul>
-          </Box>
-          {/*<LayoutSelector
-            state={this.props.state}
-            updateLocalStorage={this.props.updateLocalStorage}
-            setAppState={this.props.setAppState}
-              />*/}
-        </Box>
+        {this.filter()}
 
         {this.state.loading && (
           <Box className="ta-center" sx={{ paddingTop: "100px" }}>

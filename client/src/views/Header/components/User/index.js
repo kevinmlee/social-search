@@ -29,7 +29,7 @@ export default class User extends Component {
   };
 
   signOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("user");
     window.location.href = "/";
   };
 
