@@ -37,30 +37,12 @@ export default class SignIn extends Component {
   handleGoogleSignin = async (response) => {
     this.googleUser = response;
 
-    console.log(response);
+    const user = await API.getUser({ username: this.googleUser.email });
 
-    // check if user exists in db
-    // yes, then sign user in then send to dashboard
-    // no, create user and send to dashboard
-  };
-
-  createGoogleAccount = () => {
-    return axios
-      .post("/api/user/create", {
-        username: "",
-        firstName: this.googleUser.given_name,
-        lastName: this.googleUser.family_name,
-        googleUid: this.googleUser.jti,
-        avatar: this.googleUser.picture,
-      })
-      .then(
-        (response) => {
-          // do something
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      window.location.href = "/";
+    }
   };
 
   findUser = async () => {

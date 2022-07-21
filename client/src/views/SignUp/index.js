@@ -57,6 +57,7 @@ export default class SignUp extends Component {
         firstName: this.googleUser.given_name,
         lastName: this.googleUser.family_name,
         avatar: this.googleUser.picture,
+        accountType: "google",
       });
 
       if (createdUser) window.location.href = "/signin";
@@ -160,6 +161,7 @@ export default class SignUp extends Component {
               password: this.state.password,
               firstName: this.state.firstName,
               lastName: this.state.lastName,
+              accountType: "standard",
             });
 
             if (user) window.location.href = "/signin";

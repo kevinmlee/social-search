@@ -242,7 +242,8 @@ module.exports = {
 
   // Create new user
   createUser: function (req, res, next) {
-    const { username, password, firstName, lastName, avatar } = req.body;
+    const { username, password, firstName, lastName, avatar, accountType } =
+      req.body;
 
     let verificationToken = bcrypt
       .hashSync(username + Date.now(), saltRounds)
@@ -261,9 +262,9 @@ module.exports = {
       data.password = hash;
       data.firstName = firstName;
       data.lastName = lastName;
-      data.verificationToken = verificationToken;
-      data.subscription = "Free";
       data.avatar = avatar;
+      data.accountType = accountType;
+      data.verificationToken = verificationToken;
 
       /*
       var mailOptions = {
@@ -306,8 +307,18 @@ module.exports = {
 
     Data.findOne({ username: usernameLowercase }, async (err, data) => {
       if (err) return res.json({ error: err });
-      if (data) return res.json({ data: data });
-      else return res.json({ data: data });
+      if (data) {
+        const slimUserData = {
+          username: data.username,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          avatar: data.avatar,
+          settings: data.settings,
+          accountType: data.accountType,
+        };
+
+        return res.json({ data: slimUserData });
+      } else return res.json({ data: data });
     });
   },
 

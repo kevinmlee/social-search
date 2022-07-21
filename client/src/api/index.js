@@ -38,8 +38,7 @@ export const getUser = async (data) => {
  * @returns {Object}
  */
 export const createUser = async (data) => {
-  const { username, password, firstName, lastName, avatar, googleUserId } =
-    data;
+  const { username, password, firstName, lastName, avatar, accountType } = data;
 
   return axios
     .post("/api/create/user", {
@@ -48,7 +47,7 @@ export const createUser = async (data) => {
       firstName: firstName,
       lastName: lastName,
       avatar: avatar,
-      googleUserId: googleUserId,
+      accountType: accountType,
     })
     .then(
       (response) => response.data.data,

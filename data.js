@@ -8,6 +8,7 @@ const DataSchema = new Schema(
     userId: { type: Number },
     registrationDate: { type: Date, required: true, default: Date.now },
     username: { type: String, required: true, unique: true },
+    accountType: { type: String },
     password: { type: String },
     firstName: { type: String },
     lastName: { type: String },

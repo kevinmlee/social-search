@@ -65,7 +65,14 @@ export default class User extends Component {
           <div className={"account " + (this.state.opened && "opened")}>
             <div className="top">
               <div className="avatar">
-                <PersonIcon className="default" />
+                {user.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.firstName + " " + user.lastName}
+                  />
+                ) : (
+                  <PersonIcon className="default" />
+                )}
               </div>
 
               <div className="name">{user.firstName + " " + user.lastName}</div>
