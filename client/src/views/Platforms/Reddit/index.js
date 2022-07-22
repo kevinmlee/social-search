@@ -204,45 +204,51 @@ export default class Reddit extends Component {
     return (
       <Box className="post" key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
-          {this.getVideo(post)
-            ? this.getVideo(post)
-            : this.getPreviewImage(post) && (
-                <Box
-                  className="media"
-                  /*onClick={() => {
+          <Box className="details">
+            {this.getVideo(post)
+              ? this.getVideo(post)
+              : this.getPreviewImage(post) && (
+                  <Box
+                    className="media"
+                    /*onClick={() => {
                     this.props.setAppState(
                       "backdropImage",
                       this.getPreviewImage(post)
                     );
                     this.props.setAppState("backdropToggle", true);
                   }}*/
-                >
-                  <div className="media-image">
-                    <img
-                      className="featured-image"
-                      src={this.getPreviewImage(post)}
-                      alt={post.data.title}
-                      loading="lazy"
-                    />
-                  </div>
-                </Box>
-              )}
+                  >
+                    <div className="media-image">
+                      <img
+                        className="featured-image"
+                        src={this.getPreviewImage(post)}
+                        alt={post.data.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  </Box>
+                )}
 
-          <Box className="details">
-            <div className="subreddit">{post.data.subreddit_name_prefixed}</div>
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              Posted by {post.data.author}
-            </Typography>
-            <span style={{ color: "#999999" }}> · </span>
-            <Typography variant="caption" style={{ color: "#999999" }}>
-              {moment.unix(post.data.created).utc().fromNow()}
-            </Typography>
-          </Box>
+            <Box className="text">
+              <Box className="author-details">
+                <div className="subreddit">
+                  {post.data.subreddit_name_prefixed}
+                </div>
+                <Typography variant="caption" style={{ color: "#999999" }}>
+                  Posted by {post.data.author}
+                </Typography>
+                <span style={{ color: "#999999" }}> · </span>
+                <Typography variant="caption" style={{ color: "#999999" }}>
+                  {moment.unix(post.data.created).utc().fromNow()}
+                </Typography>
+              </Box>
 
-          <Box className="post-title" sx={{ paddingTop: 2 }}>
-            <Typography variant="h5">
-              {this.decodeText(post.data.title)}
-            </Typography>
+              <Box className="post-title">
+                <Typography variant="h5">
+                  {this.decodeText(post.data.title)}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         </a>
       </Box>

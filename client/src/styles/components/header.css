@@ -57,6 +57,12 @@ header .search input {
     display: none;
   }
 }
+@media screen and (max-width: 991px) {
+  header .search {
+    max-width: 60%;
+    font-size: 14px;
+  }
+}
 @media screen and (max-width: 500px) {
   header .search {
     max-width: 250px;

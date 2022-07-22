@@ -73,10 +73,44 @@
   .topic.posts:not(:first-child) {
     padding-top: 75px;
   }
+  .posts h4 {
+    text-align: left !important;
+    margin-bottom: 30px !important;
+  }
   .post {
-    margin-left: 0;
-    margin-right: 0;
-    width: 100%;
+    margin: 20px 0 !important;
+    width: 100% !important;
+  }
+  .post .details {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+  .post.twitter .details {
+    flex-direction: initial;
+  }
+  .post .youtube-video {
+    display: none;
+  }
+  .post .media,
+  .post .yt-embed {
+    width: 30%;
+    margin: 0;
+  }
+  .post .text {
+    width: 70%;
+    padding-right: 20px;
+    flex-grow: 1;
+  }
+  .post .post-title h5 {
+    font-size: 14px !important;
+  }
+  .post .author-details * {
+    font-size: 10px !important;
+  }
+  .post .author .name,
+  .post .username {
+    font-size: 14px;
   }
 }
 

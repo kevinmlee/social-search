@@ -158,7 +158,7 @@ export default class YouTube extends Component {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="youtube-post-link"
+          className="youtube-post-link details"
         >
           {type === "Channel" && (
             <div className="media-image">
@@ -196,24 +196,26 @@ export default class YouTube extends Component {
             </div>
           )}
 
-          <Grid container spacing={2} sx={{ paddingTop: 2 }}>
-            <Grid item xs={10}>
-              <span className="username">{post.snippet.channelTitle}</span>
-              <span style={{ color: "#999999" }}> · </span>
-              <Typography variant="caption" style={{ color: "#999999" }}>
-                {moment(post.snippet.publishedAt).fromNow()}
-              </Typography>
+          <Box className="text">
+            <Grid container sx={{ paddingTop: 2 }}>
+              <Grid className="author-details" item xs={10}>
+                <span className="username">{post.snippet.channelTitle}</span>
+                <span style={{ color: "#999999" }}> · </span>
+                <Typography variant="caption" style={{ color: "#999999" }}>
+                  {moment(post.snippet.publishedAt).fromNow()}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
 
-          <Typography variant="caption" style={{ color: "#999999" }}>
-            {type}
-          </Typography>
+            {/*<Typography variant="caption" style={{ color: "#999999" }}>
+              {type}
+          </Typography>*/}
 
-          <Box className="post-title" sx={{ paddingTop: 2 }}>
-            <Typography variant="h5">
-              {this.decodeText(post.snippet.title)}
-            </Typography>
+            <Box className="post-title">
+              <Typography variant="h5">
+                {this.decodeText(post.snippet.title)}
+              </Typography>
+            </Box>
           </Box>
         </a>
       </Box>

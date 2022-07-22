@@ -231,57 +231,65 @@ export default class Twitter extends Component {
     }
 
     return (
-      <Box className="post" key={tweet.id} data-aos="fade-up">
-        <a
-          href={"https://twitter.com/twitter/status/" + tweet.id}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Grid className="top" container spacing={2} sx={{ paddingTop: 2 }}>
-            <Grid item sx={{ width: "60px" }}>
-              <div className="avatar">
+      <Box className="post twitter" key={tweet.id} data-aos="fade-up">
+        <Box className="details">
+          <a
+            href={"https://twitter.com/twitter/status/" + tweet.id}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text"
+          >
+            <Grid className="top" container spacing={2} sx={{ paddingTop: 2 }}>
+              <Grid item sx={{ width: "60px" }}>
+                <div className="avatar">
+                  <img
+                    src={user.profile_image_url}
+                    alt={user.name + "'s profile image'"}
+                  />
+                </div>
+              </Grid>
+
+              <Grid item xs={10}>
+                <Box className="author" sx={{ paddingBottom: 1 }}>
+                  <div className="name">{user.name}</div>
+                  <span className="username">@{user.username}</span>
+                  <span style={{ color: "#999999" }}> · </span>
+                  <Typography variant="caption" style={{ color: "#999999" }}>
+                    {moment(tweet.created_at).fromNow()}
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Box
+              className="post-title"
+              sx={{ paddingTop: 2, paddingBottom: 2 }}
+            >
+              <Typography variant="h5">
+                {this.decodeText(tweet.text)}
+              </Typography>
+            </Box>
+          </a>
+
+          {mediaUrl && (
+            <Box
+              className="media"
+              onClick={() => {
+                this.props.setAppState({ backdropImage: mediaUrl });
+                this.props.setAppState({ backdropToggle: true });
+              }}
+            >
+              <div className="media-image">
                 <img
-                  src={user.profile_image_url}
-                  alt={user.name + "'s profile image'"}
+                  className="featured-image"
+                  src={mediaUrl}
+                  alt={tweet.text}
+                  loading="lazy"
                 />
               </div>
-            </Grid>
-
-            <Grid item xs={10}>
-              <Box className="author" sx={{ paddingBottom: 1 }}>
-                <div className="name">{user.name}</div>
-                <span className="username">@{user.username}</span>
-                <span style={{ color: "#999999" }}> · </span>
-                <Typography variant="caption" style={{ color: "#999999" }}>
-                  {moment(tweet.created_at).fromNow()}
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Box className="post-title" sx={{ paddingTop: 2, paddingBottom: 2 }}>
-            <Typography variant="h6">{this.decodeText(tweet.text)}</Typography>
-          </Box>
-        </a>
-
-        {mediaUrl && (
-          <Box
-            className="media"
-            onClick={() => {
-              this.props.setAppState({ backdropImage: mediaUrl });
-              this.props.setAppState({ backdropToggle: true });
-            }}
-          >
-            <div className="media-image">
-              <img
-                className="featured-image"
-                src={mediaUrl}
-                alt={tweet.text}
-                loading="lazy"
-              />
-            </div>
-          </Box>
-        )}
+            </Box>
+          )}
+        </Box>
       </Box>
     );
   };

@@ -192,20 +192,22 @@ export default class Home extends Component {
                   </Box>
                 )}
 
-            <Box className="author-details">
-              <Typography variant="caption" style={{ color: "#999999" }}>
-                Posted by {post.data.author}
-              </Typography>
-              <span style={{ color: "#999999" }}> · </span>
-              <Typography variant="caption" style={{ color: "#999999" }}>
-                {moment.unix(post.data.created).utc().fromNow()}
-              </Typography>
-            </Box>
+            <Box className="text">
+              <Box className="author-details">
+                <Typography variant="caption" style={{ color: "#999999" }}>
+                  Posted by {post.data.author}
+                </Typography>
+                <span style={{ color: "#999999" }}> · </span>
+                <Typography variant="caption" style={{ color: "#999999" }}>
+                  {moment.unix(post.data.created).utc().fromNow()}
+                </Typography>
+              </Box>
 
-            <Box className="post-title">
-              <Typography variant="h5">
-                {this.decodeText(post.data.title)}
-              </Typography>
+              <Box className="post-title">
+                <Typography variant="h5">
+                  {this.decodeText(post.data.title)}
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </a>
