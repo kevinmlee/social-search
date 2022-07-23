@@ -63,12 +63,6 @@ header .search input {
     font-size: 14px;
   }
 }
-@media screen and (max-width: 500px) {
-  header .search {
-    max-width: 250px;
-    font-size: 14px;
-  }
-}
 
 /*
 * Recent Searches
