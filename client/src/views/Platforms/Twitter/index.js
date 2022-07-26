@@ -6,7 +6,8 @@ import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import CircularProgress from "@mui/material/CircularProgress";
+
+import Loader from "../../Loader";
 
 export default class Twitter extends Component {
   constructor(props) {
@@ -474,11 +475,7 @@ export default class Twitter extends Component {
       <Box sx={{ padding: "0 30px" }}>
         {this.filter()}
 
-        {this.state.loading && (
-          <Box className="ta-center" sx={{ paddingTop: "100px" }}>
-            <CircularProgress color="inherit" />
-          </Box>
-        )}
+        {this.state.loading && <Loader />}
 
         {!this.objectEmpty(this.props.state.twitterUser) &&
           this.state.userTweets &&

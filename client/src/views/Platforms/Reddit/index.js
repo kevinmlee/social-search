@@ -4,16 +4,11 @@ import axios from "axios";
 
 import { Box, Typography, Radio } from "@mui/material";
 import { Masonry } from "@mui/lab";
-import CircularProgress from "@mui/material/CircularProgress";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
-//import LayoutSelector from "../../../LayoutSelector";
+import Loader from "../../Loader";
 
-/*
- * perhaps on first load, get recent hot posts from reddit
- * or worldnews
- * or provide option for both
- */
+//import LayoutSelector from "../../../LayoutSelector";
 
 const searchQuery = localStorage.getItem("searchQuery");
 
@@ -41,7 +36,6 @@ export default class Reddit extends Component {
       behavior: "smooth",
     });
 
-    //let userSettings = JSON.parse(localStorage.getItem("userSettings"));
     document.addEventListener("mousedown", this.handleClickOutside);
 
     this.getHotPosts();
@@ -301,11 +295,7 @@ export default class Reddit extends Component {
       <Box sx={{ padding: "0 30px" }}>
         {this.filter()}
 
-        {this.state.loading && (
-          <Box className="ta-center" sx={{ paddingTop: "100px" }}>
-            <CircularProgress color="inherit" />
-          </Box>
-        )}
+        {this.state.loading && <Loader />}
 
         {!searchQuery && this.state.hotPosts.length > 0 && (
           <Box className="topic posts">

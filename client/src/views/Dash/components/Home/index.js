@@ -6,8 +6,6 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
 
-//import CircularProgress from "@mui/material/CircularProgress";
-
 const TOPICS = [
   "news",
   "technology",
@@ -23,12 +21,7 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-      filterToggle: false,
-
-      recent: false,
-      popular: true,
-
-      progress: 0,
+      subreddits: [],
     };
   }
 
@@ -38,10 +31,7 @@ export default class Home extends Component {
       behavior: "smooth",
     });
 
-    if (this.props.state.home && this.props.state.subreddits.length === 0)
-      this.getPosts();
-
-    //this.searchSubreddits("tesla");
+    this.getPosts();
   };
 
   componentDidUpdate = () => {
@@ -133,14 +123,12 @@ export default class Home extends Component {
       })
       .then(
         (response) => {
-          let subreddits = this.props.state.subreddits;
+          let subreddits = this.state.subreddits;
           subreddits[subreddit] = response.data.data.children;
 
-          this.props.setAppState({ subreddits: subreddits });
+          this.setState({ subreddits: subreddits });
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
@@ -162,9 +150,7 @@ export default class Home extends Component {
 
           //this.props.setAppState("subreddits", subreddits);
         },
-        (error) => {
-          console.log(error);
-        }
+        (error) => console.log(error)
       );
   };
 
@@ -215,13 +201,8 @@ export default class Home extends Component {
     );
   };
 
-  calculateProgress = (currentIndex, length) => {
-    let progress = currentIndex / length;
-    this.setState({ progress });
-  };
-
   render() {
-    const posts = this.props.state.subreddits;
+    const posts = this.state.subreddits;
 
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
@@ -240,14 +221,14 @@ export default class Home extends Component {
         </ul>
 
         <Box>
-          {Object.keys(posts).map((key, index) => (
+          {Object.keys(posts).map((key) => (
             <Box id={key} className="topic posts" key={key}>
               <Typography className="section-title" variant="h4">
                 {key}
               </Typography>
 
               <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {posts[key].map((post, index) => this.post(post))}
+                {posts[key].map((post) => this.post(post))}
               </Masonry>
             </Box>
           ))}

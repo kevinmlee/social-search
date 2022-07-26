@@ -5,8 +5,9 @@ import axios from "axios";
 //import LayoutSelector from "../../../LayoutSelector";
 import { Box, Typography, Radio, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
-import CircularProgress from "@mui/material/CircularProgress";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+
+import Loader from "../../Loader";
 
 const FILTERS = ["relevance", "rating", "date"];
 const searchQuery = localStorage.getItem("searchQuery");
@@ -279,11 +280,7 @@ export default class YouTube extends Component {
       <Box sx={{ padding: "0 30px;" }}>
         {searchQuery && !this.props.state.fetchError && this.filter()}
 
-        {this.state.loading && (
-          <Box className="ta-center" sx={{ paddingTop: "100px" }}>
-            <CircularProgress color="inherit" />
-          </Box>
-        )}
+        {this.state.loading && <Loader />}
 
         {"items" in ytTrendingVideos && !searchQuery && (
           <Box className="topic posts">
