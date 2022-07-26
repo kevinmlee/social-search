@@ -215,6 +215,9 @@ header .account .options li:hover span,
 header .account .options li:hover + li span {
   border-color: transparent;
 }
+header .options li:last-child {
+  color: #b23b3b;
+}
 
 @media (prefers-color-scheme: dark) {
   header .avatar {

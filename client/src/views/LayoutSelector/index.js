@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 
-import {
-  Box,
-  ButtonGroup,
-  Button,
-  Paper,
-  Typography,
-  Tooltip,
-  Radio,
-} from "@mui/material";
+import { Box, ButtonGroup, Button } from "@mui/material";
 
 import GridViewIcon from "@mui/icons-material/GridView";
 import ViewDayIcon from "@mui/icons-material/ViewDay";
