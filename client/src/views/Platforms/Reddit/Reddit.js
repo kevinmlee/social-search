@@ -10,6 +10,8 @@ import Loader from "../../Loader";
 
 //import LayoutSelector from "../../../LayoutSelector";
 
+import "./Reddit.css";
+
 const searchQuery = localStorage.getItem("searchQuery");
 
 export default class Reddit extends Component {

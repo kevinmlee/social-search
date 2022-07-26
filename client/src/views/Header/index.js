@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
 import { AppBar, Box, Toolbar, IconButton } from "@mui/material";
-
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 
 import UserInput from "./components/UserInput";
 import User from "./components/User";
+
+import "./Header.css";
 
 export default class Header extends Component {
   render() {

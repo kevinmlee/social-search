@@ -6,6 +6,8 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
 
+import "./Home.css";
+
 const TOPICS = [
   "news",
   "technology",

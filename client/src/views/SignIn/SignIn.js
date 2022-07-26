@@ -4,6 +4,8 @@ import jwt_decode from "jwt-decode";
 import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
 
+import "./SignIn.css";
+
 //import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
 
 const API = require("../../api");

@@ -8,36 +8,24 @@ import "./styles/main.css";
 
 // components
 import Header from "./views/Header";
-import Sidebar from "./views/Sidebar";
+import Sidebar from "./views/Sidebar/Sidebar";
 import Dash from "./views/Dash";
 import SignIn from "./views/SignIn/SignIn";
 import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound";
 import Settings from "./views/Settings";
 
-import Reddit from "./views/Platforms/Reddit";
-import Twitter from "./views/Platforms/Twitter";
-import YouTube from "./views/Platforms/YouTube";
+import Reddit from "./views/Platforms/Reddit/Reddit";
+import Twitter from "./views/Platforms/Twitter/Twitter";
+import YouTube from "./views/Platforms/YouTube/YouTube";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      authenticated: false,
-
       // header
       scrollStatus: "",
-
-      // sidebar
-      sidebar: false,
-      home: true,
-      reddit: false,
-      twitter: false,
-      instagram: false,
-      youtube: false,
-      trends: false,
-      settings: false,
 
       // back to top button
       backToTop: false,

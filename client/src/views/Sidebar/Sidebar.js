@@ -10,6 +10,8 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 //import SettingsIcon from "@mui/icons-material/Settings";
 //import logo from "../../assets/news-256.svg";
 
+import "./Sidebar.css";
+
 export default class Sidebar extends Component {
   constructor(props) {
     super(props);

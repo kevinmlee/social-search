@@ -9,6 +9,8 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 
 import Loader from "../../Loader";
 
+import "./Twitter.css";
+
 export default class Twitter extends Component {
   constructor(props) {
     super(props);
