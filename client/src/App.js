@@ -63,7 +63,7 @@ export default class App extends Component {
 
       backdropImage: "",
       backdropToggle: false,
-      loadingBackdrop: false,
+
       searchQueryBlankError: false,
 
       // error handling
@@ -147,28 +147,6 @@ export default class App extends Component {
         onClick={() => this.toggle("backdropToggle")}
       >
         <img src={this.state.backdropImage} alt="" />
-      </Backdrop>
-    );
-  };
-
-  loadingBackdrop = () => {
-    return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={() => this.toggle("loadingBackdrop")}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    );
-  };
-
-  initialSearchBackdrop = () => {
-    return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={() => this.toggle("loadingBackdrop")}
-      >
-        <CircularProgress color="inherit" />
       </Backdrop>
     );
   };
@@ -269,7 +247,6 @@ export default class App extends Component {
         </div>
 
         {this.state.backdropToggle && this.imageBackdrop()}
-        {this.state.loadingBackdrop && this.loadingBackdrop()}
         {this.state.backToTop && this.backToTopButton()}
       </Box>
     );
