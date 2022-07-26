@@ -3,7 +3,6 @@ import { TextField } from "@mui/material";
 import jwt_decode from "jwt-decode";
 import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
 
 const API = require("../../api");
 
