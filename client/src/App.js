@@ -10,7 +10,7 @@ import "./styles/main.css";
 import Header from "./views/Header";
 import Sidebar from "./views/Sidebar";
 import Dash from "./views/Dash";
-import SignIn from "./views/SignIn";
+import SignIn from "./views/SignIn/SignIn";
 import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound";
 import Settings from "./views/Settings";
@@ -257,13 +257,7 @@ export default class App extends Component {
                 }
               />
 
-              <Route
-                exact
-                path="/signin"
-                element={
-                  <SignIn state={this.state} setAppState={this.setAppState} />
-                }
-              />
+              <Route exact path="/signin" element={<SignIn />} />
 
               <Route
                 exact
