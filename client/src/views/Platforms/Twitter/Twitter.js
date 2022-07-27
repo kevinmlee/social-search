@@ -11,7 +11,7 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./Twitter.css";
 
-let filters = ["user", "popular", "recent"];
+const filters = ["user", "popular", "recent"];
 
 export default class Twitter extends Component {
   constructor(props) {
