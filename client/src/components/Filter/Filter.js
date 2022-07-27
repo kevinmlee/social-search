@@ -11,6 +11,8 @@ export default function Filter({ filters, onSuccess }) {
   let initialOptions = {};
 
   useEffect(() => {
+    // create intial options with filters provided
+    // set first one to true, the rest to false
     filters.forEach((option, index) => {
       if (index === 0) initialOptions[option] = true;
       else initialOptions[option] = false;
