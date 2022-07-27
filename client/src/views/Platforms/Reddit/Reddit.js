@@ -21,19 +21,22 @@ export default class Reddit extends Component {
 
     this.state = {
       hotPosts: [],
-
-      filterToggle: false,
       loading: false,
-
-      hot: true,
-      recent: false,
     };
   }
 
   componentDidMount = () => {
+    /*
     window.scrollTo({
       top: 0,
       behavior: "smooth",
+    });
+    */
+
+    // create and set filter options
+    filters.forEach((option, index) => {
+      if (index === 0) this.state[option] = true;
+      else this.state[option] = false;
     });
 
     this.getHotPosts();
