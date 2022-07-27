@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 
-import { Box, Paper, Grid, Typography, Radio } from "@mui/material";
+import { Box, Paper, Grid, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
 import Loader from "../../../components/Loader/Loader";
+import Filter from "../../../components/Filter/Filter";
 
 import "./Twitter.css";
+
+let filters = ["user", "popular", "recent"];
 
 export default class Twitter extends Component {
   constructor(props) {
@@ -19,16 +21,8 @@ export default class Twitter extends Component {
       twitterUserID: "",
       queryWithoutSymbols: "",
 
-      filterToggle: false,
-
-      recent: false,
-      popular: true,
-      userTweets: false,
-
       loading: false,
     };
-    this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   setPromisedState = async (state) => {
@@ -36,21 +30,22 @@ export default class Twitter extends Component {
   };
 
   componentDidMount = async () => {
-    window.scrollTo({
+    /*window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+    */
 
-    document.addEventListener("mousedown", this.handleClickOutside);
+    // create and set filter options
+    filters.forEach((option, index) => {
+      if (index === 0) this.state[option] = true;
+      else this.state[option] = false;
+    });
+
+    await this.twitterSearchByUsername();
 
     if (!("data" in this.props.state.tweetsByRecent))
       await this.twitterSearchByRecent();
-
-    await this.twitterSearchByUsername();
-  };
-
-  componentWillUnmount = () => {
-    document.removeEventListener("mousedown", this.handleClickOutside);
   };
 
   componentDidUpdate = () => {
@@ -59,25 +54,23 @@ export default class Twitter extends Component {
     }, 500);
   };
 
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
-      this.setState({ filterToggle: false });
+  handleFilter = (selectedOption) => {
+    filters.forEach((option) => {
+      if (option === selectedOption) this.setState({ [option]: true });
+      else this.setState({ [option]: false });
+    });
+
+    /*
+    // change views & pull data from cooresponding API if not already pulled
+    if (selectedOption === "recent" && this.props.state.redditNew.length === 0)
+      this.redditSearchNew();
+    if (selectedOption === "hot" && this.props.state.redditHot.length === 0)
+      this.redditSearchHot();
+      */
   };
 
   toggle = async (state) => {
     await this.setState({ [state]: !this.state[state] });
-  };
-
-  changeTab = (event) => {
-    const tabs = ["recent", "popular", "userTweets"];
-    const selectedTab = event.currentTarget.getAttribute("data-tab");
-
-    tabs.forEach((tab) => {
-      if (tab === selectedTab) this.setState({ [tab]: true });
-      else this.setState({ [tab]: false });
-    });
-
-    this.setState({ filterToggle: false });
   };
 
   decodeText = (string) => {
@@ -148,7 +141,7 @@ export default class Twitter extends Component {
               twitterUserID: response.data.twitterResults.id,
               recent: false,
               popular: false,
-              userTweets: true,
+              user: true,
             });
 
             await this.props.setAppState({
@@ -156,7 +149,6 @@ export default class Twitter extends Component {
             });
 
             this.getTweetsByUserID(response.data.twitterResults.id);
-
             return true;
           }
         },
@@ -197,7 +189,7 @@ export default class Twitter extends Component {
   getAuthor = (tweet, type) => {
     let user = {};
 
-    if (type === "userTweets") {
+    if (type === "user") {
       user = this.props.state.tweetsByUserId["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
@@ -217,7 +209,7 @@ export default class Twitter extends Component {
       let media = {};
       let mediaKey = tweet.attachments.media_keys[0];
 
-      if (type === "userTweets") {
+      if (type === "user") {
         media = this.props.state.tweetsByUserId["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
@@ -300,12 +292,12 @@ export default class Twitter extends Component {
   displayTweets = () => {
     return (
       <Box>
-        {this.state.userTweets && "data" in this.props.state.tweetsByUserId && (
+        {this.state.user && "data" in this.props.state.tweetsByUserId && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.tweetsByUserId["data"]
                 .slice(0, 50)
-                .map((tweet, index) => this.tweet(tweet, "userTweets"))}
+                .map((tweet, index) => this.tweet(tweet, "user"))}
             </Masonry>
           </Box>
         )}
@@ -422,65 +414,20 @@ export default class Twitter extends Component {
     );
   };
 
-  filter = () => {
-    return (
-      <Box id="filterRow">
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <FilterAltIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            {this.state.twitterUserID && (
-              <li
-                className={this.state.userTweets ? "active" : ""}
-                onClick={this.changeTab}
-                data-tab="userTweets"
-              >
-                @{this.props.state.twitterUser.username}
-                <Radio checked={this.state.userTweets} size="small" />
-              </li>
-            )}
-            <li
-              className={this.state.recent ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="recent"
-            >
-              Recent
-              <Radio checked={this.state.recent} size="small" />
-            </li>
-            <li
-              className={this.state.popular ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="popular"
-            >
-              Popular
-              <Radio checked={this.state.popular} size="small" />
-            </li>
-          </ul>
-        </Box>
-      </Box>
-    );
-  };
-
   render() {
     return (
       <Box sx={{ padding: "0 30px" }}>
-        {this.filter()}
+        <Filter
+          filters={filters}
+          onSuccess={(response) => {
+            this.handleFilter(response);
+          }}
+        />
 
         {this.state.loading && <Loader />}
 
         {!this.objectEmpty(this.props.state.twitterUser) &&
-          this.state.userTweets &&
+          this.state.user &&
           this.displayUserCard()}
 
         {this.props.state.twitterError

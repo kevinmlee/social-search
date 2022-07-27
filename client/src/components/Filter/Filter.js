@@ -51,7 +51,11 @@ export default function Filter({ filters, onSuccess }) {
 
         <ul className={"filter-options " + (filter && "active")}>
           {Object.keys(options).map((option) => (
-            <li data-filter={option} onClick={(e) => handleFilter(e)}>
+            <li
+              key={option}
+              data-filter={option}
+              onClick={(e) => handleFilter(e)}
+            >
               {option}
               <Radio size="small" checked={options[option]} />
             </li>
