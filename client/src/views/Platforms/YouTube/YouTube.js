@@ -6,7 +6,7 @@ import axios from "axios";
 import { Box, Typography, Radio, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import Loader from "../../Loader";
+import Loader from "../../../components/Loader/Loader";
 
 import "./YouTube.css";
 

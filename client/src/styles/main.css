@@ -1,5 +1,3 @@
-@import url("./components/notfound.css");
-
 @import url("./components/card.css");
 @import url("./components/layout.css");
 @import url("./components/form.css");
@@ -7,7 +5,6 @@
 @import url("./components/headings.css");
 @import url("./components/dashboard.css");
 @import url("./components/filter.css");
-@import url("./components/trending.css");
 
 @import url("./components/slick.css");
 @import url("./components/weather/weather-icons-wind.min.css");

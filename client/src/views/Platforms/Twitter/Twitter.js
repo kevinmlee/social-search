@@ -7,7 +7,7 @@ import { Masonry } from "@mui/lab";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
-import Loader from "../../Loader";
+import Loader from "../../../components/Loader/Loader";
 
 import "./Twitter.css";
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { Backdrop, Box } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 import "./styles/main.css";
@@ -12,7 +12,7 @@ import Sidebar from "./views/Sidebar/Sidebar";
 import Dash from "./views/Dash";
 import SignIn from "./views/SignIn/SignIn";
 import SignUp from "./views/SignUp";
-import NotFound from "./views/NotFound";
+import NotFound from "./views/NotFound/NotFound";
 import Settings from "./views/Settings";
 
 import Reddit from "./views/Platforms/Reddit/Reddit";

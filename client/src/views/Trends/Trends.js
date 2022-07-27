@@ -9,6 +9,8 @@ import { Line } from "react-chartjs-2";
 
 import axios from "axios";
 
+import "./Trends.css";
+
 export default class Trends extends Component {
   constructor(props) {
     super(props);
