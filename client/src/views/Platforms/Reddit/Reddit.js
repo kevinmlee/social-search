@@ -72,10 +72,6 @@ export default class Reddit extends Component {
       this.redditSearchHot();
   };
 
-  toggle = async (state) => {
-    await this.setState({ [state]: !this.state[state] });
-  };
-
   htmlDecode = (input) => {
     var e = document.createElement("div");
     e.innerHTML = input;
@@ -95,7 +91,6 @@ export default class Reddit extends Component {
     if ("secure_media" in post.data) {
       if (post.data.secure_media) {
         if ("reddit_video" in post.data.secure_media) {
-          //console.log(post.data);
           return (
             <Box className="reddit-video media" sx={{ marginBottom: 2 }}>
               <video
@@ -250,6 +245,7 @@ export default class Reddit extends Component {
 
         {this.state.loading && <Loader />}
 
+        {/* General hottest posts */}
         {!searchQuery && this.state.hotPosts.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
@@ -258,6 +254,7 @@ export default class Reddit extends Component {
           </Box>
         )}
 
+        {/* Recent posts by search query */}
         {this.state.recent && this.props.state.redditNew.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
@@ -268,6 +265,7 @@ export default class Reddit extends Component {
           </Box>
         )}
 
+        {/* Hot posts by search query */}
         {this.state.hot && this.props.state.redditHot.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>

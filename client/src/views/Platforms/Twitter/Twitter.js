@@ -69,10 +69,6 @@ export default class Twitter extends Component {
       */
   };
 
-  toggle = async (state) => {
-    await this.setState({ [state]: !this.state[state] });
-  };
-
   decodeText = (string) => {
     return string
       .replaceAll("&amp;", "&")
