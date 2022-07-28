@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
-
 //import LayoutSelector from "../../../LayoutSelector";
-import { Box, Typography, Radio, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Loader from "../../../components/Loader/Loader";
+import Filter from "../../../components/Filter/Filter";
 
 import "./YouTube.css";
 
@@ -19,30 +18,22 @@ export default class YouTube extends Component {
 
     this.state = {
       loading: false,
-
-      filterToggle: false,
-
-      date: false,
-      rating: false,
-      relevance: true,
     };
-
-    this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount = async () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    document.addEventListener("mousedown", this.handleClickOutside);
+
+    // create and set filter options
+    FILTERS.forEach((option, index) => {
+      if (index === 0) this.state[option] = true;
+      else this.state[option] = false;
+    });
 
     const ytSearchResults = this.props.state.ytSearchResults;
     if (searchQuery && !ytSearchResults["relevance"])
       await this.search("relevance");
     //else this.getTrendingVideos();
-  };
-
-  componentWillUnmount = () => {
-    document.removeEventListener("mousedown", this.handleClickOutside);
   };
 
   componentDidUpdate = async () => {
@@ -51,28 +42,15 @@ export default class YouTube extends Component {
     }, 700);
   };
 
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
-      this.setState({ filterToggle: false });
-  };
-
-  changeTab = (event) => {
-    const selectedFilter = event.currentTarget.getAttribute("data-tab");
-
-    FILTERS.forEach((filter) => {
-      if (filter === selectedFilter) this.setState({ [filter]: true });
-      else this.setState({ [filter]: false });
+  handleFilter = (selectedOption) => {
+    FILTERS.forEach((option) => {
+      if (option === selectedOption) this.setState({ [option]: true });
+      else this.setState({ [option]: false });
     });
-
-    this.setState({ filterToggle: false });
 
     // pull data from cooresponding API if not already pulled
     const ytSearchResults = this.props.state.ytSearchResults;
-    if (!ytSearchResults[selectedFilter]) this.search(selectedFilter);
-  };
-
-  toggle = async (state) => {
-    await this.setState({ [state]: !this.state[state] });
+    if (!ytSearchResults[selectedOption]) this.search(selectedOption);
   };
 
   htmlDecode = (input) => {
@@ -224,54 +202,6 @@ export default class YouTube extends Component {
     );
   };
 
-  filter = () => {
-    return (
-      <Box id="filterRow">
-        <Box className="filter">
-          <div
-            className="active-display"
-            onClick={() => this.toggle("filterToggle")}
-          >
-            <span className="active-filter">Filter</span>
-            <FilterAltIcon />
-          </div>
-          <ul
-            className={
-              "filter-options " + (this.state.filterToggle && "active")
-            }
-            ref={this.wrapperRef}
-          >
-            {/*<li>All</li>*/}
-            <li
-              className={this.state.relevance ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="relevance"
-            >
-              Relevance
-              <Radio checked={this.state.relevance} size="small" />
-            </li>
-            <li
-              className={this.state.date ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="date"
-            >
-              Recent
-              <Radio checked={this.state.date} size="small" />
-            </li>
-            <li
-              className={this.state.rating ? "active" : ""}
-              onClick={this.changeTab}
-              data-tab="rating"
-            >
-              Rating
-              <Radio checked={this.state.rating} size="small" />
-            </li>
-          </ul>
-        </Box>
-      </Box>
-    );
-  };
-
   render() {
     //const layout = this.props.state.layout;
     const ytTrendingVideos = this.props.state.ytTrendingVideos;
@@ -279,7 +209,12 @@ export default class YouTube extends Component {
 
     return (
       <Box sx={{ padding: "0 30px;" }}>
-        {searchQuery && !this.props.state.fetchError && this.filter()}
+        <Filter
+          filters={FILTERS}
+          onSuccess={(response) => {
+            this.handleFilter(response);
+          }}
+        />
 
         {this.state.loading && <Loader />}
 
