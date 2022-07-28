@@ -12,13 +12,13 @@ import "./Header.css";
 export default class Header extends Component {
   render() {
     return (
-      <Box sx={{ flexGrow: 1, marginTop: "50px" }}>
+      <Box id="header" sx={{ flexGrow: 1, marginTop: "50px" }}>
         <AppBar
           className={"expanded " + this.props.state.scrollStatus}
           sx={{ display: { md: "flex" } }}
         >
           <Toolbar className="d-flex space-between align-center">
-            <IconButton
+            {/*<IconButton
               className="menu-button"
               size="large"
               edge="start"
@@ -28,7 +28,7 @@ export default class Header extends Component {
               onClick={() => this.props.toggle("sidebar")}
             >
               <MenuIcon className="menu-btn" />
-            </IconButton>
+    </IconButton>*/}
 
             <Box className="search" sx={{ position: "relative" }}>
               <SearchIcon

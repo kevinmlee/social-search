@@ -60,6 +60,7 @@ export default class App extends Component {
       // settings
       followingSubreddits: ["news"],
       layout: "grid",
+      sidebar: false,
 
       backdropImage: "",
       backdropToggle: false,
@@ -171,12 +172,7 @@ export default class App extends Component {
                 toggle={this.toggle}
                 reset={this.reset}
               />
-              <Sidebar
-                state={this.state}
-                setAppState={this.setAppState}
-                changeTab={this.changeTab}
-                toggle={this.toggle}
-              />
+              <Sidebar state={this.state} setAppState={this.setAppState} />
             </Box>
           )}
 

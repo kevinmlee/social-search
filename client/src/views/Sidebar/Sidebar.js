@@ -1,72 +1,66 @@
-import React, { Component } from "react";
-import { Navigate } from "react-router-dom";
-import { Box } from "@mui/material";
+import React, { useState, useRef, useEffect } from "react";
+import { Box, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import GridViewIcon from "@mui/icons-material/GridView";
-//import HdrStrongIcon from "@mui/icons-material/HdrStrong";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import RedditIcon from "@mui/icons-material/Reddit";
-//import SsidChartIcon from "@mui/icons-material/SsidChart";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 //import SettingsIcon from "@mui/icons-material/Settings";
-//import logo from "../../assets/news-256.svg";
 
 import "./Sidebar.css";
 
-export default class Sidebar extends Component {
-  constructor(props) {
-    super(props);
+const platforms = [
+  { name: "Reddit", icon: <RedditIcon />, href: "/reddit" },
+  { name: "Twitter", icon: <TwitterIcon />, href: "/twitter" },
+  { name: "YouTube", icon: <YouTubeIcon />, href: "/youtube" },
+];
 
-    this.platforms = [
-      { name: "Reddit", icon: <RedditIcon />, href: "/reddit" },
-      { name: "Twitter", icon: <TwitterIcon />, href: "/twitter" },
-      { name: "YouTube", icon: <YouTubeIcon />, href: "/youtube" },
-    ];
+export default function Sidebar() {
+  const [sidebar, setSidebar] = useState(false);
+  const ref = useRef();
 
-    this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  componentDidMount = () => {
-    document.addEventListener("mousedown", this.handleClickOutside);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  componentWillUnmount = () => {
-    document.removeEventListener("mousedown", this.handleClickOutside);
-  };
+  useOutsideClick(ref, (e) => {
+    if (
+      e.target.classList.contains("menu-btn-open") ||
+      e.target.classList.contains("menu-button", "false")
+    )
+      setSidebar(true);
+    else setSidebar(false);
+  });
 
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
-      this.props.setAppState({ sidebar: false });
-  };
-
-  scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  render() {
-    return (
-      <Box
-        className={"sidebar " + (this.props.state.sidebar && "expanded")}
-        ref={this.wrapperRef}
-        sx={{}}
+  return (
+    <Box className="sidebar-container">
+      <IconButton
+        className={"menu-button " + (sidebar && "opened")}
+        size="large"
+        edge="start"
+        color="inherit"
+        aria-label="open drawer"
+        sx={{ mr: 2 }}
       >
+        {sidebar ? (
+          <CloseIcon className="menu-btn-close" />
+        ) : (
+          <MenuIcon className="menu-btn-open" />
+        )}
+      </IconButton>
+      <Box className={"sidebar " + (sidebar && "expanded")} ref={ref}>
         <div className="logo">
-          {/*<img src={logo} alt="current logo" />*/}
           <h2>Currently</h2>
         </div>
 
         <div className="menu">
           <a
             className="menu-item-container tier-1"
-            onClick={
-              window.location.pathname === "/"
-                ? this.scrollToTop
-                : this.doNothing
-            }
-            href={window.location.pathname === "/" ? undefined : "/"}
+            onClick={() => {
+              window.location.pathname === "/" && scrollToTop();
+            }}
+            href={window.location.pathname !== "/" && "/"}
             data-tab="home"
           >
             <div
@@ -83,14 +77,19 @@ export default class Sidebar extends Component {
             <div className="menu-section-label">Platforms</div>
 
             <div className="sub-menu">
-              {this.platforms.map((platform) => (
+              {platforms.map((platform) => (
                 <a
                   className={
                     "menu-item tier-2 " +
                     (window.location.pathname.includes(platform.href) &&
                       "active")
                   }
-                  href={platform.href}
+                  onClick={(e) => {
+                    window.location.pathname === platform.href && scrollToTop();
+                  }}
+                  href={
+                    window.location.pathname !== platform.href && platform.href
+                  }
                   data-tab={platform.name.toLowerCase()}
                   key={platform.name}
                 >
@@ -102,28 +101,39 @@ export default class Sidebar extends Component {
           </div>
 
           {/*<li className="menu-item-container tier-1">
-            <div className="menu-section-label">Reports</div>
+           <div className="menu-section-label">Reports</div>
 
-            <ul className="sub-menu">
-              <li
-                className={
-                  "menu-item tier-2 " + (this.props.state.trends && "active")
-                }
-                onClick={
-                  this.props.state.trends
-                    ? this.scrollToTop
-                    : this.props.changeTab
-                }
-                data-tab="trends"
-              >
-                <SsidChartIcon className="trends-icon" />
-                <span>Trends</span>
-              </li>
-            </ul>
-          </li>
-              */}
+           <ul className="sub-menu">
+             <li
+               className={
+                 "menu-item tier-2 " + (this.props.state.trends && "active")
+               }
+               onClick={
+                 this.props.state.trends
+                   ? this.scrollToTop
+                   : this.props.changeTab
+               }
+               data-tab="trends"
+             >
+               <SsidChartIcon className="trends-icon" />
+               <span>Trends</span>
+             </li>
+           </ul>
+         </li>
+             */}
         </div>
       </Box>
-    );
-  }
+    </Box>
+  );
 }
+
+const useOutsideClick = (ref, callback) => {
+  const handleClick = (e) => {
+    if (ref.current && !ref.current.contains(e.target)) callback(e);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  });
+};

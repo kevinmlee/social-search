@@ -22,8 +22,6 @@ export default class YouTube extends Component {
   }
 
   componentDidMount = async () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
     // create and set filter options
     FILTERS.forEach((option, index) => {
       if (index === 0) this.state[option] = true;

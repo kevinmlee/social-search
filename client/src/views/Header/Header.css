@@ -57,6 +57,20 @@ header .search input {
     display: none;
   }
 }
+@media screen and (max-width: 768px) {
+  header .MuiToolbar-root {
+    padding-left: 60px;
+  }
+  header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  header
+    .search
+    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]) {
+    height: 30px;
+  }
+}
 @media screen and (max-width: 991px) {
   header .search {
     max-width: 60%;

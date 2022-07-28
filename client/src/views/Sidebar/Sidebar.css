@@ -89,6 +89,19 @@
   list-style: none;
 }
 
+.sidebar-container .menu-button {
+  position: fixed;
+  z-index: 9999;
+  top: 12px;
+  left: 20px;
+  transition: ease-in-out all 0.3s;
+}
+
+.sidebar-container .menu-button.opened {
+  top: -2px;
+  left: 160px;
+}
+
 @keyframes menu-item-animation {
   0% {
     height: 0;
@@ -140,13 +153,20 @@
   }
 }
 
-@media screen and (min-width: 769x) {
+@media screen and (min-width: 769px) {
   .sidebar {
     margin-left: 0;
   }
+  .sidebar-container .menu-button {
+    display: none;
+  }
 }
+
 @media screen and (max-width: 768px) {
   .sidebar {
     margin-left: -200px;
+  }
+  .sidebar-container .menu-button {
+    display: block;
   }
 }

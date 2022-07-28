@@ -26,13 +26,6 @@ export default class Reddit extends Component {
   }
 
   componentDidMount = () => {
-    /*
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    */
-
     // create and set filter options
     filters.forEach((option, index) => {
       if (index === 0) this.state[option] = true;
