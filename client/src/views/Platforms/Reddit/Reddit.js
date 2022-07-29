@@ -12,7 +12,6 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./Reddit.css";
 
-const searchQuery = localStorage.getItem("searchQuery");
 const filters = ["hot", "recent"];
 
 export default class Reddit extends Component {
@@ -40,7 +39,7 @@ export default class Reddit extends Component {
   };
 
   componentDidUpdate = () => {
-    if (searchQuery !== "") {
+    if (localStorage.getItem("searchQuery") !== "") {
       if (this.state.hot && this.props.state.redditHot.length === 0)
         this.redditSearchHot();
       if (this.state.recent && this.props.state.redditNew.length === 0)
@@ -130,7 +129,7 @@ export default class Reddit extends Component {
   redditSearchNew = async (e) => {
     return await axios
       .put("/reddit/search", {
-        searchQuery: searchQuery,
+        searchQuery: localStorage.getItem("searchQuery"),
         filter: "new",
       })
       .then(
@@ -144,7 +143,7 @@ export default class Reddit extends Component {
   redditSearchHot = async (e) => {
     return await axios
       .put("/reddit/search", {
-        searchQuery: searchQuery,
+        searchQuery: localStorage.getItem("searchQuery"),
         filter: "hot",
       })
       .then(
@@ -226,6 +225,7 @@ export default class Reddit extends Component {
 
   render() {
     //const layout = this.props.state.layout;
+    const searchQuery = localStorage.getItem("searchQuery");
 
     return (
       <Box sx={{ padding: "0 30px" }}>

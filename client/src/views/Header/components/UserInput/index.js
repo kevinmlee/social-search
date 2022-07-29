@@ -6,7 +6,6 @@ import CloseIcon from "@mui/icons-material/Close";
 
 /*
 TODO
-
 - implement debounce for search, limit users from making too many requests
 - trim excess white space from search query (begining and end of string)
 */
@@ -39,6 +38,30 @@ export default class UserInput extends Component {
   handleClickOutside = (event) => {
     if (this.wrapperRef && !this.wrapperRef.current.contains(event.target))
       this.setState({ searchFocused: false });
+  };
+
+  debounce = (func, ms) => {
+    let timer;
+
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, ms);
+    };
+  };
+
+  throttle = (func, ms) => {
+    let timer;
+
+    return (...args) => {
+      let currTime = new Date();
+      let elapsed = currTime - timer;
+      if (timer === undefined || elapsed > ms) {
+        func.apply(this, args);
+        timer = currTime;
+      }
+    };
   };
 
   handleChange = async (event) => {

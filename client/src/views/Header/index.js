@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-
-import { AppBar, Box, Toolbar, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { AppBar, Box, Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import UserInput from "./components/UserInput";
@@ -18,18 +16,6 @@ export default class Header extends Component {
           sx={{ display: { md: "flex" } }}
         >
           <Toolbar className="d-flex space-between align-center">
-            {/*<IconButton
-              className="menu-button"
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-              onClick={() => this.props.toggle("sidebar")}
-            >
-              <MenuIcon className="menu-btn" />
-    </IconButton>*/}
-
             <Box className="search" sx={{ position: "relative" }}>
               <SearchIcon
                 className="search-icon"
@@ -41,7 +27,6 @@ export default class Header extends Component {
                 }}
               />
               <UserInput
-                state={this.props.state}
                 setAppState={this.props.setAppState}
                 reset={this.props.reset}
               />

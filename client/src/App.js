@@ -65,8 +65,6 @@ export default class App extends Component {
       backdropImage: "",
       backdropToggle: false,
 
-      searchQueryBlankError: false,
-
       // error handling
       fetchError: false,
     };
