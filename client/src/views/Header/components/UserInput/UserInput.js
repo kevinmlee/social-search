@@ -112,7 +112,7 @@ export default function UserInput({ setAppState, reset }) {
   return (
     <div className="search-input">
       <Box sx={{}}>
-        <form onSubmit={(e) => search(e)}>
+        <form onSubmit={(e) => debounce((e) => search(e))}>
           <TextField
             variant="filled"
             name="search"
