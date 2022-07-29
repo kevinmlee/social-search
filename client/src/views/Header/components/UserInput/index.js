@@ -160,7 +160,9 @@ export default class UserInput extends Component {
               placeholder={searchQuery ? searchQuery : "Search"}
               // defaultValue={this.state.search}
               spellCheck="false"
-              onChange={this.handleChange}
+              onChange={(e) =>
+                this.setState({ [e.target.name]: e.target.value })
+              }
               onFocus={() =>
                 this.setState({ searchFocused: !this.state.searchFocused })
               }

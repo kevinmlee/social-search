@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { AppBar, Box, Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-import UserInput from "./components/UserInput";
+//import UserInput from "./components/UserInput";
+import UserInput from "./components/UserInput/UserInput";
 import User from "./components/User";
 
 import "./Header.css";
