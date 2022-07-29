@@ -61,7 +61,7 @@ export default function UserInput({ setAppState, reset }) {
 
       // switch tab to reddit if on homepage
       if (window.location.pathname === "/") window.location.href = "/reddit";
-      //else window.location.reload();
+      else window.location.reload();
     }
   };
 

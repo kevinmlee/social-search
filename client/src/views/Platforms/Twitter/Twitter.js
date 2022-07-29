@@ -21,6 +21,10 @@ export default class Twitter extends Component {
       twitterUserID: "",
       queryWithoutSymbols: "",
 
+      tweetsByUserId: [],
+      tweetsByRecent: [],
+      twitterUser: {},
+
       loading: false,
     };
   }
@@ -36,13 +40,15 @@ export default class Twitter extends Component {
       else this.state[option] = false;
     });
 
-    await this.twitterSearchByUsername();
+    if (localStorage.getItem("searchQuery") !== "") {
+      await this.twitterSearchByUsername();
 
-    if (!("data" in this.props.state.tweetsByRecent))
-      await this.twitterSearchByRecent();
+      if (!("data" in this.state.tweetsByRecent))
+        await this.twitterSearchByRecent();
+    }
   };
 
-  componentDidUpdate = () => {
+  componentDidUpdate = async () => {
     setTimeout(function () {
       window.AOS.refresh();
     }, 500);
@@ -53,14 +59,6 @@ export default class Twitter extends Component {
       if (option === selectedOption) this.setState({ [option]: true });
       else this.setState({ [option]: false });
     });
-
-    /*
-    // change views & pull data from cooresponding API if not already pulled
-    if (selectedOption === "recent" && this.props.state.redditNew.length === 0)
-      this.redditSearchNew();
-    if (selectedOption === "hot" && this.props.state.redditHot.length === 0)
-      this.redditSearchHot();
-      */
   };
 
   decodeText = (string) => {
@@ -98,12 +96,11 @@ export default class Twitter extends Component {
         searchQuery: localStorage.getItem("searchQuery"),
       })
       .then(
-        (response) => {
-          if ("error" in response.data)
-            this.props.setAppState({ twitterError: true });
-          else this.props.setAppState({ tweetsByRecent: response.data.tweets });
-
-          this.setState({ loading: false });
+        async (response) => {
+          await this.setPromisedState({
+            tweetsByRecent: response.data.tweets,
+            loading: false,
+          });
         },
         (error) => console.log(error)
       );
@@ -129,12 +126,6 @@ export default class Twitter extends Component {
           else {
             await this.setPromisedState({
               twitterUserID: response.data.twitterResults.id,
-              recent: false,
-              popular: false,
-              user: true,
-            });
-
-            await this.props.setAppState({
               twitterUser: response.data.twitterResults,
             });
 
@@ -155,10 +146,10 @@ export default class Twitter extends Component {
       })
       .then(
         async (response) => {
-          await this.props.setAppState({
+          await this.setPromisedState({
             tweetsByUserId: response.data.tweets,
+            loading: false,
           });
-          this.setState({ loading: false });
         },
         (error) => console.log(error)
       );
@@ -180,11 +171,11 @@ export default class Twitter extends Component {
     let user = {};
 
     if (type === "user") {
-      user = this.props.state.tweetsByUserId["includes"]["users"].filter(
+      user = this.state.tweetsByUserId["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
     } else if (type === "recent")
-      user = this.props.state.tweetsByRecent["includes"]["users"].filter(
+      user = this.state.tweetsByRecent["includes"]["users"].filter(
         (user) => user.id === tweet.author_id
       );
 
@@ -200,11 +191,11 @@ export default class Twitter extends Component {
       let mediaKey = tweet.attachments.media_keys[0];
 
       if (type === "user") {
-        media = this.props.state.tweetsByUserId["includes"]["media"].filter(
+        media = this.state.tweetsByUserId["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
       } else if (type === "recent")
-        media = this.props.state.tweetsByRecent["includes"]["media"].filter(
+        media = this.state.tweetsByRecent["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
 
@@ -282,57 +273,33 @@ export default class Twitter extends Component {
   displayTweets = () => {
     return (
       <Box>
-        {this.state.user && "data" in this.props.state.tweetsByUserId && (
+        {this.state.user && "data" in this.state.tweetsByUserId && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.tweetsByUserId["data"]
+              {this.state.tweetsByUserId["data"]
                 .slice(0, 50)
-                .map((tweet, index) => this.tweet(tweet, "user"))}
+                .map((tweet) => this.tweet(tweet, "user"))}
             </Masonry>
           </Box>
         )}
 
-        {this.state.recent && "data" in this.props.state.tweetsByRecent && (
+        {this.state.recent && "data" in this.state.tweetsByRecent && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.tweetsByRecent["data"]
+              {this.state.tweetsByRecent["data"]
                 .slice(0, 50)
-                .map((tweet, index) => this.tweet(tweet, "recent"))}
+                .map((tweet) => this.tweet(tweet, "recent"))}
             </Masonry>
           </Box>
         )}
 
-        {this.state.popular && "data" in this.props.state.tweetsByRecent && (
+        {this.state.popular && "data" in this.state.tweetsByRecent && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.sortByPopularity(this.props.state.tweetsByRecent["data"])
+              {this.sortByPopularity(this.state.tweetsByRecent["data"])
                 .slice(0, 50)
-                .map((tweet, index) => this.tweet(tweet, "recent"))}
+                .map((tweet) => this.tweet(tweet, "recent"))}
             </Masonry>
-          </Box>
-        )}
-      </Box>
-    );
-  };
-
-  displayErrorMessage = () => {
-    return (
-      <Box sx={{ paddingTop: 8, paddingBottom: 4 }}>
-        {localStorage.getItem("searchQuery") ? (
-          <Box>
-            <Typography variant="h5">Hmm. Something went wrong.</Typography>
-            <Typography variant="body1" sx={{ paddingTop: 2 }}>
-              We could not retreive tweets for "{this.props.state.searchQuery}".
-              Check other platforms for more results or try a different search
-              query.
-            </Typography>
-          </Box>
-        ) : (
-          <Box>
-            <Typography variant="h4">Hello!</Typography>
-            <Typography variant="body1" sx={{ paddingTop: 2 }}>
-              Please search for a topic or person to get started.
-            </Typography>
           </Box>
         )}
       </Box>
@@ -340,7 +307,7 @@ export default class Twitter extends Component {
   };
 
   displayUserCard = () => {
-    const user = this.props.state.twitterUser;
+    const user = this.state.twitterUser;
 
     return (
       <Paper elevation={3} className="tweet user" sx={{ marginTop: 6 }}>
@@ -405,6 +372,8 @@ export default class Twitter extends Component {
   };
 
   render() {
+    const searchQuery = localStorage.getItem("searchQuery");
+
     return (
       <Box sx={{ padding: "0 30px" }}>
         <Filter
@@ -416,13 +385,11 @@ export default class Twitter extends Component {
 
         {this.state.loading && <Loader />}
 
-        {!this.objectEmpty(this.props.state.twitterUser) &&
+        {!this.objectEmpty(this.state.twitterUser) &&
           this.state.user &&
           this.displayUserCard()}
 
-        {this.props.state.twitterError
-          ? this.displayErrorMessage()
-          : this.displayTweets()}
+        {this.displayTweets()}
       </Box>
     );
   }

@@ -30,12 +30,6 @@ export default class App extends Component {
       // back to top button
       backToTop: false,
 
-      // twitter
-      tweetsByUserId: [],
-      tweetsByRecent: [],
-      twitterUser: {},
-      twitterError: false,
-
       // reddit
       redditHot: [],
       redditNew: [],

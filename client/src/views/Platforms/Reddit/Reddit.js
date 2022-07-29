@@ -242,7 +242,7 @@ export default class Reddit extends Component {
         {!searchQuery && this.state.hotPosts.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.state.hotPosts.map((post, index) => this.post(post))}
+              {this.state.hotPosts.map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
@@ -253,7 +253,7 @@ export default class Reddit extends Component {
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.redditNew
                 .slice(0, 50)
-                .map((post, index) => this.post(post))}
+                .map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
@@ -264,7 +264,7 @@ export default class Reddit extends Component {
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
               {this.props.state.redditHot
                 .slice(0, 50)
-                .map((post, index) => this.post(post))}
+                .map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
