@@ -30,11 +30,6 @@ export default class App extends Component {
       // back to top button
       backToTop: false,
 
-      // reddit
-      redditHot: [],
-      redditNew: [],
-      subreddits: [],
-
       // google
       trendingTopics: [],
       trendingQueries: [],
@@ -45,7 +40,6 @@ export default class App extends Component {
       ytSearchResults: [],
 
       searchQuery: "",
-      previousSearchQuery: "",
 
       // weather
       geolocation: {},
@@ -117,7 +111,7 @@ export default class App extends Component {
   reset = async () => {
     await this.setState({
       searchQuery: "",
-      previousSearchQuery: "",
+
       tweetsByUserId: [],
       tweetsByRecent: [],
       twitterUser: {},

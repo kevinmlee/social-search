@@ -20,6 +20,9 @@ export default class Reddit extends Component {
 
     this.state = {
       hotPosts: [],
+      searchHot: [],
+      searchNew: [],
+
       loading: false,
     };
   }
@@ -34,21 +37,12 @@ export default class Reddit extends Component {
     this.getHotPosts();
 
     // on initial load, fetch the data if not already present
-    if (this.state.hot && this.props.state.redditHot.length === 0)
-      this.redditSearchHot();
+    if (this.state.hot && this.state.searchHot.length === 0)
+      this.search("hot", "searchHot");
   };
 
   componentDidUpdate = () => {
-    if (localStorage.getItem("searchQuery") !== "") {
-      if (this.state.hot && this.props.state.redditHot.length === 0)
-        this.redditSearchHot();
-      if (this.state.recent && this.props.state.redditNew.length === 0)
-        this.redditSearchNew();
-    }
-
-    setTimeout(function () {
-      window.AOS.refresh();
-    }, 500);
+    setTimeout(() => window.AOS.refresh(), 500);
   };
 
   handleFilter = (selectedOption) => {
@@ -58,10 +52,10 @@ export default class Reddit extends Component {
     });
 
     // change views & pull data from cooresponding API if not already pulled
-    if (selectedOption === "recent" && this.props.state.redditNew.length === 0)
-      this.redditSearchNew();
-    if (selectedOption === "hot" && this.props.state.redditHot.length === 0)
-      this.redditSearchHot();
+    if (selectedOption === "recent" && this.state.searchNew.length === 0)
+      this.search("new", "searchNew");
+    if (selectedOption === "hot" && this.state.searchHot.length === 0)
+      this.search("hot", "searchHot");
   };
 
   htmlDecode = (input) => {
@@ -126,37 +120,25 @@ export default class Reddit extends Component {
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
   };
 
-  redditSearchNew = async (e) => {
-    return await axios
-      .put("/reddit/search", {
-        searchQuery: localStorage.getItem("searchQuery"),
-        filter: "new",
-      })
-      .then(
-        (response) => {
-          this.props.setAppState({ redditNew: response.data.data.children });
-        },
-        (error) => console.log(error)
-      );
-  };
-
-  redditSearchHot = async (e) => {
-    return await axios
-      .put("/reddit/search", {
-        searchQuery: localStorage.getItem("searchQuery"),
-        filter: "hot",
-      })
-      .then(
-        (response) => {
-          this.props.setAppState({ redditHot: response.data.data.children });
-        },
-        (error) => console.log(error)
-      );
-  };
-
-  getHotPosts = async (e) => {
+  search = async (type, state) => {
     this.setState({ loading: true });
+    return await axios
+      .put("/reddit/search", {
+        searchQuery: localStorage.getItem("searchQuery"),
+        filter: type,
+      })
+      .then(
+        (response) =>
+          this.setState({
+            [state]: response.data.data.children,
+            loading: false,
+          }),
+        (error) => console.log(error)
+      );
+  };
 
+  getHotPosts = async () => {
+    this.setState({ loading: true });
     return await axios.put("/reddit/get/hot/posts", {}).then(
       (response) => {
         this.setState({
@@ -248,23 +230,19 @@ export default class Reddit extends Component {
         )}
 
         {/* Recent posts by search query */}
-        {this.state.recent && this.props.state.redditNew.length > 0 && (
+        {this.state.recent && this.state.searchNew.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.redditNew
-                .slice(0, 50)
-                .map((post) => this.post(post))}
+              {this.state.searchNew.slice(0, 50).map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
 
         {/* Hot posts by search query */}
-        {this.state.hot && this.props.state.redditHot.length > 0 && (
+        {this.state.hot && this.state.searchHot.length > 0 && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.props.state.redditHot
-                .slice(0, 50)
-                .map((post) => this.post(post))}
+              {this.state.searchHot.slice(0, 50).map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
