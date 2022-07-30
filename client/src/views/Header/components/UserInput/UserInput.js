@@ -46,18 +46,16 @@ export default function UserInput({ setAppState, reset }) {
   const search = (e, selectedSearchQuery) => {
     if (e) e.preventDefault();
 
-    let searchQuery = selectedSearchQuery ? selectedSearchQuery : query;
+    const searchQuery = selectedSearchQuery ? selectedSearchQuery : query;
 
     if (validator.isAlphanumeric(searchQuery)) {
       reset();
-      setAppState({ previousSearchQuery: searchQuery });
-      updateRecentSearches(searchQuery);
       localStorage.setItem("searchQuery", searchQuery);
-
+      setAppState({ previousSearchQuery: searchQuery }); // possibly delete?
+      updateRecentSearches(searchQuery);
       setSearchHistory(JSON.parse(localStorage.getItem("searches")));
-
-      setQuery("");
       setSearchFocus(false);
+      setQuery("");
 
       // switch tab to reddit if on homepage
       if (window.location.pathname === "/") window.location.href = "/reddit";
@@ -93,8 +91,9 @@ export default function UserInput({ setAppState, reset }) {
     localStorage.setItem("searches", JSON.stringify([]));
   };
 
-  const clearSelectedSearch = (selectedQuery) => {
+  const clearSelectedSearch = (e, selectedQuery) => {
     const searches = searchHistory.filter((e) => e !== selectedQuery);
+
     setSearchHistory(searches);
     setSearchFocus(false);
     localStorage.setItem("searches", JSON.stringify(searches));
@@ -103,7 +102,6 @@ export default function UserInput({ setAppState, reset }) {
   const selectRecentSearch = (e, selectedQuery) => {
     setQuery(selectedQuery);
     setSearchFocus(false);
-
     search(e, selectedQuery);
   };
 
@@ -138,19 +136,19 @@ export default function UserInput({ setAppState, reset }) {
           </div>
 
           <ul className="searches">
-            {searchHistory.map((search) => (
-              <li className="recent-item" key={search}>
+            {searchHistory.map((query) => (
+              <li className="recent-item" key={query}>
                 <span
                   className="query"
-                  onClick={(e) => selectRecentSearch(e, search)}
+                  onClick={(e) => selectRecentSearch(e, query)}
                 >
-                  {search}
+                  {query}
                 </span>
 
                 <IconButton
                   aria-label="remove"
                   color="primary"
-                  onClick={(e) => clearSelectedSearch(e, search)}
+                  onClick={(e) => clearSelectedSearch(e, query)}
                 >
                   <CloseIcon />
                 </IconButton>
