@@ -55,13 +55,11 @@ export default class App extends Component {
     window.removeEventListener("scroll", null);
   };
 
+  /*
   setAppState = async (state) => {
     new Promise((resolve) => this.setState(state, resolve));
   };
-
-  toggle = (state) => {
-    this.setState({ [state]: !this.state[state] });
-  };
+  */
 
   scrollToTop = () => {
     window.scrollTo({
@@ -90,44 +88,34 @@ export default class App extends Component {
     );
   };
 
+  isInnerPage = () => {
+    let pathname = window.location.pathname;
+    return pathname !== "/signin" && pathname !== "/signup";
+  };
+
   render() {
     return (
       <Box>
-        {window.location.pathname !== "/signin" &&
-          window.location.pathname !== "/signup" && (
-            <Box>
-              <Header state={this.state} />
-              <Sidebar />
-            </Box>
-          )}
+        {this.isInnerPage() && (
+          <Box>
+            <Header state={this.state} />
+            <Sidebar />
+          </Box>
+        )}
 
         <div
           id="main-content"
-          className={
-            window.location.pathname === "/signin" &&
-            window.location.pathname === "/signup"
-              ? "fw"
-              : undefined
-          }
+          className={!this.isInnerPage() ? "fw" : undefined}
         >
           <Router>
             <Routes>
               <Route exact path="/" element={<Dash />} />
               <Route exact path="/reddit" element={<Reddit />} />
               <Route exact path="/twitter" element={<Twitter />} />
-
-              <Route
-                exact
-                path="/youtube"
-                element={
-                  <YouTube state={this.state} setAppState={this.setAppState} />
-                }
-              />
-
+              <Route exact path="/youtube" element={<YouTube />} />
               <Route exact path="/signin" element={<SignIn />} />
               <Route exact path="/signup" element={<SignUp />} />
               <Route exact path="/settings" element={<Settings />} />
-
               <Route element={<NotFound />} />
             </Routes>
           </Router>
