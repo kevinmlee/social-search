@@ -3,7 +3,7 @@ import validator from "validator";
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function UserInput({ setAppState, reset }) {
+export default function UserInput() {
   const [query, setQuery] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const [searchHistory, setSearchHistory] = useState([]);
@@ -49,9 +49,7 @@ export default function UserInput({ setAppState, reset }) {
     const searchQuery = selectedSearchQuery ? selectedSearchQuery : query;
 
     if (validator.isAlphanumeric(searchQuery)) {
-      reset();
       localStorage.setItem("searchQuery", searchQuery);
-      setAppState({ previousSearchQuery: searchQuery }); // possibly delete?
       updateRecentSearches(searchQuery);
       setSearchHistory(JSON.parse(localStorage.getItem("searches")));
       setSearchFocus(false);

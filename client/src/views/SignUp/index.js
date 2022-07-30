@@ -30,7 +30,6 @@ export default class SignUp extends Component {
   }
 
   handleChange = (event) => {
-    // await this.props.setAppState({ [event.target.name]: event.target.value });
     this.setState({ [event.target.name]: event.target.value });
 
     // clear errors

@@ -13,7 +13,7 @@ export default class Header extends Component {
     return (
       <Box id="header" sx={{ flexGrow: 1, marginTop: "50px" }}>
         <AppBar
-          className={"expanded " + this.props.state.scrollStatus}
+          className={"expanded " + this.props.scrollStatus}
           sx={{ display: { md: "flex" } }}
         >
           <Toolbar className="d-flex space-between align-center">
@@ -27,14 +27,11 @@ export default class Header extends Component {
                   left: "8px",
                 }}
               />
-              <UserInput
-                setAppState={this.props.setAppState}
-                reset={this.props.reset}
-              />
+              <UserInput />
             </Box>
 
             <Box>
-              <User state={this.props.state} />
+              <User />
             </Box>
           </Toolbar>
         </AppBar>

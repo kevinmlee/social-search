@@ -16,9 +16,7 @@ export default class YouTube extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: false,
-    };
+    this.state = { ytTrendingVideos: {}, ytSearchResults: [], loading: false };
   }
 
   componentDidMount = async () => {
@@ -28,7 +26,7 @@ export default class YouTube extends Component {
       else this.state[option] = false;
     });
 
-    const ytSearchResults = this.props.state.ytSearchResults;
+    const ytSearchResults = this.state.ytSearchResults;
     if (searchQuery && !ytSearchResults["relevance"])
       await this.search("relevance");
     //else this.getTrendingVideos();
@@ -47,7 +45,7 @@ export default class YouTube extends Component {
     });
 
     // pull data from cooresponding API if not already pulled
-    const ytSearchResults = this.props.state.ytSearchResults;
+    const ytSearchResults = this.state.ytSearchResults;
     if (!ytSearchResults[selectedOption]) this.search(selectedOption);
   };
 
@@ -68,7 +66,6 @@ export default class YouTube extends Component {
 
   search = async (filter) => {
     await this.setState({ loading: true });
-    await this.props.setAppState({ fetchError: false });
 
     return await axios
       .put("/youtube/search", {
@@ -78,12 +75,11 @@ export default class YouTube extends Component {
       .then(
         async (response) => {
           if ("items" in response.data) {
-            let ytSearchResults = this.props.state.ytSearchResults;
+            let ytSearchResults = this.state.ytSearchResults;
             ytSearchResults[filter] = response.data;
 
-            await this.props.setAppState({ ytSearchResults: ytSearchResults });
-          } else if ("error" in response.data)
-            await this.props.setAppState({ fetchError: true });
+            await this.setState({ ytSearchResults: ytSearchResults });
+          }
 
           await this.setState({ loading: false });
         },
@@ -94,7 +90,7 @@ export default class YouTube extends Component {
   };
 
   getTrendingVideos = async () => {
-    const countryCode = this.props.state.geolocation.data.country_code;
+    const countryCode = this.state.geolocation.data.country_code;
     this.setState({ loading: true });
 
     return await axios
@@ -102,7 +98,7 @@ export default class YouTube extends Component {
       .then(
         async (response) => {
           if ("items" in response.data)
-            await this.props.setAppState({ ytTrendingVideos: response.data });
+            await this.setState({ ytTrendingVideos: response.data });
 
           await this.setState({ loading: false });
         },
@@ -202,8 +198,8 @@ export default class YouTube extends Component {
 
   render() {
     //const layout = this.props.state.layout;
-    const ytTrendingVideos = this.props.state.ytTrendingVideos;
-    const ytSearchResults = this.props.state.ytSearchResults;
+    const ytTrendingVideos = this.state.ytTrendingVideos;
+    const ytSearchResults = this.state.ytSearchResults;
 
     return (
       <Box sx={{ padding: "0 30px;" }}>
@@ -219,7 +215,7 @@ export default class YouTube extends Component {
         {"items" in ytTrendingVideos && !searchQuery && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytTrendingVideos.items.map((post, index) => this.post(post))}
+              {ytTrendingVideos.items.map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
@@ -227,7 +223,7 @@ export default class YouTube extends Component {
         {this.state.relevance && ytSearchResults["relevance"] && searchQuery && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytSearchResults["relevance"].items.map((post, index) =>
+              {ytSearchResults["relevance"].items.map((post) =>
                 this.post(post)
               )}
             </Masonry>
@@ -237,9 +233,7 @@ export default class YouTube extends Component {
         {this.state.rating && ytSearchResults["rating"] && searchQuery && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytSearchResults["rating"].items.map((post, index) =>
-                this.post(post)
-              )}
+              {ytSearchResults["rating"].items.map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}
@@ -247,9 +241,7 @@ export default class YouTube extends Component {
         {this.state.date && ytSearchResults["date"] && searchQuery && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytSearchResults["date"].items.map((post, index) =>
-                this.post(post)
-              )}
+              {ytSearchResults["date"].items.map((post) => this.post(post))}
             </Masonry>
           </Box>
         )}

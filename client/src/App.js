@@ -35,26 +35,8 @@ export default class App extends Component {
       trendingQueries: [],
       interestOverTime: {},
 
-      // youtube
-      ytTrendingVideos: {},
-      ytSearchResults: [],
-
-      searchQuery: "",
-
-      // weather
-      geolocation: {},
-      weather: {},
-
-      // settings
-      followingSubreddits: ["news"],
-      layout: "grid",
-      sidebar: false,
-
       backdropImage: "",
       backdropToggle: false,
-
-      // error handling
-      fetchError: false,
     };
   }
 
@@ -77,26 +59,6 @@ export default class App extends Component {
     new Promise((resolve) => this.setState(state, resolve));
   };
 
-  changeTab = (event) => {
-    const tabs = [
-      "home",
-      "twitter",
-      "reddit",
-      "instagram",
-      "youtube",
-      "trends",
-      "settings",
-    ];
-    const selectedTab = event.currentTarget.getAttribute("data-tab");
-
-    tabs.forEach((tab) => {
-      if (tab === selectedTab) this.setState({ [tab]: true });
-      else this.setState({ [tab]: false });
-    });
-
-    this.setState({ sidebar: false, fetchError: false });
-  };
-
   toggle = (state) => {
     this.setState({ [state]: !this.state[state] });
   };
@@ -105,24 +67,6 @@ export default class App extends Component {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    });
-  };
-
-  reset = async () => {
-    await this.setState({
-      searchQuery: "",
-
-      tweetsByUserId: [],
-      tweetsByRecent: [],
-      twitterUser: {},
-      twitterError: false,
-      redditHot: [],
-      redditNew: [],
-      redditHotWorldNews: [],
-      redditHotGlobal: [],
-      youtubeVideosRelevance: {},
-      youtubeVideosRating: {},
-      youtubeVideosDate: {},
     });
   };
 
@@ -152,13 +96,8 @@ export default class App extends Component {
         {window.location.pathname !== "/signin" &&
           window.location.pathname !== "/signup" && (
             <Box>
-              <Header
-                state={this.state}
-                setAppState={this.setAppState}
-                toggle={this.toggle}
-                reset={this.reset}
-              />
-              <Sidebar state={this.state} setAppState={this.setAppState} />
+              <Header state={this.state} />
+              <Sidebar />
             </Box>
           )}
 
@@ -173,29 +112,9 @@ export default class App extends Component {
         >
           <Router>
             <Routes>
-              <Route
-                exact
-                path="/"
-                element={
-                  <Dash state={this.state} setAppState={this.setAppState} />
-                }
-              />
-
-              <Route
-                exact
-                path="/reddit"
-                element={
-                  <Reddit state={this.state} setAppState={this.setAppState} />
-                }
-              />
-
-              <Route
-                exact
-                path="/twitter"
-                element={
-                  <Twitter state={this.state} setAppState={this.setAppState} />
-                }
-              />
+              <Route exact path="/" element={<Dash />} />
+              <Route exact path="/reddit" element={<Reddit />} />
+              <Route exact path="/twitter" element={<Twitter />} />
 
               <Route
                 exact
@@ -206,24 +125,10 @@ export default class App extends Component {
               />
 
               <Route exact path="/signin" element={<SignIn />} />
+              <Route exact path="/signup" element={<SignUp />} />
+              <Route exact path="/settings" element={<Settings />} />
 
-              <Route
-                exact
-                path="/signup"
-                element={
-                  <SignUp state={this.state} setAppState={this.setAppState} />
-                }
-              />
-
-              <Route
-                exact
-                path="/settings"
-                element={
-                  <Settings state={this.state} setAppState={this.setAppState} />
-                }
-              />
-
-              <Route component={NotFound} />
+              <Route element={<NotFound />} />
             </Routes>
           </Router>
         </div>
