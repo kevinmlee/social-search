@@ -13,7 +13,7 @@ export default class Header extends Component {
     return (
       <Box id="header" sx={{ flexGrow: 1, marginTop: "50px" }}>
         <AppBar
-          className={"expanded " + this.props.scrollStatus}
+          className={"expanded " + this.props.state.scrollStatus}
           sx={{ display: { md: "flex" } }}
         >
           <Toolbar className="d-flex space-between align-center">

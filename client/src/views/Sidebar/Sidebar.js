@@ -60,7 +60,7 @@ export default function Sidebar() {
             onClick={() => {
               window.location.pathname === "/" && scrollToTop();
             }}
-            href={window.location.pathname !== "/" && "/"}
+            href={window.location.pathname !== "/" ? "/" : undefined}
             data-tab="home"
           >
             <div
@@ -88,7 +88,9 @@ export default function Sidebar() {
                     window.location.pathname === platform.href && scrollToTop();
                   }}
                   href={
-                    window.location.pathname !== platform.href && platform.href
+                    window.location.pathname !== platform.href
+                      ? platform.href
+                      : undefined
                   }
                   data-tab={platform.name.toLowerCase()}
                   key={platform.name}

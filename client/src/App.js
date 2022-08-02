@@ -23,10 +23,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      // header
       scrollStatus: "",
-
-      // back to top button
       backToTop: false,
 
       // google
@@ -41,11 +38,8 @@ export default class App extends Component {
 
   componentDidMount = () => {
     window.addEventListener("scroll", () => {
-      let scrollStatus = "sticky";
-      let backToTop = false;
-      if (window.scrollY === 0) scrollStatus = "top";
-      if (window.scrollY > 600) backToTop = true;
-
+      const scrollStatus = window.scrollY === 0 ? "top" : "sticky";
+      const backToTop = window.scrollY > 0 ? true : false;
       this.setState({ scrollStatus, backToTop });
     });
   };
