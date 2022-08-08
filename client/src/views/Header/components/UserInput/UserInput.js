@@ -48,6 +48,8 @@ export default function UserInput() {
 
     const searchQuery = selectedSearchQuery ? selectedSearchQuery : query;
 
+    console.log("searchQuery", searchQuery);
+
     if (validator.isAlphanumeric(searchQuery)) {
       localStorage.setItem("searchQuery", searchQuery);
       updateRecentSearches(searchQuery);
@@ -108,7 +110,7 @@ export default function UserInput() {
   return (
     <div className="search-input">
       <Box sx={{}}>
-        <form onSubmit={(e) => debounce((e) => search(e))}>
+        <form onSubmit={(e) => debounce((search(e), 500))}>
           <TextField
             variant="filled"
             name="search"
