@@ -5,7 +5,9 @@
 - Open terminal and go into your workspace
 - run this command: 'git clone https://github.com/kevinmlee/social-search.git'
   - it should start downloading everything you need.
-- run 'npm install' to install required libraries
+- run 'npm install' in the root direction to install required dependencies for the server
+- then, 'cd client' and 'npm install' to install required dependencies for the client/frontend
+- 'cd ..' to go back to the root
 - run 'npm start' to start server and client. You should now be able to view the app at 'http://localhost:3000'
 
 ## Pushing to staging
