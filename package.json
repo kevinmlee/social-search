@@ -3,7 +3,7 @@
   "homepage": "https://ss.kevinmlee.com",
   "version": "0.0.1",
   "engines": {
-    "node": "16.15.0"
+    "node": "18.12.1"
   },
   "description": "",
   "main": "server.js",
