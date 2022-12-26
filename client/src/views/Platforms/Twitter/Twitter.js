@@ -70,12 +70,12 @@ export default function Twitter({ setAppState }) {
     setLoading(true);
 
     // serverless API call
-    await fetch(`/.netlify/functions/twitter/search`)
+    await fetch(`/netlify/functions/twitter/search`)
       .then((response) => response.json())
       .then((data) => {
         console.log("data", data);
-        //setTweetsByRecent(response.data.tweets);
-        //setLoading(false);
+        setTweetsByRecent(data.tweets);
+        setLoading(false);
       });
 
     /*return await axios
