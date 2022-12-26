@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-import axios from "axios";
 
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
