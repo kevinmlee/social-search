@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-import axios from "axios";
+//import axios from "axios";
 
 import { Box, Paper, Grid, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
 import VerifiedIcon from "@mui/icons-material/Verified";
-
 import Loader from "../../../components/Loader/Loader";
 import Filter from "../../../components/Filter/Filter";
 
@@ -66,19 +65,12 @@ export default function Twitter({ setAppState }) {
     return url.replace("_normal", "_400x400");
   };
 
+  /*
   const twitterSearchByRecent = useCallback(async () => {
     setLoading(true);
+    const requestBody = { searchQuery: searchQuery };
 
-    // serverless API call
-    await fetch(`/netlify/functions/twitter/search`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data", data);
-        setTweetsByRecent(data.tweets);
-        setLoading(false);
-      });
-
-    /*return await axios
+    return await axios
       .put("/twitter/search", {
         searchQuery: localStorage.getItem("searchQuery"),
       })
@@ -89,11 +81,13 @@ export default function Twitter({ setAppState }) {
         },
         (error) => console.log(error)
       );
-      */
-  }, []);
 
+  }, [searchQuery]);
+  */
+
+  /*
   const twitterSearchByUsername = useCallback(async () => {
-    const query = localStorage.getItem("searchQuery");
+    const requestBody = { searchQuery: searchQuery };
 
     // if search query is a username (has @ symbol in front), remove symbol and continue to get user
     //if (oneWord(query))
@@ -113,9 +107,13 @@ export default function Twitter({ setAppState }) {
         },
         (error) => console.log(error)
       );
-  }, []);
 
+  }, [searchQuery]);
+  */
+
+  /*
   const getTweetsByUserID = async (twitterId) => {
+    const requestBody = { userId: twitterId };
     setLoading(true);
 
     return await axios
@@ -130,6 +128,7 @@ export default function Twitter({ setAppState }) {
         (error) => console.log(error)
       );
   };
+   */
 
   const sortByPopularity = (tweets) => {
     if (tweets)
@@ -327,6 +326,29 @@ export default function Twitter({ setAppState }) {
     );
   };
 
+  const getTweets = useCallback(async () => {
+    const requestBody = { searchQuery: searchQuery };
+    setLoading(true);
+
+    // serverless API call
+    await fetch(`/.netlify/functions/tweets`, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setTweetsByRecent(data.searchResults);
+        setUser(data.user.data);
+        setTweetsByUserId(data.userTweets);
+        setLoading(false);
+      });
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery !== "" && !("data" in tweetsByRecent)) getTweets();
+  }, [getTweets, searchQuery, tweetsByRecent]);
+
+  /*
   useEffect(() => {
     if (searchQuery !== "") {
       twitterSearchByUsername();
@@ -338,6 +360,7 @@ export default function Twitter({ setAppState }) {
     tweetsByRecent,
     searchQuery,
   ]);
+  */
 
   return (
     <Box sx={{ padding: "0 30px" }}>

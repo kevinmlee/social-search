@@ -1,8 +1,6 @@
-# Diffy
-A tool that aids in the QA process for developed web pages vs. a mockup in JPG or PNG format.
-### `npm start`
+# Currently - Frontend
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This project is currently using Netlify Functions for serverless APIs.
 
-The page will reload if you make edits.<br>
+To run this project, use the command 'ntl dev'
+This will build and launch a local serverless API as well as the client.
