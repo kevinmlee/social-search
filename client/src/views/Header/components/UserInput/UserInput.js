@@ -30,6 +30,7 @@ export default function UserInput() {
     };
   };
 
+  /*
   const throttle = (func, ms) => {
     let timer;
 
@@ -42,6 +43,7 @@ export default function UserInput() {
       }
     };
   };
+  */
 
   const search = (e, selectedSearchQuery) => {
     if (e) e.preventDefault();

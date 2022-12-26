@@ -17,7 +17,7 @@ export default function Filter({ filters, onSuccess }) {
       if (index === 0) initialOptions[option] = true;
       else initialOptions[option] = false;
     });
-  }, []);
+  }, [filters, initialOptions]);
 
   const [options, setOptions] = useState(initialOptions);
 
