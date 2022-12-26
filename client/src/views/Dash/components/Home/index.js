@@ -117,21 +117,16 @@ export default class Home extends Component {
   };
 
   getSubredditPosts = async (subreddit) => {
-    return await axios
-      .put("/reddit/get/subreddit/posts", {
-        subreddit: subreddit,
-        filter: "hot",
-        limit: 10,
-      })
-      .then(
-        (response) => {
-          let subreddits = this.state.subreddits;
-          subreddits[subreddit] = response.data.data.children;
+    const endpoint =
+      "https://www.reddit.com/r/" + subreddit + "/hot.json?limit=10";
 
-          this.setState({ subreddits: subreddits });
-        },
-        (error) => console.log(error)
-      );
+    await fetch(endpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        let subreddits = this.state.subreddits;
+        subreddits[subreddit] = data.data.children;
+        this.setState({ subreddits: subreddits });
+      });
   };
 
   getPosts = async () => {
