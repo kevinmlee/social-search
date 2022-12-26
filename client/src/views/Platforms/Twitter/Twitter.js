@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import axios from "axios";
 
@@ -11,57 +11,35 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./Twitter.css";
 
-const filters = ["user", "popular", "recent"];
+const FILTERS = ["user", "popular", "recent"];
 
-export default class Twitter extends Component {
-  constructor(props) {
-    super(props);
+export default function Twitter({ setAppState }) {
+  const searchQuery = localStorage.getItem("searchQuery");
+  //const [cleanedQuery, setCleanedQuery] = useState("");
+  const [user, setUser] = useState({});
+  const [tweetsByUserId, setTweetsByUserId] = useState([]);
+  const [tweetsByRecent, setTweetsByRecent] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    user: true,
+    popular: false,
+    recent: false,
+  });
 
-    this.state = {
-      twitterUserID: "",
-      queryWithoutSymbols: "",
+  useEffect(() => {
+    setTimeout(() => window.AOS.refresh(), 700);
+  });
 
-      tweetsByUserId: [],
-      tweetsByRecent: [],
-      twitterUser: {},
-
-      loading: false,
-    };
-  }
-
-  setPromisedState = async (state) => {
-    new Promise((resolve) => this.setState(state, resolve));
-  };
-
-  componentDidMount = async () => {
-    // create and set filter options
-    filters.forEach((option, index) => {
-      if (index === 0) this.state[option] = true;
-      else this.state[option] = false;
+  const handleFilter = (selectedOption) => {
+    const tempFilters = { ...filters };
+    FILTERS.forEach((option) => {
+      if (option === selectedOption) tempFilters[option] = true;
+      else tempFilters[option] = false;
     });
-
-    if (localStorage.getItem("searchQuery") !== "") {
-      await this.twitterSearchByUsername();
-
-      if (!("data" in this.state.tweetsByRecent))
-        await this.twitterSearchByRecent();
-    }
+    setFilters(tempFilters);
   };
 
-  componentDidUpdate = async () => {
-    setTimeout(function () {
-      window.AOS.refresh();
-    }, 500);
-  };
-
-  handleFilter = (selectedOption) => {
-    filters.forEach((option) => {
-      if (option === selectedOption) this.setState({ [option]: true });
-      else this.setState({ [option]: false });
-    });
-  };
-
-  decodeText = (string) => {
+  const decodeText = (string) => {
     return string
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
@@ -70,13 +48,15 @@ export default class Twitter extends Component {
       .replaceAll("&gt;", ">");
   };
 
-  oneWord = (string) => {
+  /*
+  const oneWord = (string) => {
     var regexp = /[a-zA-Z]+\s+[a-zA-Z]+/g;
     if (regexp.test(string)) return false;
     else return true;
   };
+  */
 
-  objectEmpty = (obj) => {
+  const objectEmpty = (obj) => {
     return (
       obj && // 👈 null and undefined check
       Object.keys(obj).length === 0 &&
@@ -84,36 +64,33 @@ export default class Twitter extends Component {
     );
   };
 
-  getHighQualityAvatar = (url) => {
+  const getHighQualityAvatar = (url) => {
     return url.replace("_normal", "_400x400");
   };
 
-  twitterSearchByRecent = async (e) => {
-    this.setState({ loading: true });
+  const twitterSearchByRecent = useCallback(async () => {
+    setLoading(true);
 
     return await axios
       .put("/twitter/search", {
         searchQuery: localStorage.getItem("searchQuery"),
       })
       .then(
-        async (response) => {
-          await this.setPromisedState({
-            tweetsByRecent: response.data.tweets,
-            loading: false,
-          });
+        (response) => {
+          setTweetsByRecent(response.data.tweets);
+          setLoading(false);
         },
         (error) => console.log(error)
       );
-  };
+  }, []);
 
-  twitterSearchByUsername = async (e) => {
+  const twitterSearchByUsername = useCallback(async () => {
     const query = localStorage.getItem("searchQuery");
 
     // if search query is a username (has @ symbol in front), remove symbol and continue to get user
-    if (this.oneWord(query)) {
-      if (query.charAt(0) === "@")
-        this.setState({ queryWithoutSymbols: query.substring(1) });
-    }
+    //if (oneWord(query))
+    //if (query.charAt(0) === "@")
+    //setCleanedQuery(query.substring(1));
 
     return await axios
       .put("/twitter/search/username", {
@@ -121,41 +98,32 @@ export default class Twitter extends Component {
       })
       .then(
         async (response) => {
-          if (response.data.error || this.objectEmpty(response.data))
-            return false;
-          else {
-            await this.setPromisedState({
-              twitterUserID: response.data.twitterResults.id,
-              twitterUser: response.data.twitterResults,
-            });
-
-            this.getTweetsByUserID(response.data.twitterResults.id);
-            return true;
+          if (!response.data.error || !objectEmpty(response.data)) {
+            setUser(response.data.twitterResults);
+            getTweetsByUserID(response.data.twitterResults.id);
           }
         },
         (error) => console.log(error)
       );
-  };
+  }, []);
 
-  getTweetsByUserID = async (twitterId) => {
-    this.setState({ loading: true });
+  const getTweetsByUserID = async (twitterId) => {
+    setLoading(true);
 
     return await axios
       .put("/twitter/get/tweets/id", {
         userId: twitterId,
       })
       .then(
-        async (response) => {
-          await this.setPromisedState({
-            tweetsByUserId: response.data.tweets,
-            loading: false,
-          });
+        (response) => {
+          setTweetsByUserId(response.data.tweets);
+          setLoading(false);
         },
         (error) => console.log(error)
       );
   };
 
-  sortByPopularity = (tweets) => {
+  const sortByPopularity = (tweets) => {
     if (tweets)
       return [...tweets].sort((a, b) => {
         let aPublicMetricsCount =
@@ -167,35 +135,19 @@ export default class Twitter extends Component {
       });
   };
 
-  getAuthor = (tweet, type) => {
-    let user = {};
-
-    if (type === "user") {
-      user = this.state.tweetsByUserId["includes"]["users"].filter(
-        (user) => user.id === tweet.author_id
-      );
-    } else if (type === "recent")
-      user = this.state.tweetsByRecent["includes"]["users"].filter(
-        (user) => user.id === tweet.author_id
-      );
-
-    return user[0];
-  };
-
-  tweet = (tweet, type) => {
+  const tweetCard = (tweet, type) => {
     let mediaUrl = "";
-    const user = this.getAuthor(tweet, type);
 
     if (tweet.attachments) {
       let media = {};
       let mediaKey = tweet.attachments.media_keys[0];
 
       if (type === "user") {
-        media = this.state.tweetsByUserId["includes"]["media"].filter(
+        media = tweetsByUserId["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
       } else if (type === "recent")
-        media = this.state.tweetsByRecent["includes"]["media"].filter(
+        media = tweetsByRecent["includes"]["media"].filter(
           (media) => media.media_key === mediaKey
         );
 
@@ -215,7 +167,7 @@ export default class Twitter extends Component {
             rel="noopener noreferrer"
             className="text"
           >
-            <Grid className="top" container spacing={2} sx={{ paddingTop: 2 }}>
+            <Grid className="top" sx={{ paddingTop: 2 }}>
               <Grid item sx={{ width: "60px" }}>
                 <div className="avatar">
                   <img
@@ -241,9 +193,7 @@ export default class Twitter extends Component {
               className="post-title"
               sx={{ paddingTop: 2, paddingBottom: 2 }}
             >
-              <Typography variant="h5">
-                {this.decodeText(tweet.text)}
-              </Typography>
+              <Typography variant="h5">{decodeText(tweet.text)}</Typography>
             </Box>
           </a>
 
@@ -251,8 +201,8 @@ export default class Twitter extends Component {
             <Box
               className="media"
               onClick={() => {
-                this.props.setAppState({ backdropImage: mediaUrl });
-                this.props.setAppState({ backdropToggle: true });
+                setAppState({ backdropImage: mediaUrl });
+                setAppState({ backdropToggle: true });
               }}
             >
               <div className="media-image">
@@ -270,35 +220,35 @@ export default class Twitter extends Component {
     );
   };
 
-  displayTweets = () => {
+  const displayTweets = () => {
     return (
       <Box>
-        {this.state.user && "data" in this.state.tweetsByUserId && (
+        {filters.user && "data" in tweetsByUserId && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.state.tweetsByUserId["data"]
+              {tweetsByUserId["data"]
                 .slice(0, 50)
-                .map((tweet) => this.tweet(tweet, "user"))}
+                .map((tweet) => tweetCard(tweet, "user"))}
             </Masonry>
           </Box>
         )}
 
-        {this.state.recent && "data" in this.state.tweetsByRecent && (
+        {filters.recent && "data" in tweetsByRecent && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.state.tweetsByRecent["data"]
+              {tweetsByRecent["data"]
                 .slice(0, 50)
-                .map((tweet) => this.tweet(tweet, "recent"))}
+                .map((tweet) => tweetCard(tweet, "recent"))}
             </Masonry>
           </Box>
         )}
 
-        {this.state.popular && "data" in this.state.tweetsByRecent && (
+        {filters.popular && "data" in tweetsByRecent && (
           <Box className="topic posts">
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.sortByPopularity(this.state.tweetsByRecent["data"])
+              {sortByPopularity(tweetsByRecent["data"])
                 .slice(0, 50)
-                .map((tweet) => this.tweet(tweet, "recent"))}
+                .map((tweet) => tweetCard(tweet, "recent"))}
             </Masonry>
           </Box>
         )}
@@ -306,9 +256,7 @@ export default class Twitter extends Component {
     );
   };
 
-  displayUserCard = () => {
-    const user = this.state.twitterUser;
-
+  const displayUserCard = () => {
     return (
       <Paper elevation={3} className="tweet user" sx={{ marginTop: 6 }}>
         <a
@@ -320,7 +268,7 @@ export default class Twitter extends Component {
             <div className="d-flex align-center m-no-flex">
               <div className="avatar">
                 <img
-                  src={this.getHighQualityAvatar(user.profile_image_url)}
+                  src={getHighQualityAvatar(user.profile_image_url)}
                   alt={user.name + "'s profile image'"}
                 />
               </div>
@@ -339,7 +287,7 @@ export default class Twitter extends Component {
                 <Typography variant="subtitle1" sx={{ paddingTop: 1 }}>
                   {user.description}
                 </Typography>
-                <Box className="public-metrics" container spacing={2} sx={{}}>
+                <Box className="public-metrics" spacing={2} sx={{}}>
                   {user.public_metrics && (
                     <Typography
                       className="metric flex-container"
@@ -371,26 +319,28 @@ export default class Twitter extends Component {
     );
   };
 
-  render() {
-    const searchQuery = localStorage.getItem("searchQuery");
+  useEffect(() => {
+    if (searchQuery !== "") {
+      twitterSearchByUsername();
+      if (!("data" in tweetsByRecent)) twitterSearchByRecent();
+    }
+  }, [
+    twitterSearchByUsername,
+    twitterSearchByRecent,
+    tweetsByRecent,
+    searchQuery,
+  ]);
 
-    return (
-      <Box sx={{ padding: "0 30px" }}>
-        <Filter
-          filters={filters}
-          onSuccess={(response) => {
-            this.handleFilter(response);
-          }}
-        />
+  return (
+    <Box sx={{ padding: "0 30px" }}>
+      <Filter
+        filters={FILTERS}
+        onSuccess={(response) => handleFilter(response)}
+      />
 
-        {this.state.loading && <Loader />}
-
-        {!this.objectEmpty(this.state.twitterUser) &&
-          this.state.user &&
-          this.displayUserCard()}
-
-        {this.displayTweets()}
-      </Box>
-    );
-  }
+      {loading && <Loader />}
+      {!objectEmpty(user) && user && displayUserCard()}
+      {displayTweets()}
+    </Box>
+  );
 }

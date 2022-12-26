@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import axios from "axios";
 //import LayoutSelector from "../../../LayoutSelector";
@@ -12,50 +12,33 @@ import "./YouTube.css";
 const FILTERS = ["relevance", "rating", "date"];
 const searchQuery = localStorage.getItem("searchQuery");
 
-export default class YouTube extends Component {
-  constructor(props) {
-    super(props);
+export default function YouTube() {
+  //const [trending, setTrending] = useState({});
+  const [searchResults, setSearchResults] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    relevance: true,
+    rating: false,
+    date: false,
+  });
 
-    this.state = { ytTrendingVideos: {}, ytSearchResults: [], loading: false };
-  }
+  useEffect(() => {
+    setTimeout(() => window.AOS.refresh(), 700);
+  });
 
-  componentDidMount = async () => {
-    // create and set filter options
-    FILTERS.forEach((option, index) => {
-      if (index === 0) this.state[option] = true;
-      else this.state[option] = false;
-    });
-
-    const ytSearchResults = this.state.ytSearchResults;
-    if (searchQuery && !ytSearchResults["relevance"])
-      await this.search("relevance");
-    //else this.getTrendingVideos();
-  };
-
-  componentDidUpdate = async () => {
-    setTimeout(function () {
-      window.AOS.refresh();
-    }, 700);
-  };
-
-  handleFilter = (selectedOption) => {
+  const handleFilter = (selectedOption) => {
+    const tempFilters = { ...filters };
     FILTERS.forEach((option) => {
-      if (option === selectedOption) this.setState({ [option]: true });
-      else this.setState({ [option]: false });
+      if (option === selectedOption) tempFilters[option] = true;
+      else tempFilters[option] = false;
     });
+    setFilters(tempFilters);
 
     // pull data from cooresponding API if not already pulled
-    const ytSearchResults = this.state.ytSearchResults;
-    if (!ytSearchResults[selectedOption]) this.search(selectedOption);
+    if (!searchResults[selectedOption]) search(selectedOption);
   };
 
-  htmlDecode = (input) => {
-    var e = document.createElement("div");
-    e.innerHTML = input;
-    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-  };
-
-  decodeText = (string) => {
+  const decodeText = (string) => {
     return string
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
@@ -64,32 +47,39 @@ export default class YouTube extends Component {
       .replaceAll("&gt;", ">");
   };
 
-  search = async (filter) => {
-    await this.setState({ loading: true });
+  const search = useCallback(
+    async (filter) => {
+      setLoading(true);
 
-    return await axios
-      .put("/youtube/search", {
-        searchQuery: searchQuery,
-        order: filter,
-      })
-      .then(
-        async (response) => {
-          if ("items" in response.data) {
-            let ytSearchResults = this.state.ytSearchResults;
-            ytSearchResults[filter] = response.data;
+      return await axios
+        .put("/youtube/search", {
+          searchQuery: searchQuery,
+          order: filter,
+        })
+        .then(
+          (response) => {
+            if ("items" in response.data) {
+              const newResults = searchResults;
+              newResults[filter] = response.data;
 
-            await this.setState({ ytSearchResults: ytSearchResults });
-          }
+              setSearchResults(newResults);
+            }
 
-          await this.setState({ loading: false });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
+            setLoading(false);
+          },
+          (error) => console.log(error)
+        );
+    },
+    [searchResults]
+  );
 
-  getTrendingVideos = async () => {
+  useEffect(() => {
+    if (searchQuery && !searchResults["relevance"]) search("relevance");
+    //else getTrendingVideos();
+  }, [search, searchResults]);
+
+  /*
+  const getTrendingVideos = async () => {
     const countryCode = this.state.geolocation.data.country_code;
     this.setState({ loading: true });
 
@@ -107,10 +97,12 @@ export default class YouTube extends Component {
         }
       );
   };
+  */
 
-  post = (post) => {
+  const postCard = (post) => {
     let url = "";
     let type = "";
+    let id = "";
 
     if (post.id.kind === "youtube#video") {
       url = "https://www.youtube.com/watch?v=" + post.id.videoId;
@@ -127,7 +119,7 @@ export default class YouTube extends Component {
     }
 
     return (
-      <Box className="post" key={post.id.videoId} data-aos="fade-up">
+      <Box className="post" key={post.etag} data-aos="fade-up">
         <a
           href={url}
           target="_blank"
@@ -139,7 +131,7 @@ export default class YouTube extends Component {
               <img
                 className="featured-image"
                 src={post.snippet.thumbnails.high.url}
-                alt={this.decodeText(post.snippet.title)}
+                alt={decodeText(post.snippet.title)}
                 loading="lazy"
               />
             </div>
@@ -187,7 +179,7 @@ export default class YouTube extends Component {
 
             <Box className="post-title">
               <Typography variant="h5">
-                {this.decodeText(post.snippet.title)}
+                {decodeText(post.snippet.title)}
               </Typography>
             </Box>
           </Box>
@@ -196,56 +188,47 @@ export default class YouTube extends Component {
     );
   };
 
-  render() {
-    //const layout = this.props.state.layout;
-    const ytTrendingVideos = this.state.ytTrendingVideos;
-    const ytSearchResults = this.state.ytSearchResults;
+  return (
+    <Box sx={{ padding: "0 30px;" }}>
+      <Filter
+        filters={FILTERS}
+        onSuccess={(response) => handleFilter(response)}
+      />
 
-    return (
-      <Box sx={{ padding: "0 30px;" }}>
-        <Filter
-          filters={FILTERS}
-          onSuccess={(response) => {
-            this.handleFilter(response);
-          }}
-        />
+      {loading && <Loader />}
 
-        {this.state.loading && <Loader />}
+      {/*
+      {"items" in trending && !searchQuery && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {trending.items.map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}*/}
 
-        {"items" in ytTrendingVideos && !searchQuery && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytTrendingVideos.items.map((post) => this.post(post))}
-            </Masonry>
-          </Box>
-        )}
+      {filters.relevance && searchResults["relevance"] && searchQuery && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {searchResults["relevance"].items.map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}
 
-        {this.state.relevance && ytSearchResults["relevance"] && searchQuery && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytSearchResults["relevance"].items.map((post) =>
-                this.post(post)
-              )}
-            </Masonry>
-          </Box>
-        )}
+      {filters.rating && searchResults["rating"] && searchQuery && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {searchResults["rating"].items.map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}
 
-        {this.state.rating && ytSearchResults["rating"] && searchQuery && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytSearchResults["rating"].items.map((post) => this.post(post))}
-            </Masonry>
-          </Box>
-        )}
-
-        {this.state.date && ytSearchResults["date"] && searchQuery && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {ytSearchResults["date"].items.map((post) => this.post(post))}
-            </Masonry>
-          </Box>
-        )}
-      </Box>
-    );
-  }
+      {filters.date && searchResults["date"] && searchQuery && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {searchResults["date"].items.map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}
+    </Box>
+  );
 }

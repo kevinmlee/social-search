@@ -6,6 +6,10 @@
   transition: ease-in-out transform 0.2s !important;
 }
 
+.post.twitter .top {
+  display: flex;
+}
+
 .tweet {
   position: relative;
   border: 1px solid #eaeaea;

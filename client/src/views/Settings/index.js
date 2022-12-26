@@ -1,32 +1,26 @@
-import { Component } from "react";
+import React from "react";
 
 import {
   Box,
-  TextField,
   Typography,
   FormGroup,
   FormControlLabel,
   Switch,
 } from "@mui/material";
 
-export default class Settings extends Component {
-  constructor(props) {
-    super(props);
-  }
-  state = {};
-  render() {
-    return (
-      <Box id="settings" sx={{ padding: "0 30px" }}>
-        <Box>
-          <Typography className="section-title" variant="h5">
-            Topics
-          </Typography>
+export default function Settings() {
+  return (
+    <Box id="settings" sx={{ padding: "0 30px" }}>
+      <Box>
+        <Typography className="section-title" variant="h5">
+          Topics
+        </Typography>
 
-          <div className="columns d-flex t-no-flex align-top">
-            <div className="center-column">
-              <Typography variant="h5">Settings</Typography>
+        <div className="columns d-flex t-no-flex align-top">
+          <div className="center-column">
+            <Typography variant="h5">Settings</Typography>
 
-              {/* <div className="setting-group">
+            {/* <div className="setting-group">
               <div className="two-col-setting-header">
                 <Typography noWrap variant="h6">
                   Topics followed
@@ -44,23 +38,22 @@ export default class Settings extends Component {
             </div>
     */}
 
-              <FormGroup>
-                <FormControlLabel
-                  control={<Switch defaultChecked />}
-                  label="Label"
-                />
-                <FormControlLabel
-                  disabled
-                  control={<Switch />}
-                  label="Disabled"
-                />
-              </FormGroup>
-            </div>
-
-            <div className="right-column"></div>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch defaultChecked />}
+                label="Label"
+              />
+              <FormControlLabel
+                disabled
+                control={<Switch />}
+                label="Disabled"
+              />
+            </FormGroup>
           </div>
-        </Box>
+
+          <div className="right-column"></div>
+        </div>
       </Box>
-    );
-  }
+    </Box>
+  );
 }
