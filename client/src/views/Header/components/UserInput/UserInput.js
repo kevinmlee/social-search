@@ -15,18 +15,14 @@ export default function UserInput() {
     else localStorage.setItem("searches", JSON.stringify([]));
   }, []);
 
-  useOutsideClick(ref, () => {
-    setSearchFocus(false);
-  });
+  useOutsideClick(ref, () => setSearchFocus(false));
 
   const debounce = (func, ms) => {
     let timer;
 
     return (...args) => {
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        func.apply(this, args);
-      }, ms);
+      timer = setTimeout(() => func.apply(this, args), ms);
     };
   };
 
@@ -49,8 +45,6 @@ export default function UserInput() {
     if (e) e.preventDefault();
 
     const searchQuery = selectedSearchQuery ? selectedSearchQuery : query;
-
-    console.log("searchQuery", searchQuery);
 
     if (validator.isAlphanumeric(searchQuery)) {
       localStorage.setItem("searchQuery", searchQuery);

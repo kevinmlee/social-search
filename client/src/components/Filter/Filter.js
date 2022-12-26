@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Box, Radio } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
@@ -8,7 +8,7 @@ export default function Filter({ filters, onSuccess }) {
   const [filter, setFilter] = useState(false);
   const ref = useRef();
 
-  let initialOptions = {};
+  let initialOptions = useMemo(() => {}, []);
 
   useEffect(() => {
     // create intial options with filters provided
