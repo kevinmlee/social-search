@@ -32,4 +32,8 @@ This will push everything into GitHub which will automatically deploy onto what 
 
 ## Getting your changes onto production
 
-- Your changes will need to be reviewed before it will be pushed into the production environment so this process may take some time
+- Your changes will need to be reviewed before it will be pushed into the production environment so this process may take some time as it will be manually reviewed
+
+## Todo
+- Create tests locally and on GitHub Actions
+- Set up CI/CD
