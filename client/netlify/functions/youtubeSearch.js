@@ -1,6 +1,5 @@
 require("dotenv").config();
-const https = require("https");
-
+const fetch = require("node-fetch");
 const endpoint = "https://www.googleapis.com/youtube";
 
 exports.handler = async (event, context) => {
