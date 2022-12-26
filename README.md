@@ -36,4 +36,4 @@ This will push everything into GitHub which will automatically deploy onto what 
 
 ## Todo
 - Create tests locally and on GitHub Actions
-- Set up CI/CD
+- Set up CI/CD to run tests and automatically deploy once merged
