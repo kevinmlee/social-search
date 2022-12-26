@@ -9,10 +9,10 @@ const client = new Twitter({
 });
 */
 
-exports.handler = search = async (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   console.log("event", event);
   /*
-  const { searchQuery } = req.body;
+  const { searchQuery } = JSON.parse(event.body);
 
   const params = {
     query: searchQuery,
