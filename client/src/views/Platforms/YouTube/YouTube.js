@@ -9,7 +9,6 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./YouTube.css";
 
-const FILTERS = ["relevance", "rating", "date"];
 const searchQuery = localStorage.getItem("searchQuery");
 
 export default function YouTube() {
@@ -28,10 +27,12 @@ export default function YouTube() {
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
-    FILTERS.forEach((option) => {
-      if (option === selectedOption) tempFilters[option] = true;
-      else tempFilters[option] = false;
-    });
+    {
+      Object.keys(filters).map((option) => {
+        if (option === selectedOption) tempFilters[option] = true;
+        else tempFilters[option] = false;
+      });
+    }
     setFilters(tempFilters);
 
     // pull data from cooresponding API if not already pulled
@@ -190,7 +191,7 @@ export default function YouTube() {
   return (
     <Box sx={{ padding: "0 30px;" }}>
       <Filter
-        filters={FILTERS}
+        filters={filters}
         onSuccess={(response) => handleFilter(response)}
       />
 

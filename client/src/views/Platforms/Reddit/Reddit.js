@@ -31,10 +31,12 @@ export default function Reddit() {
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
-    FILTERS.forEach((option) => {
-      if (option === selectedOption) tempFilters[option] = true;
-      else tempFilters[option] = false;
-    });
+    {
+      Object.keys(filters).map((option) => {
+        if (option === selectedOption) tempFilters[option] = true;
+        else tempFilters[option] = false;
+      });
+    }
     setFilters(tempFilters);
 
     // change views & pull data from cooresponding API if not already pulled
@@ -201,7 +203,7 @@ export default function Reddit() {
   return (
     <Box sx={{ padding: "0 30px" }}>
       <Filter
-        filters={FILTERS}
+        filters={filters}
         onSuccess={(response) => handleFilter(response)}
       />
 

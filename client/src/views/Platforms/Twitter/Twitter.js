@@ -11,8 +11,6 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./Twitter.css";
 
-const FILTERS = ["user", "popular", "recent"];
-
 export default function Twitter({ setAppState }) {
   const searchQuery = localStorage.getItem("searchQuery");
   //const [cleanedQuery, setCleanedQuery] = useState("");
@@ -32,10 +30,12 @@ export default function Twitter({ setAppState }) {
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
-    FILTERS.forEach((option) => {
-      if (option === selectedOption) tempFilters[option] = true;
-      else tempFilters[option] = false;
-    });
+    {
+      Object.keys(filters).map((option) => {
+        if (option === selectedOption) tempFilters[option] = true;
+        else tempFilters[option] = false;
+      });
+    }
     setFilters(tempFilters);
   };
 
@@ -334,7 +334,7 @@ export default function Twitter({ setAppState }) {
   return (
     <Box sx={{ padding: "0 30px" }}>
       <Filter
-        filters={FILTERS}
+        filters={filters}
         onSuccess={(response) => handleFilter(response)}
       />
 
