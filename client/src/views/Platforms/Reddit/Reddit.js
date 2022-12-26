@@ -11,6 +11,8 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./Reddit.css";
 
+const endpoint = "https://www.reddit.com";
+
 export default function Reddit() {
   const searchQuery = localStorage.getItem("searchQuery");
   const [hotFeed, setHotFeed] = useState([]);
@@ -106,32 +108,25 @@ export default function Reddit() {
   const search = useCallback(
     async (type) => {
       setLoading(true);
-      return await axios
-        .put("/reddit/search", {
-          searchQuery: searchQuery,
-          filter: type,
-        })
-        .then(
-          (response) => {
-            if (type === "hot") setSearchHot(response.data.data.children);
-            if (type === "new") setSearchNew(response.data.data.children);
-            setLoading(false);
-          },
-          (error) => console.log(error)
-        );
+      await fetch(`${endpoint}/search.json?q=${searchQuery}&sort=${type}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (type === "hot") setSearchHot(data.data.children);
+          if (type === "new") setSearchNew(data.data.children);
+          setLoading(false);
+        });
     },
     [searchQuery]
   );
 
-  const getHotPosts = async () => {
+  const getHotPosts = async (limit) => {
     setLoading(true);
-    return await axios.put("/reddit/get/hot/posts", {}).then(
-      (response) => {
-        setHotFeed(response.data.data.children);
+    await fetch(`${endpoint}/hot.json?include_over_18=off&limit=${limit}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setHotFeed(data.data.children);
         setLoading(false);
-      },
-      (error) => console.log(error)
-    );
+      });
   };
 
   const postCard = (post) => {
