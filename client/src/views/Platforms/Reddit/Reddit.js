@@ -7,12 +7,9 @@ import { Masonry } from "@mui/lab";
 
 import Loader from "../../../components/Loader/Loader";
 import Filter from "../../../components/Filter/Filter";
-
 //import LayoutSelector from "../../../LayoutSelector";
 
 import "./Reddit.css";
-
-const FILTERS = ["hot", "recent"];
 
 export default function Reddit() {
   const searchQuery = localStorage.getItem("searchQuery");
@@ -31,11 +28,9 @@ export default function Reddit() {
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
-    {
-      Object.keys(filters).map((option) => {
-        if (option === selectedOption) tempFilters[option] = true;
-        else tempFilters[option] = false;
-      });
+    for (const option in filters) {
+      if (option === selectedOption) tempFilters[option] = true;
+      else tempFilters[option] = false;
     }
     setFilters(tempFilters);
 

@@ -27,11 +27,9 @@ export default function YouTube() {
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
-    {
-      Object.keys(filters).map((option) => {
-        if (option === selectedOption) tempFilters[option] = true;
-        else tempFilters[option] = false;
-      });
+    for (const option in filters) {
+      if (option === selectedOption) tempFilters[option] = true;
+      else tempFilters[option] = false;
     }
     setFilters(tempFilters);
 
