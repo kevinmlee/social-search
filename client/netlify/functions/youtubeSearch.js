@@ -8,10 +8,9 @@ exports.handler = async (event, context) => {
   const url = `${endpoint}/v3/search?q=${searchQuery}&maxResults=15&part=snippet&order=${order}&key=${process.env.YOUTUBE_API_KEY}`;
 
   // serverless API call
-  let result = {};
-  await fetch(url)
+  const result = await fetch(url)
     .then((response) => response.json())
-    .then((data) => (result = data));
+    .then((data) => data);
 
   return {
     statusCode: 200,
