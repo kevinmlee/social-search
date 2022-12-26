@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import axios from "axios";
 
@@ -12,59 +12,45 @@ import Filter from "../../../components/Filter/Filter";
 
 import "./Reddit.css";
 
-const filters = ["hot", "recent"];
+const FILTERS = ["hot", "recent"];
 
-export default class Reddit extends Component {
-  constructor(props) {
-    super(props);
+export default function Reddit() {
+  const searchQuery = localStorage.getItem("searchQuery");
+  const [hotFeed, setHotFeed] = useState([]);
+  const [searchHot, setSearchHot] = useState([]);
+  const [searchNew, setSearchNew] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    hot: true,
+    recent: false,
+  });
 
-    this.state = {
-      hotPosts: [],
-      searchHot: [],
-      searchNew: [],
+  useEffect(() => {
+    setTimeout(() => window.AOS.refresh(), 700);
+  });
 
-      loading: false,
-    };
-  }
-
-  componentDidMount = () => {
-    // create and set filter options
-    filters.forEach((option, index) => {
-      if (index === 0) this.state[option] = true;
-      else this.state[option] = false;
+  const handleFilter = (selectedOption) => {
+    const tempFilters = { ...filters };
+    FILTERS.forEach((option) => {
+      if (option === selectedOption) tempFilters[option] = true;
+      else tempFilters[option] = false;
     });
-
-    this.getHotPosts();
-
-    // on initial load, fetch the data if not already present
-    if (this.state.hot && this.state.searchHot.length === 0)
-      this.search("hot", "searchHot");
-  };
-
-  componentDidUpdate = () => {
-    setTimeout(() => window.AOS.refresh(), 500);
-  };
-
-  handleFilter = (selectedOption) => {
-    filters.forEach((option) => {
-      if (option === selectedOption) this.setState({ [option]: true });
-      else this.setState({ [option]: false });
-    });
+    setFilters(tempFilters);
 
     // change views & pull data from cooresponding API if not already pulled
-    if (selectedOption === "recent" && this.state.searchNew.length === 0)
-      this.search("new", "searchNew");
-    if (selectedOption === "hot" && this.state.searchHot.length === 0)
-      this.search("hot", "searchHot");
+    if (selectedOption === "recent" && searchNew.length === 0)
+      search("new", "searchNew");
+    if (selectedOption === "hot" && searchHot.length === 0)
+      search("hot", "searchHot");
   };
 
-  htmlDecode = (input) => {
+  const htmlDecode = (input) => {
     var e = document.createElement("div");
     e.innerHTML = input;
     return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   };
 
-  decodeText = (string) => {
+  const decodeText = (string) => {
     return string
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
@@ -73,7 +59,7 @@ export default class Reddit extends Component {
       .replaceAll("&gt;", ">");
   };
 
-  getVideo = (post) => {
+  const getVideo = (post) => {
     if ("secure_media" in post.data) {
       if (post.data.secure_media) {
         if ("reddit_video" in post.data.secure_media) {
@@ -84,7 +70,7 @@ export default class Reddit extends Component {
                 width="100%"
                 height="auto"
                 controls
-                poster={this.getPreviewImage(post)}
+                poster={getPreviewImage(post)}
               >
                 <source
                   src={post.data.secure_media.reddit_video.fallback_url}
@@ -105,7 +91,7 @@ export default class Reddit extends Component {
             <Box className="youtube-video media" sx={{ marginBottom: 2 }}>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: this.htmlDecode(updatedString),
+                  __html: htmlDecode(updatedString),
                 }}
               />
             </Box>
@@ -115,49 +101,50 @@ export default class Reddit extends Component {
     }
   };
 
-  getPreviewImage = (post) => {
+  const getPreviewImage = (post) => {
     if (post.data.preview)
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
   };
 
-  search = async (type, state) => {
-    this.setState({ loading: true });
-    return await axios
-      .put("/reddit/search", {
-        searchQuery: localStorage.getItem("searchQuery"),
-        filter: type,
-      })
-      .then(
-        (response) =>
-          this.setState({
-            [state]: response.data.data.children,
-            loading: false,
-          }),
-        (error) => console.log(error)
-      );
-  };
+  const search = useCallback(
+    async (type) => {
+      setLoading(true);
+      return await axios
+        .put("/reddit/search", {
+          searchQuery: searchQuery,
+          filter: type,
+        })
+        .then(
+          (response) => {
+            if (type === "hot") setSearchHot(response.data.data.children);
+            if (type === "new") setSearchNew(response.data.data.children);
+            setLoading(false);
+          },
+          (error) => console.log(error)
+        );
+    },
+    [searchQuery]
+  );
 
-  getHotPosts = async () => {
-    this.setState({ loading: true });
+  const getHotPosts = async () => {
+    setLoading(true);
     return await axios.put("/reddit/get/hot/posts", {}).then(
       (response) => {
-        this.setState({
-          hotPosts: response.data.data.children,
-          loading: false,
-        });
+        setHotFeed(response.data.data.children);
+        setLoading(false);
       },
       (error) => console.log(error)
     );
   };
 
-  post = (post) => {
+  const postCard = (post) => {
     return (
       <Box className="post" key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           <Box className="details">
-            {this.getVideo(post)
-              ? this.getVideo(post)
-              : this.getPreviewImage(post) && (
+            {getVideo(post)
+              ? getVideo(post)
+              : getPreviewImage(post) && (
                   <Box
                     className="media"
                     /*onClick={() => {
@@ -171,7 +158,7 @@ export default class Reddit extends Component {
                     <div className="media-image">
                       <img
                         className="featured-image"
-                        src={this.getPreviewImage(post)}
+                        src={getPreviewImage(post)}
                         alt={post.data.title}
                         loading="lazy"
                       />
@@ -195,7 +182,7 @@ export default class Reddit extends Component {
 
               <Box className="post-title">
                 <Typography variant="h5">
-                  {this.decodeText(post.data.title)}
+                  {decodeText(post.data.title)}
                 </Typography>
               </Box>
             </Box>
@@ -205,48 +192,47 @@ export default class Reddit extends Component {
     );
   };
 
-  render() {
-    //const layout = this.props.state.layout;
-    const searchQuery = localStorage.getItem("searchQuery");
+  useEffect(() => {
+    // on initial load, fetch the data if not already present
+    if (filters.hot && searchHot.length === 0) search("hot");
+    getHotPosts();
+  }, [search, filters, searchHot]);
 
-    return (
-      <Box sx={{ padding: "0 30px" }}>
-        <Filter
-          filters={filters}
-          onSuccess={(response) => {
-            this.handleFilter(response);
-          }}
-        />
+  return (
+    <Box sx={{ padding: "0 30px" }}>
+      <Filter
+        filters={FILTERS}
+        onSuccess={(response) => handleFilter(response)}
+      />
 
-        {this.state.loading && <Loader />}
+      {loading && <Loader />}
 
-        {/* General hottest posts */}
-        {!searchQuery && this.state.hotPosts.length > 0 && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.state.hotPosts.map((post) => this.post(post))}
-            </Masonry>
-          </Box>
-        )}
+      {/* General hottest posts */}
+      {!searchQuery && hotFeed > 0 && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {hotFeed.map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}
 
-        {/* Recent posts by search query */}
-        {this.state.recent && this.state.searchNew.length > 0 && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.state.searchNew.slice(0, 50).map((post) => this.post(post))}
-            </Masonry>
-          </Box>
-        )}
+      {/* Recent posts by search query */}
+      {filters.recent && searchNew.length > 0 && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {searchNew.slice(0, 50).map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}
 
-        {/* Hot posts by search query */}
-        {this.state.hot && this.state.searchHot.length > 0 && (
-          <Box className="topic posts">
-            <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {this.state.searchHot.slice(0, 50).map((post) => this.post(post))}
-            </Masonry>
-          </Box>
-        )}
-      </Box>
-    );
-  }
+      {/* Hot posts by search query */}
+      {filters.hot && searchHot.length > 0 && (
+        <Box className="topic posts">
+          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+            {searchHot.slice(0, 50).map((post) => postCard(post))}
+          </Masonry>
+        </Box>
+      )}
+    </Box>
+  );
 }

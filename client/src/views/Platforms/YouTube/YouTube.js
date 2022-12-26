@@ -102,7 +102,6 @@ export default function YouTube() {
   const postCard = (post) => {
     let url = "";
     let type = "";
-    let id = "";
 
     if (post.id.kind === "youtube#video") {
       url = "https://www.youtube.com/watch?v=" + post.id.videoId;
