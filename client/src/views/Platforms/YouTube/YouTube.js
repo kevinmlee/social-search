@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-import axios from "axios";
+//import axios from "axios";
 //import LayoutSelector from "../../../LayoutSelector";
 import { Box, Typography, Grid } from "@mui/material";
 import { Masonry } from "@mui/lab";
@@ -46,6 +46,7 @@ export default function YouTube() {
       .replaceAll("&gt;", ">");
   };
 
+  /*
   const search = useCallback(
     async (filter) => {
       setLoading(true);
@@ -68,6 +69,30 @@ export default function YouTube() {
           },
           (error) => console.log(error)
         );
+    },
+    [searchResults]
+  );
+  */
+
+  const search = useCallback(
+    async (filter) => {
+      const requestBody = { searchQuery: searchQuery, order: filter };
+      setLoading(true);
+
+      // serverless API call
+      await fetch(`/.netlify/functions/youtubeSearch`, {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if ("items" in data) {
+            const newResults = searchResults;
+            newResults[filter] = data;
+            setSearchResults(newResults);
+          }
+          setLoading(false);
+        });
     },
     [searchResults]
   );
