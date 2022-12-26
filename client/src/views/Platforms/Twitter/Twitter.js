@@ -69,7 +69,16 @@ export default function Twitter({ setAppState }) {
   const twitterSearchByRecent = useCallback(async () => {
     setLoading(true);
 
-    return await axios
+    // serverless API call
+    await fetch(`/.netlify/functions/twitter/search`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+        //setTweetsByRecent(response.data.tweets);
+        //setLoading(false);
+      });
+
+    /*return await axios
       .put("/twitter/search", {
         searchQuery: localStorage.getItem("searchQuery"),
       })
@@ -80,6 +89,7 @@ export default function Twitter({ setAppState }) {
         },
         (error) => console.log(error)
       );
+      */
   }, []);
 
   const twitterSearchByUsername = useCallback(async () => {
