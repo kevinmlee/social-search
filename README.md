@@ -25,3 +25,10 @@ This will push everything into GitHub which will automatically deploy onto what 
 ## Getting your changes onto production
 
 - Your changes will need to be reviewed before it will be pushed into the production environment so this process may take some time
+
+## Running your local dev environment
+This project is currently using Netlify Functions for serverless APIs. This means that the root folder and Express routes are currently not in use, even though it still works. Follow these steps to run this project:
+
+- In your terminal, starting from the root of the project, 'cd client'
+- Then use the command 'ntl dev'. The server and client will both start
+
