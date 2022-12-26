@@ -10,7 +10,13 @@ const client = new Twitter({
 */
 
 exports.handler = async (event, context, callback) => {
-  console.log("event", event);
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      message: "twitter search has been called",
+    }),
+  };
+
   /*
   const { searchQuery } = JSON.parse(event.body);
 
