@@ -40,6 +40,34 @@
   background-size: cover;
 }
 
+#signin .form-field {
+  position: relative;
+}
+
+#signin .form-field > * {
+  width: 100%;
+}
+
+#signin .form-field .loader {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 25px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+#signin .form-field .loader > * {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+#signin .cta-button.loading {
+  background-color: #93876d;
+}
+
 @media screen and (max-width: 768px) {
   #signin .right {
     display: none;

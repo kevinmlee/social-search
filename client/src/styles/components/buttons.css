@@ -1,7 +1,9 @@
 .cta-button {
   padding: 12px 24px;
   border-radius: 12px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgb(210, 193, 156);
   transition: ease-in-out all 0.3s;
   color: #000000;

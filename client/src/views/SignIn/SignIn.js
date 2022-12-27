@@ -4,6 +4,8 @@ import jwt_decode from "jwt-decode";
 import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
 
+import Loader from "../../components/Loader/Loader";
+
 import "./SignIn.css";
 
 //import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
@@ -15,6 +17,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [stepTwo, setStepTwo] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleGoogleSignin = async (response) => {
     const user = await API.getUser({ username: response.email });
@@ -26,20 +29,22 @@ export default function SignIn() {
   };
 
   const findUser = async () => {
+    setLoading(true);
     if (validator.isEmail(username)) {
       const user = await API.getUser({ username: username });
 
       if (user) setStepTwo(true);
       else setError("No users found with this email address");
     } else setError("Not a valid email address");
+    setLoading(false);
   };
 
   const formStepOne = () => {
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          findUser();
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!loading) findUser();
         }}
       >
         <TextField
@@ -54,7 +59,14 @@ export default function SignIn() {
           value={username}
           autoFocus={true}
         />
-        <input className="cta-button" type="submit" value="Continue" />
+        <div className="form-field">
+          <input
+            className={(loading ? "loading " : "") + "cta-button"}
+            type="submit"
+            value={loading ? "" : "Continue"}
+          />
+          {loading && <Loader />}
+        </div>
       </form>
     );
   };
@@ -62,8 +74,9 @@ export default function SignIn() {
   const formStepTwo = () => {
     return (
       <form
-        onSubmit={async (event) => {
-          event.preventDefault();
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setLoading(true);
 
           const authResult = await API.auth({
             username: username,
@@ -73,7 +86,10 @@ export default function SignIn() {
           if (authResult.success) {
             localStorage.setItem("user", JSON.stringify(authResult.data));
             window.location.href = "/";
-          } else setError("Incorrect password");
+          } else {
+            setError("Incorrect password");
+            setLoading(false);
+          }
         }}
       >
         <TextField
@@ -87,7 +103,14 @@ export default function SignIn() {
           autoFocus={true}
         />
 
-        <input className="cta-button" type="submit" value="Sign in" />
+        <div className="form-field">
+          <input
+            className={(loading ? "loading " : "") + "cta-button"}
+            type="submit"
+            value={loading ? "" : "Sign in"}
+          />
+          {loading && <Loader />}
+        </div>
       </form>
     );
   };

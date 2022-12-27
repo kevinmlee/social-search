@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Loader() {
   return (
-    <Box className="ta-center" sx={{ paddingTop: "100px" }}>
+    <Box className="loader ta-center" sx={{ paddingTop: "100px" }}>
       <CircularProgress color="inherit" />
     </Box>
   );
