@@ -1,10 +1,11 @@
 const axios = require("axios");
+const endpoint = "https://prickly-umbrella-toad.cyclic.app";
 
 export const auth = async (data) => {
   const { username, password } = data;
 
   return axios
-    .post("/api/user/auth", {
+    .post(`${endpoint}/api/user/auth`, {
       username: username,
       password: password,
     })
@@ -23,7 +24,7 @@ export const getUser = async (data) => {
   const { username } = data;
 
   return axios
-    .post("/api/get/user", {
+    .post(`${endpoint}/api/get/user`, {
       username: username,
     })
     .then(
@@ -41,7 +42,7 @@ export const createUser = async (data) => {
   const { username, password, firstName, lastName, avatar, accountType } = data;
 
   return axios
-    .post("/api/create/user", {
+    .post(`${endpoint}/api/create/user`, {
       username: username,
       password: password,
       firstName: firstName,
