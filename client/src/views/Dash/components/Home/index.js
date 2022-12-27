@@ -116,21 +116,18 @@ export default class Home extends Component {
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
   };
 
-  getSubredditPosts = async (subreddit) => {
-    const endpoint =
-      "https://www.reddit.com/r/" + subreddit + "/hot.json?limit=10";
-
-    await fetch(endpoint)
-      .then((response) => response.json())
-      .then((data) => {
-        let subreddits = this.state.subreddits;
-        subreddits[subreddit] = data.data.children;
-        this.setState({ subreddits: subreddits });
-      });
-  };
-
   getPosts = async () => {
-    for (const topic of TOPICS) await this.getSubredditPosts(topic);
+    for (const topic of TOPICS) {
+      const endpoint = `https://www.reddit.com/r/${topic}/hot.json?limit=10`;
+
+      await fetch(endpoint)
+        .then((response) => response.json())
+        .then((data) => {
+          let subreddits = this.state.subreddits;
+          subreddits[topic] = data.data.children;
+          this.setState({ subreddits: subreddits });
+        });
+    }
   };
 
   searchSubreddits = async (query) => {
