@@ -52,7 +52,7 @@ export default function YouTube() {
       setLoading(true);
 
       return await axios
-        .put("/youtube/search", {
+        .put("https://prickly-umbrella-toad.cyclic.app/youtube/search", {
           searchQuery: searchQuery,
           order: filter,
         })
