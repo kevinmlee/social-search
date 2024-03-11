@@ -188,6 +188,7 @@ app.all("/api/get/memberDomains/", MONGO.getMemberDomains);
 const dbRoute = process.env.MONGODB;
 
 // connects our back end code with the database
+mongoose.set('strictQuery', false)
 mongoose.connect(dbRoute, { useUnifiedTopology: true, useNewUrlParser: true });
 
 let db = mongoose.connection;
