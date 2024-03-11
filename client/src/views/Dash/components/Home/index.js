@@ -160,7 +160,7 @@ export default class Home extends Component {
           //let subreddits = this.props.state.subreddits;
           //subreddits[subreddit] = response.data.data.children;
 
-          console.log("subreddit search results", response.data.data.children);
+          console.log("subreddit search results", response);
 
           //this.props.setAppState("subreddits", subreddits);
         },
