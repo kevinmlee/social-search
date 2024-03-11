@@ -118,6 +118,25 @@ export default class Home extends Component {
 
   getPosts = async () => {
     for (const topic of TOPICS) {
+      return await axios
+      .get("/reddit/get/subreddit/posts", {
+        subreddit: topic,
+        filter: 'hot',
+        limit: 20
+      })
+      .then(
+        (response) => {
+          //let subreddits = this.props.state.subreddits;
+          //subreddits[subreddit] = response.data.data.children;
+
+          console.log("subreddit search results", response.data.data.children);
+
+          //this.props.setAppState("subreddits", subreddits);
+        },
+        (error) => console.log(error)
+      );
+
+      /*
       const endpoint = `https://www.reddit.com/r/${topic}/hot.json?limit=10`;
 
       await fetch(endpoint)
@@ -127,6 +146,7 @@ export default class Home extends Component {
           subreddits[topic] = data.data.children;
           this.setState({ subreddits: subreddits });
         });
+      */
     }
   };
 
