@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
-//import $ from "jquery";
-import { getSubredditPosts } from "../../../../api/Reddit";
 
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
@@ -119,11 +117,14 @@ export default class Home extends Component {
 
   getPosts = async () => {
     for (const topic of TOPICS) {
-      const results = await getSubredditPosts({
-        subreddit: topic,
-        filter: 'hot',
-        limit: 20
-      })
+      const results = await axios.post(`/reddit/get/subreddit/posts`, {
+          subreddit: topic,
+          filter: 'hot',
+          limit: 20
+        }).then(
+          (response) => response.data.data,
+          (error) => error
+        )
 
       let subreddits = this.state.subreddits
       subreddits[topic] = results.children
