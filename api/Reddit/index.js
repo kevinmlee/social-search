@@ -1,60 +1,69 @@
-require("dotenv").config();
-const https = require("https");
-
+require("dotenv").config()
+const axios = require('axios')
 const endpoint = 'https://www.reddit.com'
 
 module.exports = {
   search: async function (req, res, next) {
-    const { searchQuery, filter } = req.body;
-    const url = `${endpoint}/search.json?q=${seachQuery}&sort=${filter}`
+    const { searchQuery, filter } = req.body
 
-    const request = https.get(url, (response) => {
-      let data = ""
+    try {
+      const response = await axios.get(`${endpoint}/search.json`, {
+        params: {
+          sort: filter,
+          q: searchQuery,
+        }
+      })
 
-      response.on("data", (stream) => data += stream)
-      response.on("end", () => res.json(JSON.parse(data)))
-    })
-
-    request.on("error", (e) => res.json(e))
+      res.json(response.data);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' })
+    }
   },
   searchSubreddits: async function (req, res, next) {
-    const { searchQuery } = req.body;
+    const { searchQuery } = req.body
 
-    const url = `${endpoint}/subreddits/search.json?q=${searchQuery}&include_over_18=off`
+    try {
+      const response = await axios.get(`${endpoint}/subreddits/search.json`, {
+        params: {
+          include_over_18: 'off',
+          q: searchQuery,
+        }
+      })
 
-    const request = https.get(url, (response) => {
-      let data = ""
-
-      response.on("data", (stream) => data += stream)
-      response.on("end", () => res.json(JSON.parse(data)))
-    })
-
-    request.on("error", (e) => res.json(e))
+      res.json(response.data);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' })
+    }
   },
   getSubredditPosts: async function (req, res, next) {
     const { subreddit, filter, limit } = req.body
-    const url = `${endpoint}/r/${subreddit}/${filter}/.json?limit=${limit}`
 
-    const request = https.get(url, (response) => {
-      let data = ""
+    try {
+      const response = await axios.get(`${endpoint}/r/${subreddit}/${filter}.json`, {
+        params: {
+          limit: limit,
+        }
+      })
 
-      response.on("data", (stream) => data += stream)
-      response.on("end", () => res.json(JSON.parse(data)))
-    })
-
-    request.on("error", (e) => res.json(e))
+      res.json(response.data);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' })
+    }
   },
   getHotPosts: async function (req, res, next) {
     const { limit } = req.body;
-    const url =`${endpoint}/hot.json?include_over_18=off&limit=${limit}`
 
-    const request = https.get(url, (response) => {
-      let data = "";
+    try {
+      const response = await axios.get(`${endpoint}/hot.json`, {
+        params: {
+          include_over_18: 'off',
+          limit: limit,
+        }
+      })
 
-      response.on("data", (stream) => data += stream)
-      response.on("end", () => res.json(JSON.parse(data)))
-    });
-
-    request.on("error", (e) => res.json(e))
+      res.json(response.data);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' })
+    }
   }
-}
+};

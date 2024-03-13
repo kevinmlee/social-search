@@ -3,6 +3,7 @@
   "homepage": "https://currently.kevinmlee.com",
   "version": "0.0.1",
   "private": true,
+  "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -35,7 +36,7 @@
     "validator": "^13.7.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "WATCHPACK_POLLING=true react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject"

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import axios from "axios";
 //import $ from "jquery";
+import { getSubredditPosts } from "../../../../api/Reddit";
 
 import { Box, Typography } from "@mui/material";
 import { Masonry } from "@mui/lab";
@@ -118,35 +119,15 @@ export default class Home extends Component {
 
   getPosts = async () => {
     for (const topic of TOPICS) {
-      return await axios
-      .get("/reddit/get/subreddit/posts", {
+      const results = await getSubredditPosts({
         subreddit: topic,
         filter: 'hot',
         limit: 20
       })
-      .then(
-        (response) => {
-          //let subreddits = this.props.state.subreddits;
-          //subreddits[subreddit] = response.data.data.children;
 
-          console.log("subreddit search results", response.data.data.children);
-
-          //this.props.setAppState("subreddits", subreddits);
-        },
-        (error) => console.log(error)
-      );
-
-      /*
-      const endpoint = `https://www.reddit.com/r/${topic}/hot.json?limit=10`;
-
-      await fetch(endpoint)
-        .then((response) => response.json())
-        .then((data) => {
-          let subreddits = this.state.subreddits;
-          subreddits[topic] = data.data.children;
-          this.setState({ subreddits: subreddits });
-        });
-      */
+      let subreddits = this.state.subreddits
+      subreddits[topic] = results.children
+      this.setState({ subreddits: subreddits })
     }
   };
 
@@ -235,14 +216,14 @@ export default class Home extends Component {
         </ul>
 
         <Box>
-          {Object.keys(posts).map((key) => (
+          {Object.keys(posts)?.map((key) => (
             <Box id={key} className="topic posts" key={key}>
               <Typography className="section-title" variant="h4">
                 {key}
               </Typography>
 
               <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {posts[key].map((post) => this.post(post))}
+                {posts[key]?.map((post) => this.post(post))}
               </Masonry>
             </Box>
           ))}
