@@ -1,27 +1,18 @@
 require("dotenv").config()
-const axios = require('axios')
 const endpoint = 'https://www.reddit.com'
 
 exports.handler = async (event, context) => {
   const { subreddit, filter, limit } = JSON.parse(event.body)
 
-  let response
+  const url = `${endpoint}/r/${subreddit}/${filter}.json?limit=${limit}`;
 
-  try {
-    response = await axios.get(`${endpoint}/r/${subreddit}/${filter}.json`, {
-      params: {
-        limit: limit
-      }
-    })
+  // serverless API call
+  const result = await fetch(url)
+    .then((response) => response.json())
+    .then((data) => data);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(response)
-    }
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify(response)
-    }
-  }
+  return {
+    statusCode: 200,
+    body: JSON.stringify(result),
+  };
 }
