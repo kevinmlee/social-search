@@ -8,9 +8,9 @@ import Loader from "../../../components/Loader/Loader";
 import Filter from "../../../components/Filter/Filter";
 //import LayoutSelector from "../../../LayoutSelector";
 
-import "./Reddit.css";
+import "./Reddit.css"
 
-const endpoint = "https://www.reddit.com";
+const endpoint = "https://www.reddit.com"
 
 export default function Reddit() {
   const searchQuery = localStorage.getItem("searchQuery");

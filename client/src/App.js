@@ -8,7 +8,6 @@ import "./styles/main.css";
 // components
 import Header from "./views/Header";
 import Sidebar from "./views/Sidebar/Sidebar";
-import Dash from "./views/Dash";
 import SignIn from "./views/SignIn/SignIn";
 import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound/NotFound";
