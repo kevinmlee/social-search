@@ -3,7 +3,6 @@
   "homepage": "https://currently.kevinmlee.com",
   "version": "0.0.1",
   "private": true,
-  "proxy": "http://localhost:5000",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",

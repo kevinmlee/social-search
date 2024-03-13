@@ -117,7 +117,8 @@ export default class Home extends Component {
 
   getPosts = async () => {
     for (const topic of TOPICS) {
-      const results = await axios.post(`/reddit/get/subreddit/posts`, {
+      // /reddit/get/subreddit/posts
+      const results = await axios.post(`/.netlify/functions/reddit/getSubredditPosts`, {
           subreddit: topic,
           filter: 'hot',
           limit: 20
