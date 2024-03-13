@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import moment from "moment";
+import React, { useEffect, useState } from "react"
+import moment from "moment"
 
-import { Box, Typography } from "@mui/material";
-import { Masonry } from "@mui/lab";
+import { Box, Typography } from "@mui/material"
+import { Masonry } from "@mui/lab"
 
-import "./Home.css";
+import "./Home.css"
 
 const TOPICS = [
   "news",
@@ -14,39 +14,40 @@ const TOPICS = [
   "sports",
   "space",
   "nutrition",
-];
+]
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
+export default function Home() {
+  const [subreddits, setSubreddits] = useState([])
 
-    this.state = {
-      subreddits: [],
-    };
-  }
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
 
-  componentDidMount = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    const getPosts = async () => {
+        for (const topic of TOPICS) {
+          await fetch(`https://reddit.com/r/${topic}/hot.json?include_over_18=off&limit=20`)
+            .then((response) => response.json())
+            .then((data) => {
+              let newSubReddits = subreddits
+              newSubReddits[topic] = data.data.children
+              setSubreddits(newSubReddits)
+            })
+      }
+    }
 
-    this.getPosts();
-  };
+    getPosts()
+  })
 
-  componentDidUpdate = () => {
-    setTimeout(function () {
-      window.AOS.refresh();
-    }, 500);
-  };
-
-  htmlDecode = (input) => {
+  useEffect(() => {
+    setTimeout(() => window.AOS.refresh(), 500)
+  }, [subreddits])
+ 
+  const htmlDecode = (input) => {
     var e = document.createElement("div");
     e.innerHTML = input;
     return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
   };
 
-  decodeText = (string) => {
+  const decodeText = (string) => {
     return string
       .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
@@ -55,7 +56,7 @@ export default class Home extends Component {
       .replaceAll("&gt;", ">");
   };
 
-  isInViewport = (element) => {
+  const isInViewport = (element) => {
     const rect = element.getBoundingClientRect();
     return (
       rect.top >= 0 &&
@@ -66,7 +67,7 @@ export default class Home extends Component {
     );
   };
 
-  getVideo = (post) => {
+  const getVideo = (post) => {
     if ("secure_media" in post.data) {
       if (post.data.secure_media) {
         if ("reddit_video" in post.data.secure_media) {
@@ -78,7 +79,7 @@ export default class Home extends Component {
                 width="100%"
                 height="auto"
                 controls
-                poster={this.getPreviewImage(post)}
+                poster={getPreviewImage(post)}
               >
                 <source
                   src={post.data.secure_media.reddit_video.fallback_url}
@@ -87,80 +88,34 @@ export default class Home extends Component {
                 Your browser does not support the video tag.
               </video>
             </Box>
-          );
+          )
         }
         if ("secure_media_embed" in post.data) {
           let updatedString = post.data.secure_media.oembed.html.replace(
             "src=",
             'loading="lazy" src='
-          );
+          )
 
           return (
             <Box className="youtube-video" sx={{ marginTop: 2 }}>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: this.htmlDecode(updatedString),
+                  __html: htmlDecode(updatedString)
                 }}
               />
             </Box>
-          );
+          )
         }
       }
     }
-  };
-
-  getPreviewImage = (post) => {
-    if (post.data.preview)
-      return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
-  };
-
-  getPosts = async () => {
-    for (const topic of TOPICS) {
-      await fetch(`https://reddit.com/r/${topic}/hot.json?include_over_18=off&limit=20`)
-      .then((response) => response.json())
-      .then((data) => {
-        let subreddits = this.state.subreddits
-        subreddits[topic] = data.data.children
-        this.setState({ subreddits: subreddits })
-      });
-
-      /*
-      const results = await axios.post(`/.netlify/functions/reddit/getSubredditPosts`, {
-          subreddit: topic,
-          filter: 'hot',
-          limit: 20
-        }).then(
-          (response) => response.data.data,
-          (error) => error
-        )
-
-      let subreddits = this.state.subreddits
-      subreddits[topic] = results.children
-      this.setState({ subreddits: subreddits })
-
-      */
-    }
-  };
-
-  /*
-  searchSubreddits = async (query) => {
-    return await axios
-      .put("/reddit/search/subreddits", {
-        searchQuery: query,
-      })
-      .then(
-        (response) => {
-          //let subreddits = this.props.state.subreddits;
-          //subreddits[subreddit] = response.data.data.children;
-          console.log("subreddit search results", response)
-          //this.props.setAppState("subreddits", subreddits);
-        },
-        (error) => console.log(error)
-      )
   }
-  */
 
-  post = (post) => {
+  const getPreviewImage = (post) => {
+    if (post.data.preview)
+      return post.data.preview.images[0].source.url.replaceAll("&amp;", "&")
+  }
+
+  const postItem = (post) => {
     let classes = "";
 
     if (post.data.over_18) classes += "nsfw ";
@@ -169,14 +124,14 @@ export default class Home extends Component {
       <Box className={"post " + classes} key={post.data.id} data-aos="fade-up">
         <a href={post.data.url} target="_blank" rel="noopener noreferrer">
           <Box className="details">
-            {this.getVideo(post)
-              ? this.getVideo(post)
-              : this.getPreviewImage(post) && (
+            {getVideo(post)
+              ? getVideo(post)
+              : getPreviewImage(post) && (
                   <Box className="media">
                     <div className="media-image">
                       <img
                         className="featured-image"
-                        src={this.getPreviewImage(post)}
+                        src={getPreviewImage(post)}
                         alt={post.data.title}
                         loading="lazy"
                       />
@@ -197,7 +152,7 @@ export default class Home extends Component {
 
               <Box className="post-title">
                 <Typography variant="h5">
-                  {this.decodeText(post.data.title)}
+                  {decodeText(post.data.title)}
                 </Typography>
               </Box>
             </Box>
@@ -207,10 +162,7 @@ export default class Home extends Component {
     );
   };
 
-  render() {
-    const posts = this.state.subreddits;
-
-    return (
+  return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <ul className="fw-filter">
           {TOPICS.map((topic) => (
@@ -227,19 +179,18 @@ export default class Home extends Component {
         </ul>
 
         <Box>
-          {Object.keys(posts)?.map((key) => (
+          {Object.keys(subreddits)?.map((key) => (
             <Box id={key} className="topic posts" key={key}>
               <Typography className="section-title" variant="h4">
                 {key}
               </Typography>
 
               <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {posts[key]?.map((post) => this.post(post))}
+                {subreddits[key]?.map((post) => postItem(post))}
               </Masonry>
             </Box>
           ))}
         </Box>
       </Box>
-    );
-  }
+  )
 }

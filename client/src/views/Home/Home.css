@@ -1,0 +1,65 @@
+.tiny-post.card {
+  padding: 0;
+}
+
+.tiny-post .post-text,
+.tiny-post .post-text .MuiTypography-root {
+  font-weight: 500;
+}
+
+.topic.posts {
+  padding-bottom: 25px;
+}
+
+@media screen and (min-width: 1200px) {
+  .columns .center-column {
+    width: 70%;
+  }
+  .columns .right-column {
+    width: 30%;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .columns .center-column {
+    width: 60%;
+    padding-right: 20px;
+  }
+  .columns .right-column {
+    width: 40%;
+    padding-left: 20px;
+  }
+  .tiny-post {
+    transition: ease-in-out all 0.3s;
+    overflow: hidden;
+  }
+  .tiny-post:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  .tiny-post:hover {
+    background-color: rgba(210, 193, 156, 0.2) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .weather {
+    display: none;
+  }
+  .tiny-post.card:not(:last-child) {
+    margin-bottom: 15px;
+  }
+  .topic.posts .MuiMasonry-root {
+    margin: 0;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .topic.posts:not(:last-child) {
+    border-bottom: 1px solid #efefef;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .topic.posts:not(:last-child) {
+    border-bottom: 1px solid #2d2f2f;
+  }
+}
