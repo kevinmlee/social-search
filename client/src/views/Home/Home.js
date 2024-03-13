@@ -25,7 +25,7 @@ export default function Home() {
 
     const getPosts = async () => {
       for (const topic of TOPICS) {
-        await axios.post(`/.netlify/functions/reddit/getSubredditPosts`, {
+        await axios.post(`/.netlify/functions/getSubredditPosts`, {
           subreddit: topic,
           filter: 'hot',
           limit: 20
