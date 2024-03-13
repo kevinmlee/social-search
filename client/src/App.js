@@ -13,7 +13,7 @@ import SignUp from "./views/SignUp";
 import NotFound from "./views/NotFound/NotFound";
 import Settings from "./views/Settings";
 
-import Home from "./views/Home/Home";
+import Dash from "./views/Dash";
 import Reddit from "./views/Platforms/Reddit/Reddit";
 import Twitter from "./views/Platforms/Twitter/Twitter";
 import YouTube from "./views/Platforms/YouTube/YouTube";
@@ -102,7 +102,7 @@ export default class App extends Component {
         >
           <Router>
             <Routes>
-              <Route exact path="/" element={<Home />} />
+              <Route exact path="/" element={<Dash />} />
               <Route exact path="/reddit" element={<Reddit />} />
               <Route exact path="/twitter" element={<Twitter />} />
               <Route exact path="/youtube" element={<YouTube />} />

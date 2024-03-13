@@ -116,29 +116,20 @@ export default class Home extends Component {
 
   getPosts = async () => {
     for (const topic of TOPICS) {
-      await fetch(`https://reddit.com/r/${topic}/hot.json?include_over_18=off&limit=20`)
-      .then((response) => response.json())
-      .then((data) => {
-        let subreddits = this.state.subreddits
-        subreddits[topic] = data.data.children
-        this.setState({ subreddits: subreddits })
-      });
-
-      /*
-      const results = await axios.post(`/.netlify/functions/reddit/getSubredditPosts`, {
+      // serverless API call
+      await fetch(`/.netlify/functions/getSubredditPosts`, {
+        method: "POST",
+        body: JSON.stringify({
           subreddit: topic,
           filter: 'hot',
           limit: 20
-        }).then(
-          (response) => response.data.data,
-          (error) => error
-        )
-
-      let subreddits = this.state.subreddits
-      subreddits[topic] = results.children
-      this.setState({ subreddits: subreddits })
-
-      */
+        }),
+      }).then((response) => response.json())
+        .then(({ data }) => {
+          let subreddits = this.state.subreddits
+          subreddits[topic] = data.children
+          this.setState({ subreddits: subreddits })
+        })
     }
   };
 
