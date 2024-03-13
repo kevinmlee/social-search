@@ -1,4 +1,5 @@
 require("dotenv").config()
+const fetch = require("node-fetch")
 const endpoint = 'https://www.reddit.com'
 
 exports.handler = async (event, context) => {
