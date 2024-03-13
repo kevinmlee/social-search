@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import moment from "moment"
+import axios from 'axios'
 
 import { Box, Typography } from "@mui/material"
 import { Masonry } from "@mui/lab"
@@ -23,14 +24,29 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" })
 
     const getPosts = async () => {
-        for (const topic of TOPICS) {
-          await fetch(`https://reddit.com/r/${topic}/hot.json?include_over_18=off&limit=20`)
-            .then((response) => response.json())
-            .then((data) => {
-              let newSubReddits = subreddits
-              newSubReddits[topic] = data.data.children
-              setSubreddits(newSubReddits)
-            })
+      for (const topic of TOPICS) {
+        await axios.post(`/.netlify/functions/reddit/getSubredditPosts`, {
+          subreddit: topic,
+          filter: 'hot',
+          limit: 20
+        }).then(
+          (response) => {
+            let newSubReddits = subreddits
+            newSubReddits[topic] = response.data.data
+            setSubreddits(newSubReddits)
+          },
+          (error) => error
+        )
+
+        /*
+        await fetch(`https://reddit.com/r/${topic}/hot.json?include_over_18=off&limit=20`)
+          .then((response) => response.json())
+          .then((data) => {
+            let newSubReddits = subreddits
+            newSubReddits[topic] = data.data.children
+            setSubreddits(newSubReddits)
+          })
+        */
       }
     }
 

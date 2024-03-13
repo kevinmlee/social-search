@@ -102,7 +102,7 @@ export default class App extends Component {
         >
           <Router>
             <Routes>
-              <Route exact path="/" element={<Home />} />
+              <Route exact path="/home" element={<Home />} />
               <Route exact path="/reddit" element={<Reddit />} />
               <Route exact path="/twitter" element={<Twitter />} />
               <Route exact path="/youtube" element={<YouTube />} />
