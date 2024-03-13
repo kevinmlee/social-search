@@ -141,14 +141,12 @@ export default class Home extends Component {
         (response) => {
           //let subreddits = this.props.state.subreddits;
           //subreddits[subreddit] = response.data.data.children;
-
-          console.log("subreddit search results", response);
-
+          console.log("subreddit search results", response)
           //this.props.setAppState("subreddits", subreddits);
         },
         (error) => console.log(error)
-      );
-  };
+      )
+  }
 
   post = (post) => {
     let classes = "";
