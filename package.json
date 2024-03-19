@@ -23,7 +23,7 @@
     "jest.config.js"
   ],
   "dependencies": {
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "concurrently": "^7.3.0",
     "cors": "^2.8.5",
