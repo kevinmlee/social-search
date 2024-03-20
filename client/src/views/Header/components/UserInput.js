@@ -1,10 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import validator from "validator";
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { AppContext } from "../../../App"
+
 export default function UserInput() {
-  const [query, setQuery] = useState("");
+  const { query, setQuery } = useContext(AppContext)
+  //const [query, setQuery] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const [searchHistory, setSearchHistory] = useState([]);
   const ref = useRef();
@@ -101,8 +104,6 @@ export default function UserInput() {
     search(e, selectedQuery);
   };
 
-  const searchQuery = localStorage.getItem("searchQuery");
-
   return (
     <div className="search-input">
       <Box sx={{}}>
@@ -112,7 +113,7 @@ export default function UserInput() {
             name="search"
             value={query}
             size="small"
-            placeholder={searchQuery ? searchQuery : "Search"}
+            placeholder={query ?? "Search"}
             spellCheck="false"
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}

@@ -1,31 +1,35 @@
-import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
+import React, { useContext, useState, useEffect, useCallback } from "react"
+import { useParams } from "react-router-dom"
+import moment from "moment"
 
-import { Box, Typography } from "@mui/material";
-import { Masonry } from "@mui/lab";
+import { Box, Typography } from "@mui/material"
+import { Masonry } from "@mui/lab"
 
-import Loader from "../../../components/Loader/Loader";
-import Filter from "../../../components/Filter/Filter";
-//import LayoutSelector from "../../../LayoutSelector";
+import Loader from "../../../components/Loader/Loader"
+import Filter from "../../../components/Filter/Filter"
+//import LayoutSelector from "../../../LayoutSelector"
+import { AppContext } from "../../../App"
 
 import "./Reddit.css"
 
 const endpoint = "https://www.reddit.com"
 
 export default function Reddit() {
-  const searchQuery = localStorage.getItem("searchQuery");
-  const [hotFeed, setHotFeed] = useState([]);
-  const [searchHot, setSearchHot] = useState([]);
-  const [searchNew, setSearchNew] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
-    hot: true,
-    recent: false,
-  });
+  const { setQuery } = useContext(AppContext)
+  const { query } = useParams()
+  const [hotFeed, setHotFeed] = useState([])
+  const [searchHot, setSearchHot] = useState([])
+  const [searchNew, setSearchNew] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [filters, setFilters] = useState({ hot: true, recent: false })
 
   useEffect(() => {
-    setTimeout(() => window.AOS.refresh(), 700);
-  });
+    setTimeout(() => window.AOS.refresh(), 700)
+  })
+
+  useEffect(() => {
+    setQuery(query)
+  }, [query, setQuery])
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
@@ -37,15 +41,15 @@ export default function Reddit() {
 
     // change views & pull data from cooresponding API if not already pulled
     if (selectedOption === "recent" && searchNew.length === 0)
-      search("new", "searchNew");
+      search("new", "searchNew")
     if (selectedOption === "hot" && searchHot.length === 0)
-      search("hot", "searchHot");
+      search("hot", "searchHot")
   };
 
   const htmlDecode = (input) => {
-    var e = document.createElement("div");
-    e.innerHTML = input;
-    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+    var e = document.createElement("div")
+    e.innerHTML = input
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue
   };
 
   const decodeText = (string) => {
@@ -55,7 +59,7 @@ export default function Reddit() {
       .replaceAll("&#39;", "'")
       .replaceAll("&quot;", '"')
       .replaceAll("&gt;", ">");
-  };
+  }
 
   const getVideo = (post) => {
     if ("secure_media" in post.data) {
@@ -77,56 +81,52 @@ export default function Reddit() {
                 Your browser does not support the video tag.
               </video>
             </Box>
-          );
+          )
         }
         if ("secure_media_embed" in post.data) {
           let updatedString = post.data.secure_media.oembed.html.replace(
             "src=",
             'loading="lazy" src='
-          );
+          )
 
           return (
             <Box className="youtube-video media" sx={{ marginBottom: 2 }}>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: htmlDecode(updatedString),
-                }}
-              />
+              <div dangerouslySetInnerHTML={{ __html: htmlDecode(updatedString) }} />
             </Box>
-          );
+          )
         }
       }
     }
-  };
+  }
 
   const getPreviewImage = (post) => {
     if (post.data.preview)
-      return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
-  };
+      return post.data.preview.images[0].source.url.replaceAll("&amp;", "&")
+  }
 
   const search = useCallback(
     async (type) => {
-      setLoading(true);
-      await fetch(`${endpoint}/search.json?q=${searchQuery}&sort=${type}`)
+      setLoading(true)
+      await fetch(`${endpoint}/search.json?q=${query}&sort=${type}`)
         .then((response) => response.json())
         .then((data) => {
-          if (type === "hot") setSearchHot(data.data.children);
-          if (type === "new") setSearchNew(data.data.children);
-          setLoading(false);
-        });
+          if (type === "hot") setSearchHot(data.data.children)
+          if (type === "new") setSearchNew(data.data.children)
+          setLoading(false)
+        })
     },
-    [searchQuery]
-  );
+    [query]
+  )
 
   const getHotPosts = async (limit) => {
-    setLoading(true);
+    setLoading(true)
     await fetch(`${endpoint}/hot.json?include_over_18=off&limit=${limit}`)
       .then((response) => response.json())
       .then((data) => {
-        setHotFeed(data.data.children);
-        setLoading(false);
-      });
-  };
+        setHotFeed(data.data.children)
+        setLoading(false)
+      })
+  }
 
   const postCard = (post) => {
     return (
@@ -180,14 +180,14 @@ export default function Reddit() {
           </Box>
         </a>
       </Box>
-    );
-  };
+    )
+  }
 
   useEffect(() => {
     // on initial load, fetch the data if not already present
     if (filters.hot && searchHot.length === 0) search("hot");
-    getHotPosts();
-  }, [search, filters, searchHot]);
+    getHotPosts()
+  }, [search, filters, searchHot])
 
   return (
     <Box sx={{ padding: "0 30px" }}>
@@ -199,7 +199,7 @@ export default function Reddit() {
       {loading && <Loader />}
 
       {/* General hottest posts */}
-      {!searchQuery && hotFeed > 0 && (
+      {!query && hotFeed > 0 && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {hotFeed.map((post) => postCard(post))}
@@ -225,5 +225,5 @@ export default function Reddit() {
         </Box>
       )}
     </Box>
-  );
+  )
 }

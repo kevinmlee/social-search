@@ -1,21 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react"
+import { Link } from "react-router-dom"
 
-import { Box, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import GridViewIcon from "@mui/icons-material/GridView";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import RedditIcon from "@mui/icons-material/Reddit";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-//import SettingsIcon from "@mui/icons-material/Settings";
+import { Box, IconButton } from "@mui/material"
+import MenuIcon from "@mui/icons-material/Menu"
+import CloseIcon from "@mui/icons-material/Close"
+import GridViewIcon from "@mui/icons-material/GridView"
+// import TwitterIcon from "@mui/icons-material/Twitter"
+import RedditIcon from "@mui/icons-material/Reddit"
+import YouTubeIcon from "@mui/icons-material/YouTube"
+//import SettingsIcon from "@mui/icons-material/Settings"
 
-import "./Sidebar.css";
+import "./Sidebar.css"
 
 const platforms = [
   { name: "Reddit", icon: <RedditIcon />, path: "/reddit" },
-  { name: "Twitter", icon: <TwitterIcon />, path: "/twitter" },
-  { name: "YouTube", icon: <YouTubeIcon />, path: "/youtube" },
+  //{ name: "Twitter", icon: <TwitterIcon />, path: "/twitter" },
+  { name: "YouTube", icon: <YouTubeIcon />, path: "/youtube" }
 ]
 
 export default function Sidebar() {
@@ -112,16 +112,16 @@ export default function Sidebar() {
         </div>
       </Box>
     </Box>
-  );
+  )
 }
 
 const useOutsideClick = (ref, callback) => {
   const handleClick = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) callback(e);
-  };
+    if (ref.current && !ref.current.contains(e.target)) callback(e)
+  }
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  });
-};
+    return () => document.removeEventListener("click", handleClick)
+  })
+}
