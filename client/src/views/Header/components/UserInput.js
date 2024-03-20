@@ -1,7 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 
-import validator from "validator";
 import { Box, IconButton, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 
