@@ -1,11 +1,14 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
+
 import validator from "validator";
-import { Box, IconButton, TextField, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, IconButton, TextField, Typography } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
 
 import { AppContext } from "../../../App"
 
 export default function UserInput() {
+  const navigate = useNavigate()
   const { query, setQuery } = useContext(AppContext)
   //const [query, setQuery] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
@@ -57,8 +60,8 @@ export default function UserInput() {
       setQuery("");
 
       // switch tab to reddit if on homepage
-      if (window.location.pathname === "/") window.location.href = "/reddit";
-      else window.location.reload();
+      if (window.location.pathname === "/") navigate(`/reddit/${query}`)
+      else navigate(`${window.location.pathname}/${query}`)
     }
   };
 
