@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 // import moment from "moment"
-import axios from "axios"
+// import axios from "axios"
 
 import { Grid, Box, Typography, Radio } from "@mui/material";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded"
@@ -26,7 +26,7 @@ export default function Trends() {
   const full = true
 
   const getInterestOverTime = useCallback(async () => {
-    await fetch(`/.netlify/functions/interestOverTime`, {
+    await fetch(`/.netlify/functions/trends-interestOverTime`, {
       method: "POST",
       body: JSON.stringify({
         searchQuery: query,
@@ -71,6 +71,26 @@ export default function Trends() {
   }, [query])
 
   const getRelatedTopics = useCallback(async () => {
+    await fetch(`/.netlify/functions/trends-relatedTopics`, {
+      method: "POST",
+      body: JSON.stringify({
+        searchQuery: query
+      }),
+    }).then(response => {
+      console.log('relatedTopics', response)
+
+      /*
+      // if response is as expected
+      if ("default" in JSON.parse(response.data)) {
+        const rankedList = JSON.parse(response.data).default.rankedList
+        setTrendingTopics(rankedList[0].rankedKeyword)
+      }
+      */
+
+      setTrendingTopics([])
+    })
+
+    /*
     return await axios
       .put("/google/relatedTopics", {
         //searchQuery: "valkyrae",
@@ -86,9 +106,30 @@ export default function Trends() {
         },
         error => console.log(error)
       )
+      */
   }, [query])
 
   const getRelatedQueries = useCallback(async () => {
+    await fetch(`/.netlify/functions/trends-relatedQueries`, {
+      method: "POST",
+      body: JSON.stringify({
+        searchQuery: query
+      }),
+    }).then(response => {
+      console.log('relatedQueries', response)
+
+      /*
+      // if response is as expected
+      if ("default" in JSON.parse(response.data)) {
+        const rankedList = JSON.parse(response.data).default.rankedList
+        setTrendingQueries(rankedList[0].rankedKeyword)
+      }
+      */
+
+      setTrendingQueries([])
+    })
+
+    /*
     return await axios
       .put("/google/relatedQueries", {
         //searchQuery: "valkyrae",
@@ -104,6 +145,7 @@ export default function Trends() {
         },
         error => console.log(error)
       )
+      */
   }, [query])
 
   useEffect(() => {
