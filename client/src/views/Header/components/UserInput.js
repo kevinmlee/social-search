@@ -47,16 +47,16 @@ export default function UserInput() {
   */
 
   const search = (e, selectedSearchQuery) => {
-    if (e) e.preventDefault();
+    if (e) e.preventDefault()
 
-    const searchQuery = selectedSearchQuery ? selectedSearchQuery : query;
+    const searchQuery = selectedSearchQuery ?? query
 
-    if (validator.isAlphanumeric(searchQuery)) {
-      localStorage.setItem("searchQuery", searchQuery);
-      updateRecentSearches(searchQuery);
-      setSearchHistory(JSON.parse(localStorage.getItem("searches")));
-      setSearchFocus(false);
-      setQuery("");
+    // if (validator.isAlphanumeric(searchQuery)) {
+    if (searchQuery) {
+      localStorage.setItem("searchQuery", searchQuery)
+      updateRecentSearches(searchQuery)
+      setSearchHistory(JSON.parse(localStorage.getItem("searches")))
+      setSearchFocus(false)
 
       // switch tab to reddit if on homepage
       if (window.location.pathname === "/") navigate(`/reddit/${query}`)
