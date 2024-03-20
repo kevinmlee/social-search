@@ -115,7 +115,7 @@ export default function UserInput() {
             name="search"
             value={query}
             size="small"
-            placeholder={query ?? "Search"}
+            placeholder={query ? query : "Search"}
             spellCheck="false"
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}

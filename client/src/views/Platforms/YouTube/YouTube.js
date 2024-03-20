@@ -22,13 +22,44 @@ export default function YouTube() {
     date: false
   })
 
+  const search = useCallback(
+    async (filter) => {
+      const requestBody = { searchQuery: query, order: filter }
+      setLoading(true)
+
+      // serverless API call
+      await fetch(`/.netlify/functions/youtubeSearch`, {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if ("items" in data) {
+            const newResults = searchResults
+            newResults[filter] = data
+            setSearchResults(newResults)
+          }
+          setLoading(false);
+        })
+    },
+    [searchResults, query]
+  )
+
   useEffect(() => {
     setTimeout(() => window.AOS.refresh(), 700)
   })
 
   useEffect(() => {
     setQuery(query)
-  }, [query, setQuery])
+    search('relevance')
+  }, [query, setQuery, search])
+
+  /*
+  useEffect(() => {
+    if (query && !searchResults["relevance"]) search("relevance");
+    //else getTrendingVideos();
+  }, [search, searchResults, query])
+  */
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters }
@@ -78,34 +109,6 @@ export default function YouTube() {
     [searchResults]
   )
   */
-
-  const search = useCallback(
-    async (filter) => {
-      const requestBody = { searchQuery: query, order: filter }
-      setLoading(true)
-
-      // serverless API call
-      await fetch(`/.netlify/functions/youtubeSearch`, {
-        method: "POST",
-        body: JSON.stringify(requestBody),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if ("items" in data) {
-            const newResults = searchResults
-            newResults[filter] = data
-            setSearchResults(newResults)
-          }
-          setLoading(false);
-        })
-    },
-    [searchResults, query]
-  )
-
-  useEffect(() => {
-    if (query && !searchResults["relevance"]) search("relevance");
-    //else getTrendingVideos();
-  }, [search, searchResults, query])
 
   /*
   const getTrendingVideos = async () => {
