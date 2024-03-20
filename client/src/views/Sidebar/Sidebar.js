@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useContext, useState, useRef, useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import { Box, IconButton } from "@mui/material"
@@ -9,6 +9,7 @@ import GridViewIcon from "@mui/icons-material/GridView"
 import RedditIcon from "@mui/icons-material/Reddit"
 import YouTubeIcon from "@mui/icons-material/YouTube"
 //import SettingsIcon from "@mui/icons-material/Settings"
+import { AppContext } from "../../App"
 
 import "./Sidebar.css"
 
@@ -19,6 +20,7 @@ const platforms = [
 ]
 
 export default function Sidebar() {
+  const { query } = useContext(AppContext)
   const ref = useRef()
   const [sidebar, setSidebar] = useState(false)
   const [selected, setSelected] = useState(document.querySelector('.menu-item.active'))
@@ -74,7 +76,7 @@ export default function Sidebar() {
 
             <div className="sub-menu">
               {platforms.map(platform => (
-                <Link to={`${platform.path}`} key={platform.name}>
+                <Link to={`${platform.path}/${query ?? ''}`} key={platform.name} >
                   <span
                     className={"menu-item tier-2 " + (window.location.pathname.includes(platform.path) && "active")}
                     data-tab={platform.name.toLowerCase()}
