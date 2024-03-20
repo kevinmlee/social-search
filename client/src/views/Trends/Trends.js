@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { useParams } from "react-router-dom"
 import moment from "moment"
 import axios from "axios"
 
 import { Grid, Box, Typography, Radio } from "@mui/material";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded"
-import { AppContext } from '../../App'
 //import Chart from "chart.js/auto"
 import { Line } from "react-chartjs-2"
 //import "chartjs-plugin-trendline"
@@ -12,7 +12,7 @@ import "./Trends.css"
 
 
 export default function Trends() {
-  const { query } = useContext(AppContext)
+  const { query } = useParams()
   const ref = useRef(null)
   const [filterToggle, setFilterToggle] = useState(false)
   const [trendingTopics, setTrendingTopics] = useState([])
@@ -23,45 +23,46 @@ export default function Trends() {
   const [full, setFull] = useState(true)
 
   const getInterestOverTime = useCallback(async () => {
-    return await axios
-      .put("/google/interestOverTime", {
-        //searchQuery: "valkyrae",
+    await fetch(`/.netlify/functions/interestOverTime`, {
+      method: "POST",
+      body: JSON.stringify({
         searchQuery: query,
         //startTime: new Date("2010-01-01").toISOString(),
         //endTime: new Date(Date.now()),
         //time: "today 12-m",
         granularTimeResolution: true
-      })
-      .then(
-        async (response) => {
-          const timelineData = JSON.parse(response.data).default.timelineData
-          //console.log(timelineData);
+      }),
+    }).then(response => {
+      console.log('getInterestOverTime', response)
 
-          let borderColor = ""
-          if (window.matchMedia("(prefers-color-scheme: dark)").matches)
-            borderColor = "rgba(255, 255, 255, 1)"
-          else if (window.matchMedia("(prefers-color-scheme: light)").matches)
-            borderColor = "rgba(0, 0, 0, 1)"
+      /*
+      const timelineData = JSON.parse(response.data).default.timelineData
+      //console.log(timelineData);
 
-          let iotData = {
-            labels: await generateLabels(timelineData),
-            datasets: [
-              {
-                label: "Peak popularity",
-                data: await generateData(timelineData),
-                //backgroundColor: "rgba(255, 255, 255, 1)",
-                borderColor: borderColor,
-                //backgroundColor: gradient,
-                //pointBackgroundColor: "white",
-                //borderWidth: 1,
-              }
-            ]
+      let borderColor = ""
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+        borderColor = "rgba(255, 255, 255, 1)"
+      else if (window.matchMedia("(prefers-color-scheme: light)").matches)
+        borderColor = "rgba(0, 0, 0, 1)"
+
+      let iotData = {
+        labels: generateLabels(timelineData),
+        datasets: [
+          {
+            label: "Peak popularity",
+            data: generateData(timelineData),
+            //backgroundColor: "rgba(255, 255, 255, 1)",
+            borderColor: borderColor,
+            //backgroundColor: gradient,
+            //pointBackgroundColor: "white",
+            //borderWidth: 1,
           }
+        ]
+      }
 
-          setIotData(iotData)
-        },
-        (error) => console.log(error)
-      )
+      setIotData(iotData)
+      */
+    })
   }, [query])
 
   const getRelatedTopics = useCallback(async () => {

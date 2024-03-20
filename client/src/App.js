@@ -87,7 +87,7 @@ export default function App() {
             <Route exact path="/reddit/:query" element={<Reddit />} />
             <Route exact path="/twitter/:query" element={<Twitter />} />
             <Route exact path="/youtube/:query" element={<YouTube />} />
-            <Route exact path="/trends" element={<Trends />} />
+            <Route exact path="/trends/:query" element={<Trends />} />
             <Route exact path="/signin" element={<SignIn />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/settings" element={<Settings />} />
