@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import { Box, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -14,24 +16,24 @@ const platforms = [
   { name: "Reddit", icon: <RedditIcon />, href: "/reddit" },
   { name: "Twitter", icon: <TwitterIcon />, href: "/twitter" },
   { name: "YouTube", icon: <YouTubeIcon />, href: "/youtube" },
-];
+]
 
 export default function Sidebar() {
-  const [sidebar, setSidebar] = useState(false);
-  const ref = useRef();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const ref = useRef()
+  const [sidebar, setSidebar] = useState(false)
 
   useOutsideClick(ref, (e) => {
     if (
       e.target.classList.contains("menu-btn-open") ||
       e.target.classList.contains("menu-button", "false")
     )
-      setSidebar(true);
-    else setSidebar(false);
-  });
+      setSidebar(true)
+    else setSidebar(false)
+  })
+
+  const onClick = path => {
+
+  }
 
   return (
     <Box className="sidebar-container">
@@ -43,61 +45,41 @@ export default function Sidebar() {
         aria-label="open drawer"
         sx={{ mr: 2 }}
       >
-        {sidebar ? (
-          <CloseIcon className="menu-btn-close" />
-        ) : (
-          <MenuIcon className="menu-btn-open" />
-        )}
+        {sidebar 
+          ? <CloseIcon className="menu-btn-close" />
+          : <MenuIcon className="menu-btn-open" />
+        }
       </IconButton>
+
       <Box className={"sidebar " + (sidebar && "expanded")} ref={ref}>
         <div className="logo">
           <h2>Currently</h2>
         </div>
 
         <div className="menu">
-          <a
-            className="menu-item-container tier-1"
-            onClick={() => {
-              window.location.pathname === "/" && scrollToTop();
-            }}
-            href={window.location.pathname !== "/" ? "/" : undefined}
-            data-tab="home"
-          >
-            <div
-              className={
-                "menu-item " + (window.location.pathname === "/" && "active")
-              }
-            >
-              <GridViewIcon className="home-icon" />
-              <span>Home</span>
-            </div>
-          </a>
+          <Link to="/">
+            <span className="menu-item-container tier-1" data-tab="home">
+              <div className={"menu-item " + (window.location.pathname === "/" && "active")}>
+                <GridViewIcon className="home-icon" />
+                <span>Home</span>
+              </div>
+            </span>
+          </Link>
 
           <div className="menu-item-container tier-1">
             <div className="menu-section-label">Platforms</div>
 
             <div className="sub-menu">
-              {platforms.map((platform) => (
-                <a
-                  className={
-                    "menu-item tier-2 " +
-                    (window.location.pathname.includes(platform.href) &&
-                      "active")
-                  }
-                  onClick={(e) => {
-                    window.location.pathname === platform.href && scrollToTop();
-                  }}
-                  href={
-                    window.location.pathname !== platform.href
-                      ? platform.href
-                      : undefined
-                  }
-                  data-tab={platform.name.toLowerCase()}
-                  key={platform.name}
-                >
-                  {platform.icon}
-                  <span>{platform.name}</span>
-                </a>
+              {platforms.map(platform => (
+                <Link to={`${platform.href}`} key={platform.name}>
+                  <span
+                    className={"menu-item tier-2 " + (window.location.pathname.includes(platform.href) && "active")}
+                    data-tab={platform.name.toLowerCase()}
+                  >
+                    {platform.icon}
+                    <span>{platform.name}</span>
+                  </span>
+                </Link>
               ))}
             </div>
           </div>

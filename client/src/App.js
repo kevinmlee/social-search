@@ -89,18 +89,15 @@ export default class App extends Component {
   render() {
     return (
       <Box>
-        {this.isInnerPage() && (
-          <Box>
-            <Header state={this.state} />
-            <Sidebar />
-          </Box>
-        )}
+        <Router>
+          {this.isInnerPage() && (
+            <Box>
+              <Header state={this.state} />
+              <Sidebar />
+            </Box>
+          )}
 
-        <div
-          id="main-content"
-          className={!this.isInnerPage() ? "fw" : undefined}
-        >
-          <Router>
+          <div id="main-content" className={!this.isInnerPage() ? "fw" : undefined}>
             <Routes>
               <Route exact path="/" element={<Dash />} />
               <Route exact path="/reddit" element={<Reddit />} />
@@ -111,8 +108,8 @@ export default class App extends Component {
               <Route exact path="/settings" element={<Settings />} />
               <Route element={<NotFound />} />
             </Routes>
-          </Router>
-        </div>
+          </div>
+        </Router>
 
         {this.state.backdropToggle && this.imageBackdrop()}
         {this.state.backToTop && this.backToTopButton()}
