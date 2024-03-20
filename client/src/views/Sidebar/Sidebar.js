@@ -13,14 +13,15 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import "./Sidebar.css";
 
 const platforms = [
-  { name: "Reddit", icon: <RedditIcon />, href: "/reddit" },
-  { name: "Twitter", icon: <TwitterIcon />, href: "/twitter" },
-  { name: "YouTube", icon: <YouTubeIcon />, href: "/youtube" },
+  { name: "Reddit", icon: <RedditIcon />, path: "/reddit" },
+  { name: "Twitter", icon: <TwitterIcon />, path: "/twitter" },
+  { name: "YouTube", icon: <YouTubeIcon />, path: "/youtube" },
 ]
 
 export default function Sidebar() {
   const ref = useRef()
   const [sidebar, setSidebar] = useState(false)
+  const [selected, setSelected] = useState(document.querySelector('.menu-item.active'))
 
   useOutsideClick(ref, (e) => {
     if (
@@ -31,8 +32,10 @@ export default function Sidebar() {
     else setSidebar(false)
   })
 
-  const onClick = path => {
-
+  const handleClick = element => {
+    selected?.classList?.remove('active')
+    element.target.classList.add('active')
+    setSelected(element)
   }
 
   return (
@@ -58,7 +61,7 @@ export default function Sidebar() {
 
         <div className="menu">
           <Link to="/">
-            <span className="menu-item-container tier-1" data-tab="home">
+            <span className="menu-item-container tier-1" data-tab="home" onClick={handleClick}>
               <div className={"menu-item " + (window.location.pathname === "/" && "active")}>
                 <GridViewIcon className="home-icon" />
                 <span>Home</span>
@@ -71,10 +74,11 @@ export default function Sidebar() {
 
             <div className="sub-menu">
               {platforms.map(platform => (
-                <Link to={`${platform.href}`} key={platform.name}>
+                <Link to={`${platform.path}`} key={platform.name}>
                   <span
-                    className={"menu-item tier-2 " + (window.location.pathname.includes(platform.href) && "active")}
+                    className={"menu-item tier-2 " + (window.location.pathname.includes(platform.path) && "active")}
                     data-tab={platform.name.toLowerCase()}
+                    onClick={handleClick}
                   >
                     {platform.icon}
                     <span>{platform.name}</span>
