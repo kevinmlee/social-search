@@ -10,7 +10,6 @@ import { AppContext } from "../../../App"
 export default function UserInput() {
   const navigate = useNavigate()
   const { query, setQuery } = useContext(AppContext)
-  //const [query, setQuery] = useState("");
   const [searchFocus, setSearchFocus] = useState(false);
   const [searchHistory, setSearchHistory] = useState([]);
   const ref = useRef();
@@ -61,7 +60,7 @@ export default function UserInput() {
 
       // switch tab to reddit if on homepage
       if (window.location.pathname === "/") navigate(`/reddit/${query}`)
-      else navigate(`${window.location.pathname}/${query}`)
+      else navigate(`${window.location.pathname.split('/')[1]}/${query}`)
     }
   };
 
