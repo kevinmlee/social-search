@@ -26,12 +26,8 @@ export default class Home extends Component {
   }
 
   componentDidMount = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-    this.getPosts();
+    window.scrollTo({ top: 0,behavior: "smooth" })
+    this.getPosts()
   };
 
   componentDidUpdate = () => {

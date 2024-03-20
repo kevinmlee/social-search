@@ -1,41 +1,46 @@
-import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
-//import axios from "axios";
-//import LayoutSelector from "../../../LayoutSelector";
-import { Box, Typography, Grid } from "@mui/material";
-import { Masonry } from "@mui/lab";
-import Loader from "../../../components/Loader/Loader";
-import Filter from "../../../components/Filter/Filter";
+import React, { useContext, useState, useEffect, useCallback } from "react"
+import { useParams } from "react-router-dom"
+import moment from "moment"
 
-import "./YouTube.css";
+import { Box, Typography, Grid } from "@mui/material"
+import { Masonry } from "@mui/lab"
+import Loader from "../../../components/Loader/Loader"
+import Filter from "../../../components/Filter/Filter"
+import { AppContext } from "../../../App"
 
-const searchQuery = localStorage.getItem("searchQuery");
+import "./YouTube.css"
 
 export default function YouTube() {
   //const [trending, setTrending] = useState({});
-  const [searchResults, setSearchResults] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { setQuery } = useContext(AppContext)
+  const { query } = useParams()
+  const [searchResults, setSearchResults] = useState({})
+  const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({
     relevance: true,
     rating: false,
-    date: false,
-  });
+    date: false
+  })
 
   useEffect(() => {
-    setTimeout(() => window.AOS.refresh(), 700);
-  });
+    setTimeout(() => window.AOS.refresh(), 700)
+  })
+
+  useEffect(() => {
+    setQuery(query)
+  }, [query, setQuery])
 
   const handleFilter = (selectedOption) => {
-    const tempFilters = { ...filters };
+    const tempFilters = { ...filters }
     for (const option in filters) {
-      if (option === selectedOption) tempFilters[option] = true;
-      else tempFilters[option] = false;
+      if (option === selectedOption) tempFilters[option] = true
+      else tempFilters[option] = false
     }
-    setFilters(tempFilters);
+    setFilters(tempFilters)
 
     // pull data from cooresponding API if not already pulled
-    if (!searchResults[selectedOption]) search(selectedOption);
-  };
+    if (!searchResults[selectedOption]) search(selectedOption)
+  }
 
   const decodeText = (string) => {
     return string
@@ -43,8 +48,8 @@ export default function YouTube() {
       .replaceAll("&lt;", "<")
       .replaceAll("&#39;", "'")
       .replaceAll("&quot;", '"')
-      .replaceAll("&gt;", ">");
-  };
+      .replaceAll("&gt;", ">")
+  }
 
   /*
   const search = useCallback(
@@ -53,7 +58,7 @@ export default function YouTube() {
 
       return await axios
         .put("https://prickly-umbrella-toad.cyclic.app/youtube/search", {
-          searchQuery: searchQuery,
+          searchQuery: query,
           order: filter,
         })
         .then(
@@ -71,13 +76,13 @@ export default function YouTube() {
         );
     },
     [searchResults]
-  );
+  )
   */
 
   const search = useCallback(
     async (filter) => {
-      const requestBody = { searchQuery: searchQuery, order: filter };
-      setLoading(true);
+      const requestBody = { searchQuery: query, order: filter }
+      setLoading(true)
 
       // serverless API call
       await fetch(`/.netlify/functions/youtubeSearch`, {
@@ -87,20 +92,20 @@ export default function YouTube() {
         .then((response) => response.json())
         .then((data) => {
           if ("items" in data) {
-            const newResults = searchResults;
-            newResults[filter] = data;
-            setSearchResults(newResults);
+            const newResults = searchResults
+            newResults[filter] = data
+            setSearchResults(newResults)
           }
           setLoading(false);
-        });
+        })
     },
-    [searchResults]
-  );
+    [searchResults, query]
+  )
 
   useEffect(() => {
-    if (searchQuery && !searchResults["relevance"]) search("relevance");
+    if (query && !searchResults["relevance"]) search("relevance");
     //else getTrendingVideos();
-  }, [search, searchResults]);
+  }, [search, searchResults, query])
 
   /*
   const getTrendingVideos = async () => {
@@ -221,7 +226,7 @@ export default function YouTube() {
       {loading && <Loader />}
 
       {/*
-      {"items" in trending && !searchQuery && (
+      {"items" in trending && !query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {trending.items.map((post) => postCard(post))}
@@ -229,7 +234,7 @@ export default function YouTube() {
         </Box>
       )}*/}
 
-      {filters.relevance && searchResults["relevance"] && searchQuery && (
+      {filters.relevance && searchResults["relevance"] && query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {searchResults["relevance"].items.map((post) => postCard(post))}
@@ -237,7 +242,7 @@ export default function YouTube() {
         </Box>
       )}
 
-      {filters.rating && searchResults["rating"] && searchQuery && (
+      {filters.rating && searchResults["rating"] && query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {searchResults["rating"].items.map((post) => postCard(post))}
@@ -245,7 +250,7 @@ export default function YouTube() {
         </Box>
       )}
 
-      {filters.date && searchResults["date"] && searchQuery && (
+      {filters.date && searchResults["date"] && query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {searchResults["date"].items.map((post) => postCard(post))}
