@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-import moment from "moment"
+// import moment from "moment"
 import axios from "axios"
 
 import { Grid, Box, Typography, Radio } from "@mui/material";
@@ -18,9 +18,12 @@ export default function Trends() {
   const [trendingTopics, setTrendingTopics] = useState([])
   const [trendingQueries, setTrendingQueries] = useState([])
   const [iotData, setIotData] = useState({})
-  const [twelveMonths, setTwelveMonths] = useState(false)
-  const [sixMonths, setSixMonths] = useState(false)
-  const [full, setFull] = useState(true)
+  // const [twelveMonths, setTwelveMonths] = useState(false)
+  // const [sixMonths, setSixMonths] = useState(false)
+  // const [full, setFull] = useState(true)
+  const twelveMonths = false
+  const sixMonths = false
+  const full = true
 
   const getInterestOverTime = useCallback(async () => {
     await fetch(`/.netlify/functions/interestOverTime`, {
@@ -62,6 +65,8 @@ export default function Trends() {
 
       setIotData(iotData)
       */
+
+      setIotData({})
     })
   }, [query])
 
@@ -130,6 +135,7 @@ export default function Trends() {
     */
   }
 
+  /*
  const iotFilter = async (filter) => {
     const currentDay = moment(new Date(Date.now())).format("MMM D YYYY")
 
@@ -149,6 +155,7 @@ export default function Trends() {
     //console.log("newIotData", iotData);
     setIotData(newIotData)
   };
+  */
 
   const filters = () => {
     return (
@@ -219,6 +226,7 @@ export default function Trends() {
     );
   }
 
+  /*
   const generateLabels = data => {
     let labels = []
     data.forEach(item => labels.push(item.formattedAxisTime))
@@ -230,6 +238,7 @@ export default function Trends() {
     data.forEach(item => values.push(item.value[0]))
     return values
   }
+  */
 
   return (
     <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
