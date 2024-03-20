@@ -23,13 +23,38 @@ export default function Reddit() {
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({ hot: true, recent: false })
 
+  const search = useCallback(
+    async (type) => {
+      setLoading(true)
+      await fetch(`${endpoint}/search.json?q=${query}&sort=${type}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (type === "hot") setSearchHot(data.data.children)
+          if (type === "new") setSearchNew(data.data.children)
+          setLoading(false)
+        })
+    },
+    [query]
+  )
+
   useEffect(() => {
     setTimeout(() => window.AOS.refresh(), 700)
   })
 
   useEffect(() => {
     setQuery(query)
-  }, [query, setQuery])
+
+    if (!query) getHotPosts()
+    
+    if (filters.hot) {
+      setSearchHot([])
+      search('hot')
+    }
+    else if (filters.recent) {
+      setSearchNew([])
+      search('recent')
+    }
+  }, [query, setQuery, search, filters.hot, filters.recent])
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
@@ -104,20 +129,7 @@ export default function Reddit() {
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&")
   }
 
-  const search = useCallback(
-    async (type) => {
-      setLoading(true)
-      await fetch(`${endpoint}/search.json?q=${query}&sort=${type}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (type === "hot") setSearchHot(data.data.children)
-          if (type === "new") setSearchNew(data.data.children)
-          setLoading(false)
-        })
-    },
-    [query]
-  )
-
+ 
   const getHotPosts = async (limit) => {
     setLoading(true)
     await fetch(`${endpoint}/hot.json?include_over_18=off&limit=${limit}`)
@@ -183,11 +195,13 @@ export default function Reddit() {
     )
   }
 
+  /*
   useEffect(() => {
     // on initial load, fetch the data if not already present
     if (filters.hot && searchHot.length === 0) search("hot");
     getHotPosts()
   }, [search, filters, searchHot])
+  */
 
   return (
     <Box sx={{ padding: "0 30px" }}>

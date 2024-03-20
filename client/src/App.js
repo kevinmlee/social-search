@@ -82,6 +82,7 @@ export default function App() {
         <div id="main-content" className={!isInnerPage() ? "fw" : undefined}>
           <Routes>
             <Route exact path="/" element={<Dash />} />
+            <Route exact path="/reddit" element={<Reddit />} />
             <Route exact path="/reddit/:query" element={<Reddit />} />
             <Route exact path="/twitter/:query" element={<Twitter />} />
             <Route exact path="/youtube/:query" element={<YouTube />} />
