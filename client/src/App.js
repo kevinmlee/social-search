@@ -1,22 +1,23 @@
-import React, { createContext, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Backdrop, Box } from "@mui/material";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import React, { createContext, useEffect, useState } from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { Backdrop, Box } from "@mui/material"
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 
-import "./styles/main.css";
+import "./styles/main.css"
 
 // components
-import Header from "./views/Header";
-import Sidebar from "./views/Sidebar/Sidebar";
-import SignIn from "./views/SignIn/SignIn";
-import SignUp from "./views/SignUp";
-import NotFound from "./views/NotFound/NotFound";
-import Settings from "./views/Settings";
+import Header from "./views/Header"
+import Sidebar from "./views/Sidebar/Sidebar"
+import SignIn from "./views/SignIn/SignIn"
+import SignUp from "./views/SignUp"
+import NotFound from "./views/NotFound/NotFound"
+import Settings from "./views/Settings"
 
-import Dash from "./views/Dash";
-import Reddit from "./views/Platforms/Reddit/Reddit";
-import Twitter from "./views/Platforms/Twitter/Twitter";
-import YouTube from "./views/Platforms/YouTube/YouTube";
+import Dash from "./views/Dash"
+import Reddit from "./views/Platforms/Reddit/Reddit"
+import Twitter from "./views/Platforms/Twitter/Twitter"
+import YouTube from "./views/Platforms/YouTube/YouTube"
+import Trends from "./views/Trends/Trends"
 
 export const AppContext = createContext(null)
 
@@ -86,6 +87,7 @@ export default function App() {
             <Route exact path="/reddit/:query" element={<Reddit />} />
             <Route exact path="/twitter/:query" element={<Twitter />} />
             <Route exact path="/youtube/:query" element={<YouTube />} />
+            <Route exact path="/trends" element={<Trends />} />
             <Route exact path="/signin" element={<SignIn />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/settings" element={<Settings />} />

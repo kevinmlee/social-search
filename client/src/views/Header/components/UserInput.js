@@ -1,7 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 
-import validator from "validator";
 import { Box, IconButton, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 
@@ -10,26 +9,26 @@ import { AppContext } from "../../../App"
 export default function UserInput() {
   const navigate = useNavigate()
   const { query, setQuery } = useContext(AppContext)
-  const [searchFocus, setSearchFocus] = useState(false);
-  const [searchHistory, setSearchHistory] = useState([]);
-  const ref = useRef();
+  const [searchFocus, setSearchFocus] = useState(false)
+  const [searchHistory, setSearchHistory] = useState([])
+  const ref = useRef()
 
   useEffect(() => {
-    let searches = JSON.parse(localStorage.getItem("searches"));
-    if (searches) setSearchHistory(searches);
-    else localStorage.setItem("searches", JSON.stringify([]));
+    let searches = JSON.parse(localStorage.getItem("searches"))
+    if (searches) setSearchHistory(searches)
+    else localStorage.setItem("searches", JSON.stringify([]))
   }, []);
 
-  useOutsideClick(ref, () => setSearchFocus(false));
+  useOutsideClick(ref, () => setSearchFocus(false))
 
   const debounce = (func, ms) => {
-    let timer;
+    let timer
 
     return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => func.apply(this, args), ms);
-    };
-  };
+      clearTimeout(timer)
+      timer = setTimeout(() => func.apply(this, args), ms)
+    }
+  }
 
   /*
   const throttle = (func, ms) => {
