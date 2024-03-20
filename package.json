@@ -54,6 +54,6 @@
     "twitter-v2": "^1.1.0",
     "validator": "^13.11.0",
     "webpack": "^5.73.0",
-    "webpack-dev-server": "^4.9.3"
+    "webpack-dev-server": "^5.0.4"
   }
 }
