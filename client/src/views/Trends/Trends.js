@@ -35,8 +35,10 @@ export default function Trends() {
         //time: "today 12-m",
         granularTimeResolution: true
       }),
-    }).then(response => {
-      console.log('getInterestOverTime', response)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('getInterestOverTime', data)
 
       /*
       const timelineData = JSON.parse(response.data).default.timelineData
