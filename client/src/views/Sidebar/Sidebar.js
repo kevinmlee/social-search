@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react"
+import React, { useContext, useState, useRef } from "react"
 import { Link } from "react-router-dom"
 
 import { Box, IconButton } from "@mui/material"
