@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from "react"
 import { useParams } from "react-router-dom"
-import moment from "moment"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
 import { Box, Typography, Grid } from "@mui/material"
 import { Masonry } from "@mui/lab"
@@ -10,6 +11,7 @@ import { AppContext } from "../../../App"
 
 import "./YouTube.css"
 
+dayjs.extend(relativeTime)
 export default function YouTube() {
   //const [trending, setTrending] = useState({});
   const { setQuery } = useContext(AppContext)
@@ -199,7 +201,7 @@ export default function YouTube() {
                 <span className="username">{post.snippet.channelTitle}</span>
                 <span style={{ color: "#999999" }}> · </span>
                 <Typography variant="caption" style={{ color: "#999999" }}>
-                  {moment(post.snippet.publishedAt).fromNow()}
+                  {dayjs(post.snippet.publishedAt).fromNow()}
                 </Typography>
               </Grid>
             </Grid>

@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect, useCallback } from "react"
 import { useParams } from "react-router-dom"
-import moment from "moment"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import utc from 'dayjs/plugin/utc'
 
 import { Box, Typography } from "@mui/material"
 import { Masonry } from "@mui/lab"
@@ -11,6 +13,9 @@ import Filter from "../../../components/Filter/Filter"
 import { AppContext } from "../../../App"
 
 import "./Reddit.css"
+
+dayjs.extend(relativeTime)
+dayjs.extend(utc)
 
 const endpoint = "https://www.reddit.com"
 
@@ -179,7 +184,7 @@ export default function Reddit() {
                 </Typography>
                 <span style={{ color: "#999999" }}> · </span>
                 <Typography variant="caption" style={{ color: "#999999" }}>
-                  {moment.unix(post.data.created).utc().fromNow()}
+                  {dayjs.unix(post.data.created).utc().fromNow()}
                 </Typography>
               </Box>
 

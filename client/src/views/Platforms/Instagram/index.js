@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import moment from "moment";
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import utc from 'dayjs/plugin/utc'
 import axios from "axios";
 
 import {
@@ -18,6 +20,9 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 
 import { Masonry } from "@mui/lab";
+
+dayjs.extend(relativeTime)
+dayjs.extend(utc)
 
 export default class Instagram extends Component {
   constructor(props) {
@@ -133,7 +138,7 @@ export default class Instagram extends Component {
             </Typography>
             <span style={{ color: "#999999" }}> · </span>
             <Typography variant="caption" style={{ color: "#999999" }}>
-              {/*moment.unix(post.data.created).utc().fromNow()*/}
+              {/*dayjs.unix(post.data.created).utc().fromNow()*/}
             </Typography>
           </Box>
         </a>

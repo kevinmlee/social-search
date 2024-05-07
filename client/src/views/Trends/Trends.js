@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-// import moment from "moment"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import utc from 'dayjs/plugin/utc'
 // import axios from "axios"
 
 import { Grid, Box, Typography, Radio } from "@mui/material";
@@ -10,6 +12,8 @@ import { Line } from "react-chartjs-2"
 //import "chartjs-plugin-trendline"
 import "./Trends.css"
 
+dayjs.extend(relativeTime)
+dayjs.extend(utc)
 
 export default function Trends() {
   const { query } = useParams()
@@ -181,16 +185,16 @@ export default function Trends() {
 
   /*
  const iotFilter = async (filter) => {
-    const currentDay = moment(new Date(Date.now())).format("MMM D YYYY")
+    const currentDay = dayjs(new Date(Date.now())).format("MMM D YYYY")
 
     let newIotData = iotData
     let newIotDataset = []
 
     let filteredLabels = iotData.labels.filter((item, index) => {
-      if (moment(currentDay).diff(moment(item), "months", true) < 12)
+      if (dayjs(currentDay).diff(dayjs(item), "months", true) < 12)
         newIotDataset.push(iotData.datasets[0].data[index])
 
-      return moment(currentDay).diff(moment(item), "months", true) < 12
+      return dayjs(currentDay).diff(dayjs(item), "months", true) < 12
     })
 
     newIotData.labels = filteredLabels
