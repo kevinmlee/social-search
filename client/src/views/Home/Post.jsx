@@ -1,8 +1,11 @@
 import React from "react"
-import moment from "moment"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
 import { Box, Typography } from "@mui/material"
 import { decodeText } from '../../util/decodeText'
+
+dayjs.extend(relativeTime)
 
 const Post = ({ data }) => {
   return (
@@ -16,7 +19,7 @@ const Post = ({ data }) => {
               </Typography>
               <span style={{ color: "#999999" }}> · </span>
               <Typography variant="caption" style={{ color: "#999999" }}>
-                {moment(data?.pubDate).fromNow()}
+                {dayjs(data?.pubDate).fromNow()}
               </Typography>
             </Box>
 
