@@ -18,23 +18,21 @@ const TOPICS = [
 
 export default class Home extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      subreddits: [],
-    };
+      subreddits: []
+    }
   }
 
   componentDidMount = () => {
     window.scrollTo({ top: 0,behavior: "smooth" })
     this.getPosts()
-  };
+  }
 
   componentDidUpdate = () => {
-    setTimeout(function () {
-      window.AOS.refresh();
-    }, 500);
-  };
+    setTimeout(() => window.AOS.refresh(), 700)
+  }
 
   htmlDecode = (input) => {
     var e = document.createElement("div");
@@ -122,7 +120,6 @@ export default class Home extends Component {
         }),
       }).then((response) => response.json())
         .then((data) => {
-          console.log('data', data.items)
           let subreddits = this.state.subreddits
           subreddits[topic] = data.items
           this.setState({ subreddits: subreddits })
@@ -221,8 +218,6 @@ export default class Home extends Component {
   };
 
   render() {
-    const posts = this.state.subreddits;
-
     return (
       <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <ul className="fw-filter">
@@ -240,14 +235,14 @@ export default class Home extends Component {
         </ul>
 
         <Box>
-          {Object.keys(posts)?.map((key) => (
+          {Object.keys(this.state.subreddits)?.map((key) => (
             <Box id={key} className="topic posts" key={key}>
               <Typography className="section-title" variant="h4">
                 {key}
               </Typography>
 
               <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-                {posts[key]?.map((post) => this.post(post))}
+                {this.state.subreddits[key]?.map((post) => this.post(post))}
               </Masonry>
             </Box>
           ))}
