@@ -25,16 +25,8 @@ export default function Sidebar() {
   const [sidebar, setSidebar] = useState(false)
   const [selected, setSelected] = useState(document.querySelector('.menu-item.active'))
 
-  useOutsideClick(ref, (e) => {
-    if (
-      e.target.classList.contains("menu-btn-open") ||
-      e.target.classList.contains("menu-button", "false")
-    )
-      setSidebar(true)
-    else setSidebar(false)
-  })
-
   const handleClick = element => {
+    setSidebar(false)
     selected?.classList?.remove('active')
     element.target.classList.add('active')
     setSelected(element)
@@ -49,6 +41,7 @@ export default function Sidebar() {
         color="inherit"
         aria-label="open drawer"
         sx={{ mr: 2 }}
+        onClick={() => setSidebar(!sidebar)}
       >
         {sidebar 
           ? <CloseIcon className="menu-btn-close" />
@@ -115,15 +108,4 @@ export default function Sidebar() {
       </Box>
     </Box>
   )
-}
-
-const useOutsideClick = (ref, callback) => {
-  const handleClick = (e) => {
-    if (ref.current && !ref.current.contains(e.target)) callback(e)
-  }
-
-  useEffect(() => {
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick)
-  })
 }
