@@ -6,7 +6,7 @@ import { decodeText } from '../../util/decodeText'
 
 const Post = ({ data }) => {
   return (
-    <Box className={"post "} key={data?.id} data-aos="fade-up">
+    <Box className={"post"} data-aos="fade-up">
       <a href={data?.link} target="_blank" rel="noopener noreferrer">
         <Box className="details">
           <Box className="text">

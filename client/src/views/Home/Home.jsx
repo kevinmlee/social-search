@@ -45,7 +45,7 @@ const Home = () => {
   }, [getPosts])
 
   return (
-    <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+    <Box sx={{ padding: "0 30px" }}>
       <ul className="fw-filter">
         {TOPICS.map(topic => (
           <li
@@ -66,7 +66,7 @@ const Home = () => {
             </Typography>
 
             <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-              {subreddits[key]?.map(post => <Post data={post}/>)}
+              {subreddits[key]?.map(post => <Post data={post} key={post?.id}/>)}
             </Masonry>
           </Box>
         ))}
