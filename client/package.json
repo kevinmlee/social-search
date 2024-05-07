@@ -31,6 +31,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0",
     "react-use-googlelogin": "^0.12.5",
+    "rss-parser": "^3.13.0",
     "saslprep": "^1.0.3",
     "secure-ls": "^1.2.6",
     "universal-cookie": "^4.0.3",

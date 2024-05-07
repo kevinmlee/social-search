@@ -13,7 +13,7 @@ const TOPICS = [
   "science",
   "sports",
   "space",
-  "nutrition",
+  "nutrition"
 ];
 
 export default class Home extends Component {
@@ -63,7 +63,7 @@ export default class Home extends Component {
   };
 
   getVideo = (post) => {
-    if ("secure_media" in post.data) {
+    if ("secure_media" in post?.data) {
       if (post.data.secure_media) {
         if ("reddit_video" in post.data.secure_media) {
           //console.log(post.data);
@@ -106,10 +106,31 @@ export default class Home extends Component {
   };
 
   getPreviewImage = (post) => {
-    if (post.data.preview)
+    if (post?.data?.preview)
       return post.data.preview.images[0].source.url.replaceAll("&amp;", "&");
   };
 
+  getPosts = async () => {
+    for (const topic of TOPICS) {
+      // serverless API call
+      await fetch(`/.netlify/functions/fetchSubredditPosts`, {
+        method: "POST",
+        body: JSON.stringify({
+          subreddit: topic,
+          filter: 'hot',
+          limit: 20
+        }),
+      }).then((response) => response.json())
+        .then((data) => {
+          console.log('data', data.items)
+          let subreddits = this.state.subreddits
+          subreddits[topic] = data.items
+          this.setState({ subreddits: subreddits })
+        })
+    }
+  };
+      
+  /*
   getPosts = async () => {
     for (const topic of TOPICS) {
       // serverless API call
@@ -128,6 +149,7 @@ export default class Home extends Component {
         })
     }
   };
+  */
 
   /*
   searchSubreddits = async (query) => {
@@ -150,12 +172,14 @@ export default class Home extends Component {
   post = (post) => {
     let classes = "";
 
-    if (post.data.over_18) classes += "nsfw ";
+    if (post?.data?.over_18) classes += "nsfw ";
 
     return (
-      <Box className={"post " + classes} key={post.data.id} data-aos="fade-up">
-        <a href={post.data.url} target="_blank" rel="noopener noreferrer">
+      <Box className={"post " + classes} key={post?.id} data-aos="fade-up">
+        <a href={post?.link} target="_blank" rel="noopener noreferrer">
+
           <Box className="details">
+            {/*
             {this.getVideo(post)
               ? this.getVideo(post)
               : this.getPreviewImage(post) && (
@@ -164,27 +188,29 @@ export default class Home extends Component {
                       <img
                         className="featured-image"
                         src={this.getPreviewImage(post)}
-                        alt={post.data.title}
+                        alt={post?.title}
                         loading="lazy"
                       />
                     </div>
                   </Box>
                 )}
+              */}
 
             <Box className="text">
               <Box className="author-details">
                 <Typography variant="caption" style={{ color: "#999999" }}>
-                  Posted by {post.data.author}
+                  Posted by {post?.author}
                 </Typography>
                 <span style={{ color: "#999999" }}> · </span>
                 <Typography variant="caption" style={{ color: "#999999" }}>
-                  {moment.unix(post.data.created).utc().fromNow()}
+                  {/*moment.unix(post?.pubDate).utc().fromNow()*/}
+                  {moment(post?.pubDate).fromNow()}
                 </Typography>
               </Box>
 
               <Box className="post-title">
                 <Typography variant="h5">
-                  {this.decodeText(post.data.title)}
+                  {this.decodeText(post?.title)}
                 </Typography>
               </Box>
             </Box>
