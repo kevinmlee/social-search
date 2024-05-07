@@ -29,6 +29,7 @@ html {
 body {
   font-size: 14px;
   font-family: "Poppins", sans-serif;
+  font-weight: 500;
   line-height: 1.2em;
   transition: ease-in-out margin 0.3s;
 }

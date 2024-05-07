@@ -13,7 +13,7 @@ import SignUp from "./views/SignUp"
 import NotFound from "./views/NotFound/NotFound"
 import Settings from "./views/Settings"
 
-import Dash from "./views/Dash"
+import Home from "./views/Home/Home"
 import Reddit from "./views/Platforms/Reddit/Reddit"
 import Twitter from "./views/Platforms/Twitter/Twitter"
 import YouTube from "./views/Platforms/YouTube/YouTube"
@@ -82,7 +82,7 @@ export default function App() {
 
         <div id="main-content" className={!isInnerPage() ? "fw" : undefined}>
           <Routes>
-            <Route exact path="/" element={<Dash />} />
+            <Route exact path="/" element={<Home />} />
             <Route exact path="/reddit" element={<Reddit />} />
             <Route exact path="/reddit/:query" element={<Reddit />} />
             <Route exact path="/twitter/:query" element={<Twitter />} />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 //import axios from "axios";
 
 import { Box, Paper, Grid, Typography } from "@mui/material";
@@ -9,6 +10,8 @@ import Loader from "../../../components/Loader/Loader";
 import Filter from "../../../components/Filter/Filter";
 
 import "./Twitter.css";
+
+dayjs.extend(relativeTime)
 
 export default function Twitter({ setAppState }) {
   const searchQuery = localStorage.getItem("searchQuery");
@@ -190,7 +193,7 @@ export default function Twitter({ setAppState }) {
                   <span className="username">@{user.username}</span>
                   <span style={{ color: "#999999" }}> · </span>
                   <Typography variant="caption" style={{ color: "#999999" }}>
-                    {moment(tweet.created_at).fromNow()}
+                    {dayjs(tweet.created_at).fromNow()}
                   </Typography>
                 </Box>
               </Grid>
