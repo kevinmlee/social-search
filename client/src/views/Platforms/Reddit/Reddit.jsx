@@ -21,38 +21,46 @@ const Reddit = () => {
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({ hot: true, recent: false })
 
-  const search = useCallback(
-    async (type) => {
-      setLoading(true)
-      await fetch(`${endpoint}/search.json?q=${query}&sort=${type}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (type === "hot") setSearchHot(data.data.children)
-          if (type === "new") setSearchNew(data.data.children)
-          setLoading(false)
-        })
-    },
-    [query]
-  )
+  const search = useCallback(async (type) => {
+    setLoading(true)
+    await fetch(`${endpoint}/search.json?q=${query}&sort=${type}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (type === "hot") setSearchHot(data.data.children)
+        if (type === "new") setSearchNew(data.data.children)
+        setLoading(false)
+      })
+  }, [query])
+
+  const getHotPosts = useCallback(async (limit) => {
+    setLoading(true)
+    await fetch(`${endpoint}/hot.json?include_over_18=off&limit=${limit}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setHotFeed(data.data.children)
+        setLoading(false)
+      })
+  }, [])
 
   useEffect(() => {
     setTimeout(() => window.AOS.refresh(), 700)
   })
 
   useEffect(() => {
-    setQuery(query)
-
     if (!query) getHotPosts()
     
-    if (filters.hot) {
-      setSearchHot([])
-      search('hot')
+    if (query) {
+      setQuery(query)
+
+      if (filters.hot) {
+        setSearchHot([])
+        search('hot')
+      } else if (filters.recent) {
+        setSearchNew([])
+        search('recent')
+      }
     }
-    else if (filters.recent) {
-      setSearchNew([])
-      search('recent')
-    }
-  }, [query, setQuery, search, filters.hot, filters.recent])
+  }, [getHotPosts, query, setQuery, search, filters.hot, filters.recent])
 
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
@@ -68,57 +76,35 @@ const Reddit = () => {
     if (selectedOption === "hot" && searchHot.length === 0)
       search("hot", "searchHot")
   }
- 
-  const getHotPosts = async (limit) => {
-    setLoading(true)
-    await fetch(`${endpoint}/hot.json?include_over_18=off&limit=${limit}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setHotFeed(data.data.children)
-        setLoading(false)
-      })
-  }
-
-  /*
-  useEffect(() => {
-    // on initial load, fetch the data if not already present
-    if (filters.hot && searchHot.length === 0) search("hot");
-    getHotPosts()
-  }, [search, filters, searchHot])
-  */
 
   return (
     <Box sx={{ padding: "0 20px" }} md={{ padding: "0 30px" }}>
-      <Filter
-        filters={filters}
-        onSuccess={(response) => handleFilter(response)}
-      />
-
+      <Filter filters={filters} onSuccess={(response) => handleFilter(response)} />
       {loading && <Loader />}
 
       {/* General hottest posts */}
-      {!query && hotFeed > 0 && (
+      {!!(!query && hotFeed.length) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {hotFeed.map((post) => <Post data={post}/>)}
+            {hotFeed.map((post) => <Post data={post} key={post?.data?.id}/>)}
           </Masonry>
         </Box>
       )}
 
       {/* Recent posts by search query */}
-      {filters.recent && searchNew.length > 0 && (
+      {!!(filters.recent && searchNew.length) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchNew.slice(0, 50).map((post) => <Post data={post}/>)}
+            {searchNew.slice(0, 50).map((post) => <Post data={post} key={post?.data?.id}/>)}
           </Masonry>
         </Box>
       )}
 
       {/* Hot posts by search query */}
-      {filters.hot && searchHot.length > 0 && (
+      {!!(filters.hot && searchHot.length) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchHot.slice(0, 50).map(post => <Post data={post}/>)}
+            {searchHot.slice(0, 50).map(post => <Post data={post} key={post?.data?.id}/>)}
           </Masonry>
         </Box>
       )}
