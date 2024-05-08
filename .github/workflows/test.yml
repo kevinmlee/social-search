@@ -1,0 +1,23 @@
+name: Build & Test (Client)
+
+on: [push, pull_request]
+
+env:
+  CYPRESS_INSTALL_BINARY: 0
+
+jobs:
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: ssr/.nvmrc
+        registry-url: 'https://npm.pkg.github.com'
+    - run: npm ci
+    - run: npm test
