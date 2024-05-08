@@ -70,8 +70,8 @@
 }
 
 @media screen and (max-width: 768px) {
-  .topic.posts:not(:first-child) {
-    padding-top: 75px;
+  .topic.posts:not(:first-child):not(:last-child) {
+    padding-top: 25px;
   }
   .posts h4 {
     text-align: left !important;
@@ -93,7 +93,8 @@
     display: none;
   }
   .post .media,
-  .post .yt-embed {
+  .post .yt-embed,
+  .post .media-image {
     width: 30%;
     margin: 0;
   }

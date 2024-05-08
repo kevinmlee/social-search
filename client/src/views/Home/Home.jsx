@@ -29,9 +29,7 @@ const Home = () => {
           limit: 20
         }),
       }).then(response => response.json())
-        .then(data => {
-          setSubreddits(prevSubreddits => ({ ...prevSubreddits, [topic]: data.items }));
-        })
+        .then(data => setSubreddits(prevSubreddits => ({ ...prevSubreddits, [topic]: data.items })))
     }
   }, [])
 
@@ -45,7 +43,7 @@ const Home = () => {
   }, [getPosts])
 
   return (
-    <Box sx={{ padding: "0 30px" }}>
+    <Box sx={{ padding: "0 20px" }} md={{ padding: "0 30px" }}>
       <ul className="fw-filter">
         {TOPICS.map(topic => (
           <li
