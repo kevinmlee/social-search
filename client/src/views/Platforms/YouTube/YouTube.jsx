@@ -26,24 +26,23 @@ const YouTube = () => {
   })
 
   const search = useCallback(async (filter) => {
-      const requestBody = { searchQuery: query, order: filter }
-      setLoading(true)
+    const requestBody = { searchQuery: query, order: filter }
+    setLoading(true)
 
-      // serverless API call
-      await fetch(`/.netlify/functions/youtubeSearch`, {
-        method: "POST",
-        body: JSON.stringify(requestBody),
+    // serverless API call
+    await fetch(`/.netlify/functions/youtubeSearch`, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if ("items" in data) {
+          setSearchResults(prevSearchResults => ({ ...prevSearchResults, [filter]: data }))
+        }
+        setLoading(false);
       })
-        .then(response => response.json())
-        .then(data => {
-          if ("items" in data) {
-            setSearchResults(prevSearchResults => ({ ...prevSearchResults, [filter]: data }))
-          }
-          setLoading(false);
-        })
-    }, [query])
+  }, [query])
 
-    
   const fetchTrendingVideos = useCallback(async () => {
     // const requestBody = { searchQuery: query, order: filter }
     setLoading(true)
@@ -95,7 +94,7 @@ const YouTube = () => {
       {!!('items' in trending && !query) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {trending.items.map(post => <Post data={post}/>)}
+            {trending.items.map(post => <Post data={post} key={post?.id}/>)}
           </Masonry>
         </Box>
       )}
@@ -103,7 +102,7 @@ const YouTube = () => {
       {!!(filters.relevance && searchResults["relevance"] && query) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchResults["relevance"].items.map(post => <Post data={post}/>)}
+            {searchResults["relevance"].items.map(post => <Post data={post} key={post?.id}/>)}
           </Masonry>
         </Box>
       )}
@@ -111,7 +110,7 @@ const YouTube = () => {
       {!!(filters.rating && searchResults["rating"] && query) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchResults["rating"].items.map(post => <Post data={post}/>)}
+            {searchResults["rating"].items.map(post => <Post data={post} key={post?.id}/>)}
           </Masonry>
         </Box>
       )}
@@ -119,7 +118,7 @@ const YouTube = () => {
       {!!(filters.date && searchResults["date"] && query) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchResults["date"].items.map(post => <Post data={post}/>)}
+            {searchResults["date"].items.map(post => <Post data={post} key={post?.id}/>)}
           </Masonry>
         </Box>
       )}
