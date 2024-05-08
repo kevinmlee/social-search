@@ -83,7 +83,7 @@ const Reddit = () => {
       {loading && <Loader />}
 
       {/* General hottest posts */}
-      {!query && hotFeed.length && (
+      {!!(!query && hotFeed.length) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {hotFeed.map((post) => <Post data={post} key={post?.data?.id}/>)}
@@ -92,7 +92,7 @@ const Reddit = () => {
       )}
 
       {/* Recent posts by search query */}
-      {filters.recent && searchNew.length && (
+      {!!(filters.recent && searchNew.length) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {searchNew.slice(0, 50).map((post) => <Post data={post} key={post?.data?.id}/>)}
@@ -101,7 +101,7 @@ const Reddit = () => {
       )}
 
       {/* Hot posts by search query */}
-      {filters.hot && searchHot.length && (
+      {!!(filters.hot && searchHot.length) && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
             {searchHot.slice(0, 50).map(post => <Post data={post} key={post?.data?.id}/>)}
