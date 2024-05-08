@@ -50,6 +50,7 @@
   }
   .topic.posts .MuiMasonry-root {
     margin: 0;
+    height: auto;
   }
 }
 

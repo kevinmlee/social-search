@@ -3,16 +3,17 @@ import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 
-import { Box, Typography, Grid } from "@mui/material"
+import { Box } from "@mui/material"
 import { Masonry } from "@mui/lab"
 import Loader from "../../../components/Loader/Loader"
 import Filter from "../../../components/Filter/Filter"
+import Post from "./Post"
 import { AppContext } from "../../../App"
-
 import "./YouTube.css"
 
 dayjs.extend(relativeTime)
-export default function YouTube() {
+
+const YouTube = () => {
   //const [trending, setTrending] = useState({});
   const { setQuery } = useContext(AppContext)
   const { query } = useParams()
@@ -24,8 +25,7 @@ export default function YouTube() {
     date: false
   })
 
-  const search = useCallback(
-    async (filter) => {
+  const search = useCallback(async (filter) => {
       const requestBody = { searchQuery: query, order: filter }
       setLoading(true)
 
@@ -34,18 +34,14 @@ export default function YouTube() {
         method: "POST",
         body: JSON.stringify(requestBody),
       })
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           if ("items" in data) {
-            const newResults = searchResults
-            newResults[filter] = data
-            setSearchResults(newResults)
+            setSearchResults(prevSearchResults => ({ ...prevSearchResults, [filter]: data }))
           }
           setLoading(false);
         })
-    },
-    [searchResults, query]
-  )
+    }, [query])
 
   useEffect(() => {
     setTimeout(() => window.AOS.refresh(), 700)
@@ -73,15 +69,6 @@ export default function YouTube() {
 
     // pull data from cooresponding API if not already pulled
     if (!searchResults[selectedOption]) search(selectedOption)
-  }
-
-  const decodeText = (string) => {
-    return string
-      .replaceAll("&amp;", "&")
-      .replaceAll("&lt;", "<")
-      .replaceAll("&#39;", "'")
-      .replaceAll("&quot;", '"')
-      .replaceAll("&gt;", ">")
   }
 
   /*
@@ -133,96 +120,8 @@ export default function YouTube() {
   };
   */
 
-  const postCard = (post) => {
-    let url = "";
-    let type = "";
-
-    if (post.id.kind === "youtube#video") {
-      url = "https://www.youtube.com/watch?v=" + post.id.videoId;
-      type = "Video";
-    } else if (post.kind === "youtube#video") {
-      url = "https://www.youtube.com/watch?v=" + post.videoId;
-      type = "Video";
-    } else if (
-      post.id.kind === "youtube#channel" ||
-      post.kind === "youtube#channel"
-    ) {
-      url = "https://www.youtube.com/channel/" + post.id.channelId;
-      type = "Channel";
-    }
-
-    return (
-      <Box className="post" key={post.etag} data-aos="fade-up">
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="youtube-post-link details"
-        >
-          {type === "Channel" && (
-            <div className="media-image">
-              <img
-                className="featured-image"
-                src={post.snippet.thumbnails.high.url}
-                alt={decodeText(post.snippet.title)}
-                loading="lazy"
-              />
-            </div>
-          )}
-
-          {type === "Video" && (
-            <div className="yt-embed">
-              <img
-                className="thumb"
-                src={post.snippet.thumbnails.high.url}
-                alt="thumb"
-                loading="lazy"
-              />
-
-              {/*<iframe
-              id="ytplayer"
-              type="text/html"
-              width="100%"
-              height="250"
-              loading="lazy"
-              src={
-                "https://www.youtube.com/embed/" +
-                post.id.videoId +
-                "?autoplay=0"
-              }
-              frameborder="0"
-            ></iframe>*/}
-            </div>
-          )}
-
-          <Box className="text">
-            <Grid container sx={{ paddingTop: 2 }}>
-              <Grid className="author-details" item xs={10}>
-                <span className="username">{post.snippet.channelTitle}</span>
-                <span style={{ color: "#999999" }}> · </span>
-                <Typography variant="caption" style={{ color: "#999999" }}>
-                  {dayjs(post.snippet.publishedAt).fromNow()}
-                </Typography>
-              </Grid>
-            </Grid>
-
-            {/*<Typography variant="caption" style={{ color: "#999999" }}>
-              {type}
-          </Typography>*/}
-
-            <Box className="post-title">
-              <Typography variant="h5">
-                {decodeText(post.snippet.title)}
-              </Typography>
-            </Box>
-          </Box>
-        </a>
-      </Box>
-    );
-  };
-
   return (
-    <Box sx={{ padding: "0 30px;" }}>
+    <Box sx={{ padding: "0 20px" }} md={{ padding: "0 30px" }}>
       <Filter
         filters={filters}
         onSuccess={(response) => handleFilter(response)}
@@ -242,7 +141,7 @@ export default function YouTube() {
       {filters.relevance && searchResults["relevance"] && query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchResults["relevance"].items.map((post) => postCard(post))}
+            {searchResults["relevance"].items.map(post => <Post data={post}/>)}
           </Masonry>
         </Box>
       )}
@@ -250,7 +149,7 @@ export default function YouTube() {
       {filters.rating && searchResults["rating"] && query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchResults["rating"].items.map((post) => postCard(post))}
+            {searchResults["rating"].items.map(post => <Post data={post}/>)}
           </Masonry>
         </Box>
       )}
@@ -258,10 +157,12 @@ export default function YouTube() {
       {filters.date && searchResults["date"] && query && (
         <Box className="topic posts">
           <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
-            {searchResults["date"].items.map((post) => postCard(post))}
+            {searchResults["date"].items.map(post => <Post data={post}/>)}
           </Masonry>
         </Box>
       )}
     </Box>
-  );
+  )
 }
+
+export default YouTube
