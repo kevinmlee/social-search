@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 
 import { Box, Grid, Typography } from "@mui/material"
-import { decodeText } from '../../../util/decodeText'
+import { decodeText } from '@/util'
 
 dayjs.extend(relativeTime)
 

@@ -4,8 +4,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import utc from 'dayjs/plugin/utc'
 
 import { Box, Typography } from "@mui/material"
-import { decodeHtml } from '../../../util/decodeHtml'
-import { decodeText } from '../../../util/decodeText'
+import { decodeHtml, decodeText } from '@/util'
 
 dayjs.extend(relativeTime)
 dayjs.extend(utc)

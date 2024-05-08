@@ -1,4 +1,4 @@
-export const debounce = (callback, delay = 300) => {
+const debounce = (callback, delay = 300) => {
   let timer
 
   const start = () => {
@@ -15,3 +15,5 @@ export const debounce = (callback, delay = 300) => {
     start
   }
 }
+
+export default debounce

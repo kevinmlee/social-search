@@ -1,4 +1,4 @@
-export const isInViewport = (element) => {
+const isInViewport = (element) => {
   const rect = element.getBoundingClientRect();
   return (
     rect.top >= 0 &&
@@ -8,3 +8,5 @@ export const isInViewport = (element) => {
     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 };
+
+export default isInViewport
