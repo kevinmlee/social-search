@@ -45,7 +45,6 @@ const YouTube = () => {
 
     
   const fetchTrendingVideos = useCallback(async () => {
-    console.log('fetchTrendingVideos called')
     // const requestBody = { searchQuery: query, order: filter }
     setLoading(true)
 
@@ -56,7 +55,6 @@ const YouTube = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('data', data)
         if ("items" in data) setTrending(data)
         setLoading(false);
       })
