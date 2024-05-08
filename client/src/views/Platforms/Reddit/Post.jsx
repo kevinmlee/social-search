@@ -49,7 +49,7 @@ const Post = ({ data }) => {
   }
 
   return (
-    <Box className="post" key={data?.data.id} data-aos="fade-up">
+    <Box className="post" data-aos="fade-up">
       <a href={data?.data.url} target="_blank" rel="noopener noreferrer">
         <Box className="details">
           {getVideo(data)
