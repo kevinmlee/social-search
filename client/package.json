@@ -36,7 +36,7 @@
     "saslprep": "^1.0.3",
     "secure-ls": "^1.2.6",
     "universal-cookie": "^4.0.3",
-    "validator": "^13.7.0"
+    "validator": "^13.11.0"
   },
   "scripts": {
     "start": "WATCHPACK_POLLING=true react-app-rewired start",
