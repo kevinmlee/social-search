@@ -12,8 +12,6 @@ import "./SignIn.css";
 
 //import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
 
-const API = require("../../api");
-
 export default function SignIn() {
   const navigate = useNavigate()
   const { setFullWidth, setUser } = useContext(AppContext)
@@ -115,17 +113,24 @@ export default function SignIn() {
           e.preventDefault();
           setLoading(true);
 
-          const authResult = await API.auth({
-            username: username,
-            password: password,
-          });
+          const authResult = await fetch(`/.netlify/functions/auth`, {
+            method: "POST",
+            body: JSON.stringify({
+              username: username,
+              password: password,
+            }),
+          })
+            .then(response => response.json())
+            .then(data => data)
+
+          setLoading(false)
 
           if (authResult.success) {
-            localStorage.setItem("user", JSON.stringify(authResult.data));
-            window.location.href = "/";
+            setUser(authResult.data)
+            setFullWidth(false)
+            navigate('/')
           } else {
-            setError("Incorrect password");
-            setLoading(false);
+            setError("Incorrect password")
           }
         }}
       >
