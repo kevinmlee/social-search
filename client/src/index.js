@@ -4,12 +4,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const GOOGLE_CLIENT_ID =
-  "755162400821-sthb8ebrfdpvutds6f4qmcq4iefk7a0a.apps.googleusercontent.com";
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+  <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
     <App />
   </GoogleOAuthProvider>
 );
