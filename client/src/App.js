@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useCallback, useEffect, useState } from "react"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import { Backdrop, Box } from "@mui/material"
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
@@ -23,10 +23,21 @@ export const AppContext = createContext(null)
 
 export default function App() {
   const [query, setQuery] = useState('')
+  const [location, setLocation] = useState({})
   const [scrollStatus, setScrollStatus] = useState('')
   const [backToTop, setBackToTop] = useState(false)
   const [backdropImage, setBackdropImage] = useState('')
   const [backdropToggle, setBackdropToggle] = useState(false)
+
+  const getLocation = useCallback(async () => {
+    await fetch(`/.netlify/functions/getLocation`)
+      .then(response => response.json())
+      .then(data => setLocation(data))
+  }, [])
+
+  useEffect(() => {
+    getLocation()
+  }, [getLocation])
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -64,10 +75,12 @@ export default function App() {
     <AppContext.Provider value={{ 
       backdropImage,
       backToTop,
+      location,
       scrollStatus,
       query,
       setBackdropImage,
       setBackToTop,
+      setLocation,
       setScrollStatus,
       setQuery
     }}>

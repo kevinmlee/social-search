@@ -15,7 +15,7 @@ dayjs.extend(relativeTime)
 
 const YouTube = () => {
   const [trending, setTrending] = useState({});
-  const { setQuery } = useContext(AppContext)
+  const { location, setQuery } = useContext(AppContext)
   const { query } = useParams()
   const [searchResults, setSearchResults] = useState({})
   const [loading, setLoading] = useState(true)
@@ -44,20 +44,19 @@ const YouTube = () => {
   }, [query])
 
   const fetchTrendingVideos = useCallback(async () => {
-    // const requestBody = { searchQuery: query, order: filter }
+    const requestBody = { countryCode: location?.country_code }
     setLoading(true)
 
-    // serverless API call
     await fetch(`/.netlify/functions/youtubeTrending`, {
       method: "POST",
-      // body: JSON.stringify(requestBody),
+      body: JSON.stringify(requestBody),
     })
       .then(response => response.json())
       .then(data => {
         if ("items" in data) setTrending(data)
         setLoading(false);
       })
-  }, [])
+  }, [location])
 
   useEffect(() => {
     setTimeout(() => window.AOS.refresh(), 700)
