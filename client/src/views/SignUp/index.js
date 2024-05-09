@@ -12,7 +12,7 @@ const API = require("../../api")
 
 const SignUp = () => {
   const navigate = useNavigate()
-  const { setFullWidth, setUser } = useContext(AppContext)
+  const { setFullWidth } = useContext(AppContext)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')

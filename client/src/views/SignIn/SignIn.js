@@ -36,7 +36,7 @@ export default function SignIn() {
 
     if (user) {
       //localStorage.setItem("user", JSON.stringify(user));
-      // setUser(setUser)
+      setUser(setUser)
       setFullWidth(false)
       navigate('/')
       // window.location.href = "/";
