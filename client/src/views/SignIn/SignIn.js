@@ -1,43 +1,78 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+
 import { TextField } from "@mui/material";
 import jwt_decode from "jwt-decode";
 import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
-
 import Loader from "../../components/Loader/Loader";
+import { AppContext } from "@/App"
 
 import "./SignIn.css";
 
 //import GoogleSignIn from "../../components/GoogleSignIn/GoogleSignIn";
 
-const API = require("../../api");
-
 export default function SignIn() {
+  const navigate = useNavigate()
+  const { setFullWidth, setUser } = useContext(AppContext)
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [stepTwo, setStepTwo] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleGoogleSignin = async (response) => {
-    const user = await API.getUser({ username: response.email });
+  useEffect(() => {
+    setFullWidth(true)
+    return () => setFullWidth(false)
+  }, [setFullWidth])
 
+  const handleGoogleSignin = async (userData) => {
+    const user = await getUser(userData.email)
+    
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "/";
-    }
+      setUser(user)
+      setFullWidth(false)
+      navigate('/')
+    } else await createGoogleUser(userData)
   };
+
+  const getUser = async (username) => await fetch(`/.netlify/functions/getUser`, {
+    method: "POST",
+    body: JSON.stringify({ username: username }),
+  })
+    .then(response => response.json())
+    .then(data => data)
+
+  const createGoogleUser = async (userData) => {
+    const requestBody = { 
+      username: userData.email,
+      firstName: userData.given_name,
+      lastName: userData.family_name,
+      avatar: userData.picture,
+      accountType: "google",
+     }
+
+    const result = await fetch(`/.netlify/functions/createUser`, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+    })
+      .then(response => response.json())
+      .then(data => data)
+
+    if (result?.acknowledged) {
+      handleGoogleSignin(userData)
+    }
+  }
 
   const findUser = async () => {
     setLoading(true);
     if (validator.isEmail(username)) {
-      const user = await API.getUser({ username: username });
+      const user = await getUser(username)
 
-      if (user) setStepTwo(true);
-      else setError("No users found with this email address");
-    } else setError("Not a valid email address");
-    setLoading(false);
-  };
+      setLoading(false)
+      if (user) setStepTwo(true)
+    }
+  }
 
   const formStepOne = () => {
     return (
@@ -78,17 +113,24 @@ export default function SignIn() {
           e.preventDefault();
           setLoading(true);
 
-          const authResult = await API.auth({
-            username: username,
-            password: password,
-          });
+          const authResult = await fetch(`/.netlify/functions/auth`, {
+            method: "POST",
+            body: JSON.stringify({
+              username: username,
+              password: password,
+            }),
+          })
+            .then(response => response.json())
+            .then(data => data)
+
+          setLoading(false)
 
           if (authResult.success) {
-            localStorage.setItem("user", JSON.stringify(authResult.data));
-            window.location.href = "/";
+            setUser(authResult.data)
+            setFullWidth(false)
+            navigate('/')
           } else {
-            setError("Incorrect password");
-            setLoading(false);
+            setError("Incorrect password")
           }
         }}
       >
@@ -98,7 +140,10 @@ export default function SignIn() {
           label="Password"
           name="password"
           variant="outlined"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setError('')
+          }}
           value={password}
           autoFocus={true}
         />
@@ -143,7 +188,7 @@ export default function SignIn() {
 
             <div className="signup">
               <p>
-                Don't have an account? <a href="/signup">Sign up</a>
+                Don't have an account? <Link to="/signup">Sign up</Link>
               </p>
             </div>
           </div>

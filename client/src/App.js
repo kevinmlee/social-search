@@ -22,8 +22,10 @@ import Trends from "./views/Trends/Trends"
 export const AppContext = createContext(null)
 
 export default function App() {
+  const [fullWidth, setFullWidth] = useState(false)
   const [query, setQuery] = useState('')
   const [location, setLocation] = useState({})
+  const [user, setUser] = useState({})
   const [scrollStatus, setScrollStatus] = useState('')
   const [backToTop, setBackToTop] = useState(false)
   const [backdropImage, setBackdropImage] = useState('')
@@ -56,11 +58,6 @@ export default function App() {
     </div>
   )
   
-  const isInnerPage = () => {
-    let pathname = window.location.pathname
-    return pathname !== "/signin" && pathname !== "/signup"
-  }
-
   const imageBackdrop = () => (
     <Backdrop
       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -75,25 +72,29 @@ export default function App() {
     <AppContext.Provider value={{ 
       backdropImage,
       backToTop,
+      fullWidth,
       location,
       scrollStatus,
       query,
+      user,
       setBackdropImage,
       setBackToTop,
+      setFullWidth,
       setLocation,
       setScrollStatus,
-      setQuery
+      setQuery,
+      setUser
     }}>
     <Box>
       <Router>
-        {isInnerPage() && (
+        {!!(!fullWidth) && (
           <Box>
             <Header />
             <Sidebar />
           </Box>
         )}
 
-        <div id="main-content" className={!isInnerPage() ? "fw" : undefined}>
+        <div id="main-content" className={fullWidth ? 'fw' : ''}>
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/reddit" element={<Reddit />} />
