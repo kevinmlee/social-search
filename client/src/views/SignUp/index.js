@@ -8,11 +8,9 @@ import { TextField } from "@mui/material"
 import { GoogleLogin } from "@react-oauth/google"
 import { AppContext } from "@/App"
 
-const API = require("../../api")
-
 const SignUp = () => {
   const navigate = useNavigate()
-  const { setFullWidth } = useContext(AppContext)
+  const { setFullWidth, setUser } = useContext(AppContext)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
@@ -21,7 +19,6 @@ const SignUp = () => {
   const [formStepThree, setFormStepThree] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [passStrength, setPassStrength] = useState({})
-  const [googleUser, setGoogleUser] = useState({})
 
   useEffect(() => {
     setFullWidth(true)
@@ -30,37 +27,51 @@ const SignUp = () => {
 
   const handleChange = (updateState) => {
     if (updateState) updateState()
-
-    // clear errors
     setErrorMessage('')
-
-    // calculate password strength
     if (formStepTwo) setPassStrength(passwordStrength(password))
   }
 
-  const handleGoogleSignin = async (response) => {
-    setGoogleUser(response)
-
-    const user = await API.getUser({ username: googleUser.email });
+  const handleGoogleSignin = async (userData) => {
+    const user = await getUser(userData.email)
+    
     if (user) {
-      setErrorMessage('A user with this email address already exists')
-    }
-    else {
-      const createdUser = await API.createUser({
-        username: googleUser.email,
-        firstName: googleUser.given_name,
-        lastName: googleUser.family_name,
-        avatar: googleUser.picture,
-        accountType: "google",
-      });
+      setUser(user)
+      setFullWidth(false)
+      navigate('/')
+    } else await createGoogleUser(userData)
+  };
 
-      if (createdUser) navigate('/signin');
+  const getUser = async (username) => await fetch(`/.netlify/functions/getUser`, {
+    method: "POST",
+    body: JSON.stringify({ username: username }),
+  })
+    .then(response => response.json())
+    .then(data => data)
+
+  const createGoogleUser = async (userData) => {
+    const requestBody = { 
+      username: userData.email,
+      firstName: userData.given_name,
+      lastName: userData.family_name,
+      avatar: userData.picture,
+      accountType: "google",
+     }
+
+    const result = await fetch(`/.netlify/functions/createUser`, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+    })
+      .then(response => response.json())
+      .then(data => data)
+
+    if (result?.acknowledged) {
+      handleGoogleSignin(userData)
     }
   }
 
   const findUser = async () => {
     if (validator.isEmail(username)) {
-      const user = await API.getUser({ username: username })
+      const user = await getUser(username)
 
       if (user) {
         setErrorMessage('A user with this email address already exists')
@@ -142,15 +153,21 @@ const SignUp = () => {
         onSubmit={async (event) => {
           event.preventDefault();
           if (validateName()) {
-            const user = await API.createUser({
+            const requestBody = { 
               username: username,
-              password: password,
               firstName: firstName,
-              lastName:lastName,
+              lastName: lastName,
               accountType: "standard",
-            });
+             }
 
-            if (user) navigate('/signin')
+            const result = await fetch(`/.netlify/functions/createUser`, {
+              method: "POST",
+              body: JSON.stringify(requestBody),
+            })
+              .then(response => response.json())
+              .then(data => data)
+
+            if (result?.acknowledged) navigate('/signin')
           }
         }}
       >

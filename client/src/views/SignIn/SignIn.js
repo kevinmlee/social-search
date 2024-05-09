@@ -69,16 +69,10 @@ export default function SignIn() {
   const findUser = async () => {
     setLoading(true);
     if (validator.isEmail(username)) {
-      const requestBody = { username: username }
-      
-      await fetch(`/.netlify/functions/getUser`, {
-        method: "POST",
-        body: JSON.stringify(requestBody),
-      })
-        .then(response => response.json())
-        .then(data => {
-          setLoading(false);
-        })
+      const user = await getUser(username)
+
+      setLoading(false)
+      if (user) setStepTwo(true)
     }
   }
 
