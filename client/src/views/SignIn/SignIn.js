@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+
 import { TextField } from "@mui/material";
 import jwt_decode from "jwt-decode";
 import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
-
 import Loader from "../../components/Loader/Loader";
+import { AppContext } from "@/App"
 
 import "./SignIn.css";
 
@@ -13,18 +15,31 @@ import "./SignIn.css";
 const API = require("../../api");
 
 export default function SignIn() {
+  const navigate = useNavigate()
+  const { setFullWidth, setUser } = useContext(AppContext)
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [stepTwo, setStepTwo] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setFullWidth(true)
+    return () => setFullWidth(false)
+  }, [setFullWidth])
+
   const handleGoogleSignin = async (response) => {
+    console.log('response', response)
     const user = await API.getUser({ username: response.email });
 
+    console.log('user', user)
+
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      window.location.href = "/";
+      //localStorage.setItem("user", JSON.stringify(user));
+      // setUser(setUser)
+      setFullWidth(false)
+      navigate('/')
+      // window.location.href = "/";
     }
   };
 
@@ -143,7 +158,7 @@ export default function SignIn() {
 
             <div className="signup">
               <p>
-                Don't have an account? <a href="/signup">Sign up</a>
+                Don't have an account? <Link to="/signup">Sign up</Link>
               </p>
             </div>
           </div>

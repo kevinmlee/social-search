@@ -1,103 +1,88 @@
-import React, { Component } from "react";
-import { TextField } from "@mui/material";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
-import validator from "validator";
-import { passwordStrength } from "check-password-strength";
+import React, { useContext, useEffect, useState, } from "react"
+import { Link, useNavigate } from 'react-router-dom'
+import jwt_decode from "jwt-decode"
+import { passwordStrength } from "check-password-strength"
+import validator from "validator"
 
-const API = require("../../api");
+import { TextField } from "@mui/material"
+import { GoogleLogin } from "@react-oauth/google"
+import { AppContext } from "@/App"
 
-export default class SignUp extends Component {
-  constructor(props) {
-    super(props);
+const API = require("../../api")
 
-    this.state = {
-      username: "",
-      password: "",
-      firstName: "",
-      lastName: "",
+const SignUp = () => {
+  const navigate = useNavigate()
+  const { setFullWidth, setUser } = useContext(AppContext)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [formStepTwo, setFormStepTwo] = useState(false)
+  const [formStepThree, setFormStepThree] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [passStrength, setPassStrength] = useState({})
+  const [googleUser, setGoogleUser] = useState({})
 
-      formStepTwo: false,
-      formStepThree: false,
+  useEffect(() => {
+    setFullWidth(true)
+    return () => setFullWidth(false)
+  }, [setFullWidth])
 
-      errorMessage: "",
-
-      validEmail: true,
-      passwordStrength: {},
-    };
-
-    this.googleUser = {};
-  }
-
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  const handleChange = (updateState) => {
+    if (updateState) updateState()
 
     // clear errors
-    this.setState({ validEmail: true, errorMessage: "" });
+    setErrorMessage('')
 
     // calculate password strength
-    if (this.state.formStepTwo)
-      this.setState({
-        passwordStrength: passwordStrength(this.state.password),
-      });
-  };
+    if (formStepTwo) setPassStrength(passwordStrength(password))
+  }
 
-  handleGoogleSignin = async (response) => {
-    this.googleUser = response;
+  const handleGoogleSignin = async (response) => {
+    setGoogleUser(response)
 
-    const user = await API.getUser({ username: this.googleUser.email });
-    if (user)
-      this.setState({
-        errorMessage: "A user with this email address already exists",
-      });
+    const user = await API.getUser({ username: googleUser.email });
+    if (user) {
+      setErrorMessage('A user with this email address already exists')
+    }
     else {
       const createdUser = await API.createUser({
-        username: this.googleUser.email,
-        firstName: this.googleUser.given_name,
-        lastName: this.googleUser.family_name,
-        avatar: this.googleUser.picture,
+        username: googleUser.email,
+        firstName: googleUser.given_name,
+        lastName: googleUser.family_name,
+        avatar: googleUser.picture,
         accountType: "google",
       });
 
-      if (createdUser) window.location.href = "/signin";
+      if (createdUser) navigate('/signin');
     }
-  };
+  }
 
-  findUser = async () => {
-    if (validator.isEmail(this.state.username)) {
-      const user = await API.getUser({ username: this.state.username });
+  const findUser = async () => {
+    if (validator.isEmail(username)) {
+      const user = await API.getUser({ username: username })
 
       if (user) {
-        this.setState({
-          errorMessage: "A user with this email address already exists",
-        });
-      } else this.setState({ formStepTwo: true });
-    } else
-      this.setState({
-        errorMessage: "Not a valid email address",
-      });
-  };
+        setErrorMessage('A user with this email address already exists')
+      } else setFormStepTwo(true)
+    } else setErrorMessage('Not a valid email address')
+  }
 
-  validateName = () => {
-    if (
-      !validator.isEmpty(this.state.firstName) &&
-      !validator.isEmpty(this.state.lastName)
-    ) {
-      return true;
+  const validateName = () => {
+    if (!validator.isEmpty(firstName) && !validator.isEmpty(lastName)) {
+      return true
     } else {
-      this.setState({
-        errorMessage: "First and last name fields cannot be blank",
-      });
-      return false;
+      setErrorMessage("First and last name fields cannot be blank")
+      return false
     }
-  };
+  }
 
-  formStepOne = () => {
+  const stepOne = () => {
     return (
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          this.findUser();
+        onSubmit={event => {
+          event.preventDefault()
+          findUser()
         }}
       >
         <TextField
@@ -105,8 +90,8 @@ export default class SignUp extends Component {
           label="Email address"
           name="username"
           variant="outlined"
-          onChange={this.handleChange}
-          value={this.state.username}
+          onChange={e => handleChange(setUsername(e.target.value))}
+          value={username}
           autoFocus={true}
         />
         <input className="cta-button" type="submit" value="Continue" />
@@ -114,14 +99,16 @@ export default class SignUp extends Component {
     );
   };
 
-  formStepTwo = () => {
+  const stepTwo = () => {
     return (
       <form
         onSubmit={(event) => {
-          event.preventDefault();
+          event.preventDefault()
 
-          if (!validator.isEmpty(this.state.password))
-            this.setState({ formStepTwo: false, formStepThree: true });
+          if (!validator.isEmpty(password)) {
+            setFormStepTwo(false)
+            setFormStepThree(true)
+          }
         }}
       >
         <TextField
@@ -130,16 +117,16 @@ export default class SignUp extends Component {
           label="Password"
           name="password"
           variant="outlined"
-          onChange={this.handleChange}
-          value={this.state.password}
+          onChange={e => handleChange(setPassword(e.target.value))}
+          value={password}
           autoFocus={true}
         />
 
-        {Object.keys(this.state.password).length !== 0 && (
+        {Object.keys(password).length !== 0 && (
           <div className="password-strength">
             Strength:{" "}
-            <span className={"strength-" + this.state.passwordStrength.id}>
-              {this.state.passwordStrength.value}
+            <span className={"strength-" + passStrength.id}>
+              {passStrength.value}
             </span>
           </div>
         )}
@@ -149,21 +136,21 @@ export default class SignUp extends Component {
     );
   };
 
-  formStepThree = () => {
+  const stepThree = () => {
     return (
       <form
         onSubmit={async (event) => {
           event.preventDefault();
-          if (this.validateName()) {
+          if (validateName()) {
             const user = await API.createUser({
-              username: this.state.username,
-              password: this.state.password,
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
+              username: username,
+              password: password,
+              firstName: firstName,
+              lastName:lastName,
               accountType: "standard",
             });
 
-            if (user) window.location.href = "/signin";
+            if (user) navigate('/signin')
           }
         }}
       >
@@ -173,8 +160,8 @@ export default class SignUp extends Component {
           label="First name"
           name="firstName"
           variant="outlined"
-          onChange={this.handleChange}
-          value={this.state.firstName}
+          onChange={e => handleChange(setFirstName(e.target.value))}
+          value={firstName}
           autoFocus={true}
         />
 
@@ -184,8 +171,8 @@ export default class SignUp extends Component {
           label="Last Name"
           name="lastName"
           variant="outlined"
-          onChange={this.handleChange}
-          value={this.state.lastName}
+          onChange={e => handleChange(setLastName(e.target.value))}
+          value={lastName}
         />
 
         <input className="cta-button" type="submit" value="Create account" />
@@ -193,52 +180,44 @@ export default class SignUp extends Component {
     );
   };
 
-  errorMessage = () => {
-    return <div className="alert error">{this.state.errorMessage}</div>;
-  };
+  return (
+    <div id="signin">
+      <div className="flex-container">
+        <div className="left">
+          <div className="form-container">
+            <h2>Create an account</h2>
 
-  render() {
-    return (
-      <div id="signin">
-        <div className="flex-container">
-          <div className="left">
-            <div className="form-container">
-              <h2>Create an account</h2>
+            {!!errorMessage && (
+              <div className="alert error">{errorMessage}</div>
+            )}
 
-              {this.state.errorMessage && this.errorMessage()}
+            {!formStepTwo && !formStepThree && stepOne()}
 
-              {!this.state.formStepTwo &&
-                !this.state.formStepThree &&
-                this.formStepOne()}
-              {this.state.formStepTwo && this.formStepTwo()}
-              {this.state.formStepThree && this.formStepThree()}
 
-              <div className="or separator-text">OR</div>
-              <div className="social-signin">
-                <div id="googleLogin">
-                  <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                      this.handleGoogleSignin(
-                        jwt_decode(credentialResponse.credential)
-                      );
-                    }}
-                    onError={() => {
-                      console.log("Login failed");
-                    }}
-                  />
-                </div>
-              </div>
+            {formStepTwo && stepTwo()}
+            {formStepThree && stepThree()}
 
-              <div className="signup">
-                <p>
-                  Already have an account? <a href="/signin">Sign in</a>
-                </p>
+            <div className="or separator-text">OR</div>
+            <div className="social-signin">
+              <div id="googleLogin">
+                <GoogleLogin
+                  onSuccess={credentialResponse => handleGoogleSignin(jwt_decode(credentialResponse.credential))}
+                  onError={() => console.log("Login failed")}
+                />
               </div>
             </div>
+
+            <div className="signup">
+              <p>
+                Already have an account? <Link to="/signin">Sign in</Link>
+              </p>
+            </div>
           </div>
-          <div className="right"></div>
         </div>
+        <div className="right"></div>
       </div>
-    );
-  }
+    </div>
+  )
 }
+
+export default SignUp

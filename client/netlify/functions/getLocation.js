@@ -1,35 +1,6 @@
-const axios = require('axios');
+const axios = require('axios')
 
-exports.handler = async (event, context) => {
-  const clientIP = event.headers['x-forwarded-for'];
-  // const apiKey = 'YOUR_API_KEY'; // Replace 'YOUR_API_KEY' with your actual API key
-
-  try {
-    // Make a request to ipapi to get geolocation data based on the IP address
-    // const response = await axios.get(`https://ipapi.co/${clientIP}/json/?key=${apiKey}`);
-    const response = await axios.get(`https://ipapi.co/${clientIP}/json`);
-
-    // Extract region information from the response data
-    // const region = response.data.region;
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(response)
-    };
-  } catch (error) {
-    // Handle any errors
-    console.error('Error fetching geolocation data:', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
-    };
-  }
-};
-
-
-/*
-// Sample Response
-{
+const mockLocation = {
   "ip": "134.201.250.155",
   "network": "134.201.250.155/32",
   "version": "IPv4",
@@ -58,4 +29,27 @@ exports.handler = async (event, context) => {
   "asn": "AS25876",
   "org": "LADWP-INTERNET"
 }
-*/
+
+exports.handler = async (event, context) => {
+  const clientIP = event.headers['x-forwarded-for']
+  // const apiKey = 'YOUR_API_KEY'; // Replace 'YOUR_API_KEY' with your actual API key
+
+  try {
+    // Make a request to ipapi to get geolocation data based on the IP address
+    // const response = await axios.get(`https://ipapi.co/${clientIP}/json/?key=${apiKey}`);
+    const response = await axios.get(`https://ipapi.co/${clientIP}/json`)
+
+    // Extract region information from the response data
+    // const region = response.data.region;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response)
+    };
+  } catch (error) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(mockLocation)
+    }
+  }
+}
