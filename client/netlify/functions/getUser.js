@@ -1,23 +1,20 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require('mongodb')
 
 exports.handler = async (event, context) => {
-  const client = new MongoClient(process.env.MONGODB);
+  const { username } = JSON.parse(event.body)
+  const usernameLowercase = username ? username.toLowerCase() : ""
+  const client = new MongoClient(process.env.MONGODB)
 
   try {
     await client.connect();
+    const database = client.db('test');
+    const collection = database.collection('users');
 
-    const database = client.db('<database>');
-    const collection = database.collection('<collection>');
-
-    // Example: Insert a document
-    await collection.insertOne({ name: 'John Doe' });
-
-    // Example: Query documents
-    const documents = await collection.find({}).toArray();
+    const document = await collection.findOne({ username: usernameLowercase });
 
     return {
       statusCode: 200,
-      body: JSON.stringify(documents),
+      body: JSON.stringify(document),
     };
   } catch (error) {
     return {

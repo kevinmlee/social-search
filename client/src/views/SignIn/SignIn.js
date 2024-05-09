@@ -28,31 +28,59 @@ export default function SignIn() {
     return () => setFullWidth(false)
   }, [setFullWidth])
 
-  const handleGoogleSignin = async (response) => {
-    console.log('response', response)
-    const user = await API.getUser({ username: response.email });
-
-    console.log('user', user)
-
+  const handleGoogleSignin = async (userData) => {
+    const user = await getUser(userData.email)
+    
     if (user) {
-      //localStorage.setItem("user", JSON.stringify(user));
-      setUser(setUser)
+      setUser(user)
       setFullWidth(false)
       navigate('/')
-      // window.location.href = "/";
-    }
+    } else await createGoogleUser(userData)
   };
+
+  const getUser = async (username) => await fetch(`/.netlify/functions/getUser`, {
+    method: "POST",
+    body: JSON.stringify({ username: username }),
+  })
+    .then(response => response.json())
+    .then(data => data)
+
+  const createGoogleUser = async (userData) => {
+    const requestBody = { 
+      username: userData.email,
+      firstName: userData.given_name,
+      lastName: userData.family_name,
+      avatar: userData.picture,
+      accountType: "google",
+     }
+
+    const result = await fetch(`/.netlify/functions/createUser`, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+    })
+      .then(response => response.json())
+      .then(data => data)
+
+    if (result?.acknowledged) {
+      handleGoogleSignin(userData)
+    }
+  }
 
   const findUser = async () => {
     setLoading(true);
     if (validator.isEmail(username)) {
-      const user = await API.getUser({ username: username });
-
-      if (user) setStepTwo(true);
-      else setError("No users found with this email address");
-    } else setError("Not a valid email address");
-    setLoading(false);
-  };
+      const requestBody = { username: username }
+      
+      await fetch(`/.netlify/functions/getUser`, {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+      })
+        .then(response => response.json())
+        .then(data => {
+          setLoading(false);
+        })
+    }
+  }
 
   const formStepOne = () => {
     return (
