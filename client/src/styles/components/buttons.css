@@ -17,8 +17,10 @@
 
 .cta-button[data-disabled="true"] {
   cursor: not-allowed;
-  background-color: #555;
+  filter: grayscale(100%);
+  opacity: 0.6;
 }
+
 .cta-button[data-disabled="true"]:hover {
   transform: translateY(0);
 }
@@ -108,6 +110,7 @@ button.active {
 }
 
 @media (prefers-color-scheme: dark) {
+  
   #layoutSelector .MuiButtonGroup-root {
     border: 1px solid #2d2f2f;
   }
