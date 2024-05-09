@@ -140,7 +140,10 @@ export default function SignIn() {
           label="Password"
           name="password"
           variant="outlined"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setError('')
+          }}
           value={password}
           autoFocus={true}
         />

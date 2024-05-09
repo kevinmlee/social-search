@@ -155,6 +155,7 @@ const SignUp = () => {
           if (validateName()) {
             const requestBody = { 
               username: username,
+              password: password,
               firstName: firstName,
               lastName: lastName,
               accountType: "standard",

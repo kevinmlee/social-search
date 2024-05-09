@@ -10,11 +10,10 @@ exports.handler = async (event, context) => {
     await client.connect();
     const database = client.db('test');
     const collection = database.collection('users');
-
     const document = await collection.findOne({ username: usernameLowercase });
 
     if (document) {
-      const passwordMatch = bcrypt.compare(password, document.password)
+      const passwordMatch = await bcrypt.compare(password, document.password)
 
       if (passwordMatch) {
         return {
