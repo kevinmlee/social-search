@@ -79,7 +79,7 @@ export default function SignIn() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!loading) findUser();
+          if (!loading && username) findUser();
         }}
       >
         <TextField
@@ -172,7 +172,14 @@ export default function SignIn() {
             {!stepTwo && formStepOne()}
             {stepTwo && formStepTwo()}
 
+            {/*
+            <p style={{ textAlign: 'center' }}>
+              <Link to="/recover">I forgot my password</Link>
+            </p>
+            */}
+
             <div className="or separator-text">OR</div>
+
             <div className="social-signin">
               <div id="googleLogin">
                 <GoogleLogin

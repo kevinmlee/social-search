@@ -10,6 +10,7 @@ import Header from "./views/Header"
 import Sidebar from "./views/Sidebar/Sidebar"
 import SignIn from "./views/SignIn/SignIn"
 import SignUp from "./views/SignUp"
+// import Recover from './views/Recover/Recover'
 import NotFound from "./views/NotFound/NotFound"
 import Settings from "./views/Settings"
 
@@ -105,6 +106,7 @@ export default function App() {
             <Route exact path="/trends/:query" element={<Trends />} />
             <Route exact path="/signin" element={<SignIn />} />
             <Route exact path="/signup" element={<SignUp />} />
+            {/*<Route exact path="/recover" element={<Recover />} />*/}
             <Route exact path="/settings" element={<Settings />} />
             <Route element={<NotFound />} />
           </Routes>
