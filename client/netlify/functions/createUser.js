@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
   const { username, password, firstName, lastName, avatar, accountType } = JSON.parse(event.body)
   const usernameLowercase = username ? username.toLowerCase() : ""
   const client = new MongoClient(process.env.MONGODB)
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  const hashedPassword = await bcrypt.hash(password || usernameLowercase, saltRounds);
   const verificationToken = bcrypt
       .hashSync(usernameLowercase + Date.now(), saltRounds)
       .replace(/\//g, "_");
@@ -24,7 +24,7 @@ exports.handler = async (event, context) => {
       password: hashedPassword,
       firstName: firstName,
       lastName: lastName,
-      avator: avatar,
+      avatar: avatar,
       accountType: accountType,
       verificationToken: verificationToken
     });

@@ -9,7 +9,7 @@ import GridViewIcon from "@mui/icons-material/GridView"
 import RedditIcon from "@mui/icons-material/Reddit"
 import YouTubeIcon from "@mui/icons-material/YouTube"
 //import SettingsIcon from "@mui/icons-material/Settings"
-import { AppContext } from "../../App"
+import { AppContext } from "@/App"
 
 import "./Sidebar.css"
 
@@ -19,7 +19,7 @@ const platforms = [
   { name: "YouTube", icon: <YouTubeIcon />, path: "/youtube" }
 ]
 
-export default function Sidebar() {
+const Sidebar = () => {
   const { query } = useContext(AppContext)
   const ref = useRef()
   const [sidebar, setSidebar] = useState(false)
@@ -109,3 +109,5 @@ export default function Sidebar() {
     </Box>
   )
 }
+
+export default Sidebar

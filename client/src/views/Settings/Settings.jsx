@@ -8,7 +8,7 @@ import {
   Switch,
 } from "@mui/material";
 
-export default function Settings() {
+const Settings = () => {
   return (
     <Box id="settings" sx={{ padding: "0 30px" }}>
       <Box>
@@ -20,7 +20,8 @@ export default function Settings() {
           <div className="center-column">
             <Typography variant="h5">Settings</Typography>
 
-            {/* <div className="setting-group">
+            {/*
+            <div className="setting-group">
               <div className="two-col-setting-header">
                 <Typography noWrap variant="h6">
                   Topics followed
@@ -36,7 +37,7 @@ export default function Settings() {
               </div>
               <Box>{this.following}</Box>
             </div>
-    */}
+            */}
 
             <FormGroup>
               <FormControlLabel
@@ -57,3 +58,5 @@ export default function Settings() {
     </Box>
   );
 }
+
+export default Settings

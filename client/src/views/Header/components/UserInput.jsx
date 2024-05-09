@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box, IconButton, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
-import { AppContext } from "../../../App"
+import { AppContext } from "@/App"
 import { debounce, useOutsideClick } from "@/util"
 
 export default function UserInput() {

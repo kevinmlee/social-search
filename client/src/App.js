@@ -5,20 +5,20 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp"
 
 import "./styles/main.css"
 
-// components
-import Header from "./views/Header"
-import Sidebar from "./views/Sidebar/Sidebar"
-import SignIn from "./views/SignIn/SignIn"
-import SignUp from "./views/SignUp"
-// import Recover from './views/Recover/Recover'
-import NotFound from "./views/NotFound/NotFound"
-import Settings from "./views/Settings"
-
-import Home from "./views/Home/Home"
-import Reddit from "./views/Platforms/Reddit/Reddit"
-import Twitter from "./views/Platforms/Twitter/Twitter"
-import YouTube from "./views/Platforms/YouTube/YouTube"
-import Trends from "./views/Trends/Trends"
+import {
+  Header,
+  Home,
+  NotFound,
+  Profile,
+  Reddit,
+  // Recover,
+  Settings,
+  Sidebar,
+  SignIn,
+  SignUp,
+  YouTube,
+  Trends
+} from '@/views'
 
 export const AppContext = createContext(null)
 
@@ -51,10 +51,8 @@ export default function App() {
     return () => window.removeEventListener("scroll", null)
   }, [])
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
-
   const backToTopButton = () => (
-    <div className="back-to-top" onClick={() => scrollToTop()}>
+    <div className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
       <KeyboardArrowUpIcon />
     </div>
   )
@@ -100,15 +98,16 @@ export default function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/reddit" element={<Reddit />} />
             <Route exact path="/reddit/:query" element={<Reddit />} />
-            <Route exact path="/twitter/:query" element={<Twitter />} />
+            {/*<Route exact path="/twitter/:query" element={<Twitter />} />*/}
             <Route exact path="/youtube" element={<YouTube />} />
             <Route exact path="/youtube/:query" element={<YouTube />} />
             <Route exact path="/trends/:query" element={<Trends />} />
             <Route exact path="/signin" element={<SignIn />} />
             <Route exact path="/signup" element={<SignUp />} />
             {/*<Route exact path="/recover" element={<Recover />} />*/}
+            <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/settings" element={<Settings />} />
-            <Route element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>
