@@ -1,4 +1,6 @@
 #notFound {
   text-align: center;
   padding: 100px 0;
+  max-width: 375px;
+  margin: 0 auto;
 }

@@ -1,15 +1,30 @@
 .cta-button {
+  font-family: "Poppins", sans-serif;
   padding: 12px 24px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(210, 193, 156);
+  background-color: var(--accent-color);
   transition: ease-in-out all 0.3s;
   color: #000000;
   text-decoration: none;
   box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
 }
+
+.cta-button[data-disabled="true"] {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.cta-button[data-disabled="true"]:hover {
+  transform: translateY(0);
+}
+
 .cta-button:hover {
   /*background-color: #a79b7c;*/
   color: #000000;
@@ -95,6 +110,7 @@ button.active {
 }
 
 @media (prefers-color-scheme: dark) {
+  
   #layoutSelector .MuiButtonGroup-root {
     border: 1px solid #2d2f2f;
   }

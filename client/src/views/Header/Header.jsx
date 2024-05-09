@@ -9,7 +9,7 @@ import "./Header.css"
 
 import { AppContext } from "../../App"
 
-export default function Header() {
+const Header = () => {
   const { scrollStatus } = useContext(AppContext)
 
   return (
@@ -40,4 +40,6 @@ export default function Header() {
     </Box>
   )
 }
+
+export default Header
 

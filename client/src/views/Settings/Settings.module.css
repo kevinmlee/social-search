@@ -1,0 +1,50 @@
+.group {
+  display: flex;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid;
+}
+
+.group:not(:first-child) { 
+  margin-top: 20px;
+}
+
+.description {
+  width: 50%;
+  padding-right: 30px;
+}
+
+.settings {
+  width: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .group {
+    border-color: var(--border-color-dark)
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .group {
+    border-color: var(--border-color-light)
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .group {
+    display: block;
+  }
+
+  .description {
+    width: 100%;
+    margin-bottom: 30px;
+    padding-right: 0;
+  }
+
+  .settings {
+    width: 100%;
+  }
+}

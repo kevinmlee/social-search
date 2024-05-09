@@ -8,7 +8,7 @@ import {
   Switch,
 } from "@mui/material";
 
-export default function Settings() {
+const Profile = () => {
   return (
     <Box id="settings" sx={{ padding: "0 30px" }}>
       <Box>
@@ -57,3 +57,5 @@ export default function Settings() {
     </Box>
   );
 }
+
+export default Profile
