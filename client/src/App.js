@@ -43,6 +43,15 @@ export default function App() {
   }, [getLocation])
 
   useEffect(() => {
+    if (Object.keys(user).length) localStorage.setItem('user', JSON.stringify(user))
+  }, [user])
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) setUser(JSON.parse(savedUser))
+  }, [setUser])
+
+  useEffect(() => {
     window.addEventListener("scroll", () => {
       setScrollStatus(window.scrollY === 0 ? 'top' : 'sticky')
       setBackToTop(window.scrollY > 0 ? true : false)

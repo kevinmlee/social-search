@@ -16,6 +16,7 @@ const User = () => {
 
   const signOut = () => {
     setUser({})
+    localStorage.removeItem('user')
     navigate('/')
   }
 
