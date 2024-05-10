@@ -22,6 +22,12 @@ const Settings = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
 
+  const updateBasicDetails = () => {
+    setLoading(true)
+    // do something
+    setLoading(false)
+  }
+
   const validatePassword = () => {
     if (currentPassword && (newPassword === confirmNewPassword)) {
       // updateUser
@@ -43,7 +49,6 @@ const Settings = () => {
           
           <div className={styles.settings}>
             <TextField
-              id="outlined-basic"
               label="First name"
               name="firstName"
               variant="outlined"
@@ -53,7 +58,6 @@ const Settings = () => {
             />
 
             <TextField
-              id="outlined-basic"
               label="Last name"
               name="lastName"
               variant="outlined"
@@ -64,7 +68,6 @@ const Settings = () => {
             />
 
             <TextField
-              id="outlined-basic"
               label="Email address"
               name="username"
               variant="outlined"
@@ -81,6 +84,7 @@ const Settings = () => {
               <button 
                 className={(loading ? "loading " : "") + "cta-button"}
                 data-disabled={true}
+                onClick={() => updateBasicDetails()}
               >
                 {loading ? <Loader /> : "Update details"}
               </button>
@@ -95,7 +99,6 @@ const Settings = () => {
           
           <div className={styles.settings}>
             <TextField
-              id="outlined-basic"
               type="password"
               label="Current Password"
               name="currentPassword"
@@ -107,7 +110,6 @@ const Settings = () => {
             />
 
             <TextField
-              id="outlined-basic"
               type="password"
               label="New Password"
               name="newPassword"
@@ -119,7 +121,6 @@ const Settings = () => {
             />
 
             <TextField
-              id="outlined-basic"
               type="password"
               label="Confirm New Password"
               name="confirmNewPassword"
@@ -134,6 +135,7 @@ const Settings = () => {
               <button 
                 className={(loading ? "loading " : "") + "cta-button"}
                 data-disabled={true}
+                onClick={() => validatePassword()}
               >
                 {loading ? <Loader /> : "Update password"}
               </button>
