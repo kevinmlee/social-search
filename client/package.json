@@ -9,7 +9,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.17",
     "@mui/lab": "^5.0.0-alpha.170",
-    "@mui/material": "^5.9.1",
+    "@mui/material": "^5.15.19",
     "@mui/x-data-grid": "^7.5.0",
     "@mui/x-data-grid-generator": "^7.5.0",
     "@react-oauth/google": "^0.12.1",
