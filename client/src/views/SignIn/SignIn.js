@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 
 import { TextField } from "@mui/material";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import validator from "validator";
 import { GoogleLogin } from "@react-oauth/google";
 import Loader from "../../components/Loader/Loader";
@@ -185,7 +185,7 @@ export default function SignIn() {
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     handleGoogleSignin(
-                      jwt_decode(credentialResponse.credential)
+                      jwtDecode(credentialResponse.credential)
                     );
                   }}
                   onError={() => console.log("Login failed")}
