@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, } from "react"
 import { Link, useNavigate } from 'react-router-dom'
-import jwt_decode from "jwt-decode"
+import { jwtDecode } from "jwt-decode"
 import { passwordStrength } from "check-password-strength"
 import validator from "validator"
 
@@ -219,7 +219,7 @@ const SignUp = () => {
             <div className="social-signin">
               <div id="googleLogin">
                 <GoogleLogin
-                  onSuccess={credentialResponse => handleGoogleSignin(jwt_decode(credentialResponse.credential))}
+                  onSuccess={credentialResponse => handleGoogleSignin(jwtDecode(credentialResponse.credential))}
                   onError={() => console.log("Login failed")}
                 />
               </div>
