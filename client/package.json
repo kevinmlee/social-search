@@ -33,7 +33,7 @@
     "react-use-googlelogin": "^0.12.5",
     "rss-parser": "^3.13.0",
     "saslprep": "^1.0.3",
-    "secure-ls": "^1.2.6",
+    "secure-ls": "^2.0.0",
     "universal-cookie": "^7.1.4",
     "validator": "^13.12.0"
   },
