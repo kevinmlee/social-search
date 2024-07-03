@@ -16,7 +16,7 @@
     "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "chart.js": "^4.4.3",
-    "chartjs-plugin-trendline": "^2.1.0",
+    "chartjs-plugin-trendline": "^2.1.1",
     "check-password-strength": "^2.0.10",
     "cors": "^2.8.5",
     "eslint-plugin-react-hooks": "^4.6.2",
