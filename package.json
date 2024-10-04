@@ -46,7 +46,7 @@
     "request": "^2.88.2",
     "scraper-instagram": "^1.0.17",
     "scrollreveal": "^4.0.9",
-    "stripe": "^16.4.0",
+    "stripe": "^17.1.0",
     "structured-data-testing-tool": "^4.5.0",
     "twitter-v2": "^1.1.0",
     "validator": "^13.11.0",
