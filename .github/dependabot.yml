@@ -16,7 +16,21 @@ updates:
       interval: "daily"
     # open-pull-requests-limit: 10
     groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
       mui:
         patterns:
           - "@mui/*"
-
+      testing:
+        patterns:
+          - "jest"
+          - "@testing-library/react"
+      emotion:
+        patterns:
+          - "@emotion/*"
+      babel:
+        patterns:
+          - "@babel/*"
