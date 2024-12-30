@@ -13,7 +13,7 @@
     "@mui/x-data-grid": "^7.21.0",
     "@mui/x-data-grid-generator": "^7.21.0",
     "@react-oauth/google": "^0.12.1",
-    "axios": "^1.7.4",
+    "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "chart.js": "^4.4.3",
     "chartjs-plugin-trendline": "^2.1.2",
