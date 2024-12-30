@@ -8,7 +8,6 @@ import utc from 'dayjs/plugin/utc'
 import { Grid, Box, Typography, Radio } from "@mui/material";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded"
 //import Chart from "chart.js/auto"
-import { Line } from "react-chartjs-2"
 //import "chartjs-plugin-trendline"
 import "./Trends.css"
 
@@ -246,29 +245,29 @@ export default function Trends() {
   }
 
   const interestOverTime = () => {
-    let options = {
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
-      elements: {
-        point: {
-          radius: 0
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
+    // let options = {
+    //   plugins: {
+    //     legend: {
+    //       display: false
+    //     }
+    //   },
+    //   elements: {
+    //     point: {
+    //       radius: 0
+    //     }
+    //   },
+    //   scales: {
+    //     y: {
+    //       beginAtZero: true
+    //     }
+    //   }
+    // }
 
     return (
       <Box className="interest-over-time" sx={{ paddingTop: 4, paddingBottom: 2 }}>
         <div className="card">
           <Typography variant="h5" sx={{ paddingBottom: 2 }}>Interest over time</Typography>
-          <Line id="iot" data={iotData} options={options} />
+          {/* <Line id="iot" data={iotData} options={options} /> */}
         </div>
       </Box>
     );
