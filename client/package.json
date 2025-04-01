@@ -19,7 +19,7 @@
     "check-password-strength": "^2.0.10",
     "cors": "^2.8.5",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "express": "^4.21.1",
+    "express": "^5.1.0",
     "google-trends-api": "^4.9.2",
     "jwt-decode": "^4.0.0",
     "prop-types": "^15.8.1",
