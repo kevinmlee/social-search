@@ -41,6 +41,7 @@ import { useEffect, useRef, useState } from 'react'
  */
 export default function FadeUp({
   children,
+  className = '',
   delay = 0,
 }) {
   const ref = useRef(null)
@@ -73,8 +74,9 @@ export default function FadeUp({
     <div
       ref={ref}
       className={`
-        transform transition-all duration-700 ease-out
+        transform transition-transform duration-700 ease-out
         ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
+        ${className}
       `}
       style={{ transitionDelay: `${delay}ms` }}
     >

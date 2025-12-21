@@ -61,7 +61,7 @@ export default async function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-12">
                 {subreddits[key]?.map((post, index) => 
-                <FadeUp key={post?.id}>
+                <FadeUp key={post?.id} className="border-white/15 border-b last:border-b-0 md:border-b-0">
                   <Post data={post} />
                 </FadeUp>)}
               </div>
