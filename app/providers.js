@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useEffect, useState } from 'react'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import { ChevronUp } from 'lucide-react'
 
 export const AppContext = createContext(null)
@@ -71,27 +72,29 @@ export function AppProvider({ children }) {
   )
 
   return (
-    <AppContext.Provider
-      value={{
-        backdropImage,
-        backToTop,
-        fullWidth,
-        location,
-        scrollStatus,
-        query,
-        user,
-        setBackdropImage,
-        setBackToTop,
-        setFullWidth,
-        setLocation,
-        setScrollStatus,
-        setQuery,
-        setUser,
-      }}
-    >
-      {children}
-      {backdropToggle && imageBackdrop()}
-      {backToTop && backToTopButton()}
-    </AppContext.Provider>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <AppContext.Provider
+        value={{
+          backdropImage,
+          backToTop,
+          fullWidth,
+          location,
+          scrollStatus,
+          query,
+          user,
+          setBackdropImage,
+          setBackToTop,
+          setFullWidth,
+          setLocation,
+          setScrollStatus,
+          setQuery,
+          setUser,
+        }}
+      >
+        {children}
+        {backdropToggle && imageBackdrop()}
+        {backToTop && backToTopButton()}
+      </AppContext.Provider>
+    </GoogleOAuthProvider>
   )
 }
