@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(wc:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout 30 npm run dev:*)",
+      "Bash(timeout 20 npm run dev:*)",
+      "Bash(timeout 15 npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(ls:*)"
+    ]
+  }
+}
