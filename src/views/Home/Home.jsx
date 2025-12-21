@@ -1,6 +1,7 @@
 import React from "react"
-import Post from "./Post"
+
 import { ScrollToTopOnLoad } from "@/components"
+import Post from "./components/Post"
 import TopicsBar from "./components/TopicsBar"
 
 const TOPICS = [

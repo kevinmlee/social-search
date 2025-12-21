@@ -117,7 +117,7 @@ export default function UserInput({ minimized = false}) {
         <div
           id="recentSearches"
           ref={outsideClick}
-          className="absolute top-full mt-2 left-0 right-0 bg-white dark:bg-gray-900 border border-border-light dark:border-border-dark rounded-md shadow-lg overflow-hidden"
+          className="absolute top-full mt-2 max-w-[500px] left-0 right-0 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-md shadow-lg overflow-hidden"
         >
           <div className="flex justify-between items-center px-4 py-3 border-b border-border-light dark:border-border-dark">
             <h6 className="text-base font-semibold">Recent</h6>
