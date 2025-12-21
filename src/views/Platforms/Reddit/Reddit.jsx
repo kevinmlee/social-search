@@ -1,5 +1,6 @@
 import Post from './Post'
 import Filter from '../../../components/Filter/Filter'
+import { FadeUp } from '@/components'
 
 const endpoint = "https://www.reddit.com"
 
@@ -29,7 +30,9 @@ export default async function Reddit({ params, searchParams }) {
       <div className="topic posts">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
           {posts.map(post => (
-            <Post data={post} key={post?.data?.id} />
+            <FadeUp key={post?.data?.id} className="border-white/15 border-b last:border-b-0 md:border-b-0">
+              <Post data={post} />
+            </FadeUp>
           ))}
         </div>
       </div>
