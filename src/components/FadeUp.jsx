@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from 'react'
  * FadeUp
  *
  * A lightweight, AOS-style "fade up on scroll" animation wrapper.
- * Uses the Intersection Observer API to animate children when they
- * enter the viewport.
+ * Animates children when they enter the viewport and reverses the
+ * animation when they leave.
  *
  * ─────────────────────────────────────────────
  * Usage:
@@ -30,16 +30,14 @@ import { useEffect, useRef, useState } from 'react'
  *
  * ─────────────────────────────────────────────
  * Notes:
- * - This component is client-only.
- * - Children can be ANY React node (no ref forwarding required).
- * - Animation runs once per mount (no repeat on scroll out/in).
+ * - Client-only component.
+ * - Children do NOT need to forward refs.
+ * - Animation plays both on enter and exit.
  * - Respects `prefers-reduced-motion`.
  *
- * ─────────────────────────────────────────────
  * Props:
  * @param {React.ReactNode} children - Content to animate.
- * @param {number} [delay=0] - Optional delay in milliseconds
- *                            (useful for staggered lists).
+ * @param {number} [delay=0] - Optional delay in milliseconds.
  */
 export default function FadeUp({
   children,
@@ -59,15 +57,15 @@ export default function FadeUp({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
+        setVisible(entry.isIntersecting)
       },
-      { threshold: 0.1 }
+      {
+        threshold: 0.1,
+      }
     )
 
     observer.observe(ref.current)
+
     return () => observer.disconnect()
   }, [])
 
@@ -75,7 +73,7 @@ export default function FadeUp({
     <div
       ref={ref}
       className={`
-        transition-all duration-700 ease-out
+        transform transition-all duration-700 ease-out
         ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}
       `}
       style={{ transitionDelay: `${delay}ms` }}
