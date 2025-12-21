@@ -66,7 +66,7 @@ const Sidebar = () => {
         ref={ref}
       >
         <div className="px-8 pt-12 pb-0 flex justify-center items-center">
-          <h2 className="m-0 font-serif">Currently</h2>
+          <h2 className="m-0 font-serif text-2xl font-bold">Currently</h2>
         </div>
 
         <div className="pt-12 pb-0 m-0">
