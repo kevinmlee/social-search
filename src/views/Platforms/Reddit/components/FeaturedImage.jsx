@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from "react"
 
-const ImagePost = ({ postData }) => (
+const FeaturedImage = ({ postData }) => (
   <div id="media">
     <Image
       id="featured-image"
@@ -14,4 +14,4 @@ const ImagePost = ({ postData }) => (
   </div>
 )
 
-export default ImagePost
+export default FeaturedImage

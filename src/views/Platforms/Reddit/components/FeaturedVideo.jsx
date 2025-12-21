@@ -1,7 +1,7 @@
 import React from "react"
 import YouTubeVideo from "./YouTubeVideo"
 
-const VideoPost = ({ postData }) => {
+const FeaturedVideo = ({ postData }) => {
   if ("secure_media" in postData.data) {
     if (postData.data.secure_media) {
       if ("reddit_video" in postData.data.secure_media) {
@@ -31,4 +31,4 @@ const VideoPost = ({ postData }) => {
   }
 }
 
-export default VideoPost
+export default FeaturedVideo

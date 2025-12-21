@@ -1,3 +1,3 @@
-export { default as ImagePost } from "./ImagePost"
-export { default as VideoPost } from "./VideoPost"
+export { default as FeaturedImage } from "./FeaturedImage"
+export { default as FeaturedVideo } from "./FeaturedVideo"
 export { default as YouTubeVideo } from "./YouTubeVideo"

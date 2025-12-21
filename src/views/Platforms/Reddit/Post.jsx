@@ -4,7 +4,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import utc from 'dayjs/plugin/utc'
 
 import { decodeText } from '@/util'
-import { ImagePost, VideoPost } from "./components"
+import { FeaturedImage, FeaturedVideo } from "./components"
 
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
@@ -14,8 +14,8 @@ const Post = ({ data }) => {
     <div id="post">
       <a href={data?.data.url} target="_blank" rel="noopener noreferrer">
         <div id="details">
-          {data?.data?.is_video && <VideoPost postData={data} />}
-          {!data?.data?.is_video && data?.data?.preview && <ImagePost postData={data} />}
+          {data?.data?.is_video && <FeaturedVideo postData={data} />}
+          {!data?.data?.is_video && data?.data?.preview && <FeaturedImage postData={data} />}
  
           <div className="text">
             <div className="author-details">
