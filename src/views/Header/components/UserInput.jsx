@@ -7,7 +7,7 @@ import { X } from "lucide-react"
 import { AppContext } from "../../../../app/providers"
 import { debounce, useOutsideClick } from "@/util"
 
-export default function UserInput() {
+export default function UserInput({ minimized = false}) {
   const router = useRouter()
   const { query, setQuery } = useContext(AppContext)
   const [searchFocus, setSearchFocus] = useState(false)
@@ -113,7 +113,7 @@ export default function UserInput() {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}
             ref={ref}
-            className="w-full max-w-[500px] h-[65px] bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] rounded-xl text-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-accent"
+            className={`w-full max-w-[500px] ${minimized ? 'h-[45px]' : 'h-[65px]'} bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] rounded-xl text-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-accent`}
           />
         </form>
       </div>

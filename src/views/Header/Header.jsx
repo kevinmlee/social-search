@@ -20,7 +20,7 @@ const Header = () => {
               className="search-icon absolute top-1/2 -translate-y-1/2 left-4 text-white"
               size={24}
             />
-            <UserInput />
+            <UserInput minimized={scrollStatus === 'scrolled'} />
           </div>
 
           <div>
