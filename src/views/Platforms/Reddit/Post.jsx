@@ -11,17 +11,17 @@ dayjs.extend(utc)
 
 const Post = ({ data }) => {
   return (
-    <div id="post">
-      <a href={data?.data.url} target="_blank" rel="noopener noreferrer">
-        <div id="details">
+    <div data-testid="post">
+      <a href={data?.data.url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200">
+        <div data-testid="details">
           {data?.data?.is_video && <FeaturedVideo postData={data} />}
           {!data?.data?.is_video && data?.data?.preview && <FeaturedImage postData={data} />}
  
-          <div className="text">
-            <div className="author-details">
-              <div className="subreddit">
-                {data.data.subreddit_name_prefixed}
-              </div>
+          <div data-testid="text">
+            <div data-testid="subreddit" className="text-sm font-medium mb-2 text-primary">
+              {data.data.subreddit_name_prefixed}
+            </div>
+            <div data-testid="author-details" className="mb-2">
               <span className="text-xs text-[#999999]">
                 Posted by {data.data.author}
               </span>
@@ -31,8 +31,8 @@ const Post = ({ data }) => {
               </span>
             </div>
 
-            <div className="post-title">
-              <h5 className="text-xl font-normal">
+            <div data-testid="post-title">
+              <h5 className="font-merriweather text-lg font-medium">
                 {decodeText(data.data.title)}
               </h5>
             </div>
