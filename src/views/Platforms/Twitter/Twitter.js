@@ -26,10 +26,6 @@ export default function Twitter({ setAppState }) {
     recent: false,
   });
 
-  useEffect(() => {
-    setTimeout(() => window.AOS.refresh(), 700);
-  });
-
   const handleFilter = (selectedOption) => {
     const tempFilters = { ...filters };
     for (const option in filters) {

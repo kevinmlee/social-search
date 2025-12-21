@@ -41,10 +41,6 @@ const Reddit = () => {
   }, [])
 
   useEffect(() => {
-    setTimeout(() => window.AOS.refresh(), 700)
-  })
-
-  useEffect(() => {
     if (!query) getHotPosts()
     
     if (query) {

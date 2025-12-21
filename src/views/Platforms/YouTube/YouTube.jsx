@@ -59,10 +59,6 @@ const YouTube = () => {
   }, [location])
 
   useEffect(() => {
-    setTimeout(() => window.AOS.refresh(), 700)
-  })
-
-  useEffect(() => {
     if (query) {
       setQuery(query)
       search('relevance')

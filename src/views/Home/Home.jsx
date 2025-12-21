@@ -33,10 +33,6 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    setTimeout(() => window.AOS.refresh(), 700)
-  })
-
-  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" })
     getPosts()
   }, [getPosts])
