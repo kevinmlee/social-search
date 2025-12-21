@@ -43,7 +43,7 @@ const Home = () => {
 
   return (
     <div className="px-5 md:px-8">
-      <ul className="flex space-x-6 overflow-x-auto text-lg font-semibold capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
+      <ul className="flex space-x-10 overflow-x-auto text-lg font-medium capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
         {TOPICS.map(topic => (
           <li
             key={"key-" + topic}
