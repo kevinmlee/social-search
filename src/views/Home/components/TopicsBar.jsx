@@ -11,7 +11,7 @@ const TopicsBar = ({ topics }) => (
         onClick={() => {
           const element = document.getElementById(topic);
           const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-          const offsetPosition = elementPosition - 180;
+          const offsetPosition = elementPosition - 145;
           window.scrollTo({
             top: offsetPosition,
             behavior: 'smooth'
