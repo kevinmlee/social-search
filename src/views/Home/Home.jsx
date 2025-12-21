@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ScrollToTopOnLoad } from "@/components"
+import { FadeUp, ScrollToTopOnLoad } from "@/components"
 import Post from "./components/Post"
 import TopicsBar from "./components/TopicsBar"
 
@@ -60,7 +60,10 @@ export default async function Home() {
               </h4>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-12">
-                {subreddits[key]?.map(post => <Post data={post} key={post?.id}/>)}
+                {subreddits[key]?.map((post, index) => 
+                <FadeUp key={post?.id}>
+                  <Post data={post} />
+                </FadeUp>)}
               </div>
             </div>
           ))}
