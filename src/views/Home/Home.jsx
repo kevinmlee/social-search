@@ -43,7 +43,7 @@ const Home = () => {
 
   return (
     <div className="px-5 md:px-8">
-      <ul className="flex space-x-6 overflow-x-auto text-lg font-semibold capitalize justify-center cursor-pointer py-4 mb-6 border-b border-[#efefef] dark:border-border-dark">
+      <ul className="flex space-x-6 overflow-x-auto text-lg font-semibold capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
         {TOPICS.map(topic => (
           <li
             key={"key-" + topic}
@@ -58,11 +58,11 @@ const Home = () => {
       <div>
         {Object.keys(subreddits)?.map(key => (
           <div id={key} className="pb-6 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
-            <h4 className="font-merriweather section-title text-4xl font-semibold pt-6 pb-12 capitalize">
+            <h4 className="font-merriweather section-title text-4xl font-medium py-12 capitalize">
               {key}
             </h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-12">
               {subreddits[key]?.map(post => <Post data={post} key={post?.id}/>)}
             </div>
           </div>
