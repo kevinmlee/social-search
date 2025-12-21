@@ -15,8 +15,8 @@ const Header = () => {
         <div className="flex justify-between items-center px-4 py-3">
           <div className="search relative">
             <Search
-              className="search-icon absolute top-1/2 -translate-y-1/2 left-2 text-gray-500"
-              size={20}
+              className="search-icon absolute top-1/2 -translate-y-1/2 left-4 text-white"
+              size={24}
             />
             <UserInput />
           </div>

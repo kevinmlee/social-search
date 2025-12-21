@@ -113,7 +113,7 @@ export default function UserInput() {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}
             ref={ref}
-            className="w-full max-w-[500px] h-[65px] bg-[#131516] pl-10 pr-4 py-2 border border-[#2c2f33] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full max-w-[500px] h-[65px] bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] rounded-xl text-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-accent"
           />
         </form>
       </div>
