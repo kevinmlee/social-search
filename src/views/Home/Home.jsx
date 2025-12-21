@@ -55,7 +55,7 @@ export default async function Home() {
         <div>
           {Object.keys(subreddits)?.map(key => (
             <div id={key} className="pb-6 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
-              <h4 className="font-merriweather section-title text-2xl md:text-4xl font-medium py-6 md:py-12 capitalize">
+              <h4 className="font-merriweather text-primary section-title text-2xl md:text-4xl font-medium py-6 md:py-12 capitalize">
                 {key}
               </h4>
 

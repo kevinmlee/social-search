@@ -7,9 +7,8 @@ import { decodeText } from "@/util"
 dayjs.extend(relativeTime)
 
 const Post = ({ data }) => {
-  console.log("Post data:", data);
   return (
-    <div id="post" className="pb-6 border-white/15 border-b last:border-b-0" data-aos="fade-up">
+    <div id="post" className="pb-6 md:pb-0 border-white/15 border-b last:border-b-0 md:border-b-0" data-aos="fade-up">
       <a href={data?.url} className="font-merriweather hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         <div id="details">
           <div id="text">

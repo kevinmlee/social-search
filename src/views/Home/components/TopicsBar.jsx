@@ -7,7 +7,7 @@ const TopicsBar = ({ topics }) => (
     {topics.map(topic => (
       <li
         key={"key-" + topic}
-        className="topic"
+        className="topic hover:text-primary transition-colors duration-200"
         onClick={() => {
           const element = document.getElementById(topic);
           const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
