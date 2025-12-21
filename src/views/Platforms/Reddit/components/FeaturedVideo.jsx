@@ -6,7 +6,7 @@ const FeaturedVideo = ({ postData }) => {
     if (postData.data.secure_media) {
       if ("reddit_video" in postData.data.secure_media) {
         return (
-          <div className="reddit-video media mb-2">
+          <div data-testid="reddit-video" className="overflow-hidden rounded-lg mb-4">
             <video
               preload="none"
               width="100%"
