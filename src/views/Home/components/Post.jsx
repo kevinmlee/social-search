@@ -27,6 +27,15 @@ const Post = ({ data }) => {
                 {decodeText(data?.title)}
               </h5>
             </div>
+
+            <div id="post-stats" className="mt-4 flex items-center space-x-4">
+              <span className="text-xs text-[#666666]">
+                {data?.score.toLocaleString()} upvotes
+              </span>
+              <span className="text-xs text-[#666666]">
+                {data?.num_comments.toLocaleString()} comments
+              </span>
+            </div>
           </div>
         </div>
       </a>
