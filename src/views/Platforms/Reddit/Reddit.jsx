@@ -32,9 +32,9 @@ export default async function Reddit({ params, searchParams }) {
       <Filter filters={{ hot: filter === 'hot', recent: filter === 'recent' }} />
 
       <div className="topic posts">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-16">
           {posts.map(post => (
-            <FadeUp key={post?.data?.id} className="border-white/15 border-b last:border-b-0 md:border-b-0">
+            <FadeUp key={post?.data?.id} className="break-inside-avoid mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
               <Post data={post} />
             </FadeUp>
           ))}
