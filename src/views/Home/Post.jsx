@@ -8,7 +8,7 @@ dayjs.extend(relativeTime)
 
 const Post = ({ data }) => {
   return (
-    <div id="post" data-aos="fade-up">
+    <div id="post" className="pb-6 border-white/15 border-b last:border-b-0" data-aos="fade-up">
       <a href={data?.link} className="font-merriweather hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         <div id="details">
           <div id="text">
@@ -23,7 +23,7 @@ const Post = ({ data }) => {
             </div>
 
             <div id="post-title" className="mt-3">
-              <h5 className="text-lg font-semibold leading-snug">
+              <h5 className="text-medium md:text-lg font-semibold leading-snug">
                 {decodeText(data?.title)}
               </h5>
             </div>

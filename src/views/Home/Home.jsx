@@ -66,11 +66,11 @@ const Home = () => {
       <div>
         {Object.keys(subreddits)?.map(key => (
           <div id={key} className="pb-6 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
-            <h4 className="font-merriweather section-title text-4xl font-medium py-12 capitalize">
+            <h4 className="font-merriweather section-title text-2xl md:text-4xl font-medium py-6 md:py-12 capitalize">
               {key}
             </h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 md:gap-12">
               {subreddits[key]?.map(post => <Post data={post} key={post?.id}/>)}
             </div>
           </div>
