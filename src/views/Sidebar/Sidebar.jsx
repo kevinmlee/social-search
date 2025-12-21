@@ -73,7 +73,7 @@ const Sidebar = () => {
           <Link href="/">
             <span className="menu-item-container tier-1" data-tab="home" onClick={handleClick}>
               <div className={`flex items-center px-8 py-2 text-sm cursor-pointer relative transition-all duration-300 capitalize text-black dark:text-white hover:bg-accent/40 dark:hover:bg-black/50 ${
-                pathname === "/" ? 'active bg-accent/40 dark:bg-black/50 text-black dark:text-accent before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent' : ''
+                pathname === "/" ? 'active bg-accent/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent' : ''
               }`}>
                 <LayoutGrid className="w-6 h-6 mr-4" />
                 <span>Home</span>

@@ -9,7 +9,7 @@ dayjs.extend(relativeTime)
 const Post = ({ data }) => {
   return (
     <div id="post" data-aos="fade-up">
-      <a href={data?.link} className="font-merriweather" target="_blank" rel="noopener noreferrer">
+      <a href={data?.link} className="font-merriweather hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         <div id="details">
           <div id="text">
             <div id="author-details">
