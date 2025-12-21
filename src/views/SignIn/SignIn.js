@@ -9,7 +9,7 @@ import validator from "validator"
 import { GoogleLogin } from "@react-oauth/google"
 import Loader from "../../components/Loader/Loader"
 import { AppContext } from "../../../app/providers"
-import { Button } from "@/components"
+import { Button, Input } from "@/components"
 
 export default function SignIn() {
   const router = useRouter()
@@ -84,8 +84,8 @@ export default function SignIn() {
         }}
         className="mt-5 space-y-5"
       >
-        <input
-          id="outlined-basic"
+        <Input 
+          id="email"
           type="email"
           placeholder="Email address"
           name="username"
@@ -95,7 +95,6 @@ export default function SignIn() {
           }}
           value={username}
           autoFocus={true}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
         <div className="form-field relative">
           <Button className="w-full" disabled={loading || !username} size="large">Continue</Button>
@@ -135,8 +134,8 @@ export default function SignIn() {
         }}
         className="mt-5 space-y-5"
       >
-        <input
-          id="outlined-basic"
+        <Input 
+          id="password"
           type="password"
           placeholder="Password"
           name="password"
@@ -146,7 +145,6 @@ export default function SignIn() {
           }}
           value={password}
           autoFocus={true}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
         <div className="form-field relative">
