@@ -9,6 +9,7 @@ import validator from "validator"
 
 import { GoogleLogin } from "@react-oauth/google"
 import { AppContext } from "../../../app/providers"
+import { Button, Input } from "@/components"
 
 const SignUp = () => {
   const router = useRouter()
@@ -101,21 +102,16 @@ const SignUp = () => {
         }}
         className="mt-5 space-y-5"
       >
-        <input
-          id="outlined-basic"
+        <Input
+          id="email"
           type="email"
           placeholder="Email address"
           name="username"
           onChange={e => handleChange(setUsername(e.target.value))}
           value={username}
           autoFocus={true}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
-        <input
-          className="w-full px-4 py-3 rounded-md font-medium transition-colors bg-accent hover:bg-accent/90 cursor-pointer text-black"
-          type="submit"
-          value="Continue"
-        />
+        <Button type="submit" className="w-full">Continue</Button>
       </form>
     );
   };
@@ -133,15 +129,14 @@ const SignUp = () => {
         }}
         className="mt-5 space-y-5"
       >
-        <input
-          id="outlined-basic"
+        <Input
+          id="password"
           type="password"
           placeholder="Password"
           name="password"
           onChange={e => handleChange(setPassword(e.target.value))}
           value={password}
           autoFocus={true}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
         {Object.keys(password).length !== 0 && (
@@ -158,11 +153,7 @@ const SignUp = () => {
           </div>
         )}
 
-        <input
-          className="w-full px-4 py-3 rounded-md font-medium transition-colors bg-accent hover:bg-accent/90 cursor-pointer text-black"
-          type="submit"
-          value="Continue"
-        />
+        <Button type="submit" className="w-full">Continue</Button>
       </form>
     );
   };
@@ -194,32 +185,26 @@ const SignUp = () => {
         }}
         className="mt-5 space-y-5"
       >
-        <input
-          id="outlined-basic"
+        <Input
+          id="firstName"
           type="text"
           placeholder="First name"
           name="firstName"
           onChange={e => handleChange(setFirstName(e.target.value))}
           value={firstName}
           autoFocus={true}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
-        <input
-          id="outlined-basic"
+        <Input
+          id="lastName"
           type="text"
           placeholder="Last name"
           name="lastName"
           onChange={e => handleChange(setLastName(e.target.value))}
           value={lastName}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
-        <input
-          className="w-full px-4 py-3 rounded-md font-medium transition-colors bg-accent hover:bg-accent/90 cursor-pointer text-black"
-          type="submit"
-          value="Create account"
-        />
+        <Button type="submit" className="w-full">Create account</Button>
       </form>
     );
   };
@@ -227,7 +212,7 @@ const SignUp = () => {
   return (
     <div id="signin" className="min-h-screen flex">
       <div className="fixed left-0 top-0 h-full w-full md:w-2/5 flex items-center justify-center px-8">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-[340px]">
           <h2 className="text-3xl font-bold text-center mb-8 text-black dark:text-white">Create an account</h2>
 
           {!!errorMessage && (
@@ -254,7 +239,7 @@ const SignUp = () => {
 
           <div className="signup mt-9 text-center">
             <p className="text-black dark:text-white">
-              Already have an account? <Link href="/signin" className="text-accent hover:underline">Sign in</Link>
+              Already have an account? <Link href="/signin" className="text-primary hover:underline">Sign in</Link>
             </p>
           </div>
         </div>
