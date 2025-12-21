@@ -43,7 +43,7 @@ const Home = () => {
 
   return (
     <div className="px-5 md:px-8">
-      <ul className="fw-filter">
+      <ul className="flex space-x-4 overflow-x-auto py-4 mb-6 border-b border-[#efefef] dark:border-border-dark">
         {TOPICS.map(topic => (
           <li
             key={"key-" + topic}

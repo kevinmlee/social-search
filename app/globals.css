@@ -5,6 +5,11 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
+:root {
+  --accent-color: #aeaeae;
+  --primary-color: #d2c19c;
+}
+
 @layer base {
   html {
     @apply scroll-smooth;
@@ -12,6 +17,8 @@
 
   body {
     @apply font-sans text-sm leading-tight;
+    background-color: #161819;
+    color: #ffffff
   }
 }
 
