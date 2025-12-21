@@ -8,6 +8,8 @@
 :root {
   --accent-color: #aeaeae;
   --primary-color: #d2c19c;
+  --primary-color-rgb: 210 193 156;
+  --accent-color-rgb: 174 174 174;
 }
 
 @layer base {

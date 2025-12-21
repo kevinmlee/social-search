@@ -9,6 +9,7 @@ import validator from "validator"
 import { GoogleLogin } from "@react-oauth/google"
 import Loader from "../../components/Loader/Loader"
 import { AppContext } from "../../../app/providers"
+import { Button } from "@/components"
 
 export default function SignIn() {
   const router = useRouter()
@@ -97,11 +98,7 @@ export default function SignIn() {
           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
         <div className="form-field relative">
-          <input
-            className={`w-full px-4 py-3 rounded-md font-medium transition-colors ${loading ? 'bg-[#93876d] cursor-not-allowed' : 'bg-accent hover:bg-accent/90 cursor-pointer'} text-black`}
-            type="submit"
-            value={loading ? "" : "Continue"}
-          />
+          <Button className="w-full" disabled={loading || !username} size="large">Continue</Button>
           {loading && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"><Loader /></div>}
         </div>
       </form>
@@ -153,11 +150,7 @@ export default function SignIn() {
         />
 
         <div className="form-field relative">
-          <input
-            className={`w-full px-4 py-3 rounded-md font-medium transition-colors ${loading ? 'bg-[#93876d] cursor-not-allowed' : 'bg-accent hover:bg-accent/90 cursor-pointer'} text-black`}
-            type="submit"
-            value={loading ? "" : "Sign in"}
-          />
+          <Button className="w-full" disabled={loading || !password} size="large">Sign in</Button>
           {loading && <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"><Loader /></div>}
         </div>
       </form>
@@ -166,8 +159,8 @@ export default function SignIn() {
 
   return (
     <div id="signin" className="min-h-screen flex">
-      <div className="fixed left-0 top-0 h-full w-full md:w-2/5 flex items-center justify-center px-8">
-        <div className="w-full max-w-md">
+      <div className="fixed left-0 top-0 h-full w-full md:w-1/3 flex items-center justify-center px-8">
+        <div className="w-full max-w-[340px]">
           <h2 className="text-3xl font-bold text-center mb-8 text-black dark:text-white">Welcome back</h2>
 
           {error && <div className="alert error mb-5 p-4 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-md">{error}</div>}
@@ -195,12 +188,12 @@ export default function SignIn() {
 
           <div className="signup mt-9 text-center">
             <p className="text-black dark:text-white">
-              Don't have an account? <Link href="/signup" className="text-accent hover:underline">Sign up</Link>
+              Don't have an account? <Link href="/signup" className="text-primary hover:underline">Sign up</Link>
             </p>
           </div>
         </div>
       </div>
-      <div className="hidden md:block fixed right-0 top-0 w-3/5 h-full bg-cover bg-left-center" style={{backgroundImage: "url('/assets/current.jpg')"}}></div>
+      <div className="hidden md:block fixed right-0 top-0 w-2/3 h-full bg-cover bg-left-center" style={{backgroundImage: "url('/assets/current.jpg')"}}></div>
     </div>
   )
 }
