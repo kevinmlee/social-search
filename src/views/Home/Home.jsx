@@ -58,7 +58,7 @@ const Home = () => {
       <div>
         {Object.keys(subreddits)?.map(key => (
           <div id={key} className="pb-6 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
-            <h4 className="section-title text-3xl font-bold mb-6 capitalize">
+            <h4 className="font-merriweather section-title text-4xl font-semibold pt-6 pb-12 capitalize">
               {key}
             </h4>
 

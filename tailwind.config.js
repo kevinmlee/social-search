@@ -13,11 +13,13 @@ module.exports = {
         'bg-dark': 'rgb(22, 24, 25)',
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
+        sans: ['var(--font-poppins)', 'sans-serif'],
+        serif: ['var(--font-merriweather)', 'serif'],
+        poppins: ['var(--font-poppins)', 'sans-serif'],
+        merriweather: ['var(--font-merriweather)', 'serif'],
       },
     },
   },
   plugins: [],
-  darkMode: 'media', // Use system preference
+  darkMode: 'media',
 }
