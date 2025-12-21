@@ -11,7 +11,7 @@ dayjs.extend(utc)
 
 const Post = ({ data }) => {
   return (
-    <div data-testid="post">
+    <div data-testid="post" className="pb-6 md:pb-0">
       <a href={data?.data.url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200">
         <div data-testid="details">
           {data?.data?.is_video && <FeaturedVideo postData={data} />}
