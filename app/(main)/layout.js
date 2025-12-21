@@ -10,15 +10,9 @@ export default function MainLayout({ children }) {
 
   return (
     <>
-      {!fullWidth && (
-        <div>
-          <Header />
-          <Sidebar />
-        </div>
-      )}
-      <div id="main-content" className={fullWidth ? 'fw' : ''}>
-        {children}
-      </div>
+      <Header />
+      <Sidebar />
+      <main className="pl-[200px]">{children}</main>
     </>
   )
 }
