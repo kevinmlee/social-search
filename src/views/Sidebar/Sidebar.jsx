@@ -8,7 +8,7 @@ import { Menu, X, LayoutGrid } from "lucide-react"
 import { AppContext } from "../../../app/providers"
 
 // Reusable active state classes
-const ACTIVE_CLASSES = 'active bg-accent/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent'
+const ACTIVE_CLASSES = 'bg-accent/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent'
 
 // Using custom SVG icons for Reddit and YouTube since Lucide doesn't have brand icons
 const RedditIcon = () => (
@@ -75,8 +75,8 @@ const Sidebar = () => {
         <div className="pt-12 pb-0 m-0">
           <Link href="/">
             <span className="menu-item-container tier-1" data-tab="home" onClick={handleClick}>
-              <div className={`flex items-center px-8 py-2 text-sm cursor-pointer relative transition-all duration-300 capitalize text-black dark:text-white hover:bg-accent/40 dark:hover:bg-black/50 ${
-                pathname === "/" ? ACTIVE_CLASSES : ''
+              <div className={`flex items-center px-8 py-2 text-sm cursor-pointer relative transition-all duration-300 capitalize ${
+                pathname === "/" ? ACTIVE_CLASSES : 'text-black dark:text-white hover:bg-accent/40 dark:hover:bg-black/50'
               }`}>
                 <LayoutGrid className="w-6 h-6 mr-4" />
                 <span>Home</span>
@@ -91,8 +91,8 @@ const Sidebar = () => {
               {platforms.map(platform => (
                 <Link href={`${platform.path}/${query ?? ''}`} key={platform.name} >
                   <span
-                    className={`flex items-center px-8 py-2 text-sm cursor-pointer relative transition-all duration-300 capitalize text-black dark:text-white hover:bg-accent/40 dark:hover:bg-black/50 ${
-                      pathname?.includes(platform.path) ? ACTIVE_CLASSES : ''
+                    className={`flex items-center px-8 py-2 text-sm cursor-pointer relative transition-all duration-300 capitalize ${
+                      pathname?.includes(platform.path) ? ACTIVE_CLASSES : 'text-black dark:text-white hover:bg-accent/40 dark:hover:bg-black/50'
                     }`}
                     data-tab={platform.name.toLowerCase()}
                     onClick={handleClick}
