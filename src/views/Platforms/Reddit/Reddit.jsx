@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useContext, useState, useEffect, useCallback } from "react"
 import { useParams } from "react-router-dom"
 
