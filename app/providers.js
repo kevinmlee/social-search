@@ -44,7 +44,7 @@ export function AppProvider({ children }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollStatus(window.scrollY === 0 ? 'top' : 'sticky')
+      setScrollStatus(window.scrollY === 0 ? '' : 'scrolled')
       setBackToTop(window.scrollY > 0)
     }
 
