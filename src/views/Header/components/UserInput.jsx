@@ -93,12 +93,7 @@ export default function UserInput({ minimized = false}) {
     setQuery(selectedQuery)
     search(e, selectedQuery)
   }
-  /*
-      // border-radius: 12px;
-    // height: 45px;
-    // padding: 8px 8px 8px 60px;
-    */
-
+  
   return (
     <div id="search-input">
       <div>

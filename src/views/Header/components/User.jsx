@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { User as UserIcon } from "lucide-react"
 import { useOutsideClick } from "@/util"
 import { AppContext } from "../../../../app/providers"
+import { Button } from "@/components"
 
 const User = () => {
   const router = useRouter()
@@ -34,9 +35,9 @@ const User = () => {
             }
           </div>
         ) : (
-          <Link href="/signin" className="sign-in cta-button">
+          <Button type="link" onClick={() => router.push('/signin')} >
             Sign in
-          </Link>
+          </Button>
         )}
       </div>
 

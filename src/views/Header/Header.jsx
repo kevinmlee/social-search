@@ -13,9 +13,9 @@ const Header = () => {
 
   return (
     <div id="header" className="sticky top-0 z-50">
-      <header className={`expanded md:flex bg-[#161819] pl-[215px] shadow-md ${scrollStatus === 'scrolled' ? 'py-2' : 'py-4'} transition-all duration-300 ease-in-out`}>
-        <div className="flex justify-between items-center px-4 py-3">
-          <div className="search relative">
+      <header className={`expanded bg-[#161819] pl-[215px] shadow-md ${scrollStatus === 'scrolled' ? 'py-2' : 'py-4'} transition-all duration-300 ease-in-out`}>
+        <div className="flex justify-between items-center w-full px-4 py-3">
+          <div className="search relative flex-1 max-w-2xl">
             <Search
               className="search-icon absolute top-1/2 -translate-y-1/2 left-4 text-white"
               size={24}
@@ -23,7 +23,7 @@ const Header = () => {
             <UserInput minimized={scrollStatus === 'scrolled'} />
           </div>
 
-          <div>
+          <div className="ml-4">
             <User />
           </div>
         </div>

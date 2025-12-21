@@ -1,16 +1,12 @@
 'use client'
 
 import React, { useContext, useState, useEffect, useCallback } from "react"
-import { useParams } from "react-router-dom"
+import { useParams } from "next/navigation"
 
-import { Box } from "@mui/material"
-import { Masonry } from "@mui/lab"
 import Loader from "../../../components/Loader/Loader"
 import Filter from "../../../components/Filter/Filter"
 import Post from './Post'
-//import LayoutSelector from "../../../LayoutSelector"
-import { AppContext } from "../../../App"
-import "./Reddit.css"
+import { AppContext } from "../../../../../app/providers"
 
 const endpoint = "https://www.reddit.com"
 
@@ -80,37 +76,37 @@ const Reddit = () => {
   }
 
   return (
-    <Box sx={{ padding: "0 20px" }} md={{ padding: "0 30px" }}>
+    <div className="px-5 md:px-8">
       <Filter filters={filters} onSuccess={(response) => handleFilter(response)} />
       {loading && <Loader />}
 
       {/* General hottest posts */}
       {!!(!query && hotFeed.length) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {hotFeed.map((post) => <Post data={post} key={post?.data?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
 
       {/* Recent posts by search query */}
       {!!(filters.recent && searchNew.length) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {searchNew.slice(0, 50).map((post) => <Post data={post} key={post?.data?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
 
       {/* Hot posts by search query */}
       {!!(filters.hot && searchHot.length) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {searchHot.slice(0, 50).map(post => <Post data={post} key={post?.data?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   )
 }
 

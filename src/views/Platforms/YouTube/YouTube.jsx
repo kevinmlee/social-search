@@ -1,15 +1,14 @@
+'use client'
+
 import React, { useContext, useState, useEffect, useCallback } from "react"
-import { useParams } from "react-router-dom"
+import { useParams } from "next/navigation"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 
-import { Box } from "@mui/material"
-import { Masonry } from "@mui/lab"
 import Loader from "../../../components/Loader/Loader"
 import Filter from "../../../components/Filter/Filter"
 import Post from "./Post"
-import { AppContext } from "../../../App"
-import "./YouTube.css"
+import { AppContext } from "../../../../../app/providers"
 
 dayjs.extend(relativeTime)
 
@@ -29,9 +28,9 @@ const YouTube = () => {
     const requestBody = { searchQuery: query, order: filter }
     setLoading(true)
 
-    // serverless API call
-    await fetch(`/.netlify/functions/youtubeSearch`, {
+    await fetch(`/api/youtube/search`, {
       method: "POST",
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
     })
       .then(response => response.json())
@@ -47,8 +46,9 @@ const YouTube = () => {
     const requestBody = { countryCode: location?.country_code }
     setLoading(true)
 
-    await fetch(`/.netlify/functions/youtubeTrending`, {
+    await fetch(`/api/youtube/trending`, {
       method: "POST",
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
     })
       .then(response => response.json())
@@ -85,43 +85,43 @@ const YouTube = () => {
   }
 
   return (
-    <Box sx={{ padding: "0 20px" }} md={{ padding: "0 30px" }}>
+    <div className="px-5 md:px-8">
       <Filter filters={filters} onSuccess={(response) => handleFilter(response)} />
 
       {loading && <Loader />}
 
       {!!('items' in trending && !query) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {trending.items.map(post => <Post data={post} key={post?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
 
       {!!(filters.relevance && searchResults["relevance"] && query) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {searchResults["relevance"].items.map(post => <Post data={post} key={post?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
 
       {!!(filters.rating && searchResults["rating"] && query) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {searchResults["rating"].items.map(post => <Post data={post} key={post?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
 
       {!!(filters.date && searchResults["date"] && query) && (
-        <Box className="topic posts">
-          <Masonry columns={{ xs: 1, md: 2, lg: 3, xl: 4 }} spacing={7}>
+        <div className="topic posts">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
             {searchResults["date"].items.map(post => <Post data={post} key={post?.id}/>)}
-          </Masonry>
-        </Box>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   )
 }
 

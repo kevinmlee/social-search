@@ -2,7 +2,6 @@ import React from "react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 
-import { Box, Grid, Typography } from "@mui/material"
 import { decodeText } from '@/util'
 
 dayjs.extend(relativeTime)
@@ -26,7 +25,7 @@ const Post = ({ data }) => {
   }
 
   return (
-    <Box className="post" key={data.etag} data-aos="fade-up">
+    <div className="post" key={data.etag} data-aos="fade-up">
       <a
         href={url}
         target="_blank"
@@ -55,25 +54,25 @@ const Post = ({ data }) => {
           </div>
         )}
 
-        <Box className="text">
-          <Grid container sx={{ paddingTop: 2 }}>
-            <Grid className="author-details" item xs={10}>
+        <div className="text">
+          <div className="pt-2">
+            <div className="author-details">
               <span className="username">{data?.snippet?.channelTitle}</span>
-              <span style={{ color: "#999999" }}> · </span>
-              <Typography variant="caption" style={{ color: "#999999" }}>
+              <span className="text-[#999999]"> · </span>
+              <span className="text-xs text-[#999999]">
                 {dayjs(data?.snippet?.publishedAt).fromNow()}
-              </Typography>
-            </Grid>
-          </Grid>
-          
-          <Box className="post-title">
-            <Typography variant="h5">
+              </span>
+            </div>
+          </div>
+
+          <div className="post-title">
+            <h5 className="text-xl font-normal">
               {decodeText(data?.snippet?.title)}
-            </Typography>
-          </Box>
-        </Box>
+            </h5>
+          </div>
+        </div>
       </a>
-    </Box>
+    </div>
   )
 }
 

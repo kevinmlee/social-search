@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState, } from "react"
-import { Link, useNavigate } from 'react-router-dom'
+'use client'
+
+import React, { useContext, useEffect, useState } from "react"
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { jwtDecode } from "jwt-decode"
 import { passwordStrength } from "check-password-strength"
 import validator from "validator"
 
-import { TextField } from "@mui/material"
 import { GoogleLogin } from "@react-oauth/google"
-import { AppContext } from "@/App"
+import { AppContext } from "../../../app/providers"
 
 const SignUp = () => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setFullWidth, setUser } = useContext(AppContext)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -33,23 +35,24 @@ const SignUp = () => {
 
   const handleGoogleSignin = async (userData) => {
     const user = await getUser(userData.email)
-    
+
     if (user) {
       setUser(user)
       setFullWidth(false)
-      navigate('/')
+      router.push('/')
     } else await createGoogleUser(userData)
   };
 
-  const getUser = async (username) => await fetch(`/.netlify/functions/getUser`, {
+  const getUser = async (username) => await fetch(`/api/users/get`, {
     method: "POST",
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: username }),
   })
     .then(response => response.json())
     .then(data => data)
 
   const createGoogleUser = async (userData) => {
-    const requestBody = { 
+    const requestBody = {
       username: userData.email,
       firstName: userData.given_name,
       lastName: userData.family_name,
@@ -57,8 +60,9 @@ const SignUp = () => {
       accountType: "google",
      }
 
-    const result = await fetch(`/.netlify/functions/createUser`, {
+    const result = await fetch(`/api/users/create`, {
       method: "POST",
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestBody),
     })
       .then(response => response.json())
@@ -95,17 +99,23 @@ const SignUp = () => {
           event.preventDefault()
           findUser()
         }}
+        className="mt-5 space-y-5"
       >
-        <TextField
+        <input
           id="outlined-basic"
-          label="Email address"
+          type="email"
+          placeholder="Email address"
           name="username"
-          variant="outlined"
           onChange={e => handleChange(setUsername(e.target.value))}
           value={username}
           autoFocus={true}
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
-        <input className="cta-button" type="submit" value="Continue" />
+        <input
+          className="w-full px-4 py-3 rounded-md font-medium transition-colors bg-accent hover:bg-accent/90 cursor-pointer text-black"
+          type="submit"
+          value="Continue"
+        />
       </form>
     );
   };
@@ -121,28 +131,38 @@ const SignUp = () => {
             setFormStepThree(true)
           }
         }}
+        className="mt-5 space-y-5"
       >
-        <TextField
+        <input
           id="outlined-basic"
           type="password"
-          label="Password"
+          placeholder="Password"
           name="password"
-          variant="outlined"
           onChange={e => handleChange(setPassword(e.target.value))}
           value={password}
           autoFocus={true}
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
         {Object.keys(password).length !== 0 && (
-          <div className="password-strength">
+          <div className="password-strength text-sm">
             Strength:{" "}
-            <span className={"strength-" + passStrength.id}>
+            <span className={`strength-${passStrength.id} font-medium ${
+              passStrength.id === 0 ? 'text-red-500' :
+              passStrength.id === 1 ? 'text-orange-500' :
+              passStrength.id === 2 ? 'text-yellow-500' :
+              'text-green-500'
+            }`}>
               {passStrength.value}
             </span>
           </div>
         )}
 
-        <input className="cta-button" type="submit" value="Continue" />
+        <input
+          className="w-full px-4 py-3 rounded-md font-medium transition-colors bg-accent hover:bg-accent/90 cursor-pointer text-black"
+          type="submit"
+          value="Continue"
+        />
       </form>
     );
   };
@@ -153,7 +173,7 @@ const SignUp = () => {
         onSubmit={async (event) => {
           event.preventDefault();
           if (validateName()) {
-            const requestBody = { 
+            const requestBody = {
               username: username,
               password: password,
               firstName: firstName,
@@ -161,79 +181,85 @@ const SignUp = () => {
               accountType: "standard",
              }
 
-            const result = await fetch(`/.netlify/functions/createUser`, {
+            const result = await fetch(`/api/users/create`, {
               method: "POST",
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(requestBody),
             })
               .then(response => response.json())
               .then(data => data)
 
-            if (result?.acknowledged) navigate('/signin')
+            if (result?.acknowledged) router.push('/signin')
           }
         }}
+        className="mt-5 space-y-5"
       >
-        <TextField
+        <input
           id="outlined-basic"
           type="text"
-          label="First name"
+          placeholder="First name"
           name="firstName"
-          variant="outlined"
           onChange={e => handleChange(setFirstName(e.target.value))}
           value={firstName}
           autoFocus={true}
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
-        <TextField
+        <input
           id="outlined-basic"
           type="text"
-          label="Last Name"
+          placeholder="Last name"
           name="lastName"
-          variant="outlined"
           onChange={e => handleChange(setLastName(e.target.value))}
           value={lastName}
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
         />
 
-        <input className="cta-button" type="submit" value="Create account" />
+        <input
+          className="w-full px-4 py-3 rounded-md font-medium transition-colors bg-accent hover:bg-accent/90 cursor-pointer text-black"
+          type="submit"
+          value="Create account"
+        />
       </form>
     );
   };
 
   return (
-    <div id="signin">
-      <div className="flex-container">
-        <div className="left">
-          <div className="form-container">
-            <h2>Create an account</h2>
+    <div id="signin" className="min-h-screen flex">
+      <div className="fixed left-0 top-0 h-full w-full md:w-2/5 flex items-center justify-center px-8">
+        <div className="w-full max-w-md">
+          <h2 className="text-3xl font-bold text-center mb-8 text-black dark:text-white">Create an account</h2>
 
-            {!!errorMessage && (
-              <div className="alert error">{errorMessage}</div>
-            )}
+          {!!errorMessage && (
+            <div className="alert error mb-5 p-4 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-md">{errorMessage}</div>
+          )}
 
-            {!formStepTwo && !formStepThree && stepOne()}
+          {!formStepTwo && !formStepThree && stepOne()}
+          {formStepTwo && stepTwo()}
+          {formStepThree && stepThree()}
 
+          <div className="separator-text my-9 overflow-hidden text-center relative">
+            <span className="relative z-10 px-4 bg-white dark:bg-gray-900">OR</span>
+            <div className="absolute top-1/2 left-0 right-0 h-px bg-black dark:bg-white"></div>
+          </div>
 
-            {formStepTwo && stepTwo()}
-            {formStepThree && stepThree()}
-
-            <div className="or separator-text">OR</div>
-            <div className="social-signin">
-              <div id="googleLogin">
-                <GoogleLogin
-                  onSuccess={credentialResponse => handleGoogleSignin(jwtDecode(credentialResponse.credential))}
-                  onError={() => console.log("Login failed")}
-                />
-              </div>
-            </div>
-
-            <div className="signup">
-              <p>
-                Already have an account? <Link to="/signin">Sign in</Link>
-              </p>
+          <div className="social-signin flex justify-center">
+            <div id="googleLogin">
+              <GoogleLogin
+                onSuccess={credentialResponse => handleGoogleSignin(jwtDecode(credentialResponse.credential))}
+                onError={() => console.log("Login failed")}
+              />
             </div>
           </div>
+
+          <div className="signup mt-9 text-center">
+            <p className="text-black dark:text-white">
+              Already have an account? <Link href="/signin" className="text-accent hover:underline">Sign in</Link>
+            </p>
+          </div>
         </div>
-        <div className="right"></div>
       </div>
+      <div className="hidden md:block fixed right-0 top-0 w-3/5 h-full bg-cover bg-left-center" style={{backgroundImage: "url('/assets/current.jpg')"}}></div>
     </div>
   )
 }

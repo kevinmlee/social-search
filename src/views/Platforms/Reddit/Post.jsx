@@ -3,7 +3,6 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import utc from 'dayjs/plugin/utc'
 
-import { Box, Typography } from "@mui/material"
 import { decodeHtml, decodeText } from '@/util'
 
 dayjs.extend(relativeTime)
@@ -21,7 +20,7 @@ const Post = ({ data }) => {
       if (post.data.secure_media) {
         if ("reddit_video" in post.data.secure_media) {
           return (
-            <Box className="reddit-video media" sx={{ marginBottom: 2 }}>
+            <div className="reddit-video media mb-2">
               <video
                 preload="none"
                 width="100%"
@@ -32,16 +31,16 @@ const Post = ({ data }) => {
                 <source src={post.data.secure_media.reddit_video.fallback_url} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-            </Box>
+            </div>
           )
         }
         if ("secure_media_embed" in post.data) {
           let updatedString = post.data.secure_media.oembed.html.replace("src=", 'loading="lazy" src=')
 
           return (
-            <Box className="youtube-video media" sx={{ marginBottom: 2 }}>
+            <div className="youtube-video media mb-2">
               <div dangerouslySetInnerHTML={{ __html: decodeHtml(updatedString) }} />
-            </Box>
+            </div>
           )
         }
       }
@@ -49,45 +48,45 @@ const Post = ({ data }) => {
   }
 
   return (
-    <Box className="post" data-aos="fade-up">
+    <div className="post" data-aos="fade-up">
       <a href={data?.data.url} target="_blank" rel="noopener noreferrer">
-        <Box className="details">
+        <div className="details">
           {getVideo(data)
             ? getVideo(data)
             : getPreviewImage(data) && (
-                <Box className="media">
+                <div className="media">
                   <img
                     className="featured-image"
                     src={getPreviewImage(data)}
                     alt={data.data.title}
                     loading="lazy"
                   />
-                </Box>
+                </div>
               )}
 
-          <Box className="text">
-            <Box className="author-details">
+          <div className="text">
+            <div className="author-details">
               <div className="subreddit">
                 {data.data.subreddit_name_prefixed}
               </div>
-              <Typography variant="caption" style={{ color: "#999999" }}>
+              <span className="text-xs text-[#999999]">
                 Posted by {data.data.author}
-              </Typography>
-              <span style={{ color: "#999999" }}> · </span>
-              <Typography variant="caption" style={{ color: "#999999" }}>
+              </span>
+              <span className="text-[#999999]"> · </span>
+              <span className="text-xs text-[#999999]">
                 {dayjs.unix(data.data.created).utc().fromNow()}
-              </Typography>
-            </Box>
+              </span>
+            </div>
 
-            <Box className="post-title">
-              <Typography variant="h5">
+            <div className="post-title">
+              <h5 className="text-xl font-normal">
                 {decodeText(data.data.title)}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+              </h5>
+            </div>
+          </div>
+        </div>
       </a>
-    </Box>
+    </div>
   )
 }
 
