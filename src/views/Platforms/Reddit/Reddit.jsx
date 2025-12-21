@@ -12,13 +12,17 @@ export default async function Reddit({ params, searchParams }) {
 
   if (!query) {
     // General hot posts
-    const res = await fetch(`${endpoint}/hot.json?include_over_18=off&limit=50`, { cache: 'no-store' })
+    const res = await fetch(`${endpoint}/hot.json?include_over_18=off&limit=50`, {
+      next: { revalidate: 300 }, // cache for 5 minutes
+    })
     const data = await res.json()
     posts = data.data.children
   } else {
     // Search posts by query
     const sortType = filter === 'recent' ? 'new' : 'hot'
-    const res = await fetch(`${endpoint}/search.json?q=${query}&sort=${sortType}&limit=50`, { cache: 'no-store' })
+    const res = await fetch(`${endpoint}/search.json?q=${query}&sort=${sortType}&limit=50`,     {
+      next: { revalidate: 300 }, // cache for 5 minutes
+    })
     const data = await res.json()
     posts = data.data.children
   }
