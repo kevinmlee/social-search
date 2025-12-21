@@ -93,12 +93,18 @@ export default function UserInput() {
     setQuery(selectedQuery)
     search(e, selectedQuery)
   }
+  /*
+      // border-radius: 12px;
+    // height: 45px;
+    // padding: 8px 8px 8px 60px;
+    */
 
   return (
-    <div className="search-input">
+    <div id="search-input">
       <div>
         <form onSubmit={(e) => debounce((search(e), 500))}>
           <input
+            id="search-input-box"
             type="text"
             name="search"
             value={query}
@@ -107,7 +113,7 @@ export default function UserInput() {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}
             ref={ref}
-            className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border-none rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full max-w-[500px] h-[65px] bg-[#131516] pl-10 pr-4 py-2 border border-[#2c2f33] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent"
           />
         </form>
       </div>

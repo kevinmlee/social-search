@@ -10,8 +10,8 @@ const Header = () => {
   const { scrollStatus } = useContext(AppContext)
 
   return (
-    <div id="header" className="flex-grow mt-[50px]">
-      <header className={`expanded ${scrollStatus} md:flex bg-white dark:bg-gray-900 shadow-md fixed top-0 left-0 right-0 z-50`}>
+    <div id="header" className="flex-grow">
+      <header className={`expanded sticky ${scrollStatus} md:flex bg-[#161819] pl-[215px] py-4 shadow-md fixed top-0 left-0 right-0 z-50`}>
         <div className="flex justify-between items-center px-4 py-3">
           <div className="search relative">
             <Search
