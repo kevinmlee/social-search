@@ -9,11 +9,9 @@ import User from "./components/User"
 const Header = () => {
   const { scrollStatus } = useContext(AppContext)
 
-  console.log("Header scrollStatus:", scrollStatus)
-
   return (
     <div id="header" className="sticky top-0 z-50">
-      <header className={`expanded bg-[#161819] pl-[215px] shadow-md ${scrollStatus === 'scrolled' ? 'py-2' : 'py-4'} transition-all duration-300 ease-in-out`}>
+      <header className={`pl-10 bg-[#161819] md:pl-[215px] shadow-lg py-2 ${scrollStatus === 'scrolled' ? 'md:py-2' : 'md:py-4'} transition-all duration-300 ease-in-out`}>
         <div className="flex justify-between items-center w-full px-4 py-3">
           <div className="search relative flex-1 max-w-2xl">
             <Search

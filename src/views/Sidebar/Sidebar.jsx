@@ -48,11 +48,9 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="sidebar-container">
+    <div id="sidebar">
       <button
-        className={`fixed z-[9999] top-3 left-5 transition-all duration-300 ease-in-out p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 md:hidden ${
-          sidebar ? 'top-[-2px] left-40' : ''
-        }`}
+        className={`fixed z-[9999] ${sidebar ? 'top-[-2px] left-40' : 'top-6 left-2'} transition-all duration-300 ease-in-out p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 md:hidden`}
         aria-label="open drawer"
         onClick={() => setSidebar(!sidebar)}
       >

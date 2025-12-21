@@ -37,18 +37,26 @@ const Home = () => {
   })
 
   useEffect(() => {
-    window.scrollTo({ top: 0,behavior: "smooth" })
+    window.scrollTo({ top: 0, behavior: "smooth" })
     getPosts()
   }, [getPosts])
 
   return (
     <div className="px-5 md:px-8">
-      <ul className="flex space-x-10 overflow-x-auto text-lg font-medium capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
+      <ul className="hidden lg:flex sticky top-[85px] bg-white dark:bg-bg-dark flex space-x-10 overflow-x-auto text-lg font-medium capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
         {TOPICS.map(topic => (
           <li
             key={"key-" + topic}
             className="topic"
-            onClick={() => document.getElementById(topic).scrollIntoView()}
+            onClick={() => {
+              const element = document.getElementById(topic);
+              const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+              const offsetPosition = elementPosition - 180;
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            }}
           >
             {topic}
           </li>
