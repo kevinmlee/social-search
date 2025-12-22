@@ -1,7 +1,7 @@
 import https from "https"
 import { Suspense } from "react"
 
-import { FadeUp, Filter } from '@/components'
+import { FadeUp, Filter, Loader } from '@/components'
 import Post from "./components/Post"
 
 const ENDPOINT = "https://www.googleapis.com/youtube/v3"
@@ -64,7 +64,7 @@ export default async function YouTubePage({ params, searchParams, location }) {
 
   return (
     <div className="py-4 px-5 md:px-8">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div><Loader /></div>}>
         <Filter filters={filters} initialFilter={filter} query={query} />
       </Suspense>
 

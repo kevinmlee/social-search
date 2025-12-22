@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react"
 import { useParams, useSearchParams } from "next/navigation"
 import Post from './Post'
-import { FadeUp, Filter, LoadingSkeleton } from '@/components'
+import { FadeUp, Filter, Loader, LoadingSkeleton } from '@/components'
 
 const ENDPOINT = "https://www.reddit.com"
 const FILTERS = {
@@ -59,7 +59,7 @@ export default function Reddit() {
 
   return (
     <div className="py-4 px-5 md:px-8">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div><Loader /></div>}>
         <Filter filters={FILTERS} />
       </Suspense>
 
