@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { AtpAgent } from '@atproto/api'
 
+export const revalidate = 300 // Cache for 5 minutes (300 seconds)
+
 export async function GET() {
   try {
     const agent = new AtpAgent({
@@ -13,7 +15,14 @@ export async function GET() {
       limit: 50
     })
 
-    return NextResponse.json({ feed: feedResponse.data.feed || [] })
+    return NextResponse.json(
+      { feed: feedResponse.data.feed || [] },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600'
+        }
+      }
+    )
   } catch (error) {
     console.error('Bluesky trending error:', error)
     return NextResponse.json(
