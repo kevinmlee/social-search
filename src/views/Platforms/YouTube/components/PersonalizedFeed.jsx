@@ -84,16 +84,6 @@ const PersonalizedFeed = () => {
     )
   }
 
-  if (videos.length === 0) {
-    return (
-      <div className="py-8 text-center">
-        <p className="text-gray-500 dark:text-gray-400">
-          No recent videos from your subscriptions.
-        </p>
-      </div>
-    )
-  }
-
   return (
     <div>
       <div className="mb-6">
@@ -103,24 +93,34 @@ const PersonalizedFeed = () => {
         </p>
       </div>
 
-      <div className="my-6">
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
-          {videos.map((video) => (
-            <FadeUp
-              key={video.id}
-              className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0"
-            >
-              <Post data={video} />
-            </FadeUp>
-          ))}
+      {videos.length === 0 ? (
+        <div className="py-8 text-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            No recent videos from your subscriptions.
+          </p>
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="my-6">
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
+              {videos.map((video) => (
+                <FadeUp
+                  key={video.id}
+                  className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0"
+                >
+                  <Post data={video} />
+                </FadeUp>
+              ))}
+            </div>
+          </div>
 
-      <div className="flex justify-center mt-8">
-        <Button onClick={() => window.open('https://www.youtube.com/feed/subscriptions', '_blank')}>
-          See more on YouTube
-        </Button>
-      </div>
+          <div className="flex justify-center mt-8">
+            <Button onClick={() => window.open('https://www.youtube.com/feed/subscriptions', '_blank')}>
+              See more on YouTube
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
