@@ -9,26 +9,43 @@ const FILTERS = {
 }
 
 export default async function Reddit({ params, searchParams }) {
-  const query = params?.query || ''
-  const filter = searchParams?.filter || 'hot' // default filter
+  const resolvedParams = await params
+  const resolvedSearchParams = await searchParams
+  const query = resolvedParams?.query || ''
+  const filter = resolvedSearchParams?.filter || 'hot' // default filter
 
   let posts = []
 
-  if (!query) {
-    // General hot posts
-    const res = await fetch(`${ENDPOINT}/hot.json?include_over_18=off&limit=50`, {
-      next: { revalidate: 300 }, // cache for 5 minutes
-    })
-    const data = await res.json()
-    posts = data.data.children
-  } else {
-    // Search posts by query
-    const sortType = filter === 'recent' ? 'new' : 'hot'
-    const res = await fetch(`${ENDPOINT}/search.json?q=${query}&sort=${sortType}&limit=50`,     {
-      next: { revalidate: 300 }, // cache for 5 minutes
-    })
-    const data = await res.json()
-    posts = data.data.children
+  try {
+    if (!query) {
+      // General hot posts
+      const res = await fetch(`${ENDPOINT}/hot.json?include_over_18=off&limit=50`, {
+        next: { revalidate: 300 }, // cache for 5 minutes
+      })
+      if (!res.ok) {
+        console.error('Reddit API error:', res.status, res.statusText)
+        posts = []
+      } else {
+        const data = await res.json()
+        posts = data?.data?.children || []
+      }
+    } else {
+      // Search posts by query
+      const sortType = filter === 'recent' ? 'new' : 'hot'
+      const res = await fetch(`${ENDPOINT}/search.json?q=${query}&sort=${sortType}&limit=50`, {
+        next: { revalidate: 300 }, // cache for 5 minutes
+      })
+      if (!res.ok) {
+        console.error('Reddit API error:', res.status, res.statusText)
+        posts = []
+      } else {
+        const data = await res.json()
+        posts = data?.data?.children || []
+      }
+    }
+  } catch (err) {
+    console.error('Reddit fetch error:', err)
+    posts = []
   }
 
   return (

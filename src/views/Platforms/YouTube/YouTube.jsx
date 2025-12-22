@@ -41,8 +41,10 @@ async function searchYouTube(query, order) {
 }
 
 export default async function YouTubePage({ params, searchParams, location }) {
-  const query = params?.query || ''
-  const filter = searchParams?.filter || 'relevance'
+  const resolvedParams = await params
+  const resolvedSearchParams = await searchParams
+  const query = resolvedParams?.query || ''
+  const filter = resolvedSearchParams?.filter || 'relevance'
   const filters = { relevance: true, rating: false, date: false }
 
   let posts = []
