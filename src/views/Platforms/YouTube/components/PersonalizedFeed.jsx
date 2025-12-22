@@ -5,6 +5,11 @@ import { AppContext } from '@/../app/providers'
 import { FadeUp, LoadingSkeleton, Button } from '@/components'
 import Post from './Post'
 
+// Simple cache for subscription videos (5 minutes)
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds
+let videoCache = null
+let cacheTimestamp = null
+
 const PersonalizedFeed = () => {
   const { user } = useContext(AppContext)
   const [videos, setVideos] = useState([])
@@ -21,6 +26,15 @@ const PersonalizedFeed = () => {
         const subscriptions = user.linkedAccounts.youtube.subscriptions || []
 
         if (subscriptions.length === 0) {
+          setLoading(false)
+          return
+        }
+
+        // Check if we have valid cached data
+        const now = Date.now()
+        if (videoCache && cacheTimestamp && (now - cacheTimestamp) < CACHE_DURATION) {
+          console.log('Using cached subscription videos')
+          setVideos(videoCache)
           setLoading(false)
           return
         }
@@ -46,6 +60,9 @@ const PersonalizedFeed = () => {
 
         if (data.items) {
           console.log(`Fetched ${data.items.length} videos from subscriptions`)
+          // Update cache
+          videoCache = data.items
+          cacheTimestamp = now
           setVideos(data.items)
         } else {
           console.log('No items in response:', data)
