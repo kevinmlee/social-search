@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Post from './Post'
 import { FadeUp, Filter } from '@/components'
 
@@ -32,7 +33,9 @@ export default async function Reddit({ params, searchParams }) {
 
   return (
     <div className="py-4 px-5 md:px-8">
-      <Filter filters={FILTERS} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Filter filters={FILTERS} />
+      </Suspense>
 
       <div className="my-6">
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-16">

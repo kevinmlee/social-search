@@ -1,4 +1,5 @@
 import https from "https"
+import { Suspense } from "react"
 
 import { FadeUp, Filter } from '@/components'
 import Post from "./components/Post"
@@ -61,7 +62,9 @@ export default async function YouTubePage({ params, searchParams, location }) {
 
   return (
     <div className="py-4 px-5 md:px-8">
-      <Filter filters={filters} initialFilter={filter} query={query} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Filter filters={filters} initialFilter={filter} query={query} />
+      </Suspense>
 
       {posts.length === 0 && <p className="text-gray-500">No videos found.</p>}
 

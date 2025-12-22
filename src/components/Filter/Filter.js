@@ -25,7 +25,10 @@ export default function Filter({ filters, initialFilter = 'hot' }) {
       <div className="relative inline-block" ref={ref}>
         <div
           data-testid="filter-button"
-          className="flex items-center gap-2 cursor-pointer px-4 py-2 text-black bg-primary rounded-md"
+          className={`flex items-center gap-2 cursor-pointer px-4 py-2 text-black dark:text-white 
+            bg-white dark:bg-dark hover:bg-primary hover:text-black rounded-full shadow-md select-none
+            border border-black/10 dark:border-white/10
+            `}
           onClick={() => setOpen(!open)}
         >
           <FilterIcon className="w-5 h-5" />
