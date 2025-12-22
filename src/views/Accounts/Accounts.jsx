@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { FaReddit, FaYoutube } from 'react-icons/fa'
-import { AppContext } from '@/../app/providers'
+import { PlatformConnect } from '@/components'
+import { useYouTubeAuth } from '@/hooks/useYouTubeAuth'
 
 const PLATFORMS = [
   {
@@ -24,30 +25,30 @@ const PLATFORMS = [
 ]
 
 const Accounts = () => {
-  const { user } = useContext(AppContext)
-  const [linkedAccounts, setLinkedAccounts] = useState({
-    reddit: false,
-    youtube: false,
-  })
+  const youtube = useYouTubeAuth()
 
   const handleConnect = (platformId) => {
-    // TODO: Implement OAuth flow for each platform
-    console.log(`Connecting to ${platformId}...`)
-
-    // Placeholder for OAuth implementation
     if (platformId === 'reddit') {
-      // Reddit OAuth flow will go here
+      // TODO: Implement Reddit OAuth
       alert('Reddit OAuth not yet implemented')
     } else if (platformId === 'youtube') {
-      // YouTube OAuth flow will go here
-      alert('YouTube OAuth not yet implemented')
+      youtube.login()
     }
   }
 
   const handleDisconnect = (platformId) => {
-    setLinkedAccounts(prev => ({ ...prev, [platformId]: false }))
-    // TODO: Call API to disconnect account
-    console.log(`Disconnecting from ${platformId}...`)
+    if (platformId === 'youtube') {
+      youtube.disconnect()
+    } else if (platformId === 'reddit') {
+      // TODO: Implement Reddit disconnect
+      alert('Reddit OAuth not yet implemented')
+    }
+  }
+
+  const isConnected = (platformId) => {
+    if (platformId === 'youtube') return youtube.isConnected
+    if (platformId === 'reddit') return false
+    return false
   }
 
   return (
@@ -59,49 +60,16 @@ const Accounts = () => {
         </p>
 
         <div className="flex flex-col gap-4">
-          {PLATFORMS.map((platform) => {
-            const Icon = platform.icon
-            const isLinked = linkedAccounts[platform.id]
-
-            return (
-              <div
-                key={platform.id}
-                className="flex items-center justify-between p-6 rounded-xl border border-border-light dark:border-border-dark bg-white dark:bg-dark hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-lg ${platform.color}`}>
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg text-black dark:text-white">
-                      {platform.name}
-                    </h3>
-                    <p className="text-sm text-black/60 dark:text-white/60">
-                      {platform.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  {isLinked ? (
-                    <button
-                      onClick={() => handleDisconnect(platform.id)}
-                      className="px-4 py-2 rounded-lg border border-border-light dark:border-border-dark text-black dark:text-white hover:bg-accent/40 dark:hover:bg-black/50 transition-colors"
-                    >
-                      Disconnect
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleConnect(platform.id)}
-                      className={`px-4 py-2 rounded-lg ${platform.color} ${platform.hoverColor} text-white font-medium transition-colors`}
-                    >
-                      Connect
-                    </button>
-                  )}
-                </div>
-              </div>
-            )
-          })}
+          {PLATFORMS.map((platform) => (
+            <PlatformConnect
+              key={platform.id}
+              platform={platform}
+              isConnected={isConnected(platform.id)}
+              loading={platform.id === 'youtube' ? youtube.loading : false}
+              onConnect={() => handleConnect(platform.id)}
+              onDisconnect={() => handleDisconnect(platform.id)}
+            />
+          ))}
         </div>
 
         {/* Info section */}
@@ -111,6 +79,15 @@ const Accounts = () => {
             to access your public profile information. You can disconnect at any time.
           </p>
         </div>
+
+        {/* Error display */}
+        {youtube.error && (
+          <div className="mt-4 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+            <p className="text-sm text-red-800 dark:text-red-200">
+              {youtube.error}
+            </p>
+          </div>
+        )}
       </div>
     </section>
   )
