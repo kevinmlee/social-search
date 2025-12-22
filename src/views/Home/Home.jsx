@@ -19,16 +19,25 @@ export async function getRedditPosts({
   filter = 'hot',
   limit = 20,
 }) {
-  const res = await fetch(
-    `https://www.reddit.com/r/${subreddit}/${filter}.json?limit=${limit}`,
-    {
-      next: { revalidate: 300 }, // cache for 5 minutes
+  try {
+    const res = await fetch(
+      `https://www.reddit.com/r/${subreddit}/${filter}.json?limit=${limit}`,
+      {
+        next: { revalidate: 300 }, // cache for 5 minutes
+      }
+    )
+
+    if (!res.ok) {
+      console.error('Reddit API error:', res.status, res.statusText)
+      return []
     }
-  )
 
-  const json = await res.json()
-
-  return json.data.children.map((item) => item.data)
+    const json = await res.json()
+    return json?.data?.children?.map((item) => item.data) || []
+  } catch (err) {
+    console.error('Reddit fetch error:', err)
+    return []
+  }
 }
 
 export default async function Home() {
