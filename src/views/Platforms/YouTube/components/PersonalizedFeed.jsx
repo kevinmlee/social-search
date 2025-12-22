@@ -2,7 +2,7 @@
 
 import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '@/../app/providers'
-import { FadeUp, LoadingSkeleton } from '@/components'
+import { FadeUp, LoadingSkeleton, Button } from '@/components'
 import Post from './Post'
 
 const PersonalizedFeed = () => {
@@ -41,7 +41,6 @@ const PersonalizedFeed = () => {
 
         if (data.error) {
           console.error('YouTube API error:', data.error)
-          setLoading(false)
           return
         }
 
@@ -85,34 +84,43 @@ const PersonalizedFeed = () => {
     )
   }
 
+  if (videos.length === 0) {
+    return (
+      <div className="py-8 text-center">
+        <p className="text-gray-500 dark:text-gray-400">
+          No recent videos from your subscriptions.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className="mb-6">
         <h2 className="font-merriweather text-2xl font-semibold mb-2">Your Subscriptions</h2>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          {/* Videos from {subscriptions.length} channels you follow */}
           Latest videos from channels you follow
         </p>
       </div>
 
-      {videos.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400">
-          No recent videos from your subscriptions.
-        </p>
-      ) : (
-        <div className="my-6">
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
-            {videos.map((video) => (
-              <FadeUp
-                key={video.id}
-                className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0"
-              >
-                <Post data={video} />
-              </FadeUp>
-            ))}
-          </div>
+      <div className="my-6">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
+          {videos.map((video) => (
+            <FadeUp
+              key={video.id}
+              className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0"
+            >
+              <Post data={video} />
+            </FadeUp>
+          ))}
         </div>
-      )}
+      </div>
+
+      <div className="flex justify-center mt-8">
+        <Button onClick={() => window.open('https://www.youtube.com/feed/subscriptions', '_blank')}>
+          See more on YouTube
+        </Button>
+      </div>
     </div>
   )
 }
