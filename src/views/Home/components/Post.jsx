@@ -9,11 +9,11 @@ dayjs.extend(relativeTime)
 const Post = ({ data }) => {
   return (
     <div id="post" className="pb-6 md:pb-0">
-      <a href={data?.url} className="font-merriweather text-black dark:text-white hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
+      <a href={data?.url} className="text-black dark:text-white hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         <div id="details">
           <div id="text">
             <div id="author-details">
-              <span className="text-xs text-black/70 dark:text-[#999999]">
+              <span className="text-xs text-black/70 dark:text-primary">
                 Posted by {data?.author}
               </span>
               <span className="text-black/70 dark:text-[#999999]"> · </span>
@@ -23,7 +23,7 @@ const Post = ({ data }) => {
             </div>
 
             <div id="post-title" className="mt-3">
-              <h5 className="text-medium md:text-lg font-semibold leading-snug">
+              <h5 className="font-merriweather text-medium md:text-lg font-semibold leading-snug">
                 {decodeText(data?.title)}
               </h5>
             </div>
