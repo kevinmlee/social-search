@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+:root {
+  --accent-color: #aeaeae;
+  --primary-color: #d2c19c;
+  --secondary-color: #93876d;
+  --dark-color: #161819;
+  --primary-color-rgb: 210 193 156;
+  --accent-color-rgb: 174 174 174;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-sans text-sm leading-tight;
+    background-color: var(--primary-dark-color);
+    color: #ffffff
+  }
+}
+
+@layer components {
+  /* Back to top button */
+  .back-to-top {
+    @apply fixed right-10 bottom-10 rounded-full w-14 h-14 text-center cursor-pointer z-[5];
+    @apply shadow-lg transition-transform duration-200 flex items-center justify-center;
+    @apply hover:-translate-y-1;
+    @apply bg-accent dark:bg-accent text-black dark:text-black;
+  }
+
+  /* Main content area */
+  #main-content {
+    @apply min-h-screen relative pt-[100px];
+    @apply transition-all duration-200;
+  }
+
+  #main-content.fw {
+    @apply p-0 w-full m-0;
+  }
+
+  @media (min-width: 769px) {
+    #main-content {
+      @apply w-[calc(100%-200px)] ml-[200px];
+    }
+  }
+
+  @media (max-width: 768px) {
+    #main-content {
+      @apply pt-[50px];
+    }
+  }
+}
+
+@layer utilities {
+  .text-accent {
+    color: var(--accent-color);
+  }
+
+  .bg-accent {
+    background-color: var(--accent-color);
+  }
+
+  .border-accent {
+    border-color: var(--accent-color);
+  }
+}

@@ -1,4 +1,4 @@
-name: Build & Test (Client)
+name: Build & Test
 
 on: [push, pull_request]
 
@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./client
+        working-directory: ./
 
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version-file: client/.nvmrc
+        node-version-file: .nvmrc
         registry-url: 'https://npm.pkg.github.com'
     - run: npm ci
     - run: npm test

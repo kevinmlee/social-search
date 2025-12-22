@@ -1,0 +1,8 @@
+.next
+node_modules
+.netlify
+out
+build
+dist
+coverage
+*.config.js
