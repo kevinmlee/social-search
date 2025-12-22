@@ -12,7 +12,7 @@ dayjs.extend(utc)
 const Post = ({ data }) => {
   return (
     <div data-testid="post" className="pb-6 md:pb-0">
-      <a href={data?.data?.url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-200">
+      <a href={data?.data?.url} target="_blank" rel="noopener noreferrer" className="text-black dark:text-white hover:text-primary transition-colors duration-200">
         <div data-testid="details">
           {data?.data?.is_video && <FeaturedVideo postData={data} />}
           {!data?.data?.is_video && data?.data?.preview && <FeaturedImage postData={data} />}
@@ -32,7 +32,7 @@ const Post = ({ data }) => {
             </div>
 
             <div data-testid="post-title">
-              <h5 className="font-merriweather text-lg font-medium text-black dark:text-white">
+              <h5 className="font-merriweather text-lg font-medium">
                 {decodeText(data?.data?.title)}
               </h5>
             </div>
