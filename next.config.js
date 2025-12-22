@@ -10,7 +10,7 @@ const nextConfig = {
   // Environment variables
   env: {
     MONGODB: process.env.MONGODB,
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
   },
 
   // Experimental features
