@@ -31,10 +31,10 @@ export default async function Reddit({ params, searchParams }) {
   }
 
   return (
-    <div className="pt-2 px-5 md:px-8">
+    <div className="py-4 px-5 md:px-8">
       <Filter filters={FILTERS} />
 
-      <div className="mt-4">
+      <div className="my-6">
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-16">
           {posts.map(post => (
             <FadeUp key={post?.data?.id} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
