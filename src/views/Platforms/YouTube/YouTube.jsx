@@ -3,6 +3,7 @@ import { Suspense } from "react"
 
 import { FadeUp, Filter } from '@/components'
 import Post from "./components/Post"
+import PersonalizedFeed from "./components/PersonalizedFeed"
 
 const ENDPOINT = "https://www.googleapis.com/youtube/v3"
 
@@ -64,22 +65,29 @@ export default async function YouTubePage({ params, searchParams, location }) {
 
   return (
     <div className="py-4 px-5 md:px-8">
-      <Suspense fallback={<div>Loading...</div>}>
-        <Filter filters={filters} initialFilter={filter} query={query} />
-      </Suspense>
+      {!query ? (
+        // Show personalized feed when no query
+        <PersonalizedFeed />
+      ) : (
+        <>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Filter filters={filters} initialFilter={filter} query={query} />
+          </Suspense>
 
-      {posts.length === 0 && <p className="text-gray-500">No videos found.</p>}
+          {posts.length === 0 && <p className="text-gray-500">No videos found.</p>}
 
-      {posts.length > 0 && (
-        <div className="my-6">
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
-            {posts.map((post) => (
-              <FadeUp key={post?.id || post?.etag} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
-                <Post data={post} />
-              </FadeUp>
-            ))}
-          </div>
-        </div>
+          {posts.length > 0 && (
+            <div className="my-6">
+              <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
+                {posts.map((post) => (
+                  <FadeUp key={post?.id || post?.etag} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
+                    <Post data={post} />
+                  </FadeUp>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
