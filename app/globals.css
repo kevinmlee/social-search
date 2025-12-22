@@ -27,14 +27,6 @@
 }
 
 @layer components {
-  /* Back to top button */
-  .back-to-top {
-    @apply fixed right-10 bottom-10 rounded-full w-14 h-14 text-center cursor-pointer z-[5];
-    @apply shadow-lg transition-transform duration-200 flex items-center justify-center;
-    @apply hover:-translate-y-1;
-    @apply bg-accent dark:bg-accent text-black dark:text-black;
-  }
-
   /* Main content area */
   #main-content {
     @apply min-h-screen relative pt-[100px];

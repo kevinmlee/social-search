@@ -55,7 +55,11 @@ export function AppProvider({ children }) {
 
   const backToTopButton = () => (
     <div
-      className="back-to-top"
+      data-testid="back-to-top"
+      className={`bg-primary text-black fixed right-10 bottom-10 rounded-full w-14 h-14 text-center cursor-pointer z-[5]
+        flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300
+        transform transition-transform duration-200 ease-out hover:-translate-y-1
+      `}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
       <ChevronUp size={35} />
