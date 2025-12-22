@@ -1,124 +1,81 @@
-'use client'
+import https from "https"
 
-import React, { useContext, useState, useEffect, useCallback } from "react"
-import { useParams } from "next/navigation"
-import dayjs from "dayjs"
-import relativeTime from "dayjs/plugin/relativeTime"
+import { FadeUp, Filter } from '@/components'
+import Post from "./components/Post"
 
-import Loader from "../../../components/Loader/Loader"
-import Filter from "../../../components/Filter/Filter"
-import Post from "./Post"
-import { AppContext } from "../../../../../app/providers"
+const ENDPOINT = "https://www.googleapis.com/youtube/v3"
 
-dayjs.extend(relativeTime)
+// Fetch trending videos
+async function getTrendingVideos(region) {
+  return new Promise((resolve, reject) => {
+    const url =
+      `${ENDPOINT}/videos?part=snippet,statistics&chart=mostPopular&maxResults=20&regionCode=${region}&key=${process.env.YOUTUBE_API_KEY}`
 
-const YouTube = () => {
-  const [trending, setTrending] = useState({});
-  const { location, setQuery } = useContext(AppContext)
-  const { query } = useParams()
-  const [searchResults, setSearchResults] = useState({})
-  const [loading, setLoading] = useState(true)
-  const [filters, setFilters] = useState({
-    relevance: true,
-    rating: false,
-    date: false
+    const request = https.get(url, (response) => {
+      let data = ""
+      response.on("data", chunk => (data += chunk))
+      response.on("end", () => resolve(JSON.parse(data)))
+    })
+
+    request.on("error", (e) => reject(e))
   })
+}
 
-  const search = useCallback(async (filter) => {
-    const requestBody = { searchQuery: query, order: filter }
-    setLoading(true)
+// Search videos
+async function searchYouTube(query, order) {
+  return new Promise((resolve, reject) => {
+    const url =
+      `${ENDPOINT}/search?part=snippet&maxResults=20&q=${encodeURIComponent(
+        query
+      )}&order=${order}&key=${process.env.YOUTUBE_API_KEY}`
 
-    await fetch(`/api/youtube/search`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
+    const request = https.get(url, (response) => {
+      let data = ""
+      response.on("data", chunk => (data += chunk))
+      response.on("end", () => resolve(JSON.parse(data)))
     })
-      .then(response => response.json())
-      .then(data => {
-        if ("items" in data) {
-          setSearchResults(prevSearchResults => ({ ...prevSearchResults, [filter]: data }))
-        }
-        setLoading(false);
-      })
-  }, [query])
 
-  const fetchTrendingVideos = useCallback(async () => {
-    const requestBody = { countryCode: location?.country_code }
-    setLoading(true)
+    request.on("error", (e) => reject(e))
+  })
+}
 
-    await fetch(`/api/youtube/trending`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if ("items" in data) setTrending(data)
-        setLoading(false);
-      })
-  }, [location])
+export default async function YouTubePage({ params, searchParams, location }) {
+  const query = params?.query || ''
+  const filter = searchParams?.filter || 'relevance'
+  const filters = { relevance: true, rating: false, date: false }
 
-  useEffect(() => {
-    if (query) {
-      setQuery(query)
-      search('relevance')
+  let posts = []
+
+  try {
+    if (!query) {
+      const trending = await getTrendingVideos(location?.country_code || 'US')
+      if ('items' in trending) posts = trending.items
+    } else {
+      const results = await searchYouTube(query, filter)
+      if ('items' in results) posts = results.items
     }
-    else {
-      fetchTrendingVideos()
-    }
-  }, [query, setQuery, search, fetchTrendingVideos])
-
-  const handleFilter = (selectedOption) => {
-    const tempFilters = { ...filters }
-    for (const option in filters) {
-      if (option === selectedOption) tempFilters[option] = true
-      else tempFilters[option] = false
-    }
-    setFilters(tempFilters)
-
-    // pull data from cooresponding API if not already pulled
-    if (!searchResults[selectedOption]) search(selectedOption)
+  } catch (err) {
+    console.error("YouTube API error", err)
+    posts = []
   }
 
   return (
-    <div className="px-5 md:px-8">
-      <Filter filters={filters} onSuccess={(response) => handleFilter(response)} />
+    <div className="py-4 px-5 md:px-8">
+      <Filter filters={filters} currentFilter={filter} query={query} />
 
-      {loading && <Loader />}
+      {posts.length === 0 && <p className="text-gray-500">No videos found.</p>}
 
-      {!!('items' in trending && !query) && (
-        <div className="topic posts">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-            {trending.items.map(post => <Post data={post} key={post?.id}/>)}
-          </div>
-        </div>
-      )}
-
-      {!!(filters.relevance && searchResults["relevance"] && query) && (
-        <div className="topic posts">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-            {searchResults["relevance"].items.map(post => <Post data={post} key={post?.id}/>)}
-          </div>
-        </div>
-      )}
-
-      {!!(filters.rating && searchResults["rating"] && query) && (
-        <div className="topic posts">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-            {searchResults["rating"].items.map(post => <Post data={post} key={post?.id}/>)}
-          </div>
-        </div>
-      )}
-
-      {!!(filters.date && searchResults["date"] && query) && (
-        <div className="topic posts">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-            {searchResults["date"].items.map(post => <Post data={post} key={post?.id}/>)}
+      {posts.length > 0 && (
+        <div className="my-6">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
+            {posts.map((post) => (
+              <FadeUp key={post?.id || post?.etag} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
+                <Post data={post} />
+              </FadeUp>
+            ))}
           </div>
         </div>
       )}
     </div>
   )
 }
-
-export default YouTube

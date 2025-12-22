@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from "react"
 
 const FeaturedImage = ({ postData }) => (
-  <div id="media" className="overflow-hidden rounded-lg mb-4">
+  <div id="media" className="overflow-hidden rounded-xl mb-4">
     <Image
       id="featured-image"
       src={postData.data.preview.images[0].source.url.replaceAll("&amp;", "&")}
