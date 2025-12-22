@@ -32,7 +32,7 @@ const Post = ({ data }) => {
             </div>
 
             <div data-testid="post-title">
-              <h5 className="font-merriweather text-lg font-medium">
+              <h5 className="font-merriweather text-lg font-medium line-clamp-3" title={decodeText(data?.data?.title)}>
                 {decodeText(data?.data?.title)}
               </h5>
             </div>
