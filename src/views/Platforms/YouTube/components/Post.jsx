@@ -39,8 +39,9 @@ const Post = ({ data }) => {
               data-testid="featured-image"
               src={data?.snippet?.thumbnails?.high?.url}
               alt={decodeText(data?.snippet?.title)}
-              width={330}
-              height={230}
+              width={530}
+              height={299}
+              className="w-full h-auto"
               loading="lazy"
             />
           </div>
@@ -52,8 +53,9 @@ const Post = ({ data }) => {
               data-testid="featured-image"
               src={data?.snippet?.thumbnails?.high?.url}
               alt={decodeText(data?.snippet?.title)}
-              width={330}
-              height={230}
+              width={530}
+              height={299}
+              className="w-full h-auto"
               loading="lazy"
             />
           </div>
