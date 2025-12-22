@@ -1,61 +1,48 @@
-import React from "react";
+'use client'
 
-import {
-  Box,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
+import React, { useState } from "react"
+// import { ToggleRight } from "lucide-react" // example icon for toggle (optional)
 
 const Profile = () => {
+  const [enabled, setEnabled] = useState(true)
+
   return (
-    <Box id="settings" sx={{ padding: "0 30px" }}>
-      <Box>
-        <Typography className="section-title" variant="h5">
-          Topics
-        </Typography>
+    <section id="settings" className="px-8 py-6">
+      <div>
+        <h2 className="text-2xl font-semibold mb-6">Topics</h2>
 
-        <div className="columns d-flex t-no-flex align-top">
-          <div className="center-column">
-            <Typography variant="h5">Settings</Typography>
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Left / Center column */}
+          <div className="flex-1 flex flex-col gap-6">
+            <h3 className="text-xl font-medium">Settings</h3>
 
-            {/* <div className="setting-group">
-              <div className="two-col-setting-header">
-                <Typography noWrap variant="h6">
-                  Topics followed
-                </Typography>
+            {/* Example switch group */}
+            <div className="flex flex-col gap-4">
+              {/* Enabled switch */}
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={enabled}
+                  onChange={() => setEnabled(!enabled)}
+                  className="w-5 h-5 rounded-md text-primary accent-primary focus:ring-2 focus:ring-primary"
+                />
+                <span className="text-sm font-medium">Label</span>
+              </label>
 
-                <Button
-                  variant="outlined"
-                  onClick={this.addFollowing}
-                  startIcon={<AddCircleIcon />}
-                >
-                  Add topic
-                </Button>
-              </div>
-              <Box>{this.following}</Box>
+              {/* Disabled switch */}
+              <label className="flex items-center gap-3 opacity-50 cursor-not-allowed">
+                <input type="checkbox" disabled className="w-5 h-5 rounded-md" />
+                <span className="text-sm font-medium">Disabled</span>
+              </label>
             </div>
-    */}
-
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch defaultChecked />}
-                label="Label"
-              />
-              <FormControlLabel
-                disabled
-                control={<Switch />}
-                label="Disabled"
-              />
-            </FormGroup>
           </div>
 
-          <div className="right-column"></div>
+          {/* Right column (empty for now) */}
+          <div className="flex-1"></div>
         </div>
-      </Box>
-    </Box>
-  );
+      </div>
+    </section>
+  )
 }
 
 export default Profile

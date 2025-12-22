@@ -210,7 +210,7 @@ const SignUp = () => {
   };
 
   return (
-    <div id="signin" className="min-h-screen flex">
+    <div id="signin" className="min-h-screen flex bg-white dark:bg-dark">
       <div className="fixed left-0 top-0 h-full w-full md:w-2/5 flex items-center justify-center px-8">
         <div className="w-full max-w-[340px]">
           <h2 className="text-3xl font-bold text-center mb-8 text-black dark:text-white">Create an account</h2>
