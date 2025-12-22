@@ -2,6 +2,8 @@
 
 import React, { useState } from "react"
 import Loader from "@/components/Loader/Loader"
+import Input from "@/components/Input/Input"
+import Button from "@/components/Button/Button"
 
 const Settings = () => {
   const [loading, setLoading] = useState(false)
@@ -42,42 +44,41 @@ const Settings = () => {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">First name</label>
-            <input
+            <Input
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Enter your first name"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-1">Last name</label>
-            <input
+            <Input
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Enter your last name"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-1">Email address</label>
-            <input
+            <Input
               type="email"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Enter your email"
             />
           </div>
 
           <div className="flex justify-end mt-6">
-            <button
-              className={`cta-button ${loading ? "loading" : ""}`}
+            <Button
               onClick={updateBasicDetails}
               disabled={loading}
             >
               {loading ? <Loader /> : "Update details"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -91,42 +92,41 @@ const Settings = () => {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Current Password</label>
-            <input
+            <Input
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Enter current password"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-1">New Password</label>
-            <input
+            <Input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Enter new password"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-1">Confirm New Password</label>
-            <input
+            <Input
               type="password"
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="Confirm new password"
             />
           </div>
 
           <div className="flex justify-end mt-6">
-            <button
-              className={`cta-button ${loading ? "loading" : ""}`}
+            <Button
               onClick={validatePassword}
               disabled={loading}
             >
               {loading ? <Loader /> : "Update password"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

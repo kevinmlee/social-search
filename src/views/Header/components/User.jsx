@@ -37,7 +37,7 @@ const User = () => {
           >
             {user.avatar
               ? <img src={user.avatar} alt={`${user.firstName} ${user.lastName}`} loading="lazy" width={45} height={45} className="w-full h-full object-cover" />
-              : <UserIcon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30px] h-[30px]" />
+              : <UserIcon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22px] h-[22px]" />
             }
           </div>
         ) : (
