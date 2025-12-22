@@ -109,8 +109,8 @@ export default function UserInput({ minimized = false}) {
             onFocus={() => setSearchFocus(!searchFocus)}
             ref={ref}
             className={`w-full max-w-[500px] h-[45px] ${minimized ? 'md:h-[45px]' : 'md:h-[65px]'} 
-             bg-black/2 dark:bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] rounded-xl 
-             text-black dark:text-white text-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-accent
+              bg-black/2 dark:bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] focus:border-primary rounded-xl 
+              text-black dark:text-white text-medium tracking-wide focus:outline-none focus:ring-1 focus:ring-primary
             `}
           />
         </form>
@@ -120,13 +120,13 @@ export default function UserInput({ minimized = false}) {
         <div
           id="recentSearches"
           ref={outsideClick}
-          className="absolute top-full mt-2 max-w-[500px] left-0 right-0 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-md shadow-lg overflow-hidden"
+          className="absolute top-full mt-2 max-w-[500px] left-0 right-0 bg-white dark:bg-dark text-black dark:text-white border border-border-light dark:border-border-dark rounded-md shadow-lg overflow-hidden"
         >
           <div className="flex justify-between items-center px-4 py-3 border-b border-border-light dark:border-border-dark">
-            <h6 className="text-base font-semibold text-black dark:text-gray-500">Recent</h6>
+            <h6 className="text-base font-semibold text-black dark:text-gray-300">Recent</h6>
             <button
               onClick={() => clearRecentSearches()}
-              className="text-sm text-black dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+              className="text-sm text-black dark:text-gray-300 hover:text-gray-700 dark:hover:text-primary cursor-pointer"
             >
               Clear all
             </button>
@@ -135,11 +135,11 @@ export default function UserInput({ minimized = false}) {
           <ul className="list-none m-0 p-0">
             {searchHistory.map((query) => (
               <li
-                className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 border-b border-border-light dark:border-border-dark last:border-b-0"
+                className="flex justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-black/50 border-b border-border-light dark:border-border-dark last:border-b-0"
                 key={query}
               >
                 <span
-                  className="flex-grow cursor-pointer text-black dark:text-gray-500"
+                  className="flex-grow cursor-pointer text-black dark:text-gray-300"
                   onClick={(e) => selectRecentSearch(e, query)}
                 >
                   {query}

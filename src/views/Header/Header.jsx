@@ -15,7 +15,7 @@ const Header = () => {
         <div className="flex justify-between items-center w-full px-4 py-3">
           <div className="search relative flex-1 max-w-2xl">
             <Search
-              className="search-icon absolute top-1/2 -translate-y-1/2 left-4 text-primary dark:text-white"
+              className="search-icon absolute top-1/2 -translate-y-1/2 left-4 text-black dark:text-white"
               size={24}
             />
             <UserInput minimized={scrollStatus === 'scrolled'} />
