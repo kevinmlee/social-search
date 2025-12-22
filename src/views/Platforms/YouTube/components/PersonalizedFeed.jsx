@@ -5,11 +5,6 @@ import { AppContext } from '@/../app/providers'
 import { FadeUp, LoadingSkeleton, Button } from '@/components'
 import Post from './Post'
 
-// Simple cache for subscription videos (5 minutes)
-const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds
-let videoCache = null
-let cacheTimestamp = null
-
 const PersonalizedFeed = () => {
   const { user } = useContext(AppContext)
   const [videos, setVideos] = useState([])
@@ -30,26 +25,18 @@ const PersonalizedFeed = () => {
           return
         }
 
-        // Check if we have valid cached data
-        const now = Date.now()
-        if (videoCache && cacheTimestamp && (now - cacheTimestamp) < CACHE_DURATION) {
-          console.log('Using cached subscription videos')
-          setVideos(videoCache)
-          setLoading(false)
-          return
-        }
-
         // Extract channel IDs from subscriptions
         const channelIds = subscriptions.map(sub => sub.snippet.resourceId.channelId)
         console.log(`Fetching videos from ${channelIds.length} subscribed channels`)
 
-        // Fetch videos from subscribed channels via API route
+        // Fetch videos from subscribed channels via API route (cached by Next.js for 5 minutes)
         const response = await fetch('/api/youtube/subscriptions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ channelIds }),
+          next: { revalidate: 300 }, // Cache for 5 minutes (300 seconds)
         })
         const data = await response.json()
 
@@ -60,9 +47,6 @@ const PersonalizedFeed = () => {
 
         if (data.items) {
           console.log(`Fetched ${data.items.length} videos from subscriptions`)
-          // Update cache
-          videoCache = data.items
-          cacheTimestamp = now
           setVideos(data.items)
         } else {
           console.log('No items in response:', data)
