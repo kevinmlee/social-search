@@ -1,19 +1,7 @@
 'use client'
 
-import React, { useState } from "react";
-
-import {
-  Box,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-import Loader from '@/components/Loader/Loader'
-
-import styles from './Settings.module.css'
+import React, { useState } from "react"
+import Loader from "@/components/Loader/Loader"
 
 const Settings = () => {
   const [loading, setLoading] = useState(false)
@@ -23,6 +11,7 @@ const Settings = () => {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
+  const [enabled, setEnabled] = useState(true)
 
   const updateBasicDetails = () => {
     setLoading(true)
@@ -31,134 +20,136 @@ const Settings = () => {
   }
 
   const validatePassword = () => {
-    if (currentPassword && (newPassword === confirmNewPassword)) {
+    if (currentPassword && newPassword === confirmNewPassword) {
       // updateUser
     }
   }
 
   return (
-    <Box id="settings" sx={{ padding: "0 20px" }} md={{ padding: "0 30px" }}>
-      <Box>
-        <Typography className="section-title" variant="h4">
-          Settings
-        </Typography>
+    <section id="settings" className="px-5 md:px-8 py-6 space-y-12">
+      {/* Page Title */}
+      <h1 className="text-3xl font-semibold mb-6">Settings</h1>
 
-        <div className={styles.group}>
-          <div className={styles.description}>
-            <Typography variant="h5">Basic Details</Typography>
-            <p>Basic information about you. Your email address is your username.</p>
-          </div>
-          
-          <div className={styles.settings}>
-            <TextField
-              label="First name"
-              name="firstName"
-              variant="outlined"
-              fullWidth={true}
-              onChange={(e) => setFirstName(e.target.value)}
+      {/* Basic Details */}
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-xl font-medium">Basic Details</h2>
+          <p className="text-gray-500 text-sm">
+            Basic information about you. Your email address is your username.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">First name</label>
+            <input
+              type="text"
               value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
+          </div>
 
-            <TextField
-              label="Last name"
-              name="lastName"
-              variant="outlined"
-              fullWidth={true}
-              onChange={(e) => setLastName(e.target.value)}
+          <div>
+            <label className="block text-sm font-medium mb-1">Last name</label>
+            <input
+              type="text"
               value={lastName}
-              sx={{ marginTop: "10px" }}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
+          </div>
 
-            <TextField
-              label="Email address"
-              name="username"
-              variant="outlined"
-              fullWidth={true}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                // setError("");
-              }}
+          <div>
+            <label className="block text-sm font-medium mb-1">Email address</label>
+            <input
+              type="email"
               value={username}
-              sx={{ marginTop: "10px" }}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
+          </div>
 
-            <Box align={'right'} sx={{ marginTop: "30px" }}>
-              <button 
-                className={(loading ? "loading " : "") + "cta-button"}
-                data-disabled={true}
-                onClick={() => updateBasicDetails()}
-              >
-                {loading ? <Loader /> : "Update details"}
-              </button>
-            </Box>
+          <div className="flex justify-end mt-6">
+            <button
+              className={`cta-button ${loading ? "loading" : ""}`}
+              onClick={updateBasicDetails}
+              disabled={loading}
+            >
+              {loading ? <Loader /> : "Update details"}
+            </button>
           </div>
         </div>
+      </div>
 
-        <div className={styles.group}>
-          <div className={styles.description}>
-            <Typography variant="h5">Password</Typography>
-          </div>
-          
-          <div className={styles.settings}>
-            <TextField
+      {/* Password */}
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-xl font-medium">Password</h2>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Current Password</label>
+            <input
               type="password"
-              label="Current Password"
-              name="currentPassword"
-              variant="outlined"
-              fullWidth={true}
-              onChange={(e) => setCurrentPassword(e.target.value)}
               value={currentPassword}
-              sx={{ marginTop: "10px" }}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
+          </div>
 
-            <TextField
+          <div>
+            <label className="block text-sm font-medium mb-1">New Password</label>
+            <input
               type="password"
-              label="New Password"
-              name="newPassword"
-              variant="outlined"
-              fullWidth={true}
-              onChange={(e) => setNewPassword(e.target.value)}
               value={newPassword}
-              sx={{ marginTop: "10px" }}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
+          </div>
 
-            <TextField
+          <div>
+            <label className="block text-sm font-medium mb-1">Confirm New Password</label>
+            <input
               type="password"
-              label="Confirm New Password"
-              name="confirmNewPassword"
-              variant="outlined"
-              fullWidth={true}
-              onChange={(e) => setConfirmNewPassword(e.target.value)}
               value={confirmNewPassword}
-              sx={{ marginTop: "10px" }}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
+          </div>
 
-            <Box align={'right'} sx={{ marginTop: "30px" }}>
-              <button 
-                className={(loading ? "loading " : "") + "cta-button"}
-                data-disabled={true}
-                onClick={() => validatePassword()}
-              >
-                {loading ? <Loader /> : "Update password"}
-              </button>
-            </Box>
+          <div className="flex justify-end mt-6">
+            <button
+              className={`cta-button ${loading ? "loading" : ""}`}
+              onClick={validatePassword}
+              disabled={loading}
+            >
+              {loading ? <Loader /> : "Update password"}
+            </button>
           </div>
         </div>
+      </div>
 
-        <FormGroup>
-          <FormControlLabel
-            control={<Switch defaultChecked />}
-            label="Label"
+      {/* Example Switch */}
+      <div className="flex flex-col gap-3 mt-6">
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={enabled}
+            onChange={() => setEnabled(!enabled)}
+            className="w-5 h-5 rounded-md accent-primary focus:ring-2 focus:ring-primary"
           />
-          <FormControlLabel
-            disabled
-            control={<Switch />}
-            label="Disabled"
-          />
-        </FormGroup>
-      </Box>
-    </Box>
-  );
+          <span className="text-sm font-medium">Label</span>
+        </label>
+
+        <label className="flex items-center gap-3 opacity-50 cursor-not-allowed">
+          <input type="checkbox" disabled className="w-5 h-5 rounded-md" />
+          <span className="text-sm font-medium">Disabled</span>
+        </label>
+      </div>
+    </section>
+  )
 }
 
 export default Settings
