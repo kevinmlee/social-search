@@ -25,7 +25,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${poppins.variable} ${merriweather.variable}`}>
-      <body>
+      <body className="bg-white dark:bg-dark text-black dark:text-white">
         <AppProvider>
           {children}
         </AppProvider>

@@ -1,4 +1,6 @@
-import React from "react"
+'use client'
+
+import React, { useEffect, useState } from "react"
 
 import { FadeUp, ScrollToTopOnLoad } from "@/components"
 import Post from "./components/Post"
@@ -14,17 +16,14 @@ const TOPICS = [
   "nutrition"
 ]
 
-export async function getRedditPosts({
+async function getRedditPosts({
   subreddit,
   filter = 'hot',
   limit = 20,
 }) {
   try {
     const res = await fetch(
-      `https://www.reddit.com/r/${subreddit}/${filter}.json?limit=${limit}`,
-      {
-        next: { revalidate: 300 }, // cache for 5 minutes
-      }
+      `https://www.reddit.com/r/${subreddit}/${filter}.json?limit=${limit}`
     )
 
     if (!res.ok) {
@@ -40,20 +39,38 @@ export async function getRedditPosts({
   }
 }
 
-export default async function Home() {
-  const results = await Promise.all(
-    TOPICS.map(async topic => {
-      const items = await getRedditPosts({
-        subreddit: topic,
-        filter: 'hot',
-        limit: 20,
-      })
+export default function Home() {
+  const [subreddits, setSubreddits] = useState({})
+  const [loading, setLoading] = useState(true)
 
-      return [topic, items]
-    })
-  )
+  useEffect(() => {
+    async function loadData() {
+      const results = await Promise.all(
+        TOPICS.map(async topic => {
+          const items = await getRedditPosts({
+            subreddit: topic,
+            filter: 'hot',
+            limit: 20,
+          })
 
-  const subreddits = Object.fromEntries(results)
+          return [topic, items]
+        })
+      )
+
+      setSubreddits(Object.fromEntries(results))
+      setLoading(false)
+    }
+
+    loadData()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="px-5 md:px-8 py-12 text-center text-gray-500">
+        Loading...
+      </div>
+    )
+  }
 
   return (
     <>
@@ -69,7 +86,7 @@ export default async function Home() {
               </h4>
 
               <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-16">
-                {subreddits[key]?.map((post, index) => 
+                {subreddits[key]?.map((post, index) =>
                 <FadeUp key={post?.id} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
                   <Post data={post} />
                 </FadeUp>)}
