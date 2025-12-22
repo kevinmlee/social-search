@@ -9,7 +9,10 @@
       "Bash(timeout 15 npm run dev:*)",
       "Bash(npm install:*)",
       "Bash(ls:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

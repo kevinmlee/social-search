@@ -2,6 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // Skip ESLint during builds (Next.js 15 has ESLint compatibility issues)
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Environment variables
   env: {
     MONGODB: process.env.MONGODB,
