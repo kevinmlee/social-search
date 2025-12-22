@@ -2,6 +2,7 @@ import React from "react"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import utc from 'dayjs/plugin/utc'
+import sanitizeHtml from 'sanitize-html'
 
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
@@ -19,7 +20,7 @@ const Post = ({ data }) => {
   // Remove HTML tags from content
   const stripHtml = (html) => {
     if (!html) return ''
-    return html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim()
+    return sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} }).replace(/&nbsp;/g, ' ').trim()
   }
 
   return (
