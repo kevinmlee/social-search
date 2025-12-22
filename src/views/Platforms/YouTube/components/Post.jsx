@@ -75,11 +75,21 @@ const Post = ({ data }) => {
             </div>
           </div>
 
-          <div data-testid="post-title">
-            <h5 className="text-xl font-normal mt-2 line-clamp-3" title={decodeText(data?.snippet?.title)}>
-              {decodeText(data?.snippet?.title)}
-            </h5>
-          </div>
+          <h2 
+            data-testid="post-title"
+            className="text-xl font-normal mt-2 line-clamp-3"
+            title={decodeText(data?.snippet?.title)}
+          >
+            {decodeText(data?.snippet?.title)}
+          </h2>
+
+          {data?.snippet?.description && (
+            <h3 
+              data-testid="post-description"
+              className="mt-2 text-black/70 dark:text-[#999999] text-sm line-clamp-3">
+              {decodeText(data?.snippet?.description)}
+            </h3>
+          )}
         </div>
       </a>
     </div>
