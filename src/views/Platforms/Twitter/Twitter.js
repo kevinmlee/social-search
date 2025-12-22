@@ -36,12 +36,14 @@ export default function Twitter({ setAppState }) {
   };
 
   const decodeText = (string) => {
+    // Decode HTML entities in the correct order to prevent double-unescaping
+    // &amp; must be decoded last to avoid double-decoding
     return string
-      .replaceAll("&amp;", "&")
       .replaceAll("&lt;", "<")
+      .replaceAll("&gt;", ">")
       .replaceAll("&#39;", "'")
       .replaceAll("&quot;", '"')
-      .replaceAll("&gt;", ">");
+      .replaceAll("&amp;", "&");
   };
 
   /*

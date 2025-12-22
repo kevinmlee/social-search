@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react"
 import { useParams, useSearchParams } from "next/navigation"
 import Post from './Post'
-import { FadeUp, Filter } from '@/components'
+import { FadeUp, Filter, LoadingSkeleton } from '@/components'
 
 const ENDPOINT = "https://www.reddit.com"
 const FILTERS = {
@@ -64,7 +64,9 @@ export default function Reddit() {
       </Suspense>
 
       {loading && (
-        <div className="text-center py-12 text-gray-500">Loading...</div>
+        <div className="my-6">
+          <LoadingSkeleton count={12} />
+        </div>
       )}
 
       {!loading && posts.length === 0 && (

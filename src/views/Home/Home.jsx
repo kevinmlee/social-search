@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { FadeUp, ScrollToTopOnLoad } from "@/components"
+import { FadeUp, ScrollToTopOnLoad, LoadingSkeleton } from "@/components"
 import Post from "./components/Post"
 import TopicsBar from "./components/TopicsBar"
 
@@ -66,8 +66,8 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="px-5 md:px-8 py-12 text-center text-gray-500">
-        Loading...
+      <div className="px-5 md:px-8 py-12">
+        <LoadingSkeleton count={20} />
       </div>
     )
   }
