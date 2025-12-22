@@ -11,7 +11,7 @@ module.exports = {
         accent: 'rgb(var(--accent-color-rgb) / <alpha-value>)',
         'border-dark': '#2d2f2f',
         'border-light': '#eaeaea',
-        'bg-dark': 'rgb(22, 24, 25)',
+        'dark': '#161819',
       },
       fontFamily: {
         sans: ['var(--font-poppins)', 'sans-serif'],

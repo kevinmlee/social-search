@@ -9,15 +9,15 @@ dayjs.extend(relativeTime)
 const Post = ({ data }) => {
   return (
     <div id="post" className="pb-6 md:pb-0">
-      <a href={data?.url} className="font-merriweather hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
+      <a href={data?.url} className="font-merriweather text-black dark:text-white hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         <div id="details">
           <div id="text">
             <div id="author-details">
-              <span className="text-xs text-[#999999]">
+              <span className="text-xs text-black/70 dark:text-[#999999]">
                 Posted by {data?.author}
               </span>
-              <span className="text-[#999999]"> · </span>
-              <span className="text-xs text-[#999999]">
+              <span className="text-black/70 dark:text-[#999999]"> · </span>
+              <span className="text-xs text-black/70 dark:text-[#999999]">
                 {dayjs(data?.pubDate).fromNow()}
               </span>
             </div>
@@ -29,10 +29,10 @@ const Post = ({ data }) => {
             </div>
 
             <div id="post-stats" className="mt-4 flex items-center space-x-4">
-              <span className="text-xs text-[#666666]">
+              <span className="text-xs text-black/50 dark:text-[#666666]">
                 {data?.score.toLocaleString()} upvotes
               </span>
-              <span className="text-xs text-[#666666]">
+              <span className="text-xs text-black/50 dark:text-[#666666]">
                 {data?.num_comments.toLocaleString()} comments
               </span>
             </div>

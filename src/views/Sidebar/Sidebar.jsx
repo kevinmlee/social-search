@@ -8,7 +8,7 @@ import { Menu, X, LayoutGrid } from "lucide-react"
 import { AppContext } from "../../../app/providers"
 
 // Reusable active state classes
-const ACTIVE_CLASSES = 'bg-accent/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent'
+const ACTIVE_CLASSES = 'bg-primary/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent'
 
 // Using custom SVG icons for Reddit and YouTube since Lucide doesn't have brand icons
 const RedditIcon = () => (
@@ -61,7 +61,7 @@ const Sidebar = () => {
       </button>
 
       <div
-        className={`fixed z-[9991] left-0 top-0 h-full w-[200px] transition-all duration-300 ease-in-out bg-white dark:bg-bg-dark border-r border-border-light dark:border-border-dark text-black dark:text-white ${
+        className={`fixed z-[9991] left-0 top-0 h-full w-[200px] transition-all duration-300 ease-in-out bg-white dark:bg-dark border-r border-border-light dark:border-border-dark text-black dark:text-white ${
           sidebar ? 'ml-0' : 'ml-[-200px] md:ml-0'
         }`}
         ref={ref}

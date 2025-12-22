@@ -108,7 +108,10 @@ export default function UserInput({ minimized = false}) {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}
             ref={ref}
-            className={`w-full max-w-[500px] h-[45px] ${minimized ? 'md:h-[45px]' : 'md:h-[65px]'} bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] rounded-xl text-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-accent`}
+            className={`w-full max-w-[500px] h-[45px] ${minimized ? 'md:h-[45px]' : 'md:h-[65px]'} 
+             bg-black/2 dark:bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] rounded-xl 
+             text-black dark:text-white text-medium tracking-wide focus:outline-none focus:ring-2 focus:ring-accent
+            `}
           />
         </form>
       </div>
@@ -120,10 +123,10 @@ export default function UserInput({ minimized = false}) {
           className="absolute top-full mt-2 max-w-[500px] left-0 right-0 bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark rounded-md shadow-lg overflow-hidden"
         >
           <div className="flex justify-between items-center px-4 py-3 border-b border-border-light dark:border-border-dark">
-            <h6 className="text-base font-semibold">Recent</h6>
+            <h6 className="text-base font-semibold text-black dark:text-gray-500">Recent</h6>
             <button
               onClick={() => clearRecentSearches()}
-              className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
+              className="text-sm text-black dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer"
             >
               Clear all
             </button>
@@ -136,7 +139,7 @@ export default function UserInput({ minimized = false}) {
                 key={query}
               >
                 <span
-                  className="flex-grow cursor-pointer"
+                  className="flex-grow cursor-pointer text-black dark:text-gray-500"
                   onClick={(e) => selectRecentSearch(e, query)}
                 >
                   {query}
@@ -147,7 +150,7 @@ export default function UserInput({ minimized = false}) {
                   onClick={(e) => clearSelectedSearch(e, query)}
                   className="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
                 >
-                  <X size={18} className="text-gray-500" />
+                  <X size={18} className="text-black dark:text-gray-500" />
                 </button>
               </li>
             ))}

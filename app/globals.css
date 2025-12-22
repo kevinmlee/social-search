@@ -8,6 +8,8 @@
 :root {
   --accent-color: #aeaeae;
   --primary-color: #d2c19c;
+  --secondary-color: #93876d;
+  --dark-color: #161819;
   --primary-color-rgb: 210 193 156;
   --accent-color-rgb: 174 174 174;
 }
@@ -19,7 +21,7 @@
 
   body {
     @apply font-sans text-sm leading-tight;
-    background-color: #161819;
+    background-color: var(--primary-dark-color);
     color: #ffffff
   }
 }

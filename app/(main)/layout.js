@@ -8,7 +8,7 @@ export default function MainLayout({ children }) {
     <>
       <Header />
       <Sidebar />
-      <main className="md:pl-[200px]">{children}</main>
+      <main className="md:pl-[200px] bg-white dark:bg-dark">{children}</main>
     </>
   )
 }

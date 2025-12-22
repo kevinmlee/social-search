@@ -3,11 +3,11 @@
 import React from "react"
 
 const TopicsBar = ({ topics }) => (
-  <ul className="hidden lg:flex sticky top-[85px] z-10 bg-white dark:bg-bg-dark flex space-x-10 overflow-x-auto text-lg font-medium capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
+  <ul className="hidden lg:flex sticky top-[85px] z-10 bg-white dark:bg-dark flex space-x-10 overflow-x-auto text-lg font-medium capitalize justify-center cursor-pointer py-4 border-b border-[#efefef] dark:border-border-dark">
     {topics.map(topic => (
       <li
         key={"key-" + topic}
-        className="topic hover:text-primary transition-colors duration-200"
+        className="topic text-black dark:text-white hover:text-primary transition-colors duration-200"
         onClick={() => {
           const element = document.getElementById(topic);
           const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;

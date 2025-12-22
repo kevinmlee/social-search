@@ -18,21 +18,21 @@ const Post = ({ data }) => {
           {!data?.data?.is_video && data?.data?.preview && <FeaturedImage postData={data} />}
  
           <div data-testid="text">
-            <div data-testid="subreddit" className="text-sm font-medium mb-2 text-primary">
+            <div data-testid="subreddit" className="text-sm font-medium mb-2 text-black dark:text-primary">
               {data?.data?.subreddit_name_prefixed}
             </div>
             <div data-testid="author-details" className="mb-2">
-              <span className="text-xs text-[#999999]">
+              <span className="text-xs text-black/70 dark:text-[#999999]">
                 Posted by {data?.data?.author}
               </span>
-              <span className="text-[#999999]"> · </span>
-              <span className="text-xs text-[#999999]">
+              <span className="text-black/70 dark:text-[#999999]"> · </span>
+              <span className="text-xs text-black/70 dark:text-[#999999]">
                 {dayjs.unix(data?.data?.created).utc().fromNow()}
               </span>
             </div>
 
             <div data-testid="post-title">
-              <h5 className="font-merriweather text-lg font-medium">
+              <h5 className="font-merriweather text-lg font-medium text-black dark:text-white">
                 {decodeText(data?.data?.title)}
               </h5>
             </div>
