@@ -65,7 +65,7 @@ const Post = ({ data }) => {
 
             {record?.text && (
               <div data-testid="post-text">
-                <p className="font-merriweather text-base">
+                <p className="font-merriweather text-base line-clamp-3" title={record.text}>
                   {record.text}
                 </p>
               </div>

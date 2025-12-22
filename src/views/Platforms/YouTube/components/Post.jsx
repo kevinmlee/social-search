@@ -76,7 +76,7 @@ const Post = ({ data }) => {
           </div>
 
           <div data-testid="post-title">
-            <h5 className="text-xl font-normal mt-2">
+            <h5 className="text-xl font-normal mt-2 line-clamp-3" title={decodeText(data?.snippet?.title)}>
               {decodeText(data?.snippet?.title)}
             </h5>
           </div>

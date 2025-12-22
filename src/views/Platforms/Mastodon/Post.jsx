@@ -58,7 +58,7 @@ const Post = ({ data }) => {
 
             {post?.content && (
               <div data-testid="post-text">
-                <p className="font-merriweather text-base">
+                <p className="font-merriweather text-base line-clamp-3" title={stripHtml(post.content)}>
                   {stripHtml(post.content)}
                 </p>
               </div>
