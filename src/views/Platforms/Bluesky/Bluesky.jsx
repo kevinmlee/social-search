@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useState } from "react"
 import { useParams, useSearchParams } from "next/navigation"
-import { BskyAgent } from '@atproto/api'
 import Post from './Post'
 import { FadeUp, Filter, LoadingSkeleton } from '@/components'
 
@@ -24,36 +23,33 @@ export default function Bluesky() {
     async function fetchPosts() {
       setLoading(true)
       try {
-        const agent = new BskyAgent({
-          service: 'https://public.api.bsky.app'
-        })
-
         if (!query) {
-          // Get trending/popular posts
-          const response = await agent.app.bsky.unspecced.getPopularFeedGenerators({
-            limit: 50
-          })
-
-          // Fetch posts from the first popular feed
-          if (response.data.feeds && response.data.feeds.length > 0) {
-            const feedUri = response.data.feeds[0].uri
-            const feedResponse = await agent.app.bsky.feed.getFeed({
-              feed: feedUri,
-              limit: 50
-            })
-            setPosts(feedResponse.data.feed || [])
+          // Get trending/popular posts - use API route to avoid CORS
+          const response = await fetch('/api/bluesky/trending')
+          if (response.ok) {
+            const data = await response.json()
+            setPosts(data.feed || [])
           } else {
+            console.error('Failed to fetch trending posts')
             setPosts([])
           }
         } else {
-          // Search posts by query
+          // Use our API route to avoid CORS issues
           const sortType = filter === 'recent' ? 'latest' : 'top'
-          const response = await agent.app.bsky.feed.searchPosts({
-            q: query,
-            sort: sortType,
-            limit: 50
-          })
-          setPosts(response.data.posts || [])
+          const response = await fetch(`/api/bluesky/search?q=${encodeURIComponent(query)}&sort=${sortType}`)
+
+          if (response.ok) {
+            const data = await response.json()
+            // searchPosts returns posts directly, not wrapped in feed items
+            // Convert them to the same format as feed items for consistency
+            const formattedPosts = (data.posts || []).map(post => ({
+              post: post
+            }))
+            setPosts(formattedPosts)
+          } else {
+            console.error('Search failed with status:', response.status)
+            setPosts([])
+          }
         }
       } catch (err) {
         console.error('Bluesky fetch error:', err)
