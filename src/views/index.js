@@ -1,3 +1,4 @@
+export { default as Accounts } from './Accounts/Accounts'
 export { default as Header } from './Header/Header'
 export { default as Home } from './Home/Home'
 export { default as NotFound } from './NotFound/NotFound'
