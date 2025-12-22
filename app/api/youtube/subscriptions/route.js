@@ -28,24 +28,28 @@ export async function POST(request) {
       return NextResponse.json({ items: [] })
     }
 
-    // Fetch videos from each channel (limit to 5 channels, 4 videos each = 20 total)
-    const videoPromises = channelIds.slice(0, 5).map(channelId =>
+    // Fetch videos from each channel
+    // Limit to 10 channels, 5 videos each = 50 total (API max)
+    const videoPromises = channelIds.slice(0, 10).map(channelId =>
       fetchFromYouTube(
-        `${ENDPOINT}/search?part=snippet&channelId=${channelId}&order=date&type=video&maxResults=4&key=${process.env.YOUTUBE_API_KEY}`
+        `${ENDPOINT}/search?part=snippet&channelId=${channelId}&order=date&type=video&maxResults=5&key=${process.env.YOUTUBE_API_KEY}`
       )
     )
 
     const results = await Promise.all(videoPromises)
 
-    // Combine all videos and sort by published date
+    // Combine all videos and sort by published date (most recent first)
     const allVideos = results
       .flatMap(result => result.items || [])
       .sort((a, b) => {
         const dateA = new Date(a.snippet.publishedAt)
         const dateB = new Date(b.snippet.publishedAt)
-        return dateB - dateA // Most recent first
+        return dateB - dateA
       })
-      .slice(0, 20) // Limit to 20 videos total
+      .slice(0, 50) // Limit to 50 videos total (YouTube API max)
+
+    console.log('First video date:', allVideos[0]?.snippet?.publishedAt)
+    console.log('Last video date:', allVideos[allVideos.length - 1]?.snippet?.publishedAt)
 
     return NextResponse.json({ items: allVideos })
   } catch (error) {

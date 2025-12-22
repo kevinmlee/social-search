@@ -2,7 +2,7 @@
 
 import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '@/../app/providers'
-import { FadeUp } from '@/components'
+import { FadeUp, LoadingSkeleton } from '@/components'
 import Post from './Post'
 
 const PersonalizedFeed = () => {
@@ -25,9 +25,9 @@ const PersonalizedFeed = () => {
           return
         }
 
-        // Get channel IDs from subscriptions
-        const channelIds = subscriptions
-          .map(sub => sub.snippet.resourceId.channelId)
+        // Extract channel IDs from subscriptions
+        const channelIds = subscriptions.map(sub => sub.snippet.resourceId.channelId)
+        console.log(`Fetching videos from ${channelIds.length} subscribed channels`)
 
         // Fetch videos from subscribed channels via API route
         const response = await fetch('/api/youtube/subscriptions', {
@@ -39,8 +39,18 @@ const PersonalizedFeed = () => {
         })
         const data = await response.json()
 
-        if (data.error) console.error('YouTube API error:', data.error)
-        if (data.items) setVideos(data.items)
+        if (data.error) {
+          console.error('YouTube API error:', data.error)
+          setLoading(false)
+          return
+        }
+
+        if (data.items) {
+          console.log(`Fetched ${data.items.length} videos from subscriptions`)
+          setVideos(data.items)
+        } else {
+          console.log('No items in response:', data)
+        }
       } catch (error) {
         console.error('Error fetching subscription videos:', error)
       } finally {
@@ -55,11 +65,7 @@ const PersonalizedFeed = () => {
   const subscriptions = user?.linkedAccounts?.youtube?.subscriptions || []
 
   if (loading) {
-    return (
-      <div className="py-8 text-center">
-        <p className="text-gray-500 dark:text-gray-400">Loading your personalized feed...</p>
-      </div>
-    )
+    return <LoadingSkeleton />
   }
 
   if (!youtubeConnected) {
