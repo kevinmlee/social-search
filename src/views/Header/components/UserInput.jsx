@@ -108,9 +108,9 @@ export default function UserInput({ minimized = false}) {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocus(!searchFocus)}
             ref={ref}
-            className={`w-full max-w-[500px] h-[45px] ${minimized ? 'md:h-[45px]' : 'md:h-[65px]'} 
-              bg-black/2 dark:bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] focus:border-primary rounded-xl 
-              text-black dark:text-white text-medium tracking-wide focus:outline-none focus:ring-1 focus:ring-primary
+            className={`w-full max-w-[500px] h-[45px] ${minimized ? 'md:h-[45px]' : 'md:h-[65px]'}
+              bg-black/2 dark:bg-[#131516] pl-14 pr-4 py-2 border border-[#2c2f33] focus:border-primary rounded-xl
+              text-black dark:text-white text-base tracking-wide focus:outline-none focus:ring-1 focus:ring-primary
             `}
           />
         </form>
