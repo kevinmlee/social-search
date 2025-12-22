@@ -4,14 +4,14 @@ import { useState, useRef } from "react"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { Filter as FilterIcon } from "lucide-react"
 
-export default function Filter({ filters }) {
+export default function Filter({ filters, initialFilter = 'hot' }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const currentFilter = searchParams.get('filter') || 'hot'
+  const currentFilter = searchParams.get('filter') || initialFilter
 
   const handleFilterClick = (option) => {
     const url = new URL(window.location.href)

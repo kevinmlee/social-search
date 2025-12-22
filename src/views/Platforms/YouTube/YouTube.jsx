@@ -61,7 +61,7 @@ export default async function YouTubePage({ params, searchParams, location }) {
 
   return (
     <div className="py-4 px-5 md:px-8">
-      <Filter filters={filters} currentFilter={filter} query={query} />
+      <Filter filters={filters} initialFilter={filter} query={query} />
 
       {posts.length === 0 && <p className="text-gray-500">No videos found.</p>}
 
