@@ -8,7 +8,7 @@ import { Menu, X, LayoutGrid } from "lucide-react"
 import { AppContext } from "../../../app/providers"
 
 // Reusable active state classes
-const ACTIVE_CLASSES = 'bg-primary/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-accent'
+const ACTIVE_CLASSES = 'bg-primary/40 dark:bg-black/50 text-black dark:text-primary before:content-[""] before:block before:absolute before:left-0 before:top-0 before:w-[3px] before:h-full before:bg-black dark:before:bg-primary'
 
 // Using custom SVG icons for Reddit and YouTube since Lucide doesn't have brand icons
 const RedditIcon = () => (
