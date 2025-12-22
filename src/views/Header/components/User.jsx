@@ -4,10 +4,16 @@ import React, { useContext, useState } from "react"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-import { User as UserIcon } from "lucide-react"
+import { User as UserIcon, Link2, UserCircle, Settings as SettingsIcon, LogOut } from "lucide-react"
 import { useOutsideClick } from "@/util"
 import { AppContext } from "../../../../app/providers"
 import { Button } from "@/components"
+
+const MENU_ITEMS = [
+  { href: '/accounts', label: 'Linked Accounts', icon: Link2 },
+  { href: '/profile', label: 'Profile', icon: UserCircle },
+  { href: '/settings', label: 'Settings', icon: SettingsIcon },
+]
 
 const User = () => {
   const router = useRouter()
@@ -60,29 +66,29 @@ const User = () => {
           </div>
 
           <ul className="list-none mt-5 mb-0 p-0">
-            <li className="px-4 cursor-pointer hover:bg-accent/40 dark:hover:bg-black/50">
-              <Link
-                href='/profile'
-                onClick={() => setOpened(false)}
-                className="block py-4 border-t border-border-light dark:border-border-dark text-black dark:text-white"
-              >
-                Profile
-              </Link>
-            </li>
-            <li className="px-4 cursor-pointer hover:bg-accent/40 dark:hover:bg-black/50">
-              <Link
-                href='/settings'
-                onClick={() => setOpened(false)}
-                className="block py-4 border-t border-border-light dark:border-border-dark text-black dark:text-white"
-              >
-                Settings
-              </Link>
-            </li>
+            {MENU_ITEMS.map((item) => {
+              const Icon = item.icon
+              return (
+                <li key={item.href} className="px-4 cursor-pointer hover:bg-accent/40 dark:hover:bg-black/50">
+                  <Link
+                    href={item.href}
+                    onClick={() => setOpened(false)}
+                    className="flex items-center gap-3 py-4 border-t border-border-light dark:border-border-dark text-black dark:text-white"
+                  >
+                    <Icon size={18} />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              )
+            })}
             <li
               onClick={() => signOut()}
               className="px-4 cursor-pointer hover:bg-accent/40 dark:hover:bg-black/50"
             >
-              <span className="block py-4 border-t border-border-light dark:border-border-dark text-[#b23b3b]">Sign out</span>
+              <span className="flex items-center gap-3 py-4 border-t border-border-light dark:border-border-dark text-[#b23b3b]">
+                <LogOut size={18} />
+                <span>Sign out</span>
+              </span>
             </li>
           </ul>
         </div>
