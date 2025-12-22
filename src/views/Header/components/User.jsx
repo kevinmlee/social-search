@@ -45,10 +45,10 @@ const User = () => {
         <div
           className={`${
             opened ? 'block' : 'hidden'
-          } absolute top-20 right-8 w-[250px] overflow-hidden rounded-lg shadow-lg bg-white dark:bg-bg-dark border border-border-light dark:border-border-dark`}
+          } absolute top-20 right-8 w-[250px] overflow-hidden rounded-lg shadow-lg bg-white dark:bg-dark border border-border-light dark:border-border-dark`}
         >
           <div className="px-4 pt-4 pb-0 text-center">
-            <div className="mx-auto mb-5 w-[60px] h-[60px] rounded-full overflow-hidden bg-black/20 dark:bg-white/10 cursor-default">
+            <div className="relative mx-auto mb-5 w-[60px] h-[60px] rounded-full overflow-hidden bg-black/20 dark:bg-white/10 cursor-default">
               {user.avatar
                 ? <img src={user.avatar} alt={`${user.firstName} ${user.lastName}`} loading="lazy" width={60} height={60} className="w-full h-full object-cover" />
                 : <UserIcon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30px] h-[30px]" />
