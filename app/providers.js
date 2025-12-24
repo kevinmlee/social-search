@@ -56,7 +56,7 @@ export function AppProvider({ children }) {
   const backToTopButton = () => (
     <div
       data-testid="back-to-top"
-      className={`bg-primary text-black fixed right-10 bottom-10 rounded-full w-14 h-14 text-center cursor-pointer z-[5]
+      className={`bg-primary text-black fixed right-5 md:right-10 bottom-10 rounded-full w-16 h-16 md:w-14 md:h-14 text-center cursor-pointer z-[5]
         flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300
         transform transition-transform duration-200 ease-out hover:-translate-y-1
       `}
