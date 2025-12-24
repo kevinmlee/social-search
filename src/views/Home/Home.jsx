@@ -109,14 +109,14 @@ export default function Home() {
 
         <div>
           {Object.keys(subreddits)?.map(key => (
-            <div id={key} className="pb-12 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
-              <h4 className="font-merriweather text-primary section-title text-2xl md:text-4xl font-medium py-6 md:py-12 capitalize">
+            <div id={key} className="pb-6 md:pb-12 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
+              <h4 className="font-merriweather text-primary section-title text-3xl md:text-4xl font-medium py-6 md:py-12 capitalize">
                 {key}
               </h4>
 
               <div className="columns-1 sm:columns-2 md:columns-2 lg:columns-3 xl:columns-4 gap-16">
                 {subreddits[key]?.map((post, index) =>
-                <FadeUp key={post?.id} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
+                <FadeUp key={post?.id} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 last:mb-0 md:border-b-0">
                   <Post data={post} />
                 </FadeUp>)}
               </div>
