@@ -116,7 +116,7 @@ export default function Home() {
 
               <div className="columns-1 sm:columns-2 md:columns-2 lg:columns-3 xl:columns-4 gap-16">
                 {subreddits[key]?.map((post, index) =>
-                <FadeUp key={post?.id} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 last:mb-0 md:border-b-0">
+                <FadeUp key={`${key}-${index}`} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 last:mb-0 md:border-b-0">
                   <Post data={post} />
                 </FadeUp>)}
               </div>
