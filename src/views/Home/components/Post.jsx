@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 
@@ -14,11 +15,26 @@ const Post = ({ data }) => {
   const author = isNewsData ? data?.source_name || data?.source_id : data?.author
   const pubDate = isNewsData ? data?.pubDate : data?.created_utc ? data.created_utc * 1000 : data?.pubDate
   const title = data?.title
+  const imageUrl = isNewsData ? data?.image_url : null
 
   return (
     <div id="post" className="pb-6 md:pb-0">
       <a href={url} className="text-black dark:text-white hover:text-primary transition-colors duration-200" target="_blank" rel="noopener noreferrer">
         <div id="details">
+          {/* Show image for NewsData articles if available */}
+          {isNewsData && imageUrl && (
+            <div id="media" className="overflow-hidden rounded-xl mb-4">
+              <Image
+                src={imageUrl}
+                alt={title || 'News article image'}
+                width={600}
+                height={400}
+                loading="lazy"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          )}
+
           <div id="text">
             <div id="author-details">
               <span className="text-xs text-black/70 dark:text-primary">
