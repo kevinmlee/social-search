@@ -6,11 +6,10 @@ const NEWSDATA_API_KEY = process.env.NEWSDATA_API_KEY
 const CATEGORIES = {
   'news': 'top',
   'technology': 'technology',
+  'business': 'business',
   'science': 'science',
   'sports': 'sports',
-  'nutrition': 'food',
-  'space': 'science',
-  'futurology': 'technology'
+  'health': 'health',
 }
 
 const NewsCacheSchema = new mongoose.Schema({

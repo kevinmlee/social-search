@@ -8,11 +8,10 @@ const MONGODB_URI = process.env.MONGODB
 const CATEGORIES = {
   'news': 'top',
   'technology': 'technology',
+  'business': 'business',
   'science': 'science',
   'sports': 'sports',
-  'nutrition': 'food',
-  'space': 'science', // NewsData doesn't have space, use science
-  'futurology': 'technology' // NewsData doesn't have futurology, use technology
+  'health': 'health',
 }
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))

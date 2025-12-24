@@ -6,16 +6,6 @@ import { FadeUp, ScrollToTopOnLoad, LoadingSkeleton } from "@/components"
 import Post from "./components/Post"
 import TopicsBar from "./components/TopicsBar"
 
-const TOPICS = [
-  "news",
-  "technology",
-  "futurology",
-  "science",
-  "sports",
-  "space",
-  "nutrition"
-]
-
 async function getCachedNews() {
   try {
     const res = await fetch('/api/news/cached')
@@ -61,6 +51,10 @@ export default function Home() {
   const [subreddits, setSubreddits] = useState({})
   const [loading, setLoading] = useState(true)
 
+  // Get topics dynamically from cached data or fallback list
+  const topics = Object.keys(subreddits)
+  const fallbackTopics = ["news", "technology", "business", "science", "sports", "health"]
+
   useEffect(() => {
     async function loadData() {
       // Try to get cached news first
@@ -74,7 +68,7 @@ export default function Home() {
         // Fallback to Reddit if cache is unavailable
         console.log('Cache miss, fetching from Reddit API')
         const results = await Promise.all(
-          TOPICS.map(async topic => {
+          fallbackTopics.map(async topic => {
             const items = await getRedditPosts({
               subreddit: topic,
               filter: 'hot',
@@ -105,7 +99,7 @@ export default function Home() {
     <>
       <ScrollToTopOnLoad />
       <div className="px-5 md:px-8">
-        <TopicsBar topics={TOPICS} />
+        <TopicsBar topics={topics.length > 0 ? topics : fallbackTopics} />
 
         <div>
           {Object.keys(subreddits)?.map(key => (
