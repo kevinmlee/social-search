@@ -5,10 +5,10 @@ This project uses NewsData.io API with MongoDB caching to provide fast, reliable
 ## How It Works
 
 1. **Netlify Scheduled Function** (`netlify/functions/cache-news.mjs`)
-   - Runs every hour (`0 * * * *`)
-   - Fetches 30 articles for each of 7 categories from NewsData.io
+   - Runs every 2 hours (`0 */2 * * *`)
+   - Fetches 10 articles for each of 6 categories from NewsData.io
    - Stores in MongoDB "news" collection
-   - Uses **upsert** to overwrite old data (no accumulation)
+   - Only updates if articles are successfully fetched (prevents overwriting with empty data)
 
 2. **Homepage** (`src/views/Home/Home.jsx`)
    - Fetches cached news from `/api/news/cached`
@@ -46,8 +46,9 @@ This project uses NewsData.io API with MongoDB caching to provide fast, reliable
 ## Rate Limits
 
 - **NewsData.io Free Tier**: 200 requests/day
-- **Our Usage**: 7 categories × 24 hours = 168 requests/day ✅
-- **Cache refresh**: Every 1 hour
+- **Our Usage**: 6 categories × 12 runs = 72 requests/day ✅
+- **Cache refresh**: Every 2 hours
+- **Headroom**: 128 requests/day available for manual triggers or additional categories
 
 ## MongoDB Collection
 

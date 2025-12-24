@@ -73,18 +73,22 @@ export async function GET() {
     for (const [category, newsdataCategory] of Object.entries(CATEGORIES)) {
       const articles = await fetchNewsForCategory(category, newsdataCategory)
 
-      // UPSERT - overwrite existing data
-      await NewsCache.findOneAndUpdate(
-        { category },
-        {
-          category,
-          articles,
-          updatedAt: new Date()
-        },
-        { upsert: true, new: true }
-      )
-
-      results[category] = articles.length
+      // Only update MongoDB if we got articles (don't overwrite with empty data)
+      if (articles && articles.length > 0) {
+        await NewsCache.findOneAndUpdate(
+          { category },
+          {
+            category,
+            articles,
+            updatedAt: new Date()
+          },
+          { upsert: true, new: true }
+        )
+        results[category] = articles.length
+      } else {
+        console.log(`Skipping cache update for ${category} - no articles fetched`)
+        results[category] = 0
+      }
 
       // Wait 3 seconds between requests
       await delay(3000)

@@ -73,24 +73,30 @@ async function cacheNews() {
   try {
     await connectToDatabase()
 
+    const results = {}
     console.log('Starting news caching process...')
 
     // Fetch all categories with staggered delays
     for (const [category, newsdataCategory] of Object.entries(CATEGORIES)) {
       const articles = await fetchNewsForCategory(category, newsdataCategory)
 
-      // UPSERT - overwrite existing data for this category
-      await NewsCache.findOneAndUpdate(
-        { category },
-        {
-          category,
-          articles,
-          updatedAt: new Date()
-        },
-        { upsert: true, new: true }
-      )
-
-      console.log(`Cached ${articles.length} articles for ${category}`)
+      // Only update MongoDB if we got articles (don't overwrite with empty data)
+      if (articles && articles.length > 0) {
+        await NewsCache.findOneAndUpdate(
+          { category },
+          {
+            category,
+            articles,
+            updatedAt: new Date()
+          },
+          { upsert: true, new: true }
+        )
+        console.log(`Cached ${articles.length} articles for ${category}`)
+        results[category] = articles.length
+      } else {
+        console.log(`Skipping cache update for ${category} - no articles fetched`)
+        results[category] = 0
+      }
 
       // Wait 3 seconds between requests to avoid rate limiting
       await delay(3000)
@@ -101,8 +107,8 @@ async function cacheNews() {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'Successfully cached news',
-        categories: Object.keys(CATEGORIES),
+        message: 'Successfully cached news categories',
+        results,
         timestamp: new Date().toISOString()
       })
     }
@@ -116,5 +122,5 @@ async function cacheNews() {
   }
 }
 
-// Run every hour: "0 * * * *"
-export const handler = schedule('0 * * * *', cacheNews)
+// Run every 2 hours: "0 */2 * * *"
+export const handler = schedule('0 */2 * * *', cacheNews)
