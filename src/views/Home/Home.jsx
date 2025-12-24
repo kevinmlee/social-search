@@ -114,7 +114,7 @@ export default function Home() {
                 {key}
               </h4>
 
-              <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-16">
+              <div className="columns-1 sm:columns-2 md:columns-2 lg:columns-3 xl:columns-4 gap-16">
                 {subreddits[key]?.map((post, index) =>
                 <FadeUp key={post?.id} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 md:border-b-0">
                   <Post data={post} />
