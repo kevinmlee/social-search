@@ -16,6 +16,24 @@ const TOPICS = [
   "nutrition"
 ]
 
+async function getCachedNews() {
+  try {
+    const res = await fetch('/api/news/cached')
+
+    if (!res.ok) {
+      console.error('Cache API error:', res.status, res.statusText)
+      return null
+    }
+
+    const json = await res.json()
+    return json.data || null
+  } catch (err) {
+    console.error('Cache fetch error:', err)
+    return null
+  }
+}
+
+// Fallback: fetch from Reddit if cache is unavailable
 async function getRedditPosts({
   subreddit,
   filter = 'hot',
@@ -45,20 +63,31 @@ export default function Home() {
 
   useEffect(() => {
     async function loadData() {
-      const results = await Promise.all(
-        TOPICS.map(async topic => {
-          const items = await getRedditPosts({
-            subreddit: topic,
-            filter: 'hot',
-            limit: 20,
+      // Try to get cached news first
+      const cachedNews = await getCachedNews()
+
+      if (cachedNews) {
+        console.log('Using cached news data')
+        setSubreddits(cachedNews)
+        setLoading(false)
+      } else {
+        // Fallback to Reddit if cache is unavailable
+        console.log('Cache miss, fetching from Reddit API')
+        const results = await Promise.all(
+          TOPICS.map(async topic => {
+            const items = await getRedditPosts({
+              subreddit: topic,
+              filter: 'hot',
+              limit: 20,
+            })
+
+            return [topic, items]
           })
+        )
 
-          return [topic, items]
-        })
-      )
-
-      setSubreddits(Object.fromEntries(results))
-      setLoading(false)
+        setSubreddits(Object.fromEntries(results))
+        setLoading(false)
+      }
     }
 
     loadData()

@@ -12,7 +12,8 @@
       "Bash(npm run build:*)",
       "Bash(npx eslint:*)",
       "Bash(npm run lint:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(curl:*)"
     ]
   }
 }
