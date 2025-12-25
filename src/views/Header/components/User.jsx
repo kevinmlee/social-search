@@ -61,8 +61,14 @@ const User = () => {
               }
             </div>
 
-            <div className="font-semibold text-black dark:text-white">{`${user.firstName} ${user.lastName}`}</div>
-            <div className="mt-1 opacity-50 text-black/80 dark:text-white/80">{user.username}</div>
+            {(user.firstName || user.lastName) && (
+              <div className="font-semibold text-black dark:text-white">
+                {`${user.firstName || ''} ${user.lastName || ''}`.trim()}
+              </div>
+            )}
+            {user.username && (
+              <div className="mt-1 opacity-50 text-black/80 dark:text-white/80">{user.username}</div>
+            )}
           </div>
 
           <ul className="list-none mt-5 mb-0 p-0">
