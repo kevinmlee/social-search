@@ -21,7 +21,7 @@
     "jest.config.js"
   ],
   "dependencies": {
-    "@atproto/api": "^0.18.8",
+    "@atproto/api": "^0.18.16",
     "@netlify/functions": "^5.1.2",
     "@react-oauth/google": "^0.13.4",
     "axios": "^1.7.9",
