@@ -6,114 +6,86 @@ import { FadeUp, ScrollToTopOnLoad, LoadingSkeleton } from "@/components"
 import Post from "./components/Post"
 import TopicsBar from "./components/TopicsBar"
 
-async function getCachedNews() {
+const CATEGORIES = ["top", "technology", "business", "science", "sports", "health"]
+
+// Display names for categories
+const CATEGORY_TITLES = {
+  'top': 'Top News',
+  'technology': 'Technology',
+  'business': 'Business',
+  'science': 'Science',
+  'sports': 'Sports',
+  'health': 'Health',
+}
+
+// Fetch a single category from the API
+async function fetchCategory(category) {
   try {
-    const res = await fetch('/api/news/cached')
+    const res = await fetch(`/api/news/${category}`)
 
     if (!res.ok) {
-      console.error('Cache API error:', res.status, res.statusText)
+      console.error(`API error for ${category}:`, res.status, res.statusText)
       return null
     }
 
     const json = await res.json()
-    return json.data || null
+    return json.articles || []
   } catch (err) {
-    console.error('Cache fetch error:', err)
+    console.error(`Fetch error for ${category}:`, err)
     return null
   }
 }
 
-// Fallback: fetch from Reddit if cache is unavailable
-async function getRedditPosts({
-  subreddit,
-  filter = 'hot',
-  limit = 20,
-}) {
-  try {
-    const res = await fetch(
-      `https://www.reddit.com/r/${subreddit}/${filter}.json?limit=${limit}`
-    )
-
-    if (!res.ok) {
-      console.error('Reddit API error:', res.status, res.statusText)
-      return []
-    }
-
-    const json = await res.json()
-    return json?.data?.children?.map((item) => item.data) || []
-  } catch (err) {
-    console.error('Reddit fetch error:', err)
-    return []
-  }
-}
-
 export default function Home() {
-  const [subreddits, setSubreddits] = useState({})
-  const [loading, setLoading] = useState(true)
-
-  // Get topics dynamically from cached data or fallback list
-  const topics = Object.keys(subreddits)
-  const fallbackTopics = ["news", "technology", "business", "science", "sports", "health"]
+  // Track loading state and articles for each category separately
+  const [categoryData, setCategoryData] = useState(() => {
+    // Initialize with loading state for each category
+    const initial = {}
+    CATEGORIES.forEach(cat => {
+      initial[cat] = { loading: true, articles: [] }
+    })
+    return initial
+  })
 
   useEffect(() => {
-    async function loadData() {
-      // Try to get cached news first
-      const cachedNews = await getCachedNews()
+    // Fetch each category independently (progressive loading)
+    CATEGORIES.forEach(async (category) => {
+      const articles = await fetchCategory(category)
 
-      if (cachedNews) {
-        console.log('Using cached news data')
-        setSubreddits(cachedNews)
-        setLoading(false)
-      } else {
-        // Fallback to Reddit if cache is unavailable
-        console.log('Cache miss, fetching from Reddit API')
-        const results = await Promise.all(
-          fallbackTopics.map(async topic => {
-            const items = await getRedditPosts({
-              subreddit: topic,
-              filter: 'hot',
-              limit: 20,
-            })
-
-            return [topic, items]
-          })
-        )
-
-        setSubreddits(Object.fromEntries(results))
-        setLoading(false)
-      }
-    }
-
-    loadData()
+      setCategoryData(prev => ({
+        ...prev,
+        [category]: {
+          loading: false,
+          articles: articles || []
+        }
+      }))
+    })
   }, [])
-
-  if (loading) {
-    return (
-      <div className="px-5 md:px-8 py-12">
-        <LoadingSkeleton count={20} />
-      </div>
-    )
-  }
 
   return (
     <>
       <ScrollToTopOnLoad />
       <div className="px-5 md:px-8">
-        <TopicsBar topics={topics.length > 0 ? topics : fallbackTopics} />
+        <TopicsBar topics={CATEGORIES} />
 
         <div>
-          {Object.keys(subreddits)?.map(key => (
-            <div id={key} className="pb-6 md:pb-12 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={key}>
-              <h4 className="font-merriweather text-primary section-title text-3xl md:text-4xl font-medium py-6 md:py-12 capitalize">
-                {key}
+          {CATEGORIES.map(category => (
+            <div id={category} className="pb-6 md:pb-12 border-b border-[#efefef] dark:border-border-dark last:border-b-0" key={category}>
+              <h4 className="font-merriweather text-primary section-title text-3xl md:text-4xl font-medium py-6 md:py-12">
+                {CATEGORY_TITLES[category] || category}
               </h4>
 
-              <div className="columns-1 sm:columns-2 md:columns-2 lg:columns-3 xl:columns-4 gap-16">
-                {subreddits[key]?.map((post, index) =>
-                <FadeUp key={`${key}-${index}`} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 last:mb-0 md:border-b-0">
-                  <Post data={post} />
-                </FadeUp>)}
-              </div>
+              {categoryData[category]?.loading ? (
+                <LoadingSkeleton count={4} />
+              ) : (
+                <div className="columns-1 sm:columns-2 md:columns-2 lg:columns-3 xl:columns-4 gap-16">
+                  {categoryData[category]?.articles?.map((post, index) => (
+                    <FadeUp key={`${category}-${index}`} className="break-inside-avoid mb-6 md:mb-12 border-white/15 border-b last:border-b-0 last:mb-0 md:border-b-0">
+                      <Post data={post} />
+                    </FadeUp>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
