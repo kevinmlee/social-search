@@ -45,7 +45,7 @@
     "rss-parser": "^3.13.0",
     "sanitize-html": "^2.17.0",
     "secure-ls": "^2.0.0",
-    "tailwind-merge": "^2.5.5",
+    "tailwind-merge": "^3.4.0",
     "twitter-v2": "^1.1.0",
     "universal-cookie": "^7.2.1",
     "validator": "^13.12.0"
